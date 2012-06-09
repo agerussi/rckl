@@ -1,0 +1,10 @@
+#!/bin/bash
+# mkmini filename [filename]...
+
+for name in $*; do
+ newname=${name%.*}-mini.jpg
+ echo $name" --> "$newname
+ djpeg -pnm $name | pnmscale -width 128 | cjpeg -quality 80 >$newname
+done
+echo "Terminé."
+exit 0

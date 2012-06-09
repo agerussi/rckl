@@ -1,0 +1,152 @@
+/* ============== style général */
+body {
+  background-image:url(FONDS/mosaique-snapshot.jpg);
+  background-repeat:repeat;
+}
+
+p.entree { text-align:center; }
+
+h1,h2,h3,h4,h5,h6 {
+  text-align:center;
+  font-weight:bold;
+  clear:both;
+}
+
+.bigfont { 
+  font-size:30pt; 
+  font-family:Impact, Charcoal, sans-serif;
+}
+
+
+/* =============== style pour le trombi */
+table.trombi {
+  	display:inline-table;
+	padding-right:30px;
+        padding-bottom:20px;
+      }
+
+table.trombi tr:last-child td { 
+  text-align:center;
+}
+
+/* ================== style pour les news */
+.date {
+  background-color:#dddddd;
+  /* float:left; */
+  margin:0 10px 0 0;
+}
+
+.auteur {
+  font-size:.8em;
+  color:#ffffff;
+  float:right;
+  margin:0 0 0 50px;
+}
+
+.news { text-align:justify; }
+
+hr { clear:both; }
+
+
+/* =================== style de la table des sorties */
+#sorties {
+  text-align:left;
+  border-collapse:collapse;
+}
+
+#sorties td, #sorties th { 
+  border:1px solid black;
+  padding:3px;
+}
+
+#sorties thead {
+  background-color:#dddddd;
+  text-align:center; 
+}
+
+#sorties td:nth-child(4), #sorties td:nth-child(6) { 
+  min-width:30%; 
+  text-align:justify;
+}
+
+/* ================ style des archives */
+.archive div.entete {
+  margin-bottom:7px;
+}
+
+.archive .titre {
+  font-weight:bold;
+  margin:0 10px 0 0;
+  padding:0 5px;
+  border:1px solid black;
+}
+ 
+.archive .commentaire {
+  text-align:justify;
+  margin-bottom:7px;
+}
+
+.archive img {
+  height:85px;
+  border:1px solid black;
+  opacity:0.75;
+}
+
+.archive img:hover {
+  opacity:1;
+}
+
+.archive table td:nth-of-type(2) img {
+  height:100%; 
+}
+
+.archive table {
+  border-collapse:collapse;
+}
+
+.archive td { 
+  padding:0;
+  vertical-align:top;
+}
+
+.archive .miniature a {
+  padding:0;
+  margin:0;
+  border:0;
+  text-decoration:none;
+}
+
+.archive .miniature {
+  float:left;
+  vertical-align:top;
+  margin-bottom:10px;
+  margin-right:10px;
+  padding:0;
+}
+
+/* =================== style des tables de frais */
+
+#historique, #bilanglobal {
+  text-align:left;
+  border-collapse:collapse;
+}
+
+#historique td, #historique th, #bilanglobal td { 
+  border:1px solid black;
+  padding:3px;
+}
+
+#historique thead { 
+  background-color:#dddddd;
+  text-align:center; 
+}
+
+#historique td:nth-child(4), #historique td:nth-child(5) { 
+  min-width:35%; 
+}
+
+img.edit {
+  border:0;
+  height:100%;
+  opacity:1;
+}

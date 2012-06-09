@@ -1,0 +1,17 @@
+#!/bin/bash
+# mknormal basename startnum filename [filename]...
+
+basename=$1
+declare -i n
+n=$2
+shift 2
+
+for name in $*; do
+ printf -v newname '%s%02d.jpg' $basename $n
+ n+=1
+ echo $name" --> "$newname
+ djpeg -pnm $name | pnmscale -width 1280 | cjpeg -quality 80 >$newname
+done
+
+echo "Terminé."
+exit 0

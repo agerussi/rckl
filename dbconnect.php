@@ -1,0 +1,15 @@
+<?php // se connecte à la base de données
+// $db = la base
+
+$dbHost = "sql.free.fr";
+$dbUser = "gl.aslslb";
+$dbPass = "okxbt6ai";
+$dbDatabase = "gl.aslslb";
+
+//connect to the database
+
+$db = mysql_connect("$dbHost", "$dbUser", "$dbPass") or die ("Erreur lors de la connexion à la base: ".mysql_error());
+
+mysql_select_db("$dbDatabase", $db) or die ("Erreur lors de la sélection de la base: ".mysql_error());
+
+?>
