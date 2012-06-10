@@ -2,9 +2,60 @@
    TODO: gestion de la récupération des données (en particulier images) côté serveur
 */
 
+// media=le fichier à uploader
+// mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
+function uploadAsynchrone(media, mediaNum) { 
+  // create XHR instance
+  xhr = new XMLHttpRequest();
+  xhr.open("POST", 'media-upload.php', true);
+
+  // make sure we have the sendAsBinary method on all browsers
+  /*
+  XMLHttpRequest.prototype.mySendAsBinary = function(text){
+      var data = new ArrayBuffer(text.length);
+      var ui8a = new Uint8Array(data, 0);
+      for (var i = 0; i < text.length; i++) ui8a[i] = (text.charCodeAt(i) & 0xff);
+      var bb = new (window.MozBlobBuilder || window.WebKitBlobBuilder || window.BlobBuilder)();
+      bb.append(data);
+      var blob = bb.getBlob();
+      this.send(blob);
+  }
+  */
+  // affichage de la progression de l'upload
+  /*
+  var eventSource = xhr.upload || xhr;
+  eventSource.addEventListener("progress", function(e) {
+      // get percentage of how much of the current file has been sent
+      var position = e.position || e.loaded;
+      var total = e.totalSize || e.total;
+      var percentage = Math.round((position/total)*100);
+       
+      // here you should write your own code how you wish to proces this
+  });
+  */ 
+
+  // gestion de la fin de l'upload, en cas d'échec on élimine le média de la liste
+  xhr.onreadystatechange = function() {
+      if(xhr.readyState == 4) {
+	if(xhr.status == 200) { // succès
+	  window.alert("Succès!");
+	} else { // erreur
+	  window.alert("Echec!");
+	}
+      }
+  };
+   
+  // démarrage de l'upload
+  xhr.mySendAsBinary(media);
+}
+
+var filesToProcess=0;
+var numeroMedia=1;
 
 function gestionAjoutImage(evt) { // ajout d'une image: evt.target.result contient l'URL
+  // création d'un nouveau média
   var table=document.createElement("table");
+  table.setAttribute("id", "table"+numeroMedia);
   table.innerHTML=[
     '<tr><td>',
     '<img src="', evt.target.result, '" height="85px" name="photo" />',
@@ -12,11 +63,21 @@ function gestionAjoutImage(evt) { // ajout d'une image: evt.target.result contie
     '<img title="supprimer la photo" src="FONDS/b_drop.png" name="supprimerphoto"/>', 
     '<input type="hidden" value="1"/>',
     '<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/>',
-    '<input type="hidden" value=""/>'
+    '<input type="hidden" value=""/>',
+    '<input type="hidden" id="nomMedia',numeroMedia,'" value=""/>',
+    '<span id="progresMedia',numeroMedia,'">chargement...</span>'
    ].join('');
+  // insertion de l'image dans la liste
   var input=document.getElementById("listePhotos");
   input.insertBefore(table,null); 
-  abonnementsPhotos(); // pour la nouvelle image
+  
+  // démarre le chargement du fichier
+  uploadAsynchrone(evt.target.result,numeroMedia);
+  numeroMedia++;
+
+  // gestion des abonnements pour les nouveaux fichiers
+  filesToProcess--;
+  if (filesToProcess==0) abonnementsPhotos(); // pour l'ensemble des nouvelles images
 }
 
 function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo + vidéo)
@@ -27,7 +88,8 @@ function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo
     if (fichier.type.match('image.*')) {
       var reader = new FileReader();
       reader.onload = gestionAjoutImage;
-      reader.readAsDataURL(fichier);
+      filesToProcess++;
+      reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans gestionAjoutImage()
       continue;
     }
     if (fichier.type.match('video.*')) { // TODO
