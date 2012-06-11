@@ -21,24 +21,26 @@ function uploadAsynchrone(mediaURL, mediaFile, mediaNum) {
       this.send(blob);
   }
   */
+
   // affichage de la progression de l'upload
-  /*
+  var progressSpan=document.getElementById("progresMedia"+mediaNum);     
   var eventSource = xhr.upload || xhr;
   eventSource.addEventListener("progress", function(e) {
       // get percentage of how much of the current file has been sent
       var position = e.position || e.loaded;
       var total = e.totalSize || e.total;
       var percentage = Math.round((position/total)*100);
-       
-      // here you should write your own code how you wish to proces this
+
+      progressSpan.innerHTML=percentage+"%"; 
   });
-  */ 
+  
 
   // gestion de la fin de l'upload
   xhr.onreadystatechange = function() {
       if(xhr.readyState == 4) {
 	if(xhr.status == 200) { // succès
-	  window.alert(mediaFile.name+": succès: "+xhr.responseText);
+	  //window.alert(mediaFile.name+": succès: "+xhr.responseText);
+          progressSpan.innerHTML="upload OK";
 	} 
 	else { // erreur: on élimine le média de la liste
 	  window.alert(mediaFile.name+": échec de l'upload: ");
@@ -49,7 +51,7 @@ function uploadAsynchrone(mediaURL, mediaFile, mediaNum) {
   }; 
    
   // démarrage de l'upload
-  xhr.send();
+  xhr.send(mediaFile);
 }
 
 var filesToProcess=0;
