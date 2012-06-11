@@ -4,55 +4,53 @@
 
 // media=le fichier à uploader
 // mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
-function uploadAsynchrone(mediaURL, mediaFile, mediaNum) { 
+function uploadAsynchrone(mediaFile, mediaNum) { 
   // create XHR instance
   xhr = new XMLHttpRequest();
   xhr.open("POST", 'media-upload.php', true);
 
-  // make sure we have the sendAsBinary method on all browsers
-  /*
-  XMLHttpRequest.prototype.mySendAsBinary = function(text){
-      var data = new ArrayBuffer(text.length);
-      var ui8a = new Uint8Array(data, 0);
-      for (var i = 0; i < text.length; i++) ui8a[i] = (text.charCodeAt(i) & 0xff);
-      var bb = new (window.MozBlobBuilder || window.WebKitBlobBuilder || window.BlobBuilder)();
-      bb.append(data);
-      var blob = bb.getBlob();
-      this.send(blob);
-  }
-  */
-
   // affichage de la progression de l'upload
-  var progressSpan=document.getElementById("progresMedia"+mediaNum);     
   var eventSource = xhr.upload || xhr;
-  eventSource.addEventListener("progress", function(e) {
-      // get percentage of how much of the current file has been sent
-      var position = e.position || e.loaded;
-      var total = e.totalSize || e.total;
-      var percentage = Math.round((position/total)*100);
-
-      progressSpan.innerHTML=percentage+"%"; 
-  });
-  
+  eventSource.addEventListener("progress", makeUploadProgressHandler(mediaNum));
 
   // gestion de la fin de l'upload
-  xhr.onreadystatechange = function() {
-      if(xhr.readyState == 4) {
-	if(xhr.status == 200) { // succès
-	  //window.alert(mediaFile.name+": succès: "+xhr.responseText);
-          progressSpan.innerHTML="upload OK";
-	} 
-	else { // erreur: on élimine le média de la liste
-	  window.alert(mediaFile.name+": échec de l'upload: ");
-	  var mediaTable = document.getElementById("table"+mediaNum);
-	  mediaTable.parentNode.removeChild(mediaTable);	
-	}
-      }
-  }; 
+  xhr.onreadystatechange = makeOnReadyChangeHandler(xhr,mediaFile,mediaNum); 
    
   // démarrage de l'upload
   xhr.send(mediaFile);
 }
+
+// affichage de la progression d'un upload
+function makeUploadProgressHandler(mediaNum) { // int
+return function(evt) {
+  var position = evt.position || evt.loaded;
+  var total = evt.totalSize || evt.total;
+  var percentage = Math.round(100*position/total);
+
+  var progressSpan=document.getElementById("progresMedia"+mediaNum);     
+  progressSpan.innerHTML=percentage+"%"; 
+}};
+
+// gestion de la fin d'un upload
+// en cas de succès, on récupère le nom de fichier temporaire
+// en cas d'échec, on élimine le média
+function makeOnReadyChangeHandler(xhr,mediaFile,mediaNum) { // XMLHttprequest, File, int
+return function() {
+  if(xhr.readyState == 4) {
+    if(xhr.status == 200) { // succès
+      //window.alert(_mediaFile.name+": succès: "+xhr.responseText);
+      var progressSpan=document.getElementById("progresMedia"+mediaNum);     
+      progressSpan.innerHTML="upload OK: "+xhr.responseText;
+      var inputNomMedia=document.getElementById("nomMedia"+mediaNum);
+      inputNomMedia.value=xhr.responseText;
+    } 
+    else { // erreur: on élimine le média de la liste
+      window.alert(mediaFile.name+": échec de l'upload.");
+      var mediaTable = document.getElementById("table"+mediaNum);
+      mediaTable.parentNode.removeChild(mediaTable);	
+    }
+  }
+}}
 
 var filesToProcess=0;
 var numeroMedia=1;
@@ -78,13 +76,13 @@ return function(evt) { // ajout d'une image: evt.target.result contient l'URL
   input.insertBefore(table,null); 
   
   // démarre le chargement du fichier
-  uploadAsynchrone(evt.target.result,fichier,numeroMedia);
+  uploadAsynchrone(fichier,numeroMedia);
   numeroMedia++;
 
   // gestion des abonnements pour les nouveaux fichiers
   filesToProcess--;
   if (filesToProcess==0) abonnementsPhotos(); // pour l'ensemble des nouvelles images
-}};
+}}
 
 function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo + vidéo)
   var listeFichiers = evt.target.files; // FileList object
