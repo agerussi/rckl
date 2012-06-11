@@ -4,7 +4,7 @@
 
 // media=le fichier à uploader
 // mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
-function uploadAsynchrone(media, mediaNum) { 
+function uploadAsynchrone(mediaURL, mediaFile, mediaNum) { 
   // create XHR instance
   xhr = new XMLHttpRequest();
   xhr.open("POST", 'media-upload.php', true);
@@ -34,25 +34,29 @@ function uploadAsynchrone(media, mediaNum) {
   });
   */ 
 
-  // gestion de la fin de l'upload, en cas d'échec on élimine le média de la liste
+  // gestion de la fin de l'upload
   xhr.onreadystatechange = function() {
       if(xhr.readyState == 4) {
 	if(xhr.status == 200) { // succès
-	  window.alert("Succès!");
-	} else { // erreur
-	  window.alert("Echec!");
+	  window.alert(mediaFile.name+": succès: "+xhr.responseText);
+	} 
+	else { // erreur: on élimine le média de la liste
+	  window.alert(mediaFile.name+": échec de l'upload: ");
+	  var mediaTable = document.getElementById("table"+mediaNum);
+	  mediaTable.parentNode.removeChild(mediaTable);	
 	}
       }
-  };
+  }; 
    
   // démarrage de l'upload
-  xhr.mySendAsBinary(media);
+  xhr.send();
 }
 
 var filesToProcess=0;
 var numeroMedia=1;
 
-function gestionAjoutImage(evt) { // ajout d'une image: evt.target.result contient l'URL
+function makeGestionAjoutImage(fichier) { // renvoie la fonction qui va s'occuper du rajout de l'image lorsqu'elle sera chargée
+return function(evt) { // ajout d'une image: evt.target.result contient l'URL
   // création d'un nouveau média
   var table=document.createElement("table");
   table.setAttribute("id", "table"+numeroMedia);
@@ -72,13 +76,13 @@ function gestionAjoutImage(evt) { // ajout d'une image: evt.target.result contie
   input.insertBefore(table,null); 
   
   // démarre le chargement du fichier
-  uploadAsynchrone(evt.target.result,numeroMedia);
+  uploadAsynchrone(evt.target.result,fichier,numeroMedia);
   numeroMedia++;
 
   // gestion des abonnements pour les nouveaux fichiers
   filesToProcess--;
   if (filesToProcess==0) abonnementsPhotos(); // pour l'ensemble des nouvelles images
-}
+}};
 
 function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo + vidéo)
   var listeFichiers = evt.target.files; // FileList object
@@ -87,7 +91,7 @@ function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo
   for (var i=0; fichier=listeFichiers[i]; i++) { // traitement individuel de chaque fichier
     if (fichier.type.match('image.*')) {
       var reader = new FileReader();
-      reader.onload = gestionAjoutImage;
+      reader.onload = makeGestionAjoutImage(fichier);
       filesToProcess++;
       reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans gestionAjoutImage()
       continue;
