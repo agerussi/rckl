@@ -117,16 +117,18 @@
     <tr>
       <td>
         <img title="supprimer la photo" src="FONDS/b_drop.png" name="supprimerphoto"/> 
-	<input type="hidden" value="1"/>
+	<input type="hidden" name="typeMedia" value="3"/> <!-- 3 = On+Photo+!New -->
 	<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/> 
 	<xsl:element name="input">
 	  <xsl:attribute name="type">hidden</xsl:attribute>
+	  <xsl:attribute name="name">commentaireMedia</xsl:attribute>
 	  <xsl:attribute name="value">
 	    <xsl:value-of select="@commentaire"/>
 	  </xsl:attribute>
 	</xsl:element>
 	<xsl:element name="input">
 	  <xsl:attribute name="type">hidden</xsl:attribute>
+	  <xsl:attribute name="name">nomMedia</xsl:attribute>
 	  <xsl:attribute name="value">
 	    <xsl:value-of select="@fichier"/>
 	  </xsl:attribute>

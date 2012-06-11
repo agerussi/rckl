@@ -2,6 +2,13 @@
    TODO: gestion de la récupération des données (en particulier images) côté serveur
 */
 
+var MediaType = { // enumération pour le type de media
+    On : 1,
+    Photo: 2,
+    Movie: 4,
+    New: 8
+};
+
 // media=le fichier à uploader
 // mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
 function uploadAsynchrone(mediaFile, mediaNum) { 
@@ -65,10 +72,10 @@ return function(evt) { // ajout d'une image: evt.target.result contient l'URL
     '<img src="', evt.target.result, '" height="85px" name="photo" />',
     '</td></tr><tr><td>',
     '<img title="supprimer la photo" src="FONDS/b_drop.png" name="supprimerphoto"/>', 
-    '<input type="hidden" value="1"/>',
+    '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Photo|MediaType.New,'"/>',
     '<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/>',
-    '<input type="hidden" value=""/>',
-    '<input type="hidden" id="nomMedia',numeroMedia,'" value=""/>',
+    '<input type="hidden" name="commentaireMedia" value=""/>',
+    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value=""/>',
     '<span id="progresMedia',numeroMedia,'">chargement...</span>'
    ].join('');
   // insertion de l'image dans la liste
@@ -121,15 +128,18 @@ function enregistrerCommentaire(change) { // récupère le commentaire et l'attr
   imgPhoto.title = commentaire; 
 }
 
+
+
 function supprimerPhoto() { // gère la suppression / réhabilitation de photos
   var imgPhoto = this.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild;
   var input = this.nextSibling;
-  input.value = 1-input.value;
-  if (input.value==0) {
+  if (input.value&MediaType.On) {
+    input.value = input.value&(~MediaType.On);
     this.setAttribute("src","FONDS/b_add.png");
     this.setAttribute("title","rajouter la photo");
-    imgPhoto.style.opacity = "0.4";
+    imgPhoto.style.opacity = "0.5";
   } else {
+    input.value = input.value|MediaType.On;
     this.setAttribute("src","FONDS/b_drop.png");
     this.setAttribute("title","supprimer la photo");
     imgPhoto.style.opacity = "1";
@@ -170,11 +180,21 @@ function validationArchive() { // vérification et préparation avant soumission
   // récolte des participants dans listeparticipants
   var listexml="";
   var liste=document.getElementsByName("participant");
-  for (i=0; i<liste.length; i++) listexml += "<nom>"+liste[i].firstChild.data+"</nom>";
+  for (var i=0; i<liste.length; i++) listexml += "<nom>"+liste[i].firstChild.data+"</nom>";
 
   document.getElementById("listeparticipants").value = listexml;  
 
-  // les photos (TODO)
+  // les photos
+  // nomme les différentes zones input dans l'ordre
+  var listeTypes=document.getElementsByName("typeMedia"); 
+  var listeCommentaires=document.getElementsByName("commentaireMedia"); 
+  var listeNoms=document.getElementsByName("nomMedia"); 
+  for (var i=listeTypes.length-1; i>=0; i--) {
+    listeTypes[i].setAttribute("name","typeMedia"+i);
+    listeCommentaires[i].setAttribute("name","commentaireMedia"+i);
+    listeNoms[i].setAttribute("name","nomMedia"+i);
+  }
+
   return true;
 }
 

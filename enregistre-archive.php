@@ -31,5 +31,11 @@ if (strlen($commentaire)>0) $xml.="<commentaire>".$commentaire."</commentaire>";
 // les participants
 $xml.="<participants>".$_POST['listeparticipants']."</participants>";
 
-echo $xml;
+// la liste des photos
+// examen des variables retournées
+foreach ($_POST as $key => $value) {
+    echo $key."=".$value."<br/>";
+}
+
+//echo $xml;
 ?>
