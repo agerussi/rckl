@@ -23,13 +23,13 @@ $xml="";
 $fdate=$_POST['valeurdate'];
 sscanf($fdate,"%u-%u-%u",$jour,$mois,$annee);
 $edate="$annee-$mois-$jour"; // date pour la BDD
-$xml.="<date>";
-$xml.="<jour>".$jour."</jour>";
-$xml.="<mois>".$mois."</mois>";
-$xml.="<annee>".$annee."</annee>";
+$xml.="<date ";
+$xml.='jour="'.$jour.'" ';
+$xml.='mois="'.$mois.'" ';
+$xml.='annee="'.$annee.'" ';
 $textedate=$_POST['valeurtextedate'];
-if (strlen($textedate)>0) $xml.="<texte>".$textedate."</texte>";
-$xml.="</date>";
+if (strlen($textedate)>0) $xml.='texte="'.$textedate.'"';
+$xml.="/>";
 
 // le titre
 $xml.="<titre>".$_POST['valeurtitre']."</titre>";
@@ -55,9 +55,12 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
 
   if ($type & $TypeMedia["On"]) { // si le média est sélectionné
     if ($isNew) { 
-      $fichier=renommerFichier($idSortie, $fichier); 
-      //creer1080p($fichier); 
-      creerMiniature($fichier);
+      $nouveauNom=nouveauNomFichier($idSortie, $fichier); 
+      $path=$repStockage."/".$nouveauNom; // chemin complet
+      rename($fichier,$path);
+      //creer1080p($path); 
+      creerMiniature($path);
+      $fichier=$nouveauNom;
     }
     $xml.='<photo fichier="'.$fichier.'" ';
     $commentaire=trim($_POST["commentaireMedia".$i]);
@@ -119,18 +122,17 @@ function creerMiniature($fichier) {
 }
 
 // choisi un nouveau nom en fonction de l'id de la sortie et des noms existants
-// puis renomme le fichier et le place dans le répertoire de stockage ($repStockage)
-function renommerFichier($idSortie, $fichier) { 
+function nouveauNomFichier($idSortie, $fichier) { 
   // détermine un nouveau nom
    global $repStockage;
-   $basePath=$repStockage."/".$idSortie;
-   $i=1;
-   while (file_exists($newName=$basePath.sprintf("%02d",$i).".jpg")) $i++;
+   $i=0;
+   do {
+     $i++;
+     $nouveauNom = $idSortie.sprintf("%02d",$i).".jpg";
+   }
+   while (file_exists($repStockage."/".$nouveauNom));
 
-   // $newName contient un nom valide
-   rename($fichier,$newName);
-
-   return $newName; 
+   return $nouveauNom;
 }
 
 // efface le fichier et sa miniature si le fichier n'est pas nouveau
