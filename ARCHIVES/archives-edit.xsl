@@ -4,7 +4,16 @@
 <xsl:output method="html" indent="yes" omit-xml-declaration="yes" encoding="utf-8"/>
 
 <xsl:template match="/editsortie">
-  <form accept-charset="utf-8" method="post" action="enregistre-archive.php" onsubmit="return validationArchive()">
+  <!-- <form accept-charset="utf-8" method="post" action="enregistre-archive.php" onsubmit="return validationArchive()"> -->
+  <xsl:element name="form">
+    <xsl:attribute name="accept-charset">utf-8</xsl:attribute>
+    <xsl:attribute name="method">post</xsl:attribute>
+    <xsl:attribute name="action">
+      <xsl:value-of select="concat('enregistre-archive.php?id=',@id)" />
+    </xsl:attribute>
+    <xsl:attribute name="onsubmit">return validationArchive()</xsl:attribute>
+
+
     <xsl:apply-templates select="date"/>
     <xsl:apply-templates select="titre"/>
     <xsl:apply-templates select="participants"/>
@@ -12,12 +21,10 @@
     <div id="listePhotos">
       <xsl:apply-templates select="photo"/>
     </div>  
-    <!--
-  <xsl:apply-templates select="video"/> 
-  -->
-   <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
-   <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
-  </form>
+    <!-- <xsl:apply-templates select="video"/> -->
+    <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
+    <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
+  </xsl:element>
   <form method="post" action="news.php?menu">
    <p><input type="submit" name="cancel" value="Annuler" /></p>
   </form>

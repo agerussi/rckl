@@ -13,7 +13,7 @@ if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.ph
 <script type="text/javascript" src="OUTILS/JSDATEPICK/jsDatePick.min.1.3.js"></script>
 <script type="text/javascript" src="editer-archive.js"></script>
 <script type="text/javascript">
-<?php // crée la liste des suggestions de membres
+<?php // crée la liste des suggestions de membres (utilisée dans editer-archive.js)
  require("dbconnect.php");
  mysql_query("SET NAMES UTF8");
  $sql = 'SELECT nom FROM membres WHERE id>1';
@@ -38,11 +38,11 @@ if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.ph
  mysql_query("SET NAMES UTF8");
  $sql = 'SELECT xml FROM archives WHERE id="'.$_GET['id'].'"';
  $req = mysql_query($sql) or die("erreur lors de la lecture de l'archive id=".$_GET['id'].": ".mysql_error());
-  $data = mysql_fetch_array($req);
+ $data = mysql_fetch_array($req);
 
   // crée le xml de la sortie
   $xmltext="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-  $xmltext.="<editsortie>";
+  $xmltext.='<editsortie id="'.$_GET['id'].'">';
   $xmltext.="<path>IMG</path> <mini>-mini</mini>";
   $xmltext.=$data['xml'];
   $xmltext.="</editsortie>";

@@ -3,10 +3,7 @@
 */
 
 var MediaType = { // enumération pour le type de media
-    On : 1,
-    Photo: 2,
-    Movie: 4,
-    New: 8
+    On : 1, Photo: 2, Video: 4, New: 8
 };
 
 // media=le fichier à uploader
