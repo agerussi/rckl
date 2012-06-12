@@ -1,0 +1,44 @@
+<?php
+session_start();
+// test de sécurité 
+if ($_SESSION['login']!="root") header("Location: news.php?menu");
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<head>
+<?php require("head.html"); ?>
+
+<script type="text/javascript">
+function validationId() {
+  var id=document.getElementById("id").value;
+
+  // va regarder sur la BD si cet id est disponible
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET",'queryArchiveId.php?id='+id,false);
+  xhr.send();
+  var dispo=xhr.responseText;
+
+  if (dispo==1) { // il est disponible
+    window.location.replace("news.php");
+  }
+  else {
+    window.alert("L'identifiant ["+id+"] n'est pas disponible: choisissez-en un autre.");
+    return false;
+  }
+}
+</script>
+</head>
+<body>
+<form accept-charset="utf-8" id="forme" onsubmit="return validationId()">
+  <label>Choisissez un identifiant pour l'archive:</label>
+  <input type="text" id="id" width="20" />
+  <p><input type="submit" value="Nouvelle archive"/></p>
+</form>
+<form method="post" action="news.php?menu">
+  <p><input type="submit" value="Annuler" /></p>
+ </form>
+</body>
+</html>
+
+

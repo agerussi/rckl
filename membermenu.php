@@ -13,6 +13,7 @@ if(isset($_SESSION['login'])){ // on est loggé
 <li><a href="logout.php">déconnexion</a></li>
 EOS;
   if ($_SESSION['login'] == 'root') { // additions spéciales pour root
+    echo '<li><a href="nouvelle-archive.php">nouvelle archive</a></li>';
   }
   echo "</ul>";
 }
