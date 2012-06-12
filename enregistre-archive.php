@@ -74,7 +74,16 @@ function creerMiniature($fichier) {
 // choisi un nouveau nom en fonction de l'id de la sortie et des noms existants
 // puis renomme le fichier et le place dans le répertoire de stockage ($repStockage)
 function renommerFichier($idSortie, $fichier) { // TODO
-   return $fichier;
+  // détermine un nouveau nom
+   global $repStockage;
+   $basePath=$repStockage."/".$idSortie;
+   $i=1;
+   while (file_exists($newName=$basePath.sprintf("%02d",$i).".jpg")) $i++;
+
+   // $newName contient un nom valide
+   echo "rename($fichier,$newName)";
+
+   return $newName;
 }
 
 // efface le fichier et sa miniature si le fichier n'est pas nouveau
