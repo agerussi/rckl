@@ -71,6 +71,7 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
 } // fin du parcours
 
 // sauvegarde de l'xml dans la base de données
+mysql_query("SET NAMES UTF8");
 $query="UPDATE archives SET ";
 $query.="date='".$edate."'";
 $query.=",xml='".$xml."'";
