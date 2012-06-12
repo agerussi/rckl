@@ -68,12 +68,23 @@ echo $xml;
 
 // crée une miniature dans le répertoire de stockage $IMG
 function creerMiniature($fichier) {
-  // TODO
+  // Calcul des nouvelles dimensions
+  $miniHeight = 96; // hauteur des miniatures
+  list($width, $height) = getimagesize($fichier);
+  $miniWidth = $width*$miniHeight/$height;
+
+  // Redimensionnement
+  $image_p = imagecreatetruecolor($miniWidth, $miniHeight);
+  $image = imagecreatefromjpeg($fichier);
+  imagecopyresampled($image_p, $image, 0, 0, 0, 0, $miniWidth, $miniHeight, $width, $height);
+
+  // Affichage
+  imagejpeg($image_p, nomFichierMiniature($fichier), 75);
 }
 
 // choisi un nouveau nom en fonction de l'id de la sortie et des noms existants
 // puis renomme le fichier et le place dans le répertoire de stockage ($repStockage)
-function renommerFichier($idSortie, $fichier) { // TODO
+function renommerFichier($idSortie, $fichier) { 
   // détermine un nouveau nom
    global $repStockage;
    $basePath=$repStockage."/".$idSortie;
@@ -81,9 +92,9 @@ function renommerFichier($idSortie, $fichier) { // TODO
    while (file_exists($newName=$basePath.sprintf("%02d",$i).".jpg")) $i++;
 
    // $newName contient un nom valide
-   echo "rename($fichier,$newName)";
+   rename($fichier,$newName);
 
-   return $newName;
+   return $newName; 
 }
 
 // efface le fichier et sa miniature si le fichier n'est pas nouveau
@@ -94,10 +105,16 @@ function effaceFichier($fichier, $isNew) {
   else { // effacer le fichier et sa miniature dans le répertoire de stockage
     global $repStockage;
     $path=$repStockage."/".$fichier;
-    $pos=strrpos($path,'.'); // position du . de l'extension
-    $pathMini=substr($path,0,$pos)."-mini".substr($path,$pos);
+    $pathMini=nomFichierMiniature($path);
     echo "unlink($path)";
-    echo "unlink($pathMini)";
+    echo "unlink($pathMini))";
   } 
+}
+
+// transforme un nom de fichier en sa miniature.
+// ATTENTION: le fichier doit avoir une extension OU ne contenir aucun point!
+function nomFichierMiniature($path) { 
+  if ($pos=strrpos($path,'.')) return substr($path,0,$pos)."-mini.jpg";
+  else return $path."-mini.jpg";
 }
 ?>
