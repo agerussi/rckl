@@ -26,7 +26,7 @@ $query = "DELETE FROM news WHERE id=".$first['id'];
 //echo $query;
 mysql_query($query, $db) or die("Erreur lors de l'effacement de la news la plus ancienne: ".mysql_error());
  */
-// fait le ménage dans la table rss (efface les messages datant de plus de 2 mois)
+// fait le ménage dans la table des news (efface les messages datant de plus de 2 mois)
 $query="DELETE FROM news WHERE date<DATE_SUB(CURDATE(),INTERVAL 2 MONTH)";
 mysql_query($query,$db) or die("Erreur lors de l'effacement des anciennes news: ".mysql_error());
 

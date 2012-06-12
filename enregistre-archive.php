@@ -7,6 +7,8 @@ if ( !isset($_SESSION['userid'])
   || !isset($_GET['id'])  // recoit l'id de la sortie en paramètre
 ) header("Location: news.php?menu");
 
+require("dbconnect.php");
+
 // examen des variables retournées
 /*
 foreach ($_POST as $key => $value) {
@@ -40,7 +42,6 @@ if (strlen($commentaire)>0) $xml.="<commentaire>".$commentaire."</commentaire>";
 $xml.="<participants>".$_POST['listeparticipants']."</participants>";
 
 // la liste des medias (photos/vidéos)
-
 $TypeMedia=array("On"=>1, "Photo"=>2, "Video"=>4, "New"=>8); // énumération des différents types de médias
 $repStockage="IMG"; // répertoire de stockage
 
@@ -55,20 +56,53 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
   if ($type & $TypeMedia["On"]) { // si le média est sélectionné
     if ($isNew) { 
       $fichier=renommerFichier($idSortie, $fichier); 
+      //creer1080p($fichier); 
       creerMiniature($fichier);
     }
-    $commentaire=$_POST["commentaireMedia".$i];
-    $xml.='(photo fichier="'.$fichier.'" commentaire="'.$commentaire.'" /)';
+    $xml.='<photo fichier="'.$fichier.'" ';
+    $commentaire=trim($_POST["commentaireMedia".$i]);
+    $xml.=(strlen($commentaire)==0) ? "/>" : 'commentaire="'.$commentaire.'" />';
   }
   else effaceFichier($fichier, $isNew);
   $i++;
 } // fin du parcours
 
-echo $xml;
+// sauvegarde de l'xml dans la base de données
+$query="UPDATE archives SET ";
+$query.="date='".$edate."'";
+$query.=",xml='".$xml."'";
+$query.=" WHERE id='".$idSortie."'";
+mysql_query($query,$db) or die("Erreur lors de la création/modification d'une sortie: ".mysql_error());
+mysql_close($db);
 
-// crée une miniature dans le répertoire de stockage $IMG
+// retourne sur la page de l'archive modifiée
+header("Location: _archives.php?menu&y=".$annee);
+
+// #################### HELPER FUNCTIONS
+// #####################################
+
+// crée l'image en taille standard 1080p
+function creer1080p($fichier) { // TODO: cette fonction plante sur un problème de taille mémoire...
+  // calcul des nouvelles dimensions
+  $standardHeight = 1080; // hauteur des miniatures
+  list($width, $height) = getimagesize($fichier);
+  if ($height<=$standardHeight) return; // ne touche pas l'image si elle est de taille inférieure
+  $standardWidth = $width*$standardHeight/$height;
+
+  // Redimensionnement
+  $image_p = imagecreatetruecolor($standardWidth, $standardHeight);
+  $image = imagecreatefromjpeg($fichier);
+  imagecopyresampled($image_p, $image, 0, 0, 0, 0, $standardWidth, $standardHeight, $width, $height);
+  imagedestroy($image);
+
+  // écrasement
+  imagejpeg($image_p, $fichier, 80);
+  imagedestroy($image_p);
+}
+
+// crée la miniature associée à l'image $fichier
 function creerMiniature($fichier) {
-  // Calcul des nouvelles dimensions
+  // calcul des nouvelles dimensions
   $miniHeight = 96; // hauteur des miniatures
   list($width, $height) = getimagesize($fichier);
   $miniWidth = $width*$miniHeight/$height;
@@ -77,9 +111,11 @@ function creerMiniature($fichier) {
   $image_p = imagecreatetruecolor($miniWidth, $miniHeight);
   $image = imagecreatefromjpeg($fichier);
   imagecopyresampled($image_p, $image, 0, 0, 0, 0, $miniWidth, $miniHeight, $width, $height);
+  imagedestroy($image);
 
-  // Affichage
+  // sauvegarde
   imagejpeg($image_p, nomFichierMiniature($fichier), 75);
+  imagedestroy($image_p);
 }
 
 // choisi un nouveau nom en fonction de l'id de la sortie et des noms existants
@@ -100,14 +136,14 @@ function renommerFichier($idSortie, $fichier) {
 // efface le fichier et sa miniature si le fichier n'est pas nouveau
 function effaceFichier($fichier, $isNew) { 
   if ($isNew) { // effacer simplement le fichier
-    echo "unlink($fichier)";
+    unlink($fichier);
   }
   else { // effacer le fichier et sa miniature dans le répertoire de stockage
     global $repStockage;
     $path=$repStockage."/".$fichier;
     $pathMini=nomFichierMiniature($path);
-    echo "unlink($path)";
-    echo "unlink($pathMini))";
+    unlink($path);
+    unlink($pathMini);
   } 
 }
 
