@@ -44,7 +44,8 @@ return function() {
     if(xhr.status == 200) { // succès
       //window.alert(_mediaFile.name+": succès: "+xhr.responseText);
       var progressSpan=document.getElementById("progresMedia"+mediaNum);     
-      progressSpan.innerHTML="upload OK: "+xhr.responseText;
+      //progressSpan.innerHTML="upload OK: "+xhr.responseText;
+      progressSpan.innerHTML="upload OK";
       var inputNomMedia=document.getElementById("nomMedia"+mediaNum);
       inputNomMedia.value=xhr.responseText;
     } 

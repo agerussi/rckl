@@ -42,8 +42,7 @@ if (strlen($commentaire)>0) $xml.="<commentaire>".$commentaire."</commentaire>";
 $xml.="<participants>".$_POST['listeparticipants']."</participants>";
 
 // la liste des medias (photos/vidéos)
-$TypeMedia=array("On"=>1, "Photo"=>2, "Video"=>4, "New"=>8); // énumération des différents types de médias
-$repStockage="IMG"; // répertoire de stockage
+require("helper.php");
 
 $idSortie=$_GET["id"]; // identifiant de sortie
 
@@ -84,7 +83,6 @@ header("Location: _archives.php?menu&y=".$annee);
 
 // #################### HELPER FUNCTIONS
 // #####################################
-
 // crée l'image en taille standard 1080p
 function creer1080p($fichier) { // TODO: cette fonction plante sur un problème de taille mémoire...
   // calcul des nouvelles dimensions
@@ -150,10 +148,4 @@ function effaceFichier($fichier, $isNew) {
   } 
 }
 
-// transforme un nom de fichier en sa miniature.
-// ATTENTION: le fichier doit avoir une extension OU ne contenir aucun point!
-function nomFichierMiniature($path) { 
-  if ($pos=strrpos($path,'.')) return substr($path,0,$pos)."-mini.jpg";
-  else return $path."-mini.jpg";
-}
 ?>
