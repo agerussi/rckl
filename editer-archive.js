@@ -49,7 +49,7 @@ return function() {
       inputNomMedia.value=xhr.responseText;
     } 
     else { // erreur: on élimine le média de la liste
-      window.alert(mediaFile.name+": échec de l'upload.");
+      window.alert(mediaFile.name+": échec de l'upload: xhr.status="+xhr.status);
       var mediaTable = document.getElementById("table"+mediaNum);
       mediaTable.parentNode.removeChild(mediaTable);	
     }

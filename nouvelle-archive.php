@@ -15,29 +15,27 @@ function validationId() {
 
   // va regarder sur la BD si cet id est disponible
   var xhr = new XMLHttpRequest();
-  xhr.open("GET",'queryArchiveId.php?id='+id,false);
+  xhr.open("GET",'createBlankArchive.php?id='+id,false);
   xhr.send();
   var dispo=xhr.responseText;
 
-  if (dispo==1) { // il est disponible
-    window.location.replace("news.php");
+  if (dispo==1) { // il est disponible, et l'archive vierge a été crée
+    window.location.replace("editer-archive.php?id="+id); 
   }
   else {
-    window.alert("L'identifiant ["+id+"] n'est pas disponible: choisissez-en un autre.");
+    window.alert("L'identifiant '"+id+"' n'est pas disponible.");
     return false;
   }
 }
 </script>
 </head>
 <body>
-<form accept-charset="utf-8" id="forme" onsubmit="return validationId()">
   <label>Choisissez un identifiant pour l'archive:</label>
   <input type="text" id="id" width="20" />
-  <p><input type="submit" value="Nouvelle archive"/></p>
-</form>
-<form method="post" action="news.php?menu">
-  <p><input type="submit" value="Annuler" /></p>
- </form>
+  <p><input type="submit" value="Nouvelle archive" onclick="validationId()"/></p>
+  <form method="post" action="news.php?menu">
+    <p><input type="submit" value="Annuler" /></p>
+  </form>
 </body>
 </html>
 
