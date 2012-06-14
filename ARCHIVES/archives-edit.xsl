@@ -24,10 +24,8 @@
     <!-- <xsl:apply-templates select="video"/> -->
     <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
     <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
+    <p><input type="button" id="cancel" value="Annuler" /></p>
   </xsl:element>
-  <form method="post" action="news.php?menu">
-   <p><input type="submit" name="cancel" value="Annuler" /></p>
-  </form>
   <div id="zoneSaisie" style="display:none">
     <textarea cols="50" rows="5" id="inputCommentaire"/>
     <input type="button" value="Modifier" onclick="enregistrerCommentaire(true)"/>

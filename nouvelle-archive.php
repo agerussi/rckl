@@ -13,13 +13,13 @@ if ($_SESSION['login']!="root") header("Location: news.php?menu");
 function validationId() {
   var id=document.getElementById("id").value;
 
-  // va regarder sur la BD si cet id est disponible
+  // crée une archive vierge si l'id est disponible
   var xhr = new XMLHttpRequest();
   xhr.open("GET",'createBlankArchive.php?id='+id,false);
   xhr.send();
   var dispo=xhr.responseText;
 
-  if (dispo==1) { // il est disponible, et l'archive vierge a été crée
+  if (dispo==1) { // il est disponible, et l'archive vierge a été créée
     window.location.replace("editer-archive.php?id="+id); 
   }
   else {

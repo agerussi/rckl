@@ -1,10 +1,40 @@
-/*
-   TODO: gestion de la récupération des données (en particulier images) côté serveur
-*/
+var beeingUploaded=0; // nombre de médias en cours d'upload
 
 var MediaType = { // enumération pour le type de media
-    On : 1, Photo: 2, Video: 4, New: 8
+    On: 1, Photo: 2, Video: 4, New: 8
 };
+
+// efface le fichier indiqué par une requête HTTP
+function effaceSurServeur(fichier) { 
+  var xhr = new XMLHttpRequest();
+  xhr.open("DELETE",fichier,false); // TODO: ne fonctionne pas
+  xhr.send();
+  window.alert(fichier+": "+xhr.responseText);
+}
+
+// annule les modifications de l'archive
+// c'est-à-dire efface les éventuels fichiers temporaires uploadés
+function gestionAnnulation() {
+  if (!uploadFini()) return;
+ 
+  // efface les médias fraîchement uploadés
+  var listeTypes=document.getElementsByName("typeMedia"); 
+  var listeNoms=document.getElementsByName("nomMedia"); 
+  for (var i=listeTypes.length-1; i>=0; i--) {
+    if ((listeTypes[i].value&MediaType.New)!=0) effaceSurServeur(listeNoms[i].value);
+  }
+}
+
+// teste s'il reste des fichiers en cours d'upload
+// et affiche un message
+function uploadFini() {
+  if (beeingUploaded!=0) {
+    var msg=(beeingUploaded==1) ? "Un fichier est " : beeingUploaded+" fichiers sont ";
+    window.alert(msg+"en cours d'upload!");
+    return false;
+  }
+  else return true;
+}
 
 // media=le fichier à uploader
 // mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
@@ -21,6 +51,7 @@ function uploadAsynchrone(mediaFile, mediaNum) {
   xhr.onreadystatechange = makeOnReadyChangeHandler(xhr,mediaFile,mediaNum); 
    
   // démarrage de l'upload
+  beeingUploaded++;
   xhr.send(mediaFile);
 }
 
@@ -54,6 +85,7 @@ return function() {
       var mediaTable = document.getElementById("table"+mediaNum);
       mediaTable.parentNode.removeChild(mediaTable);	
     }
+    beeingUploaded--;
   }
 }}
 
@@ -169,6 +201,7 @@ function deplacementPhoto() { // gestion du déplacement d'une photo (1er ou 2e 
 }
 
 function validationArchive() { // vérification et préparation avant soumission de l'archive
+  if (!uploadFini()) return false;
   // la date
   if (document.getElementById("valeurdate").value.length==0) {
     window.alert("La date n'est pas définie!");
@@ -203,7 +236,9 @@ function main() {
   initGestionParticipants();
   abonnementsPhotos();
   // gestion du bouton ajouterPhoto
-  document.getElementById('ajoutFichiers').addEventListener('change', gestionAjoutFichiers, false);
+  document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
+  // annulation des modifs
+  document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);
 }
 
 function abonnementsPhotos() { // abonnements aux diverses fonctions
