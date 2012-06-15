@@ -4,14 +4,6 @@ var MediaType = { // enumération pour le type de media
     On: 1, Photo: 2, Video: 4, New: 8
 };
 
-// efface le fichier indiqué par une requête HTTP
-function effaceSurServeur(fichier) { 
-  var xhr = new XMLHttpRequest();
-  xhr.open("DELETE",fichier,false); // TODO: ne fonctionne pas
-  xhr.send();
-  window.alert(fichier+": "+xhr.responseText);
-}
-
 // annule les modifications de l'archive
 // c'est-à-dire efface les éventuels fichiers temporaires uploadés
 function gestionAnnulation() {
@@ -20,9 +12,17 @@ function gestionAnnulation() {
   // efface les médias fraîchement uploadés
   var listeTypes=document.getElementsByName("typeMedia"); 
   var listeNoms=document.getElementsByName("nomMedia"); 
+  var xmlList="<delete>";
   for (var i=listeTypes.length-1; i>=0; i--) {
-    if ((listeTypes[i].value&MediaType.New)!=0) effaceSurServeur(listeNoms[i].value);
+    if ((listeTypes[i].value&MediaType.New)!=0) xmlList+="<file>"+listeNoms[i].value+"</file>"; //effaceSurServeur(listeNoms[i].value);
   }
+  xmlList+="</delete>";
+  // appelle le php qui va effacer les fichiers
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST","tempMediaDelete.php",false); 
+  xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  xhr.send("xml="+xmlList);
+  window.back();
 }
 
 // teste s'il reste des fichiers en cours d'upload
