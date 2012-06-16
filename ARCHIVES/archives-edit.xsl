@@ -21,7 +21,9 @@
     <div id="listePhotos">
       <xsl:apply-templates select="photo"/>
     </div>  
-    <!-- <xsl:apply-templates select="video"/> -->
+    <div id="listeVideos">
+      <xsl:apply-templates select="video"/> 
+    </div>
     <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
     <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
     <p><input type="button" id="cancel" value="Annuler" /></p>
@@ -144,6 +146,63 @@
 </xsl:template>
 
 <xsl:template match="video">
+  <table>
+    <tr>
+      <td>
+	<xsl:element name="img">
+	  <xsl:attribute name="name">video</xsl:attribute>
+	  <xsl:attribute name="title">
+	    <xsl:value-of select="@commentaire"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="src">
+	    <xsl:value-of select="concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="alt">
+	    <xsl:value-of select="@fichier"/>
+	  </xsl:attribute>
+	</xsl:element>
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<label>#VIMEO</label>
+	<xsl:element name="input">
+	  <xsl:attribute name="type">text</xsl:attribute>
+	  <xsl:attribute name="size">10</xsl:attribute>
+	  <xsl:attribute name="id">valeurdate</xsl:attribute>
+	  <xsl:attribute name="name">valeurdate</xsl:attribute>
+	  <xsl:attribute name="readonly">readonly</xsl:attribute>
+	  <xsl:attribute name="value">
+	    <xsl:value-of select="@vimeo"/>
+	  </xsl:attribute>
+	</xsl:element>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img title="supprimer la vidéo" src="FONDS/b_drop.png" name="supprimervideo"/> 
+	<input type="hidden" name="typeMedia" value="5"/> <!-- 5 = On+Video -->
+	<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/> 
+	<xsl:element name="input">
+	  <xsl:attribute name="type">hidden</xsl:attribute>
+	  <xsl:attribute name="name">commentaireMedia</xsl:attribute>
+	  <xsl:attribute name="value">
+	    <xsl:value-of select="@commentaire"/>
+	  </xsl:attribute>
+	</xsl:element>
+	<xsl:element name="input">
+	  <xsl:attribute name="type">hidden</xsl:attribute>
+	  <xsl:attribute name="name">nomMedia</xsl:attribute>
+	  <xsl:attribute name="value">
+	    <xsl:value-of select="@fichier"/>
+	  </xsl:attribute>
+	</xsl:element>
+      </td>
+    </tr>
+  </table>
+</xsl:template>
+
+<xsl:template match="oldvideo">
   <div class="miniature">
     <xsl:element name="table">
       <xsl:element name="tr">

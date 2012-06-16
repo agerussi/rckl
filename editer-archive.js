@@ -160,21 +160,22 @@ function enregistrerCommentaire(change) { // récupère le commentaire et l'attr
 
 
 
-function supprimerPhoto() { // gère la suppression / réhabilitation de photos
-  var imgPhoto = this.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild;
+function supprimerMedia() { // gère la suppression / réhabilitation de photos ou vidéos
+  var imgMedia = this.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild;
   var input = this.nextSibling;
+  var type=(input.value&MediaType.Photo) ? "la photo":"la vidéo";
   if (input.value&MediaType.On) {
     input.value = input.value&(~MediaType.On);
     this.setAttribute("src","FONDS/b_add.png");
-    this.setAttribute("title","rajouter la photo");
-    imgPhoto.style.opacity = "0.5";
+    this.setAttribute("title","rajouter "+type);
+    imgMedia.style.opacity = "0.5";
   } else {
     input.value = input.value|MediaType.On;
     this.setAttribute("src","FONDS/b_drop.png");
-    this.setAttribute("title","supprimer la photo");
-    imgPhoto.style.opacity = "1";
+    this.setAttribute("title","supprimer "+type);
+    imgMedia.style.opacity = "1";
   } 
-  //window.alert("fin supprimerPhoto");
+  //window.alert("fin supprimerMedia");
 }
   
 // TODO: buggy, à remanier: le problème est apparemment que lorsque l'on clone, on perd les infos
@@ -235,10 +236,23 @@ function main() {
   initGestionDate();
   initGestionParticipants();
   abonnementsPhotos();
-  // gestion du bouton ajouterPhoto
+  abonnementsVideos();
+  // gestion du bouton d'ajout de fichiers
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
   // annulation des modifs
   document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);
+}
+
+function abonnementsVideos() { // abonnements aux diverses fonctions
+  var listeVideos = document.getElementsByName("video");
+  var i=0;
+  //while (listeVideos[i]) listeVideos[i++].addEventListener("click", deplacementPhoto);
+  var listeSupprimerVideos = document.getElementsByName("supprimervideo");
+  i=0;
+  while (listeSupprimerVideos[i]) listeSupprimerVideos[i++].addEventListener("click", supprimerMedia);
+  var listeEditerCommentaires = document.getElementsByName("editercommentaire");
+  i=0;
+  while (listeEditerCommentaires[i]) listeEditerCommentaires[i++].addEventListener("click", editerCommentaire);
 }
 
 function abonnementsPhotos() { // abonnements aux diverses fonctions
@@ -247,7 +261,7 @@ function abonnementsPhotos() { // abonnements aux diverses fonctions
   while (listePhotos[i]) listePhotos[i++].addEventListener("click", deplacementPhoto);
   var listeSupprimerPhotos = document.getElementsByName("supprimerphoto");
   i=0;
-  while (listeSupprimerPhotos[i]) listeSupprimerPhotos[i++].addEventListener("click", supprimerPhoto);
+  while (listeSupprimerPhotos[i]) listeSupprimerPhotos[i++].addEventListener("click", supprimerMedia);
   var listeEditerCommentaires = document.getElementsByName("editercommentaire");
   i=0;
   while (listeEditerCommentaires[i]) listeEditerCommentaires[i++].addEventListener("click", editerCommentaire);
