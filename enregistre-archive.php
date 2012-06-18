@@ -52,20 +52,30 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
   $isNew = $type & $TypeMedia["New"];
   $fichier=$_POST["nomMedia".$i];
 
-  if ($type & $TypeMedia["On"]) { // si le média est sélectionné
-    if ($isNew) { 
-      $nouveauNom=nouveauNomFichier($idSortie, $fichier); 
-      $path=$repStockage."/".$nouveauNom; // chemin complet
-      rename($fichier,$path);
-      //creer1080p($path); 
-      creerMiniature($path);
-      $fichier=$nouveauNom;
+  if ($type & $TypeMedia["Photo"]) { // c'est une photo
+    if ($type & $TypeMedia["On"]) { // si le média est sélectionné
+      if ($isNew) { 
+	$nouveauNom=nouveauNomFichier($idSortie, $fichier); 
+	$path=$repStockage."/".$nouveauNom; // chemin complet
+	rename($fichier,$path);
+	//creer1080p($path); 
+	creerMiniature($path);
+	$fichier=$nouveauNom;
+      }
+      $xml.='<photo fichier="'.$fichier.'" ';
+      $commentaire=trim($_POST["commentaireMedia".$i]);
+      $xml.=(strlen($commentaire)==0) ? "/>" : 'commentaire="'.$commentaire.'" />';
     }
-    $xml.='<photo fichier="'.$fichier.'" ';
-    $commentaire=trim($_POST["commentaireMedia".$i]);
-    $xml.=(strlen($commentaire)==0) ? "/>" : 'commentaire="'.$commentaire.'" />';
+    else effaceFichier($fichier, $isNew);
   }
-  else effaceFichier($fichier, $isNew);
+  if ($type & $TypeMedia["Video"]) { // c'est une vidéo
+    if ($type & $TypeMedia["On"]) { // si le média est sélectionné
+      // TODO
+    }
+    else {
+      // TODO
+    }
+  }
   $i++;
 } // fin du parcours
 

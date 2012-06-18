@@ -169,12 +169,13 @@
 	<xsl:element name="input">
 	  <xsl:attribute name="type">text</xsl:attribute>
 	  <xsl:attribute name="size">10</xsl:attribute>
-	  <xsl:attribute name="id">valeurdate</xsl:attribute>
-	  <xsl:attribute name="name">valeurdate</xsl:attribute>
-	  <xsl:attribute name="readonly">readonly</xsl:attribute>
-	  <xsl:attribute name="value">
-	    <xsl:value-of select="@vimeo"/>
-	  </xsl:attribute>
+	  <xsl:attribute name="id">vimeo</xsl:attribute>
+	  <xsl:attribute name="name">vimeo</xsl:attribute>
+	  <xsl:if test="@vimeo">
+	    <xsl:attribute name="value">
+	      <xsl:value-of select="@vimeo"/>
+	    </xsl:attribute>
+	  </xsl:if>
 	</xsl:element>
       </td>
     </tr>

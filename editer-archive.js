@@ -202,6 +202,7 @@ function deplacementPhoto() { // gestion du déplacement d'une photo (1er ou 2e 
 }
 
 function validationArchive() { // vérification et préparation avant soumission de l'archive
+  return false; // TEMP!
   if (!uploadFini()) return false;
   // la date
   if (document.getElementById("valeurdate").value.length==0) {
@@ -246,9 +247,7 @@ function main() {
 function abonnementsVideos() { // abonnements aux diverses fonctions
   var listeVideos = document.getElementsByName("video");
   var i=0;
-  //while (listeVideos[i]) listeVideos[i++].addEventListener("click", deplacementPhoto);
   var listeSupprimerVideos = document.getElementsByName("supprimervideo");
-  i=0;
   while (listeSupprimerVideos[i]) listeSupprimerVideos[i++].addEventListener("click", supprimerMedia);
   var listeEditerCommentaires = document.getElementsByName("editercommentaire");
   i=0;
