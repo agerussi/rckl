@@ -13,43 +13,36 @@ function choisirMiniature() {
   // on récupère le fil dans gestionAjoutMiniature si l'utilisateur a sélectionné un fichier
 }
 
-// chargement d'une miniature sur le serveur + affichage
+// chargement d'une miniature + affichage
 // se contente de déclencher la lecture asynchrone du fichier
-// si succès: ajout du nom à la liste des miniatures uploadées <file>...</file>
-// en cas d'effacement de la vidéo, il faut effacer toutes les miniatures uploadées + l'ancienne si ce n'est pas une nouvelle vidéo
-// en cas d'annulation des modifs, il faut effacer toutes les miniatures uploadées
-// en cas de validation de la vidéo, il faut effacer toutes les miniatures sauf la dernière, qui va remplacer l'ancienne si elle existe.
-function makeGestionAjoutMiniature(img) { // img est l'image sur laquelle on a cliqué (il faudra la remplacer)
+function makeGestionAjoutMiniature(img) { // img est l'image sur laquelle on a cliqué 
 return function(evt) { 
   // récupération du fichier
   var fichier = evt.target.files[0]; // objet File 
 
-  // lecture du fichier pour affichage et upload
+  // teste si le fichier est acceptable 
+  if (!fichier.type.match('image.*')) {
+    window.alert("Le fichier "+fichier.name+" n'est pas un fichier image");
+    return;
+  }
+  if (fichier.size>10*1024)  {  // 10 KB MAX
+    window.alert("Le fichier "+fichier.name+" est trop gros pour une miniature!");
+    return;
+  }
+  // TODO: le champ 'value' de l'input n'est pas mis à zéro lorsque le fichier est inacceptable, donc 
+  // en théorie il sera uploadé et traité... 
+  // mais en pratique l'utilisateur va re-sélectionner un autre fichier miniature.
+
+  // lecture du fichier pour affichage 
   var reader=new FileReader();
-  reader.onload = makeGestionFinLectureMiniature(fichier,img);
-  filesToProcess++;
+  reader.onload = makeAffichageMiniature(img);
   reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans gestionFinLectureMiniature()
 }}
 
-function makeGestionFinLectureMiniature(fichier,img) {
-return function(evt) { // evt.target.result contient l'URL (pour l'affichage dans le navigateur
-  // upload synchrone du fichier 
-  // create XHR instance
-  xhr = new XMLHttpRequest();
-  xhr.open("POST", 'media-upload.php', false);
-  xhr.send(fichier);
-
-  if (xhr.status==200) { // succès de l'upload, xhr.responseText contient le nom du fichier sur le serveur
+function makeAffichageMiniature(img) {
+return function(evt) { // evt.target.result contient l'URL 
     var miniature=img.previousSibling;
     miniature.setAttribute("src",evt.target.result);
-    var uploadedMinis=img.nextSibling.nextSibling;
-    uploadedMinis.setAttribute("value", uploadedMinis.getAttribute("value")+"<file>"+xhr.responseText+"</file>");
-  }
-  else {
-    // (en cas d'échec, on ne change rien)
-    window.alert("Miniature '"+fichier.name+"': échec de l'upload");
-  }
-
 }}
 
 // annule les modifications de l'archive

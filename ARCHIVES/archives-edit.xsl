@@ -152,7 +152,6 @@
 	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')}" alt="{@fichier}" />
         <img title="choisir une miniature" src="FONDS/insert_image.png" name="choisirminiature"/> 
 	<input type="file" style="display:none" name="ajoutMiniature"/>
-	<input type="hidden" name="uploadedMinis" value=""/> 
       </td>
     </tr>
     <tr>
