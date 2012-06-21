@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-<xsl:output method="html" indent="yes" omit-xml-declaration="yes" encoding="utf-8"/>
+<xsl:output method="html" indent="no" omit-xml-declaration="yes" encoding="utf-8"/>
 
 <xsl:template match="/editsortie">
   <!-- <form accept-charset="utf-8" method="post" action="enregistre-archive.php" onsubmit="return validationArchive()"> -->
@@ -149,34 +149,16 @@
   <table>
     <tr>
       <td>
-	<xsl:element name="img">
-	  <xsl:attribute name="name">video</xsl:attribute>
-	  <xsl:attribute name="title">
-	    <xsl:value-of select="@commentaire"/>
-	  </xsl:attribute>
-	  <xsl:attribute name="src">
-	    <xsl:value-of select="concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')"/>
-	  </xsl:attribute>
-	  <xsl:attribute name="alt">
-	    <xsl:value-of select="@fichier"/>
-	  </xsl:attribute>
-	</xsl:element>
+	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')}" alt="{@fichier}" />
+        <img title="choisir une miniature" src="FONDS/insert_image.png" name="choisirminiature"/> 
+	<input type="file" style="display:none" name="ajoutMiniature"/>
+	<input type="hidden" name="uploadedMinis" value=""/> 
       </td>
     </tr>
     <tr>
       <td>
 	<label>#VIMEO</label>
-	<xsl:element name="input">
-	  <xsl:attribute name="type">text</xsl:attribute>
-	  <xsl:attribute name="size">10</xsl:attribute>
-	  <xsl:attribute name="id">vimeo</xsl:attribute>
-	  <xsl:attribute name="name">vimeo</xsl:attribute>
-	  <xsl:if test="@vimeo">
-	    <xsl:attribute name="value">
-	      <xsl:value-of select="@vimeo"/>
-	    </xsl:attribute>
-	  </xsl:if>
-	</xsl:element>
+	<input type="text" size="10" id="vimeo" name="vimeo" value="{@vimeo}" />
       </td>
     </tr>
     <tr>
@@ -184,71 +166,11 @@
         <img title="supprimer la vidéo" src="FONDS/b_drop.png" name="supprimervideo"/> 
 	<input type="hidden" name="typeMedia" value="5"/> <!-- 5 = On+Video -->
 	<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/> 
-	<xsl:element name="input">
-	  <xsl:attribute name="type">hidden</xsl:attribute>
-	  <xsl:attribute name="name">commentaireMedia</xsl:attribute>
-	  <xsl:attribute name="value">
-	    <xsl:value-of select="@commentaire"/>
-	  </xsl:attribute>
-	</xsl:element>
-	<xsl:element name="input">
-	  <xsl:attribute name="type">hidden</xsl:attribute>
-	  <xsl:attribute name="name">nomMedia</xsl:attribute>
-	  <xsl:attribute name="value">
-	    <xsl:value-of select="@fichier"/>
-	  </xsl:attribute>
-	</xsl:element>
+	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
+	<input type="hidden" name="nomMedia" value="{@fichier}"/>
       </td>
     </tr>
   </table>
-</xsl:template>
-
-<xsl:template match="oldvideo">
-  <div class="miniature">
-    <xsl:element name="table">
-      <xsl:element name="tr">
-	<xsl:element name="td">
-	  <xsl:element name="a">
-	    <xsl:attribute name="type">
-	      <xsl:value-of select="@type"/>
-	    </xsl:attribute>
-	    <xsl:attribute name="title">
-	      <xsl:value-of select="@commentaire"/>
-	    </xsl:attribute>
-	    <xsl:attribute name="href">
-		<xsl:value-of select="concat(/archive/path,'/',@fichier)"/>
-	    </xsl:attribute>
-	    <xsl:element name="img">
-	      <xsl:attribute name="src">
-		<xsl:value-of select="concat(/archive/path,'/',substring-before(@fichier,'.'),/archive/mini,'.jpg')"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="alt">
-		<xsl:value-of select="@fichier"/>
-	      </xsl:attribute>
-	    </xsl:element> <!-- img -->
-	  </xsl:element>
-	</xsl:element>
-	<xsl:if test="@vimeo">
-	  <xsl:element name="td">
-	    <xsl:element name="a">
-	      <xsl:attribute name="href">
-		<xsl:value-of select="concat('http://vimeo.com/',@vimeo)"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="title"> 
-		<xsl:text>La vidéo sur VIMEO</xsl:text>
-	      </xsl:attribute>
-	      <xsl:element name="img">
-		<xsl:attribute name="alt"/>
-		<xsl:attribute name="src">
-		  <xsl:value-of select="concat(/archive/path,'/vimeo-mini.jpg')"/>
-		</xsl:attribute>	
-	      </xsl:element>
-	    </xsl:element>
-	  </xsl:element>
-	</xsl:if>
-      </xsl:element>
-    </xsl:element>
-  </div>
 </xsl:template>
 
 <!-- <xsl:template match="text()">
