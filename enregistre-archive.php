@@ -9,13 +9,12 @@ if ( !isset($_SESSION['userid'])
 
 require("dbconnect.php");
 
-// examen des variables retournées
 /*
+// examen des variables retournées
 foreach ($_POST as $key => $value) {
     echo $key."=".$value."<br/>";
 }
  */
-
 // récupération des données, création de l'XML
 // ===============
 $xml="";
@@ -70,11 +69,15 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
   }
   if ($type & $TypeMedia["Video"]) { // c'est une vidéo
     if ($type & $TypeMedia["On"]) { // si le média est sélectionné
-      // TODO
+      if ($isNew) { // TODO lorsque l'upload sera fonctionnel pour les vidéos!
+      } 
+      $xml.='<video fichier="'.$fichier.'"';
+      $vimeo=trim($_POST["vimeo".$i]);
+      if (strlen($vimeo)!=0) $xml.=' vimeo="'.$vimeo.'"';
+      $commentaire=trim($_POST["commentaireMedia".$i]);
+      $xml.=(strlen($commentaire)==0) ? "/>" : ' commentaire="'.$commentaire.'" />';
     }
-    else {
-      // TODO
-    }
+    else effaceFichier($fichier, $isNew);
   }
   $i++;
 } // fin du parcours

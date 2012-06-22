@@ -149,7 +149,7 @@
     <tr>
       <td>
 	<label>#VIMEO</label>
-	<input type="text" size="10" id="vimeo" name="vimeo" value="{@vimeo}" />
+	<input type="text" size="10" name="vimeo" value="{@vimeo}" />
       </td>
     </tr>
     <tr>

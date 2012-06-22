@@ -272,7 +272,7 @@ function deplacementPhoto() { // gestion du déplacement d'une photo (1er ou 2e 
 }
 
 function validationArchive() { // vérification et préparation avant soumission de l'archive
-  return false; // TEMP!
+  // return false; // à décommenter pour empêcher les mises à jour intempestives 
   if (!uploadFini()) return false;
   // la date
   if (document.getElementById("valeurdate").value.length==0) {
@@ -287,12 +287,17 @@ function validationArchive() { // vérification et préparation avant soumission
 
   document.getElementById("listeparticipants").value = listexml;  
 
-  // les photos
-  // nomme les différentes zones input dans l'ordre
+  // nomme les différentes zones input dans l'ordre 
   var listeTypes=document.getElementsByName("typeMedia"); 
   var listeCommentaires=document.getElementsByName("commentaireMedia"); 
   var listeNoms=document.getElementsByName("nomMedia"); 
+  var listeVimeos=document.getElementsByName("vimeo");
+  var vids=listeVimeos.length-1;
+  window.alert(vids);
   for (var i=listeTypes.length-1; i>=0; i--) {
+    if ((listeTypes[i].value&MediaType.Video)!=0) { // le média est une vidéo
+      listeVimeos[vids--].setAttribute("name","vimeo"+i);
+    }
     listeTypes[i].setAttribute("name","typeMedia"+i);
     listeCommentaires[i].setAttribute("name","commentaireMedia"+i);
     listeNoms[i].setAttribute("name","nomMedia"+i);
