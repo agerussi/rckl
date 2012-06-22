@@ -5,15 +5,7 @@
 
 <xsl:template match="/editsortie">
   <!-- <form accept-charset="utf-8" method="post" action="enregistre-archive.php" onsubmit="return validationArchive()"> -->
-  <xsl:element name="form">
-    <xsl:attribute name="accept-charset">utf-8</xsl:attribute>
-    <xsl:attribute name="method">post</xsl:attribute>
-    <xsl:attribute name="action">
-      <xsl:value-of select="concat('enregistre-archive.php?id=',@id)" />
-    </xsl:attribute>
-    <xsl:attribute name="onsubmit">return validationArchive()</xsl:attribute>
-
-
+  <form accept-charset="utf-8" method="post" action="{concat('enregistre-archive.php?id=',@id)}" onsubmit="return validationArchive()">
     <xsl:apply-templates select="date"/>
     <xsl:apply-templates select="titre"/>
     <xsl:apply-templates select="participants"/>
@@ -27,7 +19,7 @@
     <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
     <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
     <p><input type="button" id="cancel" value="Annuler" /></p>
-  </xsl:element>
+  </form>
   <div id="zoneSaisie" style="display:none">
     <textarea cols="50" rows="5" id="inputCommentaire"/>
     <input type="button" value="Modifier" onclick="enregistrerCommentaire(true)"/>

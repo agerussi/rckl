@@ -133,6 +133,34 @@ return function() {
 var filesToProcess=0;
 var numeroMedia=1;
 
+// ajout d'une vidéo
+// on utilise la miniature par défaut et on lance l'upload du fichier
+function gestionAjoutVideo(fichier) { 
+  // création d'une nouvelle vidéo
+  var table=document.createElement("table");
+  table.setAttribute("id", "table"+numeroMedia);
+  table.innerHTML=[
+    '<tr><td>',
+    '<img src="IMG/video-default-mini.jpg" height="85px" name="miniatureVideo" />',
+    '<img title="choisir une miniature" src="FONDS/insert_image.png" name="choisirminiature"/>',
+    '<input type="file" style="display:none" name="ajoutMiniature"/>',
+    '</td></tr><tr><td>',
+    '<img title="supprimer la vidéo" src="FONDS/b_drop.png" name="supprimervideo"/>', 
+    '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Video|MediaType.New,'"/>',
+    '<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/>',
+    '<input type="hidden" name="commentaireMedia" value=""/>',
+    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value=""/>',
+    '<span id="progresMedia',numeroMedia,'">chargement...</span>'
+   ].join('');
+  // insertion de l'image dans la liste
+  var input=document.getElementById("listeVideos");
+  input.insertBefore(table,null); 
+  
+  // démarre le chargement du fichier
+  uploadAsynchrone(fichier,numeroMedia);
+  numeroMedia++;
+}
+
 function makeGestionAjoutImage(fichier) { // renvoie la fonction qui va s'occuper du rajout de l'image lorsqu'elle sera chargée
 return function(evt) { // ajout d'une image: evt.target.result contient l'URL
   // création d'un nouveau média
@@ -174,7 +202,8 @@ function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo
       reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans gestionAjoutImage()
       continue;
     }
-    if (fichier.type.match('video.*')) { // TODO
+    if (fichier.type.match('video.*')) { 
+      gestionAjoutVideo(fichier);
       continue;
     } 
     // arrivé ici, le fichier n'a pas été traité
