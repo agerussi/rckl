@@ -10,11 +10,10 @@ $inputHandler = fopen("php://input", "rb");
 $tmpfname = tempnam("tmp","media");
 $fout = fopen($tmpfname, "w+");
 
-// save data from the input stream
-do {
-    $buffer = fread($inputHandler, 4096);
-    fwrite($fout, $buffer);
-} while (strlen($buffer)>0);
+while (!feof($inputHandler)) {
+  $buffer=fread($inputHandler, 1024);
+  fwrite($fout, $buffer);
+}
 
 fclose($inputHandler);
 fclose($fout);
