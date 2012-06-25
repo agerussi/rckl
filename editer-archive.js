@@ -87,14 +87,8 @@ function supprimeMedia(mediaNum) {
 // media=le fichier à uploader
 // mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
 // obtient un nom pour le media puis découpe le media en packet qui seront reconstitués sur le serveur à la fin
-function uploadAsynchroneVideo(mediaFile, mediaNum) { 
-  // demande un nom valide au serveur
+function uploadAsynchroneByChunks(mediaFile, mediaNum) { 
   var fileName=getMediaName();
-  if (fileName=="") {
-    window.alert(mediaFile.name+": échec de l'upload/obtention d'un nom: xhr.status="+xhr.status);
-    supprimeMedia(mediaNum);
-    return;
-  }
  
   beeingUploaded++;
   var xhr=new XMLHttpRequest(); 
@@ -102,23 +96,21 @@ function uploadAsynchroneVideo(mediaFile, mediaNum) {
 }
 
 function getMediaName() {
-  xhr = new XMLHttpRequest();
-  xhr.open("POST", "getMediaName.php", false);
-  xhr.send();
-  if (xhr.status == 200) return xhr.responseText;
-  else return ""; 
+  var name="tmp/file-";
+  for (var i=0; i<6; i++) name+=Math.floor(10*Math.random());
+  return name;
 }
 
 function deleteUploadedChunks(baseName) {
   var xhr=new XMLHttpRequest();
-  xhr.open("POST", "deleteChunks.php?name="+baseName, false);
+  xhr.open("POST", "chunkUpload.php?cmd=delete&name="+baseName, false);
   xhr.send();
   return (xhr.status==200);
 }
 
 function mergeChunks(baseName) {
   var xhr=new XMLHttpRequest();
-  xhr.open("POST", "mergeChunks.php?name="+baseName, false);
+  xhr.open("POST", "chunkUpload.php?cmd=merge&name="+baseName, false);
   xhr.send();
   return (xhr.status==200);
 }
@@ -148,7 +140,8 @@ return function(evt) {
 
     // déclenche l'upload de chunk
     var newxhr=new XMLHttpRequest();
-    newxhr.open("POST", "uploadChunk.php?chunkname="+serverFileName+numChunk, true);
+    //newxhr.open("POST", "uploadChunk.php?chunkname="+serverFileName+numChunk, true);
+    newxhr.open("POST", "chunkUpload.php?cmd=upload&name="+serverFileName+numChunk, true);
 
     // affichage de la progression de l'upload 
     var eventSource = newxhr.upload || newxhr;
@@ -178,59 +171,6 @@ return function(evt) {
   progressSpan.innerHTML="chunk n°"+chunkNum+": "+percentage+"%"; 
 }}
 
-// media=le fichier à uploader
-// mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
-function uploadAsynchrone(mediaFile, mediaNum) { 
-  // create XHR instance
-  xhr = new XMLHttpRequest();
-  xhr.open("POST", 'media-upload.php', true);
-
-  // affichage de la progression de l'upload
-  var eventSource = xhr.upload || xhr;
-  eventSource.addEventListener("progress", makeUploadProgressHandler(mediaNum));
-
-  // gestion de la fin de l'upload
-  xhr.onreadystatechange = makeOnReadyChangeHandler(xhr,mediaFile,mediaNum); 
-   
-  // démarrage de l'upload
-  beeingUploaded++;
-  xhr.send(mediaFile);
-}
-
-// affichage de la progression d'un upload
-function makeUploadProgressHandler(mediaNum) { // int
-return function(evt) {
-  var position = evt.position || evt.loaded;
-  var total = evt.totalSize || evt.total;
-  var percentage = Math.round(100*position/total);
-
-  var progressSpan=document.getElementById("progresMedia"+mediaNum);     
-  progressSpan.innerHTML=percentage+"%"; 
-}}
-
-// gestion de la fin d'un upload
-// en cas de succès, on récupère le nom de fichier temporaire
-// en cas d'échec, on élimine le média
-function makeOnReadyChangeHandler(xhr,mediaFile,mediaNum) { // XMLHttprequest, File, int
-return function() {
-  if(xhr.readyState == 4) {
-    if(xhr.status == 200) { // succès
-      //window.alert(_mediaFile.name+": succès: "+xhr.responseText);
-      var progressSpan=document.getElementById("progresMedia"+mediaNum);     
-      //progressSpan.innerHTML="upload OK: "+xhr.responseText;
-      progressSpan.innerHTML="upload OK";
-      var inputNomMedia=document.getElementById("nomMedia"+mediaNum);
-      inputNomMedia.value=xhr.responseText;
-    } 
-    else { // erreur: on élimine le média de la liste
-      window.alert(mediaFile.name+": échec de l'upload: xhr.status="+xhr.status);
-      var mediaTable = document.getElementById("table"+mediaNum);
-      mediaTable.parentNode.removeChild(mediaTable);	
-    }
-    beeingUploaded--;
-  }
-}}
-
 var filesToProcess=0;
 var numeroMedia=1;
 
@@ -258,8 +198,7 @@ function gestionAjoutVideo(fichier) {
   input.insertBefore(table,null); 
   
   // démarre le chargement du fichier
-  uploadAsynchroneVideo(fichier,numeroMedia);
-  numeroMedia++;
+  uploadAsynchroneByChunks(fichier,numeroMedia++);
 }
 
 function makeGestionAjoutImage(fichier) { // renvoie la fonction qui va s'occuper du rajout de l'image lorsqu'elle sera chargée
@@ -283,8 +222,7 @@ return function(evt) { // ajout d'une image: evt.target.result contient l'URL
   input.insertBefore(table,null); 
   
   // démarre le chargement du fichier
-  uploadAsynchrone(fichier,numeroMedia);
-  numeroMedia++;
+  uploadAsynchroneByChunks(fichier,numeroMedia++);
 
   // gestion des abonnements pour les nouveaux fichiers
   filesToProcess--;
