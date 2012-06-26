@@ -204,6 +204,7 @@ function gestionAjoutVideo(fichier) {
   // création d'une nouvelle vidéo
   var table=document.createElement("table");
   table.setAttribute("id", "table"+numeroMedia);
+  table.setAttribute("class", "mediaTable");
   table.innerHTML=[
     '<tr><td>',
     '<img src="IMG/video-default-mini.jpg" height="85px" name="miniatureVideo" />',
@@ -240,6 +241,7 @@ return function(evt) { // ajout d'une image: evt.target.result contient l'URL
   // création d'un nouveau média
   var table=document.createElement("table");
   table.setAttribute("id", "table"+numeroMedia);
+  table.setAttribute("class", "mediaTable");
   table.innerHTML=[
     '<tr><td>',
     '<img src="', evt.target.result, '" height="85px" name="photo" />',
@@ -460,7 +462,8 @@ function ajouterParticipant() { // ajoute un participant de la liste
 
  span.appendChild(document.createTextNode(nom));
  span.appendChild(croix);
- this.parentNode.insertBefore(span,input);
+ document.getElementById("ligneparticipants").appendChild(span);
+ //this.parentNode.insertBefore(span,input);
 }
 
 function suggestionParticipant() { // affiche des suggestions sélectionnables à partir du nom
@@ -480,6 +483,7 @@ function ajouteSuggestion(nom) { // ajoute le nom comme suggestion
  
  var suggestion=document.createElement("span");
  suggestion.setAttribute("name","suggestionParticipant");
+ suggestion.setAttribute("class","suggestionParticipant");
  suggestion.appendChild(document.createTextNode(nom));
  suggestion.addEventListener("click",ecritSuggestion);
  affichage.appendChild(suggestion);

@@ -150,3 +150,52 @@ img.edit {
   height:100%;
   opacity:1;
 }
+
+/* =================== style de l'édition des archives */
+div.bigskip {
+  margin-bottom:1cm;
+}
+
+label.archiveedit {
+  display:block;
+  font-weight:bold;
+  text-align: center;
+}
+
+input.archiveedit, textarea.archiveedit, span.archiveedit {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#valeurdate {
+  text-align:center;
+}
+
+.participant, .suggestionParticipant {
+  margin-left:10px;
+  margin-right:10px;
+}
+
+#ligneajout, #ligneparticipants, #suggestions{
+  text-align:center;
+}
+
+table.mediaTable {
+  display:inline;
+  vertical-align:top;
+  margin-right:10px;
+  padding:0;
+}
+
+#listePhotos, #listeVideos {
+  text-align:center;
+}
+
+#zoneSaisie {
+  display: none;
+  position:fixed;
+  top:30px;
+  right:5px;
+}
+

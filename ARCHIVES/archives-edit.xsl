@@ -15,11 +15,13 @@
     <div id="listeVideos">
       <xsl:apply-templates select="video"/> 
     </div>
-    <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
-    <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
-    <p><input type="button" id="cancel" value="Annuler" /></p>
+    <div id="validannulation">
+      <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
+      <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
+      <p><input type="button" id="cancel" value="Annuler" /></p>
+    </div>
   </form>
-  <div id="zoneSaisie" style="display:none">
+  <div id="zoneSaisie">
     <textarea cols="50" rows="5" id="inputCommentaire"/>
     <input type="button" value="Modifier" onclick="enregistrerCommentaire(true)"/>
     <input type="button" value="Annuler" onclick="enregistrerCommentaire(false)"/>
@@ -27,74 +29,50 @@
 </xsl:template>
 
 <xsl:template match="date">
-  <p>
-    <label>Date de la sortie: </label>
-    <xsl:element name="input">
-      <xsl:attribute name="type">text</xsl:attribute>
-      <xsl:attribute name="size">10</xsl:attribute>
-      <xsl:attribute name="id">valeurdate</xsl:attribute>
-      <xsl:attribute name="name">valeurdate</xsl:attribute>
-      <xsl:attribute name="readonly">readonly</xsl:attribute>
-      <xsl:attribute name="value">
-	<xsl:value-of select="concat(@jour,'-',@mois,'-',@annee)" />
-      </xsl:attribute>
-    </xsl:element>
-  </p>
-  <p>
-    <label>Date spéciale: </label>
-    <xsl:element name="input">
-      <xsl:attribute name="type">text</xsl:attribute>
-      <xsl:attribute name="size">20</xsl:attribute>
-      <xsl:attribute name="name">valeurtextedate</xsl:attribute>
-      <xsl:attribute name="value">
-        <xsl:value-of select="@texte"/>
-      </xsl:attribute>
-    </xsl:element>
-  </p>
+  <label class="archiveedit">Date de la sortie: </label>
+  <input class="archiveedit" type="text" size="10" id="valeurdate" name="valeurdate" readonly="readonly" value="{concat(@jour,'-',@mois,'-',@annee)}"/>
+  <div class="bigskip"/>
+  <label class="archiveedit">Date spéciale: </label>
+  <input class="archiveedit" type="text" size="20" name="valeurtextedate" value="{@texte}" />
+  <div class="bigskip"/>
 </xsl:template>
 
 <xsl:template match="titre">
-  <p>
-    <label>Titre de la sortie: </label>
-    <xsl:element name="input">
-      <xsl:attribute name="type">text</xsl:attribute>
-      <xsl:attribute name="size">20</xsl:attribute>
-      <xsl:attribute name="name">valeurtitre</xsl:attribute>
-      <xsl:attribute name="value">
-	<xsl:value-of select="normalize-space(.)"/>
-      </xsl:attribute>
-    </xsl:element>
-  </p>
+  <label class="archiveedit">Titre de la sortie: </label>
+  <input class="archiveedit" type="text" size="20" name="valeurtitre" value="{normalize-space(.)}" />
+  <div class="bigskip"/>
 </xsl:template>
 
 <xsl:template match="participants">
-  <p>
-    <label>Liste des participants: </label>
-    <input type="hidden" id="listeparticipants" name="listeparticipants"/>
+  <label class="archiveedit">Liste des participants: </label>
+  <input type="hidden" id="listeparticipants" name="listeparticipants"/>
+  <div id="ligneparticipants">
     <xsl:for-each select="nom">
       <span class="participant" name="participant">
 	<xsl:value-of select="normalize-space(.)"/>
-        <img title="supprimer ce participant" src="FONDS/b_drop.png" name="supprimerparticipant"/> 
+	<img title="supprimer ce participant" src="FONDS/b_drop.png" name="supprimerparticipant"/> 
       </span>
     </xsl:for-each>
+  </div>
+  <div id="ligneajout">
     <input type="text" size="10" id="nouveauparticipant"/>
     <img title="ajouter un participant" id="ajouterparticipant" src="FONDS/b_add.png"/> 
-    <span id="suggestions"></span>
-  </p>
+  </div>
+  <div id="suggestions"></div>
+  <div class="bigskip"/>
 </xsl:template>
 
 <xsl:template match="commentaire">
-  <p>
-    <label>Commentaire: </label>
-    <textarea cols="50" rows="5" name="valeurcommentaire" id="valeurcommentaire">
-      <!-- <xsl:apply-templates select="text()|*"/> -->
-      <xsl:value-of select="."/>
-    </textarea>
-  </p>
+  <label class="archiveedit">Commentaire: </label>
+  <textarea class="archiveedit" cols="80" rows="5" name="valeurcommentaire" id="valeurcommentaire">
+    <!-- <xsl:apply-templates select="text()|*"/> -->
+    <xsl:value-of select="."/>
+  </textarea>
+  <div class="bigskip"/>
 </xsl:template>
 
 <xsl:template match="photo">
-  <table>
+  <table class="mediaTable">
     <tr>
       <td>
 	<xsl:element name="img">
@@ -126,7 +104,7 @@
 </xsl:template>
 
 <xsl:template match="video">
-  <table>
+  <table class="mediaTable">
     <tr>
       <td>
 	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')}" alt="{@fichier}" />
