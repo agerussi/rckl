@@ -2,13 +2,13 @@
 var beeingUploaded=0; // nombre de médias en cours d'upload
 var chunkSize=256*1024; // 256 KB
 var MediaType = { // enumération pour le type de media
-    On: 1, Photo: 2, Video: 4, New: 8
+  On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16
 };
 
 // gère le bouton choixMiniature.
 // se contente de déclencher le input
 function choisirMiniature() {
-  var input=this.nextSibling;
+  var input=this.nextSibling.nextSibling;
   input.addEventListener("change", makeGestionAjoutMiniature(this), false);
   input.click(); // déclenche le input
   // on récupère le fil dans gestionAjoutMiniature si l'utilisateur a sélectionné un fichier
@@ -34,15 +34,33 @@ return function(evt) {
   // en théorie il sera uploadé et traité... 
   // mais en pratique l'utilisateur va re-sélectionner un autre fichier miniature.
 
+  // signale que la miniature a changé
+  var typeMedia=domMove(img,"PPnnccn");
+  typeMedia.value = typeMedia.value|MediaType.Miniature;
+
   // lecture du fichier pour affichage 
   var reader=new FileReader();
   reader.onload = makeAffichageMiniature(img);
-  reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans gestionFinLectureMiniature()
+  reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans AffichageMiniature
 }}
+
+// se déplace dans l'arbre DOM et renvoie le noeud correspondant
+// p=previousSibling, P=parentNode, n=nextSibling, c=child
+function domMove(noeud, deplacements) { 
+  for (var i=0; i<deplacements.length; i++) {
+    switch (deplacements.charAt(i)) {
+      case "p": noeud=noeud.previousSibling; break;
+      case "P": noeud=noeud.parentNode; break;
+      case "n": noeud=noeud.nextSibling; break;
+      case "c": noeud=noeud.firstChild; break;
+    }
+  }
+  return noeud;
+}
 
 function makeAffichageMiniature(img) {
 return function(evt) { // evt.target.result contient l'URL 
-    var miniature=img.previousSibling;
+    var miniature=domMove(img,"p");
     miniature.setAttribute("src",evt.target.result);
 }}
 
@@ -56,7 +74,7 @@ function gestionAnnulation() {
   var listeNoms=document.getElementsByName("nomMedia"); 
   var xmlList="<delete>";
   for (var i=listeTypes.length-1; i>=0; i--) {
-    if ((listeTypes[i].value&MediaType.New)!=0) xmlList+="<file>"+listeNoms[i].value+"</file>"; 
+    if ((listeTypes[i].value&MediaType.New)!=0) xmlList+="<file>"+nomDuFichier(listeNoms[i].value)+"</file>"; 
   }
   xmlList+="</delete>";
   // appelle le php qui va effacer les fichiers
@@ -65,6 +83,12 @@ function gestionAnnulation() {
   xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
   xhr.send("xml="+xmlList);
   window.back();
+}
+
+// récupère la partie "nom" dans une chaine de type "ext/nom"
+function nomDuFichier(nom) {
+  var n=nom.indexOf("/");
+  return nom.substr(n+1);
 }
 
 // teste s'il reste des fichiers en cours d'upload
@@ -123,7 +147,7 @@ return function(evt) {
       affichage.innerHTML="merging chunks..."
       if (mergeChunks(serverFileName)) { // succès
         var inputNomMedia=document.getElementById("nomMedia"+mediaNum);
-        inputNomMedia.value=serverFileName;
+        inputNomMedia.value+=serverFileName;
         affichage.innerHTML="upload OK";
       }
       else { // échec
@@ -184,21 +208,31 @@ function gestionAjoutVideo(fichier) {
     '<tr><td>',
     '<img src="IMG/video-default-mini.jpg" height="85px" name="miniatureVideo" />',
     '<img title="choisir une miniature" src="FONDS/insert_image.png" name="choisirminiature"/>',
+    '<input type="hidden" name="MAX_FILE_SIZE" value="10240" />',
     '<input type="file" style="display:none" name="ajoutMiniature"/>',
-    '</td></tr><tr><td>',
+    '</td></tr><tr><td>', 
+    '<label>#VIMEO</label><input type="text" size="10" name="vimeo" value=""/>',
+    '</td></tr><tr><td>', 
     '<img title="supprimer la vidéo" src="FONDS/b_drop.png" name="supprimervideo"/>', 
     '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Video|MediaType.New,'"/>',
     '<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/>',
     '<input type="hidden" name="commentaireMedia" value=""/>',
-    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value=""/>',
-    '<span id="progresMedia',numeroMedia,'">chargement...</span>'
+    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="',extension(fichier.name),'/"/>',
+    '<span id="progresMedia',numeroMedia,'">chargement...</span>',
+    '</td></tr>'
    ].join('');
   // insertion de l'image dans la liste
   var input=document.getElementById("listeVideos");
   input.insertBefore(table,null); 
+  abonnementsVideos(); // abonnements aux diverses fonctions
   
   // démarre le chargement du fichier
   uploadAsynchroneByChunks(fichier,numeroMedia++);
+}
+
+function extension(nom) { // récupère l'extension à partir du nom de fichier
+  var n=nom.lastIndexOf(".");
+  return nom.substr(n+1);
 }
 
 function makeGestionAjoutImage(fichier) { // renvoie la fonction qui va s'occuper du rajout de l'image lorsqu'elle sera chargée
@@ -214,7 +248,7 @@ return function(evt) { // ajout d'une image: evt.target.result contient l'URL
     '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Photo|MediaType.New,'"/>',
     '<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/>',
     '<input type="hidden" name="commentaireMedia" value=""/>',
-    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value=""/>',
+    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="jpg/"/>',
     '<span id="progresMedia',numeroMedia,'">chargement...</span>'
    ].join('');
   // insertion de l'image dans la liste
@@ -263,14 +297,14 @@ function enregistrerCommentaire(change) { // récupère le commentaire et l'attr
   var commentaire=document.getElementById("inputCommentaire").value;
   var input = commentaireCourant.nextSibling;
   input.value = commentaire;
-  var imgPhoto = commentaireCourant.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild;
+  var imgPhoto = domMove(commentaireCourant,"PPPccc");
   imgPhoto.title = commentaire; 
 }
 
 
 
 function supprimerMedia() { // gère la suppression / réhabilitation de photos ou vidéos
-  var imgMedia = this.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild;
+  var imgMedia = domMove(this,"PPPccc");
   var input = this.nextSibling;
   var type=(input.value&MediaType.Photo) ? "la photo":"la vidéo";
   if (input.value&MediaType.On) {
@@ -331,10 +365,11 @@ function validationArchive() { // vérification et préparation avant soumission
   var listeCommentaires=document.getElementsByName("commentaireMedia"); 
   var listeNoms=document.getElementsByName("nomMedia"); 
   var listeVimeos=document.getElementsByName("vimeo");
+  var listeAjouts=document.getElementsByName("ajoutMiniature");
   var vids=listeVimeos.length-1;
-  window.alert(vids);
   for (var i=listeTypes.length-1; i>=0; i--) {
     if ((listeTypes[i].value&MediaType.Video)!=0) { // le média est une vidéo
+      listeAjouts[vids].setAttribute("name","ajoutMiniature"+i);
       listeVimeos[vids--].setAttribute("name","vimeo"+i);
     }
     listeTypes[i].setAttribute("name","typeMedia"+i);

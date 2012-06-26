@@ -14,7 +14,7 @@ require("dbconnect.php");
 foreach ($_POST as $key => $value) {
     echo $key."=".$value."<br/>";
 }
- */
+*/
 // récupération des données, création de l'XML
 // ===============
 $xml="";
@@ -49,18 +49,24 @@ $i=0;
 while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
   $type=$_POST["typeMedia".$i];
   $isNew = $type & $TypeMedia["New"];
-  $fichier=$_POST["nomMedia".$i];
+  $isMin = $type & $TypeMedia["Miniature"];
+  $fichier=getFileName($_POST["nomMedia".$i]);
+  $extension=getExtension($_POST["nomMedia".$i]);
 
   if ($type & $TypeMedia["Photo"]) { // c'est une photo
     if ($type & $TypeMedia["On"]) { // si le média est sélectionné
       if ($isNew) { 
-	$nouveauNom=nouveauNomFichier($idSortie, $fichier); 
+	// établit le nouveau nom du fichier photo
+	$nouveauNom=nouveauNomFichier($idSortie,$extension); 
 	$path=$repStockage."/".$nouveauNom; // chemin complet
+	// renomme le fichier photo temporaire
 	rename($fichier,$path);
-	//creer1080p($path); 
-	creerMiniature($path);
 	$fichier=$nouveauNom;
+	//creer1080p($path); 
+	// crée la miniature de la photo
+	creerMiniature($path);
       }
+      // création de l'XML
       $xml.='<photo fichier="'.$fichier.'" ';
       $commentaire=trim($_POST["commentaireMedia".$i]);
       $xml.=(strlen($commentaire)==0) ? "/>" : 'commentaire="'.$commentaire.'" />';
@@ -69,8 +75,21 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
   }
   if ($type & $TypeMedia["Video"]) { // c'est une vidéo
     if ($type & $TypeMedia["On"]) { // si le média est sélectionné
-      if ($isNew) { // TODO lorsque l'upload sera fonctionnel pour les vidéos!
+      if ($isNew) { // crée le nouveau fichier vidéo
+	$nouveauNom=nouveauNomFichier($idSortie."-video",$extension); 
+	$path=$repStockage."/".$nouveauNom; 
+	rename($fichier,$path); 
+	$fichier=$nouveauNom;
       } 
+      else $path=$repStockage."/".$fichier; 
+      // gestion de la miniature
+      if ($isNew || $isMin) { // la miniature doit être créée/changée 
+	if ($_FILES["ajoutMiniature".$i]['size']==0) // pas de fichier uploadé, copie la miniature par défaut
+	  copy("IMG/video-default-mini.jpg",nomFichierMiniature($path));
+	else // récupère la miniature sélectionnée
+	  move_uploaded_file($_FILES["ajoutMiniature".$i]['tmp_name'], nomFichierMiniature($path)) or die("erreur lors de la récupération d'une miniature");
+      } 
+      // création de l'XML
       $xml.='<video fichier="'.$fichier.'"';
       $vimeo=trim($_POST["vimeo".$i]);
       if (strlen($vimeo)!=0) $xml.=' vimeo="'.$vimeo.'"';
@@ -93,9 +112,20 @@ mysql_close($db);
 
 // retourne sur la page de l'archive modifiée
 header("Location: _archives.php?menu&y=".$annee);
-
+ 
 // #################### HELPER FUNCTIONS
 // #####################################
+
+function getFileName($chaine) { // récupère la partie "nom" dans une chaine de type "ext/nom"
+ $n=strpos($chaine, "/");
+ return substr($chaine,$n+1); 
+}
+
+function getExtension($chaine) { // récupère la partie "ext" dans une chaine de type "ext/nom"
+ $n=strpos($chaine, "/");
+ return substr($chaine,0,$n); 
+}
+
 // crée l'image en taille standard 1080p
 function creer1080p($fichier) { // TODO: cette fonction plante sur un problème de taille mémoire...
   // calcul des nouvelles dimensions
@@ -133,14 +163,14 @@ function creerMiniature($fichier) {
   imagedestroy($image_p);
 }
 
-// choisi un nouveau nom en fonction de l'id de la sortie et des noms existants
-function nouveauNomFichier($idSortie, $fichier) { 
+// cherche le premier nom libre sous la forme idsortieXX.$ext
+function nouveauNomFichier($idSortie,$ext) { 
   // détermine un nouveau nom
    global $repStockage;
    $i=0;
    do {
      $i++;
-     $nouveauNom = $idSortie.sprintf("%02d",$i).".jpg";
+     $nouveauNom = $idSortie.sprintf("%02d",$i).".".$ext;
    }
    while (file_exists($repStockage."/".$nouveauNom));
 

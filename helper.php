@@ -9,7 +9,7 @@ function nomFichierMiniature($path) {
 }
 
 // énumération des différents types de médias
-$TypeMedia=array("On"=>1, "Photo"=>2, "Video"=>4, "New"=>8); 
+$TypeMedia=array("On"=>1, "Photo"=>2, "Video"=>4, "New"=>8, "Miniature"=>16); 
 
 // répertoire de stockage
 $repStockage="IMG"; 

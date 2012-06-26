@@ -4,8 +4,7 @@
 <xsl:output method="html" indent="no" omit-xml-declaration="yes" encoding="utf-8"/>
 
 <xsl:template match="/editsortie">
-  <!-- <form accept-charset="utf-8" method="post" action="enregistre-archive.php" onsubmit="return validationArchive()"> -->
-  <form accept-charset="utf-8" method="post" action="{concat('enregistre-archive.php?id=',@id)}" onsubmit="return validationArchive()">
+  <form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="{concat('enregistre-archive.php?id=',@id)}" onsubmit="return validationArchive()"> 
     <xsl:apply-templates select="date"/>
     <xsl:apply-templates select="titre"/>
     <xsl:apply-templates select="participants"/>
@@ -118,20 +117,9 @@
         <img title="supprimer la photo" src="FONDS/b_drop.png" name="supprimerphoto"/> 
 	<input type="hidden" name="typeMedia" value="3"/> <!-- 3 = On+Photo+!New -->
 	<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/> 
-	<xsl:element name="input">
-	  <xsl:attribute name="type">hidden</xsl:attribute>
-	  <xsl:attribute name="name">commentaireMedia</xsl:attribute>
-	  <xsl:attribute name="value">
-	    <xsl:value-of select="@commentaire"/>
-	  </xsl:attribute>
-	</xsl:element>
-	<xsl:element name="input">
-	  <xsl:attribute name="type">hidden</xsl:attribute>
-	  <xsl:attribute name="name">nomMedia</xsl:attribute>
-	  <xsl:attribute name="value">
-	    <xsl:value-of select="@fichier"/>
-	  </xsl:attribute>
-	</xsl:element>
+	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
+	<xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-2)"/>
+	<input type="hidden" name="nomMedia" value="{concat($ext,'/',@fichier)}"/>
       </td>
     </tr>
   </table>
@@ -143,6 +131,7 @@
       <td>
 	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')}" alt="{@fichier}" />
         <img title="choisir une miniature" src="FONDS/insert_image.png" name="choisirminiature"/> 
+	<input type="hidden" name="MAX_FILE_SIZE" value="10240" />
 	<input type="file" style="display:none" name="ajoutMiniature"/>
       </td>
     </tr>
@@ -158,7 +147,8 @@
 	<input type="hidden" name="typeMedia" value="5"/> <!-- 5 = On+Video -->
 	<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/> 
 	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
-	<input type="hidden" name="nomMedia" value="{@fichier}"/>
+	<xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-2)"/>
+	<input type="hidden" name="nomMedia" value="{concat($ext,'/',@fichier)}"/>
       </td>
     </tr>
   </table>
