@@ -1,3 +1,1 @@
-* effacement des images uploadées lors d'une annulation
-* débugger l'upload
-* implémenter la gestion des vidéos
+BUG: les balises html disparaissent dans les textes saisis.

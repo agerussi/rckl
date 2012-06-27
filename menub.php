@@ -20,14 +20,14 @@
 	<li title="photos/vidéos des sorties">ARCHIVES
 	  <ul>
 	    <li><a href="archives.php?menu&amp;y=2012">année 2012</a></li>
-	    <li><a href="archives.php?menu&amp;y=2011">année 2011</a></li>
-	    <li><a href="archives.php?menu&amp;y=2010">année 2010</a></li>
-	    <li><a href="archives.php?menu&amp;y=2009">année 2009</a></li>
-	    <li><a href="archives.php?menu&amp;y=2008">année 2008</a></li>
-	    <li><a href="archives.php?menu&amp;y=2007">année 2007</a></li>
-	    <li><a href="archives.php?menu&amp;y=2006">année 2006</a></li>
-	    <li><a href="archives.php?menu&amp;y=2005">année 2005</a></li>
-	    <li><a href="archives.php?menu&amp;y=@home" title="À la base">@home</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=2011">année 2011</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=2010">année 2010</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=2009">année 2009</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=2008">année 2008</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=2007">année 2007</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=2006">année 2006</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=2005">année 2005</a></li>
+	    <li><a href="archives-static.php?menu&amp;y=@home" title="À la base">@home</a></li>
 	  </ul>
 	</li>
 	<li><a href="mailto:gl.aslslb@free.fr" title="envoyer un mail au responsable du groupe">CONTACT</a></li>
