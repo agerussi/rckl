@@ -1,5 +1,6 @@
 // constantes et variables globales
 var beeingUploaded=0; // nombre de médias en cours d'upload
+var uploadLIMIT=2; // nombre maximal de connexions simultanées
 var chunkSize=256*1024; // 256 KB
 var MediaType = { // enumération pour le type de media
   On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16
@@ -112,6 +113,11 @@ function supprimeMedia(mediaNum) {
 // mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
 // obtient un nom pour le media puis découpe le media en packet qui seront reconstitués sur le serveur à la fin
 function uploadAsynchroneByChunks(mediaFile, mediaNum) { 
+  if (beeingUploaded==uploadLIMIT) { // il faut retarder l'upload
+    setTimeout(function(){uploadAsynchroneByChunks(mediaFile,mediaNum);},5*1000);
+    return;
+  }
+
   var fileName=getMediaName();
  
   beeingUploaded++;
