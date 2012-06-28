@@ -65,8 +65,7 @@
 <xsl:template match="commentaire">
   <label class="archiveedit">Commentaire: </label>
   <textarea class="archiveedit" cols="80" rows="5" name="valeurcommentaire" id="valeurcommentaire">
-    <!-- <xsl:apply-templates select="text()|*"/> -->
-    <xsl:value-of select="."/>
+    <xsl:apply-templates select="text()|*"/>
   </textarea>
   <div class="bigskip"/>
 </xsl:template>
@@ -132,7 +131,8 @@
   </table>
 </xsl:template>
 
-<!-- <xsl:template match="text()">
+<!--
+<xsl:template match="text()">
   <xsl:value-of select="normalize-space(.)"/>
 </xsl:template>
 -->

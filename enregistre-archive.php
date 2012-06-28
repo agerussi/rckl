@@ -111,7 +111,7 @@ mysql_query($query,$db) or die("Erreur lors de la création/modification d'une s
 mysql_close($db);
 
 // retourne sur la page de l'archive modifiée
-header("Location: _archives.php?menu&y=".$annee);
+header("Location: archives.php?menu&y=".$annee);
  
 // #################### HELPER FUNCTIONS
 // #####################################

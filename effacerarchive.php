@@ -28,7 +28,7 @@ require("helper.php");
   efface($videos);
 
   // retour à la page d'archives d'où l'effacement a été fait
-  header("Location: _archives.php?menu&y=".$year);
+  header("Location: archives.php?menu&y=".$year);
 
 function efface($medias) { // DOMNodeList $medias
   global $repStockage;
