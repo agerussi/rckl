@@ -6,8 +6,17 @@
 <xsl:template match="/editsortie">
   <form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="{concat('enregistre-archive.php?id=',@id)}" onsubmit="return validationArchive()"> 
     <xsl:apply-templates select="date"/>
+    <xsl:if test="not(titre)">
+      <xsl:call-template name="titreDefault"/>
+    </xsl:if>
     <xsl:apply-templates select="titre"/>
+    <xsl:if test="not(participants)">
+      <xsl:call-template name="participantsDefault"/>
+    </xsl:if>
     <xsl:apply-templates select="participants"/>
+    <xsl:if test="not(commentaire)">
+      <xsl:call-template name="commentaireDefault"/>
+    </xsl:if>
     <xsl:apply-templates select="commentaire"/>
     <div id="listePhotos">
       <xsl:apply-templates select="photo"/>
@@ -43,6 +52,12 @@
   <div class="bigskip"/>
 </xsl:template>
 
+<xsl:template name="titreDefault">
+  <label class="archiveedit">Titre de la sortie: </label>
+  <input class="archiveedit" type="text" size="20" name="valeurtitre" value="" />
+  <div class="bigskip"/>
+</xsl:template>
+
 <xsl:template match="participants">
   <label class="archiveedit">Liste des participants: </label>
   <input type="hidden" id="listeparticipants" name="listeparticipants"/>
@@ -62,10 +77,30 @@
   <div class="bigskip"/>
 </xsl:template>
 
+<xsl:template name="participantsDefault">
+  <label class="archiveedit">Liste des participants: </label>
+  <input type="hidden" id="listeparticipants" name="listeparticipants"/>
+  <div id="ligneparticipants">
+  </div>
+  <div id="ligneajout">
+    <input type="text" size="10" id="nouveauparticipant"/>
+    <img title="ajouter un participant" id="ajouterparticipant" src="FONDS/b_add.png"/> 
+  </div>
+  <div id="suggestions"></div>
+  <div class="bigskip"/>
+</xsl:template>
+
 <xsl:template match="commentaire">
   <label class="archiveedit">Commentaire: </label>
   <textarea class="archiveedit" cols="80" rows="5" name="valeurcommentaire" id="valeurcommentaire">
     <xsl:apply-templates select="text()|*"/>
+  </textarea>
+  <div class="bigskip"/>
+</xsl:template>
+
+<xsl:template name="commentaireDefault">
+  <label class="archiveedit">Commentaire: </label>
+  <textarea class="archiveedit" cols="80" rows="5" name="valeurcommentaire" id="valeurcommentaire">
   </textarea>
   <div class="bigskip"/>
 </xsl:template>

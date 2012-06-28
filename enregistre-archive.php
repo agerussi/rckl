@@ -31,14 +31,16 @@ if (strlen($textedate)>0) $xml.='texte="'.$textedate.'"';
 $xml.="/>";
 
 // le titre
-$xml.="<titre>".$_POST['valeurtitre']."</titre>";
+$titre=trim($_POST['valeurtitre']);
+if (strlen($titre)!=0) $xml.="<titre>".$titre."</titre>";
 
 // le commentaire
 $commentaire=$_POST['valeurcommentaire'];
-if (strlen($commentaire)>0) $xml.="<commentaire>".$commentaire."</commentaire>";
+if (strlen($commentaire)!=0) $xml.="<commentaire>".$commentaire."</commentaire>";
 
 // les participants
-$xml.="<participants>".$_POST['listeparticipants']."</participants>";
+$participants=$_POST['listeparticipants'];
+if (strlen($participants)!=0) $xml.="<participants>".$participants."</participants>";
 
 // la liste des medias (photos/vidéos)
 require("helper.php");
