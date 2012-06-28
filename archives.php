@@ -26,10 +26,10 @@ Pas de source pour votre torrent ? <a href="mailto:gl.aslslb@free.fr">envoyez un
   // le titre en fonction de l'année demandée
  if (isset($_GET['y'])) $year = $_GET['y'];
  else $year = "@home";
-  if ($year=="@home") {
+ if ($year=="@home") {
     $titre = "À LA MAISON";
     $year= "1973"; // année de la sortie spéciale "@home"
-  }
+ }
  else $titre = "ANNÉE ".$year;
  echo "<h2>".$titre."</h2>";
 
