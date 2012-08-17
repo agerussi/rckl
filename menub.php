@@ -17,7 +17,7 @@
 	<li><a href="sorties.php?menu" title="les sorties en préparation" >SORTIES</a></li>
 	<li><a href="documents.php?menu" title="quelques documents et ressources">DOCUMENTS</a></li>
 	<li><a href="trombinoscope.php?menu" title="membres actifs ou anciens du GL">TROMBINOSCOPE</a></li>
-	<li title="photos/vidéos des sorties">ARCHIVES
+	<li title="photos/vidéos des sorties"><span>ARCHIVES</span>
 	  <ul>
 	    <li><a href="archives.php?menu&amp;y=2012">année 2012</a></li>
 	    <li><a href="archives-static.php?menu&amp;y=2011">année 2011</a></li>

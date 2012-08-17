@@ -186,6 +186,7 @@ return function(evt) {
     window.alert(mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+xhr.status);
     supprimeMedia(mediaNum);
     deleteUploadedChunks(serverFileName);
+    beeingUploaded--;
     return;
   }
 }}
