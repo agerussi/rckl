@@ -33,7 +33,7 @@ while ($data = mysql_fetch_array($req)) {
   $xml.="<news>";
   $xml.="<date>".$jour."/".$mois."/".($an%100)."</date>";
   $xml.="<auteur>".trim($data['auteur'])."</auteur>";
-  $xml.="<corps>".nl2br(trim($data['texte']))."</corps>";
+  $xml.="<corps>".htmlspecialchars(trim($data['texte']))."</corps>";
   $xml.="</news>";
 }
 $xml.="</newslist>";
@@ -47,7 +47,7 @@ $proc = new XSLTProcessor;
 $xsl = new DOMDocument;
 $xsl->load("news.xsl");
 $proc->importStyleSheet($xsl); 
-echo $proc->transformToXML(new SimpleXMLElement($xml)); 
+echo htmlspecialchars_decode($proc->transformToXML(new SimpleXMLElement($xml))); 
 ?>
 </body>
 </html>

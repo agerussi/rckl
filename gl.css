@@ -2,6 +2,7 @@
 body {
   background-image:url(FONDS/mosaique-snapshot.jpg);
   background-repeat:repeat;
+  text-align:justify;
 }
 
 p.entree { text-align:center; }
@@ -27,6 +28,10 @@ table.trombi {
 
 table.trombi tr:last-child td { 
   text-align:center;
+}
+
+table.trombi img {
+  width:128px;
 }
 
 /* ================== style pour les news */

@@ -12,6 +12,9 @@
   if (isset($_GET['menu'])) require("menub.php"); 
 ?>
 <h1>DOCUMENTS</h1>
+
+  Dossier d'inscription au GL, saison 2013: <a href="DOCS/inscription-page1sur2.png">page 1</a> et <a href="DOCS/inscription-page2sur2.png">page 2</a>.
+
 <h3>Ressources CK</h3>
 <ul>
   <li> <a href="ik.html">Initiation Kayak</a> - les bases du kayak en vidéo.</li>
