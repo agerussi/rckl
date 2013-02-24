@@ -28,12 +28,12 @@ require("dbconnect.php");
 echo '<table id="bilanglobal"><tbody>';
 
 // récupère le min et le max
-$query='SELECT MIN(solde) AS soldeMin, MAX(solde) AS soldeMax FROM membres WHERE login<>"root" AND actif<>0';
+$query='SELECT MIN(solde) AS soldeMin, MAX(solde) AS soldeMax FROM membres WHERE login<>"root" AND site<>0';
 $maxresult=mysql_query($query,$db) or die("Erreur lors de la récupération du solde max: ".mysql_error());
 $soldeMax=mysql_result($maxresult,0,'soldeMax');
 $soldeMin=mysql_result($maxresult,0,'soldeMin');
 
-$query = 'SELECT * FROM membres WHERE login<>"root" AND actif<>0';
+$query = 'SELECT * FROM membres WHERE login<>"root" AND site<>0';
 $result=mysql_query($query,$db);
 $n=0;
 $maxperline=8;

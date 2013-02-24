@@ -32,7 +32,7 @@ Mode d'emploi:
  <p><label><b>Membre(s) bénéficiaire(s)</b></label></p>
 
 <?php // construction de la liste des membres sélectionnables 
-$query = 'SELECT id,nom FROM membres WHERE login<>"root" AND actif<>0';
+$query = 'SELECT id,nom FROM membres WHERE login<>"root" AND site<>0';
 $result=mysql_query($query,$db);
 echo '<table><tr>';
 $num=0;

@@ -21,7 +21,7 @@ session_start();
 
 require("dbconnect.php");
 
-$result=mysql_query("SELECT * FROM membres WHERE login='$user' AND motdepasse='$pass' AND actif<>0", $db);
+$result=mysql_query("SELECT * FROM membres WHERE login='$user' AND motdepasse='$pass' AND site<>0", $db);
 
 $rowCheck = mysql_num_rows($result);
 if($rowCheck == 1){ // exactly one result must have been returned

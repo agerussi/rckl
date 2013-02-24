@@ -22,17 +22,19 @@
   <table class="trombi">
     <tr>
       <td>
-	<xsl:element name="img">
-	  <xsl:attribute name="src">
-	    <xsl:value-of select="concat(../path,'/',photo)"/>
-	  </xsl:attribute>
-	  <xsl:attribute name="alt">photo</xsl:attribute>
-	</xsl:element>
+	<img src="{concat(../path,'/',photo)}" alt="photo" />
       </td>
     </tr>
     <tr>
       <td>
-	<xsl:value-of select="nom"/>
+	<xsl:if test="email">
+	  <a href="{concat('mailto:',email)}" title="contacter par mail">
+	    <xsl:value-of select="nom"/>
+	  </a>
+	</xsl:if>
+	<xsl:if test="not(email)">
+	  <xsl:value-of select="nom"/>
+	</xsl:if>
       </td>
     </tr>
   </table>
