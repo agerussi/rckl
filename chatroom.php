@@ -22,19 +22,20 @@
 <?php
 // début du programme spécifique 'chatroom'
 // on ajoute l'utilisateur à la liste chat_members
-// en faisant attention de ne pas avoir de double
 // le reste de la construction de la page est effectué
 // par le JS.
 
   require("dbconnect.php");
 
   // teste si le membre est déjà inséré (peut arriver si de multiples chatroom sont ouverts)
-  $query="SELECT id FROM chat_members WHERE id=".$_SESSION[userid];
+  /* $query="SELECT id FROM chat_members WHERE id=".$_SESSION[userid];
   echo $query."<br/>";
   $result=mysql_query($query, $db) or die("Erreur lors de la vérification d'unicité: ".mysql_error());
+  */
 
   // si le membre n'est pas déjà présent, l'insère dans la liste
-  if (mysql_num_rows($result)==0) {
+  //if (mysql_num_rows($result)==0) {
+  if (true) {
     $query="INSERT INTO chat_members (id, nom) VALUES(".$_SESSION[userid].",'".$_SESSION['realname']."')";
     echo $query."<br/>";
     mysql_query($query, $db) or die("Erreur lors de l'insertion du membre dans chat_members: ".mysql_error());
