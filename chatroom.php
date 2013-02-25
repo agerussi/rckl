@@ -5,8 +5,8 @@
 <?php
   if (isset($_GET['menu'])) require("menuh.php"); 
   else require("head.html");
-  <script type="text/javascript" src="chat.js"></script>
 ?>
+  <script type="text/javascript" src="chat.js"></script>
 </head>
 <body>
 <?php
@@ -20,6 +20,19 @@
 // le reste de la construction de la page est effectué
 // par le JS.
 
+  require("dbconnect.php");
+
+  // teste si le membre est déjà inséré (peut arriver si de multiples chatroom sont ouverts)
+  $query="SELECT id FROM chat_members WHERE id=".$_SESSION[userid];
+  echo $query."<br/>";
+  $result=mysql_query($query, $db) or die("Erreur lors de la vérification d'unicité: ".mysql_error());
+
+  // si le membre n'est pas déjà présent, l'insère dans la liste
+  if (mysql_num_rows($result)==0) {
+    $query="INSERT INTO chat_members (id, nom) VALUES(".$_SESSION[userid].",'".$_SESSION['realname']."')";
+    echo $query."<br/>";
+    mysql_query($query, $db) or die("Erreur lors de l'insertion du membre dans chat_members: ".mysql_error());
+  }
 ?>
 
 <!-- #####################################

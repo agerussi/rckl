@@ -1,6 +1,3 @@
 *BUG: les balises auto-fermantes de type <br/> réapparaissent en <br> en cas de réédition, d'où problème lors de la sauvegarde (balisage non équilibré).
 
 *Rajouter nouvelles archives (+modifs) au flux RSS
-
-*Ajouter une fonctionnalité IRC
-- avec liste des présents (photo+nom+status) (status=actif, inactif depuis x minutes)
