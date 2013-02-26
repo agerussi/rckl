@@ -17,6 +17,37 @@ h1,h2,h3,h4,h5,h6 {
   font-size:30pt; 
   font-family:Impact, Charcoal, sans-serif;
 }
+/* =============== style pour le chat */
+
+html, body { // nécessaire pour chatpage
+  height: 100%;
+}
+
+#chatpage {
+  height:80%;
+  overflow:auto;
+}
+
+.chatauteur, .chatmember {
+  background-color:#dddddd;
+  margin:0 10px 0 0;
+  padding: 0 2px;
+}
+
+.chatmessage {
+  border-bottom:1pt solid #dddddd;
+  padding: 2pt 0pt;
+}
+
+#chatfoot {
+  position: absolute;
+  bottom: 0;
+  width:100%;
+}
+
+#chatbox {
+  width:100%;
+} 
 
 
 /* =============== style pour le trombi */
