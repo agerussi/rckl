@@ -111,8 +111,9 @@ function displayMessage(auteur, message) {
   div.setAttribute("class", "chatmessage");
   div.innerHTML=[
     '<span class="chatauteur">',auteur,'</span>',
-    '<span class="chatmessagebody">',message,'</span>' 
+    '<span class="chatmessagebody"></span>' 
    ].join('');
+  div.lastChild.textContent=message;
   // insertion du div juste avant chatBox
   chatBox.parentNode.insertBefore(div,chatBox);
 }
