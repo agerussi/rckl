@@ -7,10 +7,37 @@ window.addEventListener("load", main);
 //////////////////////////////////////////////////////////
 // fonction principale, essentiellement des abonnements //
 //////////////////////////////////////////////////////////
+var chatBox; // zone de saisie 
 function main() {
   // abonnements de la fonction de déconnexion 
   window.addEventListener("beforeunload",confirmation);
   window.addEventListener("unload",deconnexion);
+
+  // abonnement de la zone de saisie
+  chatBox=document.getElementById("chatbox");
+  chatBox.addEventListener("change", saisieMessage);
+}
+
+/////////////////////////////////////////////////
+// envoie le message au serveur pour diffusion //
+/////////////////////////////////////////////////
+function saisieMessage() {
+  // on n'envoie pas un message vide
+  if (chatBox.value.length==0) return;
+
+  // envoi du message sous la forme d'un POST de variable 'msgBody'
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST","chat_sendMessage.php",true); 
+  xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
+  var body='--BoUnDaRy\n';
+  body+='Content-Disposition: form-data; name="msgBody"\n';
+  body+='Content-Type: text/plain; charset=utf-8\n\n';
+  body+=chatBox.value+'\n';
+  body+='--BoUnDaRy\n';
+  xhr.send(body);
+
+  // efface le texte précédent
+  chatBox.value="";
 }
 
 //////////////////////////////////////////////////////////////////////////
