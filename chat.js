@@ -17,17 +17,20 @@ function main() {
   chatBox=document.getElementById("chatbox");
   chatBox.addEventListener("change", saisieMessage);
 
-  // essai
-  displayMessage("père Noël", "Joyeux Noël à tous!");
 }
 
 /////////////////////////////////////////////////////////////
 // demande au serveur les nouveaux messages et les affiche //
 /////////////////////////////////////////////////////////////
 function getMessages() {
+  // récupération sous format texte XML 
   var listeMessagesXML=ajax("chat_getMessages.php");
-
-  alert(listeMessagesXML);
+  //alert(listeMessagesXML);
+  // traitement et affichage
+  var messagelist=new XML(listeMessagesXML);
+  for each (var message in messagelist.message) {
+    displayMessage(message.auteur,message.corps);
+  }
 }
 
 /////////////////////////////////////////////////

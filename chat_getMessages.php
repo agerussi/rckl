@@ -11,7 +11,6 @@
 
   // récupère les messages plus vieux que le dernier TIME_STAMP
   $query="SELECT auteur,message FROM chat_messages WHERE TIMESTAMPDIFF(SECOND,'".$_SESSION['timestamp']."',time)>0";
-  echo $query;
   $result=mysql_query($query, $db) or die("Erreur lors de la collecte de messages dans chat_messages: ".mysql_error());
 
   // formate les messages sous forme XML
