@@ -30,6 +30,9 @@
   $query="INSERT INTO chat_members (id, nom) VALUES(".$_SESSION[userid].",'".$_SESSION['realname']."')";
   //echo $query."<br/>";
   mysql_query($query, $db) or die("Erreur lors de l'insertion du membre dans chat_members: ".mysql_error());
+
+  // initialise le TIME STAMP
+  $_SESSION['timestamp']="1973-12-03";
 ?>
 
 <!-- #####################################

@@ -21,6 +21,15 @@ function main() {
   displayMessage("père Noël", "Joyeux Noël à tous!");
 }
 
+/////////////////////////////////////////////////////////////
+// demande au serveur les nouveaux messages et les affiche //
+/////////////////////////////////////////////////////////////
+function getMessages() {
+  var listeMessagesXML=ajax("chat_getMessages.php");
+
+  alert(listeMessagesXML);
+}
+
 /////////////////////////////////////////////////
 // envoie le message au serveur pour diffusion //
 /////////////////////////////////////////////////
@@ -30,7 +39,7 @@ function saisieMessage() {
 
   // envoi du message sous la forme d'un POST de variable 'msgBody'
   var xhr = new XMLHttpRequest();
-  xhr.open("POST","chat_sendMessage.php",true); 
+  xhr.open("POST","chat_sendMessage.php",false); 
   xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
   var body='--BoUnDaRy\n';
   body+='Content-Disposition: form-data; name="msgBody"\n';
@@ -41,6 +50,9 @@ function saisieMessage() {
 
   // efface le texte précédent
   chatBox.value="";
+
+  // appelle le serveur afin que le message soit affiché immédiatement
+  getMessages();
 }
 
 ////////////////////////////////////////////////////////
