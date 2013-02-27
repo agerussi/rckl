@@ -17,8 +17,8 @@
   $xml="<messagelist>";
   while ($row=mysql_fetch_array($result)) {
     $xml.="<message>";
-    $xml.="<auteur>".$row['auteur']."</auteur>";
-    $xml.="<corps>".$row['message']."</corps>";
+    $xml.="<auteur>".stripslashes($row['auteur'])."</auteur>";
+    $xml.="<corps>".stripslashes($row['message'])."</corps>";
     $xml.="</message>";
   }
   $xml.="</messagelist>";

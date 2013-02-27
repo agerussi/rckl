@@ -27,7 +27,7 @@
 
   require("dbconnect.php");
 
-  $query="INSERT INTO chat_members (id, nom) VALUES(".$_SESSION[userid].",'".$_SESSION['realname']."')";
+  $query="INSERT INTO chat_members (id, nom) VALUES(".$_SESSION[userid].",'".addslashes($_SESSION['realname'])."')";
   //echo $query."<br/>";
   mysql_query($query, $db) or die("Erreur lors de l'insertion du membre dans chat_members: ".mysql_error());
 

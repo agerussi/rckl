@@ -18,7 +18,7 @@
   while ($row=mysql_fetch_array($result)) {
     $xml.="<member>";
     $xml.="<id>".$row['id']."</id>";
-    $xml.="<nom>".$row['nom']."</nom>";
+    $xml.="<nom>".stripslashes($row['nom'])."</nom>";
     $xml.="</member>";
   }
   $xml.="</memberlist>";

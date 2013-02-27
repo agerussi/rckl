@@ -46,7 +46,7 @@ function getMembers() {
 ///////////////////////////////////////////////
 function clearMembers() {
   var chatmembers=document.getElementsByName("chatmember");
-  for (var i=chatmembers.length-1; i>=0; i--) {
+  for (var i=chatmembers.length-1; i>=0; i--) { // à l'envers sinon pb !
     var memberParent=chatmembers[i].parentNode;
     memberParent.removeChild(chatmember);
   }
