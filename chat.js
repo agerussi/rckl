@@ -17,6 +17,52 @@ function main() {
   chatBox=document.getElementById("chatbox");
   chatBox.addEventListener("change", saisieMessage);
 
+  // abonnement de la collecte de messages
+  window.setInterval(getMessages,5*1000);
+
+  // abonnement de la collecte des membres
+  window.setInterval(getMembers,10*1000);
+
+  // lance immédiatement le rafraîchissement
+  getMembers();
+  getMessages();
+}
+
+////////////////////////////////////////////////////////////
+// demande au serveur la liste des membres et les affiche //
+////////////////////////////////////////////////////////////
+function getMembers() {
+  // récupération sous format texte XML 
+  var listeMembresXML=ajax("chat_getMembers.php");
+  //alert(listeMembresXML);
+  // traitement et affichage
+  clearMembers(); // effacement de l'ancienne liste
+  var memberlist=new XML(listeMembresXML);
+  for each (var membre in memberlist.member) displayMembre(membre.nom);
+}
+
+///////////////////////////////////////////////
+// efface les membres de la liste de membres //
+///////////////////////////////////////////////
+function clearMembers() {
+  var chatmembers=document.getElementsByName("chatmember");
+  for (var i=chatmembers.length-1; i>=0; i--) {
+    var memberParent=chatmembers[i].parentNode;
+    memberParent.removeChild(chatmember);
+  }
+}
+
+/////////////////////////////////////////////
+// ajoute un membre à la liste des membres //
+/////////////////////////////////////////////
+function displayMembre(nom) {
+  // création du span approprié
+  var span=document.createElement("span");
+  span.setAttribute("class", "chatmember");
+  span.setAttribute("name", "chatmember");
+  span.innerHTML=nom;
+  // insertion du span à la fin de la liste
+  document.getElementById("chatmembers").appendChild(span);
 }
 
 /////////////////////////////////////////////////////////////
@@ -28,9 +74,7 @@ function getMessages() {
   //alert(listeMessagesXML);
   // traitement et affichage
   var messagelist=new XML(listeMessagesXML);
-  for each (var message in messagelist.message) {
-    displayMessage(message.auteur,message.corps);
-  }
+  for each (var message in messagelist.message) displayMessage(message.auteur,message.corps);
 }
 
 /////////////////////////////////////////////////
@@ -42,7 +86,7 @@ function saisieMessage() {
 
   // envoi du message sous la forme d'un POST de variable 'msgBody'
   var xhr = new XMLHttpRequest();
-  xhr.open("POST","chat_sendMessage.php",false); 
+  xhr.open("POST","chat_sendMessage.php",true); 
   xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
   var body='--BoUnDaRy\n';
   body+='Content-Disposition: form-data; name="msgBody"\n';
@@ -55,7 +99,7 @@ function saisieMessage() {
   chatBox.value="";
 
   // appelle le serveur afin que le message soit affiché immédiatement
-  getMessages();
+  //getMessages();
 }
 
 ////////////////////////////////////////////////////////

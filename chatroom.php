@@ -39,19 +39,18 @@
 ####### CODE HTML ########################
 ###################################### -->
 <div id="chatpage">
+  <!-- exemple de message 
   <div class="chatmessage"> 
     <span class="chatauteur">Titi</span>
-    <span class="chatmessagebody">
-      aze oiazeo paojzepl ajze j azpje jazpje japzje pjazepaze zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf 
-    </span> 
+    <span class="chatmessagebody"> Salut!  </span> 
   </div>
+  -->
   <input type="text" id="chatbox">
   <div id="chatmembers">
-    Actuellement dans le salon:
-    <span class="chatmember">Alexandre</span>
-    <span class="chatmember">Mathieu VDB</span>
-    <span class="chatmember">Pierre</span>
-    <span class="chatmember">Stefan</span>
+    <span>Actuellement dans le salon:</span>
+    <!-- exemple de membre
+    <span class="chatmember" name="chatmember">Alexandre</span>
+    -->
   </div>
 </div>
 </body>
