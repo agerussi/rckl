@@ -32,13 +32,19 @@ function main() {
 // demande au serveur la liste des membres et les affiche //
 ////////////////////////////////////////////////////////////
 function getMembers() {
-  // récupération sous format texte XML 
-  var listeMembresXML=ajax("chat_getMembers.php");
-  //alert(listeMembresXML);
-  // traitement et affichage
-  clearMembers(); // effacement de l'ancienne liste
-  var memberlist=new XML(listeMembresXML);
-  for each (var membre in memberlist.member) displayMembre(membre.nom);
+  var xhr=new XMLHttpRequest();
+  xhr.onreadystatechange=function() {
+    if (this.readyState==this.DONE && this.status==200) {
+      // récupération sous format texte XML 
+      var listeMembresXML=this.response;
+      // traitement et affichage
+      clearMembers(); // effacement de l'ancienne liste
+      var memberlist=new XML(listeMembresXML);
+      for each (var membre in memberlist.member) displayMembre(membre.nom);
+    }
+  }
+  xhr.open("POST", "chat_getMembers.php", true); // asynchrone pour ne pas avoir d'interruptions
+  xhr.send();
 }
 
 ///////////////////////////////////////////////
@@ -69,12 +75,18 @@ function displayMembre(nom) {
 // demande au serveur les nouveaux messages et les affiche //
 /////////////////////////////////////////////////////////////
 function getMessages() {
-  // récupération sous format texte XML 
-  var listeMessagesXML=ajax("chat_getMessages.php");
-  //alert(listeMessagesXML);
-  // traitement et affichage
-  var messagelist=new XML(listeMessagesXML);
-  for each (var message in messagelist.message) displayMessage(message.auteur,message.corps);
+  var xhr=new XMLHttpRequest();
+  xhr.onreadystatechange=function() {
+    if (this.readyState==this.DONE && this.status==200) {
+      // récupération sous format texte XML 
+      var listeMessagesXML=this.response;
+      // traitement et affichage
+      var messagelist=new XML(listeMessagesXML);
+      for each (var message in messagelist.message) displayMessage(message.auteur,message.corps);
+    }
+  }
+  xhr.open("POST", "chat_getMessages", true); // asynchrone pour ne pas avoir d'interruptions
+  xhr.send();
 }
 
 /////////////////////////////////////////////////
