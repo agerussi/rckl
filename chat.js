@@ -52,10 +52,7 @@ function getMembers() {
 ///////////////////////////////////////////////
 function clearMembers() {
   var chatmembers=document.getElementsByName("chatmember");
-  for (var i=chatmembers.length-1; i>=0; i--) { // à l'envers sinon pb !
-    var memberParent=chatmembers[i].parentNode;
-    memberParent.removeChild(chatmember);
-  }
+  for (var i=chatmembers.length-1; i>=0; i--) chatmembers[i].parentNode.removeChild(chatmembers[i]);
 }
 
 /////////////////////////////////////////////
@@ -66,7 +63,7 @@ function displayMembre(nom) {
   var span=document.createElement("span");
   span.setAttribute("class", "chatmember");
   span.setAttribute("name", "chatmember");
-  span.innerHTML=nom;
+  span.textContent=nom;
   // insertion du span à la fin de la liste
   document.getElementById("chatmembers").appendChild(span);
 }
