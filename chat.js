@@ -16,6 +16,9 @@ function main() {
   // abonnement de la zone de saisie
   chatBox=document.getElementById("chatbox");
   chatBox.addEventListener("change", saisieMessage);
+
+  // essai
+  displayMessage("père Noël", "Joyeux Noël à tous!");
 }
 
 /////////////////////////////////////////////////
@@ -38,6 +41,21 @@ function saisieMessage() {
 
   // efface le texte précédent
   chatBox.value="";
+}
+
+////////////////////////////////////////////////////////
+// ajoute un message à la liste des messages affichés //
+////////////////////////////////////////////////////////
+function displayMessage(auteur, message) {
+  // création du div approprié
+  var div=document.createElement("div");
+  div.setAttribute("class", "chatmessage");
+  div.innerHTML=[
+    '<span class="chatauteur">',auteur,'</span>',
+    '<span class="chatmessagebody">',message,'</span>' 
+   ].join('');
+  // insertion du div juste avant chatBox
+  chatBox.parentNode.insertBefore(div,chatBox);
 }
 
 //////////////////////////////////////////////////////////////////////////

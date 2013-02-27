@@ -7,3 +7,5 @@ ARCHIVES/*.xml
 OUTILS/JSDATEPICK/
 OUTILS/SLIMBOX
 OUTILS/slimbox*
+*.swp
+*.bak

@@ -42,24 +42,6 @@
       aze oiazeo paojzepl ajze j azpje jazpje japzje pjazepaze zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf 
     </span> 
   </div>
-  <div class="chatmessage"> 
-    <span class="chatauteur">Titi</span>
-    <span class="chatmessagebody">
-      aze oiazeo paojzepl ajze j azpje jazpje japzje pjazepaze zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf 
-    </span> 
-  </div>
-  <div class="chatmessage"> 
-    <span class="chatauteur">Titi</span>
-    <span class="chatmessagebody">
-      aze oiazeo paojzepl ajze j azpje jazpje japzje pjazepaze zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf 
-    </span> 
-  </div>
-  <div class="chatmessage"> 
-    <span class="chatauteur">Titi</span>
-    <span class="chatmessagebody">
-      aze oiazeo paojzepl ajze j azpje jazpje japzje pjazepaze zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf zerpoezrtopert eprto eprt oerpto epro pero peozesf 
-    </span> 
-  </div>
   <input type="text" id="chatbox">
   <div id="chatmembers">
     Actuellement dans le salon:
