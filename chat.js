@@ -10,6 +10,7 @@ window.addEventListener("load", main);
 var chatBox; // zone de saisie 
 function main() {
   // abonnements de la gestion de la zone chatpage
+  setHeight();
   window.addEventListener("resize",setHeight);
 
   // abonnements de la fonction de déconnexion 
@@ -149,6 +150,7 @@ function displayMessage(auteur, message) {
 // détermine la valeur de doClear, utilisée par deconnexion()
 var doClear; // variable globale
 function confirmation(evt) {
+  //displayMessage("Bomb Flow","Running the stout !");
   // récupère le nombre de connectés et de messages
   var nums=ajax("chat_count.php").split(" ");
   // nums[0] contient le nombre de connectés restants

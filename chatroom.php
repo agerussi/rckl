@@ -32,7 +32,9 @@
   mysql_query($query, $db) or die("Erreur lors de l'insertion du membre dans chat_members: ".mysql_error());
 
   // initialise le TIME STAMP
-  $_SESSION['timestamp']="1973-12-03";
+  //$_SESSION['timestamp']="1973-12-03";
+  // initialise le nombre de messages déjà envoyés
+  $_SESSION['numsent']=0;
 ?>
 
 <!-- #####################################
