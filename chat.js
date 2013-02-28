@@ -54,7 +54,7 @@ function getMembers() {
       // traitement et affichage
       clearMembers(); // effacement de l'ancienne liste
       var memberlist=new XML(listeMembresXML);
-      for each (var membre in memberlist.member) displayMembre(membre.nom);
+      for (var i=0; i<memberlist.member.length(); i++) displayMembre(memberlist.member[i].nom);
     }
   }
   xhr.open("POST", "chat_getMembers.php", true); // asynchrone pour ne pas avoir d'interruptions
@@ -93,7 +93,8 @@ function getMessages() {
       var listeMessagesXML=this.response;
       // traitement et affichage
       var messagelist=new XML(listeMessagesXML);
-      for each (var message in messagelist.message) displayMessage(message.auteur,message.corps);
+      for (var i=0; i<messagelist.message.length(); i++) displayMessage(messagelist.message[i].auteur,messagelist.message[i].corps);
+
     }
   }
   xhr.open("POST", "chat_getMessages", true); // asynchrone pour ne pas avoir d'interruptions
