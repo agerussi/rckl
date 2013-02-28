@@ -49,12 +49,16 @@ function getMembers() {
   var xhr=new XMLHttpRequest();
   xhr.onreadystatechange=function() {
     if (this.readyState==this.DONE && this.status==200) {
-      // récupération sous format texte XML 
-      var listeMembresXML=this.response;
+      // récupération sous format XML 
+      var parser=new DOMParser();
+      var xmlDoc=parser.parseFromString(this.response,"text/xml");
       // traitement et affichage
       clearMembers(); // effacement de l'ancienne liste
-      var memberlist=new XML(listeMembresXML);
-      for (var i=0; i<memberlist.member.length(); i++) displayMembre(memberlist.member[i].nom);
+      var membres=xmlDoc.getElementsByTagName("member");
+      for (var i=0; i<membres.length; i++) {
+	var membre=membres[i].childNodes[1].firstChild.nodeValue;
+	displayMembre(membre);
+      }
     }
   }
   xhr.open("POST", "chat_getMembers.php", true); // asynchrone pour ne pas avoir d'interruptions
@@ -89,12 +93,16 @@ function getMessages() {
   var xhr=new XMLHttpRequest();
   xhr.onreadystatechange=function() {
     if (this.readyState==this.DONE && this.status==200) {
-      // récupération sous format texte XML 
-      var listeMessagesXML=this.response;
-      // traitement et affichage
-      var messagelist=new XML(listeMessagesXML);
-      for (var i=0; i<messagelist.message.length(); i++) displayMessage(messagelist.message[i].auteur,messagelist.message[i].corps);
-
+      // récupération sous format XML 
+      var parser=new DOMParser();
+      var xmlDoc=parser.parseFromString(this.response,"text/xml");
+      // traitement
+      var messages=xmlDoc.getElementsByTagName("message");
+      for (var i=0; i<messages.length; i++) {
+	var auteur=messages[i].childNodes[0].firstChild.nodeValue;
+	var corps=messages[i].childNodes[1].firstChild.nodeValue;
+	displayMessage(auteur,corps);
+      }
     }
   }
   xhr.open("POST", "chat_getMessages", true); // asynchrone pour ne pas avoir d'interruptions
