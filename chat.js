@@ -18,14 +18,12 @@ function main() {
   chatBox.addEventListener("change", saisieMessage);
 
   // abonnement de la collecte de messages
+  getMessages();
   window.setInterval(getMessages,5*1000);
 
   // abonnement de la collecte des membres
-  window.setInterval(getMembers,10*1000);
-
-  // lance immédiatement le rafraîchissement
   getMembers();
-  getMessages();
+  window.setInterval(getMembers,10*1000);
 }
 
 function setHeight() {
