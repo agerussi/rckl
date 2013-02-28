@@ -17,13 +17,14 @@ function main() {
   chatBox=document.getElementById("chatbox");
   chatBox.addEventListener("change", saisieMessage);
 
+  // abonnement de la collecte des membres
+  getMembers(); // doit être appelé AVANT getMessages()
+  window.setInterval(getMembers,10*1000);
+
   // abonnement de la collecte de messages
   getMessages();
   window.setInterval(getMessages,5*1000);
 
-  // abonnement de la collecte des membres
-  getMembers();
-  window.setInterval(getMembers,10*1000);
 }
 
 function setHeight() {
