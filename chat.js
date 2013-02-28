@@ -44,16 +44,11 @@ function getMembers() {
   var xhr=new XMLHttpRequest();
   xhr.onreadystatechange=function() {
     if (this.readyState==this.DONE && this.status==200) {
-      // récupération sous format XML 
-      var parser=new DOMParser();
-      var xmlDoc=parser.parseFromString(this.response,"text/xml");
+      // récupération sous format JSON 
+      var json=eval("("+this.response+")");
       // traitement et affichage
       clearMembers(); // effacement de l'ancienne liste
-      var membres=xmlDoc.getElementsByTagName("member");
-      for (var i=0; i<membres.length; i++) {
-	var membre=membres[i].childNodes[1].firstChild.nodeValue;
-	displayMembre(membre);
-      }
+      for (var i=0; i<json.memberlist.length; i++) displayMembre(json.memberlist[i].nom);
     }
   }
   xhr.open("POST", "chat_getMembers.php", true); // asynchrone pour ne pas avoir d'interruptions

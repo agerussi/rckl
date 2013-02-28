@@ -22,18 +22,14 @@
     mysql_query($query, $db) or die("Erreur lors de la suppression des messages de chat_messages: ".mysql_error());
   }
 
-  // formate les messages sous forme XML
-  $xml="<memberlist>";
+  // formate les messages sous format JSON
+  unset($json);
   while ($row=mysql_fetch_array($result)) {
-    $xml.="<member>";
-    $xml.="<id>".$row['id']."</id>";
-    $xml.="<nom>".stripslashes($row['nom'])."</nom>";
-    $xml.="</member>";
+    $json[]='{"id":'.$row['id'].',"nom":"'.stripslashes($row['nom']).'"}';
   }
-  $xml.="</memberlist>";
 
-  // renvoie le XML
-  echo $xml;
+  // renvoie le JSON
+  echo '{"memberlist":['.implode(',',$json).']}';
 
   // update le TIMESTAMP du membre qui vient d'appeler ce script
   $query="UPDATE membres SET chattimestamp=NOW() WHERE id='".$_SESSION['userid']."'";
