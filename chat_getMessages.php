@@ -15,19 +15,17 @@
   //$query="SELECT auteur,message FROM chat_messages ORDER BY time";
   $result=mysql_query($query, $db) or die("Erreur lors de la collecte de messages dans chat_messages: ".mysql_error());
 
-  // formate les messages sous forme XML
-  $xml="<messagelist>";
+  // formate les messages sous forme JSON
+  unset($json);
   while ($row=mysql_fetch_array($result)) {
-    $xml.="<message>";
-    $xml.="<auteur>".stripslashes($row['auteur'])."</auteur>";
-    $xml.="<corps>".stripslashes($row['message'])."</corps>";
-    $xml.="</message>";
+    $message='{"auteur":"'.stripslashes($row['auteur']).'",';
+    $message.='"corps":"'.$row['message'].'"}';
+    $json[]=$message;
     $_SESSION['numsent']++; // compte le nombre de messages envoyés
   }
-  $xml.="</messagelist>";
 
-  // renvoie le XML
-  echo $xml;
+  // renvoie le JSON
+  echo '{"messagelist":['.implode(',',$json).']}';
 
   // sauvegarde le TIME_STAMP actuel
 /*

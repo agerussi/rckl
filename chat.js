@@ -83,16 +83,11 @@ function getMessages() {
   var xhr=new XMLHttpRequest();
   xhr.onreadystatechange=function() {
     if (this.readyState==this.DONE && this.status==200) {
-      // récupération sous format XML 
-      var parser=new DOMParser();
-      var xmlDoc=parser.parseFromString(this.response,"text/xml");
+      // récupération sous format JSON
+      var json=eval("("+this.response+")");
       // traitement
-      var messages=xmlDoc.getElementsByTagName("message");
-      for (var i=0; i<messages.length; i++) {
-	var auteur=messages[i].childNodes[0].firstChild.nodeValue;
-	var corps=messages[i].childNodes[1].firstChild.nodeValue;
-	displayMessage(auteur,corps);
-      }
+      for (var i=0; i<json.messagelist.length; i++) 
+	displayMessage(json.messagelist[i].auteur,json.messagelist[i].corps);
     }
   }
   xhr.open("POST", "chat_getMessages", true); // asynchrone pour ne pas avoir d'interruptions
