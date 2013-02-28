@@ -13,10 +13,6 @@ function main() {
   setHeight();
   window.addEventListener("resize",setHeight);
 
-  // abonnements de la fonction de déconnexion 
-  window.addEventListener("beforeunload",confirmation);
-  window.addEventListener("unload",deconnexion);
-
   // abonnement de la zone de saisie
   chatBox=document.getElementById("chatbox");
   chatBox.addEventListener("change", saisieMessage);
@@ -142,36 +138,6 @@ function displayMessage(auteur, message) {
   chatfooter.parentNode.insertBefore(div,chatfooter);
 
   chatfooter.scrollIntoView(false);
-}
-
-//////////////////////////////////////////////////////////////////////////
-// regarde si les messages doivent être effacés et demande confirmation //
-//////////////////////////////////////////////////////////////////////////
-// détermine la valeur de doClear, utilisée par deconnexion()
-var doClear; // variable globale
-function confirmation(evt) {
-  //displayMessage("Bomb Flow","Running the stout !");
-  // récupère le nombre de connectés et de messages
-  var nums=ajax("chat_count.php").split(" ");
-  // nums[0] contient le nombre de connectés restants
-  // nums[1] contient le nombre de messages de la session
-  if (nums[0]==1 && nums[1]>0) { // on va effacer les messages, demandons confirmation
-    doClear=true;
-    var evt = evt || window.event;
-    evt.returnValue = "Vous êtes le dernier à partir, les messages vont être effacés.";
-  }
-  else doClear=false;
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// déconnecte l'utilisateur et éventuellement efface la liste des messages //
-/////////////////////////////////////////////////////////////////////////////
-// cette fonction est toujours appelée après confirmation(), qui détermine la valeur de doClear
-function deconnexion() {
-  // déconnexion
-  ajax("chat_deconnexion.php");
-  // effacement des messages
-  if (doClear) ajax("chat_clear.php");
 }
 
 ///////////////////////////////////////////////////////////////

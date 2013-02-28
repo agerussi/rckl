@@ -20,19 +20,8 @@
 ?>
 
 <?php
-// début du programme spécifique 'chatroom'
-// on ajoute l'utilisateur à la liste chat_members
-// le reste de la construction de la page est effectué
-// par le JS après chargement
-
-  require("dbconnect.php");
-
-  $query="INSERT INTO chat_members (id, nom) VALUES(".$_SESSION[userid].",'".addslashes($_SESSION['realname'])."')";
-  //echo $query."<br/>";
-  mysql_query($query, $db) or die("Erreur lors de l'insertion du membre dans chat_members: ".mysql_error());
-
-  // initialise le TIME STAMP
-  //$_SESSION['timestamp']="1973-12-03";
+  // début du programme spécifique 'chatroom'
+  
   // initialise le nombre de messages déjà envoyés
   $_SESSION['numsent']=0;
 ?>
