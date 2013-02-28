@@ -32,12 +32,13 @@ function main() {
 }
 
 function setHeight() {
+  var html=(document.getElementsByTagName("html"))[0];
+  var winHeight=html.clientHeight;
+  var menu=document.getElementById("mainmenu");
+  var menuHeight=menu.clientHeight;
+  //displayMessage("system",html.clientHeight+"/"+html.scrollHeight+"/"+html.offsetHeight+"/"+html.height);
   var chatpage=document.getElementById("chatpage"); 
-  var height=chatpage.clientHeight;
-  var winHeight=(document.getElementsByTagName("html"))[0].clientHeight;
-  var menuHeight=(document.getElementById("mainmenu")).clientHeight;
-  displayMessage("system",height+"/"+winHeight);
-  chatpage.style.maxHeight=(winHeight-menuHeight)+"px";
+  chatpage.style.maxHeight=(winHeight-menuHeight-20)+"px";
 }
 
 ////////////////////////////////////////////////////////////
