@@ -1,4 +1,4 @@
-<table class="fixe" cellpadding="0" cellspacing="0" border="0" width="100%">
+<table id="mainmenu" class="fixe" cellpadding="0" cellspacing="0" border="0" width="100%">
   <tr valign="top">
     <td align="left"><span class="bigfont">Groupe Loisirs ASL SLB</span></td>
     <td align="right">

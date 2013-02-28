@@ -9,6 +9,9 @@ window.addEventListener("load", main);
 //////////////////////////////////////////////////////////
 var chatBox; // zone de saisie 
 function main() {
+  // abonnements de la gestion de la zone chatpage
+  window.addEventListener("resize",setHeight);
+
   // abonnements de la fonction de déconnexion 
   window.addEventListener("beforeunload",confirmation);
   window.addEventListener("unload",deconnexion);
@@ -26,6 +29,15 @@ function main() {
   // lance immédiatement le rafraîchissement
   getMembers();
   getMessages();
+}
+
+function setHeight() {
+  var chatpage=document.getElementById("chatpage"); 
+  var height=chatpage.clientHeight;
+  var winHeight=(document.getElementsByTagName("html"))[0].clientHeight;
+  var menuHeight=(document.getElementById("mainmenu")).clientHeight;
+  displayMessage("system",height+"/"+winHeight);
+  chatpage.style.maxHeight=(winHeight-menuHeight)+"px";
 }
 
 ////////////////////////////////////////////////////////////
@@ -123,8 +135,11 @@ function displayMessage(auteur, message) {
     '<span class="chatmessagebody"></span>' 
    ].join('');
   div.lastChild.textContent=message;
-  // insertion du div juste avant chatBox
-  chatBox.parentNode.insertBefore(div,chatBox);
+  // insertion du div juste avant chatfooter
+  var chatfooter=document.getElementById("chatfooter");
+  chatfooter.parentNode.insertBefore(div,chatfooter);
+
+  chatfooter.scrollIntoView(false);
 }
 
 //////////////////////////////////////////////////////////////////////////

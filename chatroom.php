@@ -45,12 +45,14 @@
     <span class="chatmessagebody"> Salut!  </span> 
   </div>
   -->
-  <input type="text" id="chatbox">
-  <div id="chatmembers">
-    <span>Actuellement dans le salon:</span>
-    <!-- exemple de membre
-    <span class="chatmember" name="chatmember">Alexandre</span>
-    -->
+  <div id="chatfooter">
+    <input type="text" id="chatbox">
+    <div id="chatmembers">
+      <span>Actuellement dans le salon:</span>
+      <!-- exemple de membre
+      <span class="chatmember" name="chatmember">Alexandre</span>
+      -->
+    </div>
   </div>
 </div>
 </body>

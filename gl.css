@@ -20,8 +20,11 @@ h1,h2,h3,h4,h5,h6 {
 /* =============== style pour le chat */
 
 #chatpage {
-  position: fixed;
+  position: absolute;
   bottom: 5px;
+  width:100%;
+  /*max-height:200pt;*/
+  overflow: auto;
 }
 
 .chatauteur, .chatmember {
@@ -31,8 +34,13 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .chatmessage {
-  border-bottom:1pt solid #dddddd;
+  border-top:1pt solid #dddddd;
   padding: 2pt 0pt;
+}
+
+#chatfooter {
+  /*position: absolute;
+  bottom: 0; */
 }
 
 #chatbox {
