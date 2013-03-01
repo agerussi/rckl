@@ -22,7 +22,7 @@
     mysql_query($query, $db) or die("Erreur lors de la suppression des messages de chat_messages: ".mysql_error());
   }
 
-  // formate les messages sous format JSON
+  // formate les membres sous format JSON
   unset($json);
   while ($row=mysql_fetch_array($result)) {
     $json[]='{"id":'.$row['id'].',"nom":"'.stripslashes($row['nom']).'"}';

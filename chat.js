@@ -20,12 +20,12 @@ function main() {
   else chatBox.addEventListener("change", saisieMessage);
 
   // abonnement de la collecte des membres
-  getMembers(); // doit être appelé AVANT getMessages()
+  getMembers(); 
   window.setInterval(getMembers,10*1000);
 
   // abonnement de la collecte de messages
   getMessages();
-  window.setInterval(getMessages,5*1000);
+  window.setInterval(getMessages,4*1000);
 
 }
 
@@ -37,6 +37,9 @@ function waitForEnter(evt) {
   if (evt.keyCode==13) saisieMessage();
 }
 
+///////////////////////////////////////////////////////////
+// adapte dynamiquement la valeur max-height de chatpage //
+///////////////////////////////////////////////////////////
 function setHeight() {
   var html=(document.getElementsByTagName("html"))[0];
   var winHeight=html.clientHeight;
