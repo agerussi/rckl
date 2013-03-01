@@ -91,7 +91,7 @@ function getMessages() {
       var json=JSON.parse(this.response);
       // traitement
       for (var i=0; i<json.messagelist.length; i++) 
-	displayMessage(json.messagelist[i].auteur,json.messagelist[i].corps);
+	displayMessage(json.messagelist[i].auteur,unescape(json.messagelist[i].corps));
     }
   }
   xhr.open("POST", "chat_getMessages", true); // asynchrone pour ne pas avoir d'interruptions
@@ -112,7 +112,7 @@ function saisieMessage() {
   var body='--BoUnDaRy\n';
   body+='Content-Disposition: form-data; name="msgBody"\n';
   body+='Content-Type: text/plain; charset=utf-8\n\n';
-  body+=chatBox.value+'\n';
+  body+=escape(chatBox.value)+'\n';
   body+='--BoUnDaRy\n';
   xhr.send(body);
 
