@@ -4,17 +4,29 @@ window.addEventListener("load", main);
 ///////////////////// Fin du programme principal ////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
+// variables globales
+var chatBox; // zone de saisie 
+var chatPage; // page du chat (hors menu)
+var bodyTag; // l'élément <body>
+var htmlTag; // l'élément <html>
+var mainMenu; // le menu en haut de page
+
 //////////////////////////////////////////////////////////
 // fonction principale, essentiellement des abonnements //
 //////////////////////////////////////////////////////////
-var chatBox; // zone de saisie 
 function main() {
+  // récupération des éléments interactifs
+  chatBox=document.getElementById("chatbox");
+  chatPage=document.getElementById("chatpage"); 
+  bodyTag=document.getElementsByTagName("body")[0];
+  mainMenu=document.getElementById("mainmenu");
+  htmlTag=(document.getElementsByTagName("html"))[0];
+
   // abonnements de la gestion de la zone chatpage
   setHeight();
   window.addEventListener("resize",setHeight);
 
   // abonnement de la zone de saisie
-  chatBox=document.getElementById("chatbox");
   var isIE = /*@cc_on!@*/false; // comprends rien mais ça à l'air de marcher!!
   if (isIE) chatBox.addEventListener("keypress", waitForEnter);
   else chatBox.addEventListener("change", saisieMessage);
@@ -41,13 +53,12 @@ function waitForEnter(evt) {
 // adapte dynamiquement la valeur max-height de chatpage //
 ///////////////////////////////////////////////////////////
 function setHeight() {
-  var html=(document.getElementsByTagName("html"))[0];
-  var winHeight=html.clientHeight;
-  var menu=document.getElementById("mainmenu");
-  var menuHeight=menu.clientHeight;
-  //displayMessage("system",html.clientHeight+"/"+html.scrollHeight+"/"+html.offsetHeight+"/"+html.height);
-  var chatpage=document.getElementById("chatpage"); 
-  chatpage.style.maxHeight=(winHeight-menuHeight-20)+"px";
+  var winHeight=htmlTag.clientHeight;
+  var menuHeight=mainMenu.clientHeight;
+  chatPage.style.maxHeight=(winHeight-menuHeight-20)+"px";
+
+  //chatBox.style.width=winWidth+"px";
+  chatPage.style.width=bodyTag.clientWidth+"px";
 }
 
 ////////////////////////////////////////////////////////////

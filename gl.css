@@ -27,8 +27,6 @@ h1,h2,h3,h4,h5,h6 {
 #chatpage {
   position: absolute; 
   bottom: 5px;
-  width:95%; 
-  max-height:100%;
   overflow: auto;
 }
 
@@ -43,13 +41,8 @@ h1,h2,h3,h4,h5,h6 {
   padding: 2pt 0pt;
 }
 
-/*#chatfooter {
-  position: absolute;
-  bottom: 0; 
-} */
-
 #chatbox {
-  width:50%;
+  width:75%;
   margin-bottom: 5px;
 } 
 
