@@ -45,7 +45,9 @@ function getMembers() {
   xhr.onreadystatechange=function() {
     if (this.readyState==this.DONE && this.status==200) {
       // récupération sous format JSON 
-      var json=eval("("+this.response+")");
+      //if (JSON.parse) var json=JSON.parse(this.response);
+      //else var json=eval("("+this.response+")");
+      var json=JSON.parse(this.response);
       // traitement et affichage
       clearMembers(); // effacement de l'ancienne liste
       for (var i=0; i<json.memberlist.length; i++) displayMembre(json.memberlist[i].nom);
@@ -84,7 +86,9 @@ function getMessages() {
   xhr.onreadystatechange=function() {
     if (this.readyState==this.DONE && this.status==200) {
       // récupération sous format JSON
-      var json=eval("("+this.response+")");
+      //if (JSON.parse) var json=JSON.parse(this.response);
+      //else var json=eval("("+this.response+")");
+      var json=JSON.parse(this.response);
       // traitement
       for (var i=0; i<json.messagelist.length; i++) 
 	displayMessage(json.messagelist[i].auteur,json.messagelist[i].corps);
