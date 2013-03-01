@@ -15,7 +15,9 @@ function main() {
 
   // abonnement de la zone de saisie
   chatBox=document.getElementById("chatbox");
-  chatBox.addEventListener("change", saisieMessage);
+  var isIE = /*@cc_on!@*/false; // comprends rien mais ça à l'air de marcher!!
+  if (isIE) chatBox.addEventListener("keypress", waitForEnter);
+  else chatBox.addEventListener("change", saisieMessage);
 
   // abonnement de la collecte des membres
   getMembers(); // doit être appelé AVANT getMessages()
@@ -25,6 +27,14 @@ function main() {
   getMessages();
   window.setInterval(getMessages,5*1000);
 
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+// solution pourrie pour contre-carrer les tarres d'IE sur les évènements 'change' //
+/////////////////////////////////////////////////////////////////////////////////////
+function waitForEnter(evt) {
+  //displayMessage("system", "IE!");
+  if (evt.keyCode==13) saisieMessage();
 }
 
 function setHeight() {
