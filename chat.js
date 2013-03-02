@@ -32,7 +32,6 @@ function main() {
   else chatBox.addEventListener("change", saisieMessage);
 
   // abonnement de la collecte des membres
-  getMembers(); 
   window.setInterval(getMembers,10*1000);
 
   // abonnement de la collecte de messages
