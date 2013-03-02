@@ -13,12 +13,12 @@
   require("dbconnect.php");
 
   // récupère la liste des membres considérés présents  
-  $query="SELECT id,nom FROM membres WHERE TIMESTAMPDIFF(SECOND,chattimestamp,NOW())<15";
+  $query="SELECT id,nom FROM membres WHERE TIMESTAMPDIFF(SECOND,chattimestamp,NOW())<60";
   $result=mysql_query($query, $db) or die("Erreur lors de la collecte des membres présents: ".mysql_error());
 
   // si la liste est vide, une nouvelle conversation commence
   if (mysql_num_rows($result)==0) { // on efface les anciens messages
-    $query="DELETE FROM chat_messages";
+    $query="TRUNCATE TABLE chat_messages";
     mysql_query($query, $db) or die("Erreur lors de la suppression des messages de chat_messages: ".mysql_error());
   }
 

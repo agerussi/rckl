@@ -10,15 +10,14 @@
   require("dbconnect.php");
 
   // récupère les messages numérotés > $_SESSION['numsent']
-  $query="SELECT auteur,message FROM chat_messages WHERE num>".$_SESSION['numsent']." ORDER BY num";
-  //$query="SELECT auteur,message FROM chat_messages ORDER BY time";
+  $query="SELECT auteur,message FROM chat_messages WHERE num > ".$_SESSION['numsent']." ORDER BY num";
   $result=mysql_query($query, $db) or die("Erreur lors de la collecte de messages dans chat_messages: ".mysql_error());
 
   // formate les messages sous forme JSON
   unset($json);
   while ($row=mysql_fetch_array($result)) {
     $message='{"auteur":"'.stripslashes($row['auteur']).'",';
-    $message.='"corps":"'.$row['message'].'"}';
+    $message.='"corps":"'.stripslashes($row['message']).'"}';
     $json[]=$message;
     $_SESSION['numsent']++; // compte le nombre de messages envoyés
   }
