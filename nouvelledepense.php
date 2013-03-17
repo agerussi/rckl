@@ -48,7 +48,13 @@ while($ligne = mysql_fetch_array($result)) {
 }
 echo "</tr></table>"
 ?>
-
+ <p>
+   <label> <b>Bénéficiaire(s) extérieur(s)</b></label>
+ </p>
+ <p>
+  <input type="hidden" name="NB_BENEF_EXT" value="0" />
+  <img class="edit" title="ajouter un bénéficiaire" src="FONDS/b_add.png" />
+ </p>
  <p><label><b>Détails concernant la dépense:</b></label><br />
  <textarea name="commentaire" cols="50" rows="10"></textarea></p>
  <p><input type="submit" name="validerpaiement" value="Valider le paiement"/></p>

@@ -59,8 +59,11 @@ echo "</tr>";
 echo "</tbody></table>";
 ?>
 
-<form action="nouveaupaiement.php">
-<input type="submit" value="Soumettre un nouveau paiement"/>
+<form action="nouvelledepense.php">
+<input type="submit" value="Soumettre une nouvelle dépense (modifications en cours, ne pas utiliser merci)"/>
+</form>
+<form action="nouveaurecu.php">
+<input type="submit" value="Déclarer un reçu extérieur (modifications en cours, ne pas utiliser merci)"/>
 </form>
 
 <h2>Historique des paiements</h2>
