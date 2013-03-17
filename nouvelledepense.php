@@ -12,6 +12,7 @@ require("dbconnect.php");
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 <?php require("head.html"); ?>
+<script type="text/javascript" src="nouvelledepense.js"></script>
 </head>
 <body>
 <h2>Saisir un nouveau paiement</h2>
@@ -49,11 +50,13 @@ while($ligne = mysql_fetch_array($result)) {
 echo "</tr></table>"
 ?>
  <p>
-   <label> <b>Bénéficiaire(s) extérieur(s)</b></label>
+   <label> 
+     <b>Bénéficiaire(s) extérieur(s)</b> 
+     <img id="boutonPlus" title="ajouter un bénéficiaire" src="FONDS/b_add.png" />
+   </label>
  </p>
  <p>
-  <input type="hidden" name="NB_BENEF_EXT" value="0" />
-  <img class="edit" title="ajouter un bénéficiaire" src="FONDS/b_add.png" />
+  <input type="hidden" id="nbBenExt" name="NB_BENEF_EXT" value="0" />
  </p>
  <p><label><b>Détails concernant la dépense:</b></label><br />
  <textarea name="commentaire" cols="50" rows="10"></textarea></p>
