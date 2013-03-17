@@ -12,21 +12,28 @@ if (!isset($_POST['validerpaiement'])) {
 // connexion à la base de données
 require("dbconnect.php");
 
-// établit la liste et le nombre des sélectionnés
+// établit la liste et le nombre des membres sélectionnés
 $query = 'SELECT id,nom,solde FROM membres WHERE login<>"root"';
 $result=mysql_query($query,$db);
-$num=0;
+$numMembres=0;
 while($ligne = mysql_fetch_array($result)) {
   $nom=$ligne['nom'];
   $id=$ligne['id'];
   $solde=$ligne['solde'];
   if ($_POST['id'.$id]) {
-    $selectionnes[$num]['nom']=$nom;
-    $selectionnes[$num]['id']=$id;
-    $selectionnes[$num]['solde']=$solde;
-    $num++;
+    $selectionnes[$numMembres]['nom']=$nom;
+    $selectionnes[$numMembres]['id']=$id;
+    $selectionnes[$numMembres]['solde']=$solde;
+    $numMembres++;
   }
 }
+
+$numExt=$_POST['NB_BENEF_EXT'];
+for ($i=1; $i<=$numExt; $i++) { // liste des extérieurs
+  $exterieurs[$i]=$_POST['exterieur'.$i];
+}
+
+$numTotal=$numMembres+$numExt;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -42,7 +49,7 @@ while($ligne = mysql_fetch_array($result)) {
 <div align="center">
 <?php
 $wrong=false;
-if ($num==0 || !isset($_POST['somme']) || !isset($_POST['commentaire'])) {
+if ($numTotal==0 || !isset($_POST['somme']) || !isset($_POST['commentaire'])) {
   echo 'Un des champs de la déclaration n\'a pas été rempli.';
   $wrong=true;
 }
@@ -63,33 +70,39 @@ if ($wrong) {
 }  
 else { // la demande semble correcte
   $_SESSION['paiement-selectionnes']=$selectionnes;
-  $_SESSION['paiement-num']=$num;
+  $_SESSION['paiement-exterieurs']=$exterieurs;
+  $_SESSION['paiement-numMembre']=$numMembres;
+  $_SESSION['paiement-numExt']=$numExt;
+  $_SESSION['paiement-numTotal']=$numTotal;
   $_SESSION['paiement-description']=$_POST['commentaire'];
-  // $somme=$_POST['somme'];
   $_SESSION['paiement-somme']=$somme;
 
   echo '<p>Vous avez déclaré une somme de '.$somme.' €.</p>';
   echo '<p>Vous serez donc crédité de cette somme.</p>';
-  if ($num==1) 
-    echo '<p>La personne bénéficiaire est';
-  else 
-    echo '<p>Les personnes bénéficiaires sont:';
-  for ($i=0; $i<$num; $i++) {
+  if ($numTotal==1) echo '<p>La personne bénéficiaire est';
+  else echo '<p>Les personnes bénéficiaires sont:';
+  for ($i=0; $i<$numMembres; $i++) {
     echo ' '.$selectionnes[$i]['nom'];
-    if ($i==$num-2) echo ' et';
-    else if ($i==$num-1) echo '.';
+    if ($i==$numTotal-2) echo ' et';
+    else if ($i==$numTotal-1) echo '.';
     else echo ',';
   }
-  $somme=round(100*$somme/$num)/100;
-  if ($num==1) 
+  for ($i=1; $i<=$numExt; $i++) {
+    echo ' '.$exterieurs[$i].' (extérieur)';
+    if ($i==$numTotal-1) echo ' et';
+    else if ($i==$numTotal) echo '.';
+    else echo ',';
+  }
+  $somme=round(100*$somme/$numTotal)/100;
+  if ($numTotal==1) 
     echo '</p><p>Elle sera donc débitée de '.$somme.' €.</p>';
   else 
     echo '</p><p>Elles seront chacunes débitées de '.$somme.' €.</p>';
 
   echo '<p>
-    <form method="post" action="confirmationpaiement.php"><input type="submit" value="Confirmer le paiement" /></form>
+    <form method="post" action="HIDEconfirmationpaiement.php"><input type="submit" value="Confirmer le paiement" /></form>
     ou
-    <form action="nouveaupaiement.php"><input type="submit" value="Recommencer la déclaration" /></form>
+    <form action="nouvelledepense.php"><input type="submit" value="Recommencer la déclaration" /></form>
     ou
     <form action="gestiondesfrais.php"><input type="submit" value="Abandonner" /></form></p>
     ';
