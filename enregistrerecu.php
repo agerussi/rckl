@@ -20,24 +20,25 @@ require("dbconnect.php");
 $query="SELECT solde FROM membres WHERE id=".$_SESSION['userid'];
 //echo "debug: ".$query."<br/>";
 $result=mysql_query($query,$db);
-$ligne=mysql_fetch_array($result);
+$ligne=mysql_fetch_array($result) or die("Erreur lors de la lecture du solde.");
 $solde=$ligne['solde'];
 $solde-=$somme; // nouveau solde, à sauvegarder
 
 $query = "UPDATE membres SET solde=".$solde." WHERE id=".$_SESSION['userid'];
-echo "debug: ".$query."<br/>";
-//mysql_query($query,$db) || die("Erreur lors de l'enregistrement du nouveau solde");
+//echo "debug: ".$query."<br/>";
+mysql_query($query,$db) or die("Erreur lors de l'enregistrement du nouveau solde");
 
 // rajout dans l'historique
 $listevariations=$_SESSION['realname'].'(-'.$somme.')';
 $cancel=$_SESSION['userid'].','.$somme;
-echo "debug: listevariations=".$listevariations.'<br/>';
-echo "debug: cancel=".$cancel.'<br/>';
+//echo "debug: listevariations=".$listevariations.'<br/>';
+//echo "debug: cancel=".$cancel.'<br/>';
 
-$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['realname']."',".$somme.",'".$listevariations."','".$_POST['commentaire']."','".$cancel."')";
-echo "debug: query=".$query.'<br/>';
-//mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
+$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['realname']."',".(-$somme).",'".$listevariations."','".$_POST['commentaire']."','".$cancel."')";
+//echo "debug: query=".$query.'<br/>';
+mysql_query($query, $db) or die("Erreur lors de l'ajout dans l'historique: ".mysql_error());
 
+header("Location: gestiondesfrais.php");
 ?>
 </div>
 </body>
