@@ -5,10 +5,10 @@ function validation() {
   var sommeStr=champSomme.value.replace(",","."); 
   var sommeNum=parseFloat(sommeStr);
 
-  if (sommeNum.toString()!=sommeStr) {
+  if (sommeNum.toString()!=sommeStr || sommeNum<=0) {
     alert("La somme saisie est invalide");
     return false;
   }
-  
-  return true;
+ 
+  return confirm("Vous déclarez avoir reçu "+sommeNum+" €. Confirmez-vous ?"); 
 }

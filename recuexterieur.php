@@ -27,7 +27,7 @@ Mode d'emploi:
 </div>
 
 <div align="center">
-<form accept-charset="UTF-8" method="post" onsubmit="return validation()" action="enregistrementrecu.php">
+<form accept-charset="UTF-8" method="post" onsubmit="return validation()" action="enregistrerecu.php">
  <p><label><b>Somme dépensée:</b></label>
  <input id="somme" name="somme" type="text" size="4" /><b>€</b></p>
 
