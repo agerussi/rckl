@@ -60,10 +60,10 @@ echo "</tbody></table>";
 ?>
 
 <form action="nouvelledepense.php">
-<input type="submit" value="Soumettre une nouvelle dépense (modifications en cours, ne pas utiliser merci)"/>
+<input type="submit" value="Déclarer une nouvelle dépense"/>
 </form>
-<form action="nouveaurecu.php">
-<input type="submit" value="Déclarer un reçu extérieur (modifications en cours, ne pas utiliser merci)"/>
+<form action="recuexterieur.php">
+<input type="submit" value="Déclarer un reçu extérieur"/>
 </form>
 
 <h2>Historique des paiements</h2>
