@@ -27,7 +27,7 @@ Mode d'emploi:
 </div>
 
 <div align="center">
-<form accept-charset="UTF-8" method="post" action="validationpaiement.php">
+<form accept-charset="UTF-8" method="post" onsubmit="return validation()" action="volidationpaiement.php">
  <p><label><b>Somme dépensée:</b></label>
  <input name="somme" type="text" size="4" /><b>€</b></p>
  <p><label><b>Membre(s) bénéficiaire(s)</b></label></p>

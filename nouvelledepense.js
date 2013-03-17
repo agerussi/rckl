@@ -14,8 +14,31 @@ function main() {
 
   // récupération champ nb bénéficiaires
   champNbBenExt=document.getElementById("nbBenExt");
+
+  // abonnement du bouton de validation pour mise en forme finale
+  //document.getElementById("formulairePaiement").addEventListener("submit",validation);
 }
 
+// validation du formulaire avant envoi
+function validation() {
+  // inscrit le nombre d'extérieurs
+  champNbBenExt.setAttribute("value", nbBenExt);
+
+  // nomme les différents champs
+  var champ=champNbBenExt.nextElementSibling;
+  for (var i=1; i<=nbBenExt; i++) {
+    var value=champ.value.trim()
+    if (value.length==0) {
+      alert("Veuillez nommer tous les bénéficiaires extérieurs");
+      return false;
+    }
+    champ.value=value; // trimmed value 
+    champ.setAttribute("name", "exterieur"+i);
+    champ=champ.nextElementSibling.nextElementSibling;
+  }
+
+  return true;
+}
 
 // ajout d'un champ de saisie pour membre extérieur
 // et augmentation du compteur
@@ -26,6 +49,7 @@ function ajouterExterieur() {
   // ajout d'une zone input (sera nommée "exterieurXX")
   var input=document.createElement("input");
   input.setAttribute("type", "text");
+  input.setAttribute("value", "");
   //input.setAttribute("name", "exterieur"+nbBenExt);
   champNbBenExt.parentNode.appendChild(input);
   
