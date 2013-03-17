@@ -63,7 +63,7 @@ else {
 }
 if ($wrong) {
   echo '
-    <p><form method="POST" action="nouveaupaiement.php">
+    <p><form method="POST" action="nouvelledepense.php">
      <input type="submit" value="Recommencer une déclaration" />
     </form>
   ';
@@ -71,7 +71,7 @@ if ($wrong) {
 else { // la demande semble correcte
   $_SESSION['paiement-selectionnes']=$selectionnes;
   $_SESSION['paiement-exterieurs']=$exterieurs;
-  $_SESSION['paiement-numMembre']=$numMembres;
+  $_SESSION['paiement-numMembres']=$numMembres;
   $_SESSION['paiement-numExt']=$numExt;
   $_SESSION['paiement-numTotal']=$numTotal;
   $_SESSION['paiement-description']=$_POST['commentaire'];
@@ -89,8 +89,8 @@ else { // la demande semble correcte
   }
   for ($i=1; $i<=$numExt; $i++) {
     echo ' '.$exterieurs[$i].' (extérieur)';
-    if ($i==$numTotal-1) echo ' et';
-    else if ($i==$numTotal) echo '.';
+    if ($numMembres+$i==$numTotal-1) echo ' et';
+    else if ($numMembres+$i==$numTotal) echo '.';
     else echo ',';
   }
   $somme=round(100*$somme/$numTotal)/100;
@@ -100,7 +100,7 @@ else { // la demande semble correcte
     echo '</p><p>Elles seront chacunes débitées de '.$somme.' €.</p>';
 
   echo '<p>
-    <form method="post" action="HIDEconfirmationpaiement.php"><input type="submit" value="Confirmer le paiement" /></form>
+    <form method="post" action="confirmationpaiement.php"><input type="submit" value="Confirmer le paiement" /></form>
     ou
     <form action="nouvelledepense.php"><input type="submit" value="Recommencer la déclaration" /></form>
     ou
