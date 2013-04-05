@@ -38,11 +38,11 @@
 }
 
 .menuinline li:hover ul { 
-  display:block; 
+ display:block; 
 } 
 
 .menuinline li:hover { 
-  position:relative; 
+  position:relative;
   background-color:white; 
   border-radius:8px;
 }

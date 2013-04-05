@@ -21,6 +21,7 @@ Mode d'emploi:
 <ol> 
 <li> Saisissez la somme totale que vous avez dépensée;</li>
 <li> Sélectionnez les membres bénéficiaires (<b>vous y compris</b>, le cas échéant);</li>
+<li> Ajoutez les bénéficiaires extérieurs en cliquant sur l'icône + puis en saisissant leur nom dans le cadre correspondant; 
 <li> Saisissez une description de la dépense (par exemple l'objet, la date, la sortie...);</li>
 <li> Validez la demande (une confirmation sera demandée).</li>
 </ol>
