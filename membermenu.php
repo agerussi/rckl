@@ -3,7 +3,7 @@
 
 if(isset($_SESSION['login'])){ // on est loggé
 
-  echo '<span style="color:red">'.$_SESSION['realname'].'</span>'; 
+  echo '<span class="iphonefix" style="color:red">'.$_SESSION['realname'].'</span>'; 
   echo <<<EOS
 <ul>
 <li><a href="newspost-page.php">poster une news</a></li>
