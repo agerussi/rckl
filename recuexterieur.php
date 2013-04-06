@@ -28,7 +28,7 @@ Mode d'emploi:
 
 <div align="center">
 <form accept-charset="UTF-8" method="post" onsubmit="return validation()" action="enregistrerecu.php">
- <p><label><b>Somme dépensée:</b></label>
+ <p><label><b>Somme perçue:</b></label>
  <input id="somme" name="somme" type="text" size="4" /><b>€</b></p>
 
  <p><label><b>Détails concernant le reçu:</b></label><br />

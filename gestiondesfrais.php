@@ -22,11 +22,11 @@ require("dbconnect.php");
 <?php require("menub.php"); ?>
 <h1>GESTION DES FRAIS</h1>
 <h2>Bilan global</h2>
+
 (sommes en euros, les sommes négatives sont dues)
-
+<table id="bilanglobal">
+  <tbody>
 <?php
-echo '<table id="bilanglobal"><tbody>';
-
 // récupère le min et le max
 $query='SELECT MIN(solde) AS soldeMin, MAX(solde) AS soldeMax FROM membres WHERE login<>"root" AND site<>0';
 $maxresult=mysql_query($query,$db) or die("Erreur lors de la récupération du solde max: ".mysql_error());
@@ -56,8 +56,9 @@ while($ligne = mysql_fetch_array($result)) {
 }
 for (;$n%$maxperline!=0; $n++) echo "<td></td>";
 echo "</tr>";
-echo "</tbody></table>";
 ?>
+  </tbody>
+</table>
 
 <form action="nouvelledepense.php">
 <input type="submit" value="Déclarer une nouvelle dépense"/>
