@@ -91,7 +91,7 @@
 </xsl:template>
 
 <xsl:template match="commentaire">
-  <label class="archiveedit">Commentaire: </label>
+  <label class="archiveedit">Commentaire (code HTML explicite): </label>
   <textarea class="archiveedit" cols="80" rows="5" name="valeurcommentaire" id="valeurcommentaire">
     <xsl:apply-templates select="text()|*"/>
   </textarea>
@@ -99,7 +99,7 @@
 </xsl:template>
 
 <xsl:template name="commentaireDefault">
-  <label class="archiveedit">Commentaire: </label>
+  <label class="archiveedit">Commentaire (code HTML explicite): </label>
   <textarea class="archiveedit" cols="80" rows="5" name="valeurcommentaire" id="valeurcommentaire">
   </textarea>
   <div class="bigskip"/>

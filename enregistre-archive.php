@@ -31,11 +31,11 @@ if (strlen($textedate)>0) $xml.='texte="'.$textedate.'"';
 $xml.="/>";
 
 // le titre
-$titre=trim($_POST['valeurtitre']);
+$titre=htmlspecialchars(trim($_POST['valeurtitre']));
 if (strlen($titre)!=0) $xml.="<titre>".$titre."</titre>";
 
 // le commentaire
-$commentaire=$_POST['valeurcommentaire'];
+$commentaire=trim($_POST['valeurcommentaire']);
 if (strlen($commentaire)!=0) $xml.="<commentaire>".$commentaire."</commentaire>";
 
 // les participants
@@ -70,7 +70,7 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
       }
       // création de l'XML
       $xml.='<photo fichier="'.$fichier.'" ';
-      $commentaire=trim($_POST["commentaireMedia".$i]);
+      $commentaire=htmlspecialchars(trim($_POST["commentaireMedia".$i]));
       $xml.=(strlen($commentaire)==0) ? "/>" : 'commentaire="'.$commentaire.'" />';
     }
     else effaceFichier($fichier, $isNew);
@@ -95,7 +95,7 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
       $xml.='<video fichier="'.$fichier.'"';
       $vimeo=trim($_POST["vimeo".$i]);
       if (strlen($vimeo)!=0) $xml.=' vimeo="'.$vimeo.'"';
-      $commentaire=trim($_POST["commentaireMedia".$i]);
+      $commentaire=htmlspecialchars(trim($_POST["commentaireMedia".$i]));
       $xml.=(strlen($commentaire)==0) ? "/>" : ' commentaire="'.$commentaire.'" />';
     }
     else effaceFichier($fichier, $isNew);
