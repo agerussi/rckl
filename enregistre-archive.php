@@ -35,11 +35,11 @@ $titre=htmlspecialchars(trim($_POST['valeurtitre']));
 if (strlen($titre)!=0) $xml.="<titre>".$titre."</titre>";
 
 // le commentaire
-$commentaire=trim($_POST['valeurcommentaire']);
+$commentaire=htmlspecialchars(trim($_POST['valeurcommentaire']));
 if (strlen($commentaire)!=0) $xml.="<commentaire>".$commentaire."</commentaire>";
 
 // les participants
-$participants=$_POST['listeparticipants'];
+$participants=$_POST['listeparticipants']; // la liste est déjà passée par htmlspecialchars() version JS
 if (strlen($participants)!=0) $xml.="<participants>".$participants."</participants>";
 
 // la liste des medias (photos/vidéos)

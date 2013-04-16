@@ -32,8 +32,8 @@ while ($data = mysql_fetch_array($req)) {
 
   $xml.="<news>";
   $xml.="<date>".$jour."/".$mois."/".($an%100)."</date>";
-  $xml.="<auteur>".trim($data['auteur'])."</auteur>";
-  $xml.="<corps>".htmlspecialchars(trim($data['texte']))."</corps>";
+  $xml.="<auteur>".$data['auteur']."</auteur>";
+  $xml.="<corps>".$data['texte']."</corps>";
   $xml.="</news>";
 }
 $xml.="</newslist>";

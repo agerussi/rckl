@@ -365,7 +365,7 @@ function validationArchive() { // vérification et préparation avant soumission
   // récolte des participants dans listeparticipants
   var listexml="";
   var liste=document.getElementsByName("participant");
-  for (var i=0; i<liste.length; i++) listexml += "<nom>"+liste[i].firstChild.data+"</nom>";
+  for (var i=0; i<liste.length; i++) listexml += "<nom>"+htmlspecialchars(liste[i].firstChild.data)+"</nom>";
 
   document.getElementById("listeparticipants").value = listexml;  
 
@@ -503,4 +503,13 @@ function effaceSuggestions() { // clair !
 
 function ecritSuggestion() { // réagit lorsqu'on a cliqué sur une suggestion
   document.getElementById("nouveauparticipant").value = this.innerHTML;
+}
+
+function htmlspecialchars(text) {
+  return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 }
