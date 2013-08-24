@@ -45,15 +45,6 @@ Le prix pour une saison est légèrement variable d'années en années, mais à 
 </ul>
 Vous pouvez trouver les documents d'inscription détaillés (à imprimer) dans la rubrique <a href="documents.php?menu">documents</a>.
 
-<h4>Liste de diffusion</h4>
-La liste de diffusion <b>gl.asl@ml.free.fr</b> est, en parallèle avec ce site, le moyen privilégié de communication au sein du groupe loisirs.
-<ul>
-  <li> Pour vous inscrire, envoyez ce mail: <a href="mailto:gl.asl-request@ml.free.fr?subject=subscribe">gl.asl-request@ml.free.fr?subject=subscribe</a>.</li>
-  <li> Pour vous désinscrire, envoyez ce mail: <a href="mailto:gl.asl-request@ml.free.fr?subject=unsubscribe">gl.asl-request@ml.free.fr?subject=unsubscribe</a>.</li>
-  <li> Une fois inscrit(e), vous pourrez poster sur la liste via cette adresse: <a href="mailto:gl.asl@ml.free.fr">gl.asl@ml.free.fr</a></li>
-  <li> Enfin, pour contacter spécialement l'administrateur de la liste en cas de problème: <a href="mailto:gl.asl-owner@ml.free.fr">gl.asl-owner@ml.free.fr</a>.</li>
-</ul>
-
 <h4>Conseils pour les nouveaux arrivants n'ayant jamais fait de kayak (et les autres...)</h4>
 Vous avez pris votre décision: à la rentrée vous faites du kayak! 
 Voici quelques conseils pour une rentrée réussie au groupe loisirs:
