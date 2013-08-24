@@ -19,7 +19,17 @@ EOS;
   echo "</ul>";
 }
 else{
-echo '<a href="loginpage.php">CONNEXION</a>';
+  echo <<<EOS
+<a href="loginpage.php"
+title="permet de
+s'inscrire à une sortie,
+gérer ses frais,
+contacter un membre par mail,
+écrire une news,
+s'abonner au flux RSS,
+accéder au salon de discussion"
+>CONNEXION</a>
+EOS;
 }
 ?>
 

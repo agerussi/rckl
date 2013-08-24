@@ -12,6 +12,15 @@ else require("head.html");
 <?php 
   if (isset($_GET['menu'])) require("menub.php"); 
 
+
+  echo "<h1>TROMBINOSCOPE</h1>";
+
+  $connected=isset($_SESSION['login']);
+  if ($connected) 
+    echo "<p>Cliquez sur un nom de membre pour lui envoyer un email.</p>";
+  else 
+    echo "<p>Connectez vous pour contacter un membre par email.</p>";
+
   // requiert une connection à la BD
   require("dbconnect.php");
 

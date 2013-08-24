@@ -2,3 +2,6 @@
 
 *Rajouter nouvelles archives (+modifs) au flux RSS
 
+*se débrouiller pour avoir une balise <signature> dans les commentaires d'archives afin que l'auteur puisse signer son commentaire.
+(mais PB: les < et > sont actuellement stockés sous la forme d'entités et donc XSL ne les reconnaît pas)
+

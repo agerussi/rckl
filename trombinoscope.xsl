@@ -3,7 +3,6 @@
 <xsl:output method="html" indent="yes" omit-xml-declaration="yes" encoding="utf-8"/>
 
 <xsl:template match="/">
-  <h1>TROMBINOSCOPE</h1>
   <h2>Les membres actifs</h2>
   <xsl:apply-templates select="trombinoscopes/trombinoscope[@id='actifs']"/>
   <h2>Anciens membres</h2>
