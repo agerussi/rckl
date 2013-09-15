@@ -1,3 +1,4 @@
+*BUG: les guillemets " ne subsistent pas dans les commentaires des archives...
 *BUG1: archives: les balises auto-fermantes de type <br/> réapparaissent en <br> en cas de réédition, d'où problème lors de la sauvegarde (balisage non équilibré).
 
 *Rajouter nouvelles archives (+modifs) au flux RSS

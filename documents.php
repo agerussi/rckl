@@ -35,6 +35,7 @@
 </ul>
 <h3>AG du groupe loisirs</h3> 
 <ul>
+  <li> <a href="DOCS/cr13.pdf">Compte rendu</a> AG groupe loisirs 2013.</li>
   <li> <a href="DOCS/cr10.pdf">Compte rendu</a> AG groupe loisirs 2010.</li>
   <li> <a href="DOCS/cr07.pdf">Compte rendu</a> AG groupe loisirs 2007.</li>
   <li> <a href="DOCS/cr06.pdf">Compte rendu</a> AG groupe loisirs 2006.</li>

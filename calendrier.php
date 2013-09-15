@@ -44,7 +44,7 @@ function analysedate($date,$a,$m,$j,$jds) {
 <body>
 <?php require("menub.php"); ?>
 
-<h1>LES SORTIES À VENIR</h1>
+<h1>LES ACTIVITÉS À VENIR</h1>
 
 <?php // affichage de la liste des sorties existantes
 $logged=isset($_SESSION['login']);
@@ -54,7 +54,7 @@ $query="SELECT * FROM sorties ORDER BY datedebut";
 $listesorties=mysql_query($query, $db) or die("Erreur pendant la récupération de la liste des sorties: ".mysql_error());
 
 if (mysql_num_rows($listesorties)==0) {
-  echo '<h2>Pas de sorties programmées.</h2>';
+  echo '<h2>Pas de sorties ou activités programmées.</h2>';
 } 
 else {
   echo '

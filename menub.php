@@ -14,7 +14,7 @@
       <ul class="menuinline">
 	<li><a href="presentation.php?menu" title="présentation du groupe loisirs">PRÉSENTATION</a></li>
 	<li><a href="news.php?menu">NEWS</a></li>
-	<li><a href="sorties.php?menu" title="les sorties en préparation" >SORTIES</a></li>
+	<li><a href="calendrier.php?menu" title="les sorties ou autres activités en préparation" >CALENDRIER</a></li>
 	<li><a href="documents.php?menu" title="quelques documents et ressources">DOCUMENTS</a></li>
 	<li><a href="trombinoscope.php?menu" title="membres actifs ou anciens du GL">TROMBINOSCOPE</a></li>
 	<li title="photos/vidéos des sorties"><span class="iphonefix">ARCHIVES</span>
