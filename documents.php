@@ -10,6 +10,7 @@
 <body>
 <?php
   if (isset($_GET['menu'])) require("menub.php"); 
+  $connected=isset($_SESSION['login']);
 ?>
 <h1>DOCUMENTS</h1>
 
@@ -33,7 +34,11 @@
   <li> La <a href="DOCS/FE_EC_R.pdf">fiche</a> des compétences pour la pagaie ROUGE en EAUX CALMES.</li>
   <li> La <a href="DOCS/FE_EV_R.pdf">fiche</a> des compétences pour la pagaie ROUGE en EAUX VIVES.</li>
 </ul>
+
 <h3>AG du groupe loisirs</h3> 
+<?php
+  if (!$connected) echo '<p>Connectez-vous pour accéder aux comptes-rendus.</p>';
+  else echo <<<EOS
 <ul>
   <li> <a href="DOCS/cr13.pdf">Compte rendu</a> AG groupe loisirs 2013.</li>
   <li> <a href="DOCS/cr10.pdf">Compte rendu</a> AG groupe loisirs 2010.</li>
@@ -41,6 +46,8 @@
   <li> <a href="DOCS/cr06.pdf">Compte rendu</a> AG groupe loisirs 2006.</li>
   <li> <a href="DOCS/cr05.pdf">Compte rendu</a> AG groupe loisirs 2005.</li>
 </ul>
+EOS;
+?>
 <h3>Documents et liens divers</h3>
 <ul>
   <li> La <a href="DOCS/fichedesortie.pdf">fiche de sortie</a> à l'usage de l'organisateur d'une sortie officielle GL.</li>
