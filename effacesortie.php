@@ -6,6 +6,6 @@ if (isset($_SESSION['userid']) && isset($_GET['ids'])) {
   require("dbconnect.php");
   mysql_query($query,$db) or die("Erreur lors de la suppression d'une sortie: ".mysql_error());
 }
-header("Location: sorties.php?menu");
+header("Location: calendrier.php?menu");
 
 ?>

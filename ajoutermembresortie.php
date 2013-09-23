@@ -1,7 +1,7 @@
 <?php
 // ajoute le membre id à la sortie ids
 session_start();
-if (!isset($_SESSION['userid']) || !isset($_GET['ids'])) header("Location: sorties.php?menu");
+if (!isset($_SESSION['userid']) || !isset($_GET['ids'])) header("Location: calendrier.php?menu");
 
 $idsortie=$_GET['ids']; // sortie
 
@@ -18,5 +18,5 @@ $newliste.=$_SESSION['realname'].",".$_SESSION['userid'];
 $query="UPDATE sorties SET participants=\"$newliste\" WHERE id=$idsortie";
 if (!mysql_query($query,$db)) die("Erreur lors de la mise à jour des participants à une sortie: ".mysql_error());
 
-header("Location: sorties.php?menu");
+header("Location: calendrier.php?menu");
 ?>
