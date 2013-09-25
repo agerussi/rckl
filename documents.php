@@ -51,6 +51,12 @@ EOS;
 <h3>Documents et liens divers</h3>
 <ul>
   <li> La <a href="DOCS/fichedesortie.pdf">fiche de sortie</a> à l'usage de l'organisateur d'une sortie officielle GL.</li>
+  <li>
+    <?php
+      if (!$connected) echo 'Connectez-vous pour accéder au règlement du groupe loisirs.';
+      else echo 'Le <a href="DOCS/règlement-GL.pdf">règlement</a> du groupe: vos droits et devoirs en tant que membre (en cours de validation)';
+    ?>
+  </li>
 </ul>
 </body>
 </html>
