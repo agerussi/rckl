@@ -14,13 +14,14 @@
 ?>
 <h1>DOCUMENTS</h1>
 
-  Dossier d'inscription au GL, saison 2013: <a href="DOCS/inscription-page1sur2.png">page 1</a> et <a href="DOCS/inscription-page2sur2.png">page 2</a>.
+  <span style="background-color:gray">Dossier d'inscription au GL, saison 2013</span>: <a href="DOCS/inscription-page1sur2.png">page 1</a> et <a href="DOCS/inscription-page2sur2.png">page 2</a>.
 
 <h3>Ressources CK</h3>
 <ul>
   <li> <a href="ik.html">Initiation Kayak</a> - les bases du kayak en vidéo.</li>
-  <li> Un <a href="http://www.rivieres.info">site instructif et complet</a> sur divers aspects du Canoë-Kayak.</li>
   <li> Une compilation des techniques d'<a href="http://alexandre.gerussi.free.fr/ROLL/roll.html">esquimautage</a>.</li>
+  <li> Les <a href="DOCS/Nage-en-eau-vive.pdf">fondamentaux de la nage en eau vive</a> (NEV), par Patrick Delvallée.</li>
+  <li> Un <a href="http://www.rivieres.info">site instructif et complet</a> sur divers aspects du Canoë-Kayak.</li>
 </ul>
 
 <h3>Référence Pagaies Couleurs</h3>
