@@ -98,7 +98,7 @@
   <span class="miniature">
     <xsl:element name="a">
       <xsl:attribute name="title">
-	<xsl:value-of select="@commentaire"/>
+	<xsl:value-of select="@commentaire"/> 
       </xsl:attribute>
       <xsl:attribute name="rel">
 	<xsl:value-of select="concat('lightbox-',parent::sortie/@id)"/>

@@ -32,6 +32,7 @@
 	  </ul>
 	</li>
 	<li><a href="mailto:gl.aslslb@free.fr" title="envoyer un mail au responsable du groupe">CONTACT</a></li>
+	<li><a href="integration.php?menu" title="pour bien débuter au groupe loisirs">INTÉGRATION</a></li>
         <li><a href="liste-diffusion.php?menu" title="gestion de votre inscription à la liste">LISTE DE DIFFUSION</a></li>
 	<li><?php include("membermenu.php");?></li>
       </ul>

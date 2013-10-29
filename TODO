@@ -1,8 +1,11 @@
 *BUG: les guillemets " ne subsistent pas dans les commentaires des archives...
 *BUG1: archives: les balises auto-fermantes de type <br/> réapparaissent en <br> en cas de réédition, d'où problème lors de la sauvegarde (balisage non équilibré).
 
-*Rajouter nouvelles archives (+modifs) au flux RSS
+*Rajouter nouvelles archives au flux RSS
 
 *se débrouiller pour avoir une balise <signature> dans les commentaires d'archives afin que l'auteur puisse signer son commentaire.
 (mais PB: les < et > sont actuellement stockés sous la forme d'entités et donc XSL ne les reconnaît pas)
 
+* BUG: chat sous IE: la touche enter n'est pas détectée => à voir, et rajouter un bouton "envoyer" que l'on peut cliquer au cas où.
+
+* Faire un sorte que les documents non accessibles le soient vraiment, ie, rendre le répertoire DOCS privé.

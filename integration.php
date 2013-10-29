@@ -15,6 +15,27 @@
 Vous avez pris votre décision: à la rentrée vous faites du kayak! 
 Voici quelques conseils pour une rentrée réussie au groupe loisirs, en particulier pour les débutants complets ou presque.
 
+<h4>Le groupe loisirs est-il fait pour vous ?</h4>
+
+<p>
+Les activités du groupe sont relativement diversifiées et chacun peut en théorie y trouver son bonheur; cependant le centre d'intérêt principal de ses membres est le kayak d'eau vive, sous deux formes: la descente de rivières et le freestyle (jeu dans les vagues et rouleaux).
+Malheureusement notre région Nord/Pas-De-Calais n'offre que très peu de rivières ou de «spots» d'eau vive: les rivières intéressantes les plus proches sont essentiellement praticables ponctuellement en hiver, les autres nécessitent de gros déplacements. 
+</p>
+<p>
+Il faut bien comprendre que le bassin d'eau vive à lui tout seul ne constitue pas une alternative sur le long terme: passées les premières séances (disons la première année), il devient monotone. 
+Ainsi naviguer sur le bassin n'est pas une fin en soi, mais le moyen de s'entraîner et se perfectionner dans l'espoir d'être à l'aise, de profiter pleinement des sorties, et d'élargir sa liste des terrains de jeu (rivières, spots, ...) praticables en toute sécurité.
+</p>
+<p>
+De ceci découlent naturellement certains aspects du «candidat idéal» pour le groupe loisirs:
+<ul>
+<li>son objectif principal est le kayak d'eau vive, ce qui implique qu'il n'a pas d'appréhension par rapport à ce milieu parfois hostile; </li>
+<li>il possède une certaine capacité à apprendre en autonomie;</li>
+<li>il est psychologiquement prêt à naviguer dans des conditions difficiles (pluie, froid...) et sait apprécier «la nature sauvage»; </li>
+<li>il a un certain goût pour le travail et le perfectionnement technique;</li> 
+<li>il a la possibilité de bloquer certains week-ends pour se déplacer sur les sorties, parfois assez loin.</li>
+</ul>
+</p>
+
 <h4>Quand faut-il vous inscrire ?</h4>
 
 Même s'il est possible de vous inscrire n'importe quand dans l'année, il y a deux moments favorables: début mars ou début septembre.
