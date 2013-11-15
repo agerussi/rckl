@@ -28,8 +28,13 @@ function main() {
 
   // abonnement de la zone de saisie
   var isIE = /*@cc_on!@*/false; // comprends rien mais ça à l'air de marcher!!
-  if (isIE) chatBox.addEventListener("keypress", waitForEnter);
-  else chatBox.addEventListener("change", saisieMessage);
+  // if (isIE) chatBox.addEventListener("keypress", waitForEnter);
+  // else chatBox.addEventListener("change", saisieMessage);
+  
+  chatBox.addEventListener("keypress", waitForEnter);
+  
+  // abonnement du bouton d'envoi (équivalent à 'enter' mais utile en cas de défaillance)
+  document.getElementById("sendButton").addEventListener("click", saisieMessage);
 
   // abonnement de la collecte des membres
   window.setInterval(getMembers,10*1000);
@@ -99,6 +104,15 @@ function displayMembre(nom) {
   span.textContent=nom;
   // insertion du span à la fin de la liste
   document.getElementById("chatmembers").appendChild(span);
+  // abonnement
+  span.addEventListener("click",addMembreAt);
+}
+
+///////////////////////////////////////////////////////////////
+// ajoute un '@membre' devant le message en cours d'écriture //
+///////////////////////////////////////////////////////////////
+function addMembreAt() {
+  chatBox.value="[@"+this.textContent+"] "+chatBox.value;
 }
 
 /////////////////////////////////////////////////////////////

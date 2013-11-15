@@ -11,7 +11,7 @@
   require("dbconnect.php");
 
   $query="INSERT INTO chat_messages (auteur,message) VALUES('".addslashes($_SESSION['realname'])."','".addslashes($_POST['msgBody'])."')";
-  mysql_query($query, $db) or die("Erreur lors de l'inertion d'un message dans chat_messages: ".mysql_error());
+  mysql_query($query, $db) or die("Erreur lors de l'insertion d'un message dans chat_messages: ".mysql_error());
   
 ?>
 

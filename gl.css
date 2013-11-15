@@ -226,6 +226,12 @@ table.mediaTable {
   text-align:center;
 }
 
+#sendButton {
+    padding: 0px 10px;
+    position: relative;
+    top: 8px;
+}
+
 #zoneSaisie {
   display: none;
   position:fixed;
