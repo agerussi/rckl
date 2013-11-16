@@ -43,7 +43,7 @@ Le prix pour une saison est légèrement variable d'années en années, mais à 
 <li> un chèque d'environ 50 euros pour la base nautique (accès à l'eau vive).</li>
 </ul>
 
-<h4><blink>Vous êtes intéressés ?</blink></h4>
+<h4>Vous êtes intéressé(e) ?</h4>
 
 Nous vous suggérons de continuer votre lecture avec la page d'<a href="integration.php?menu">intégration</a> au groupe et de ne pas hésiter à passer nous voir un samedi après midi pour toutes questions supplémentaires.
 <br/>

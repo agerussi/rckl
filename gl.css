@@ -36,6 +36,10 @@ h1,h2,h3,h4,h5,h6 {
   padding: 0 2px;
 }
 
+.chatmember:hover {
+  background-color:#ffffff;
+}
+
 .chatmessage {
   border-top:1pt solid #dddddd;
   padding: 2pt 0pt;
