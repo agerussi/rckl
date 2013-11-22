@@ -17,9 +17,9 @@ else require("head.html");
 
   $connected=isset($_SESSION['login']);
   if ($connected) 
-    echo "<p>Cliquez sur un nom de membre pour lui envoyer un email.</p>";
+    echo '<p>Cliquez sur un nom de membre pour lui envoyer un email.</p>';
   else 
-    echo "<p>Connectez vous pour contacter un membre par email.</p>";
+    echo '<p><a href="loginpage.php?target=trombinoscope.php?menu">Connectez-vous</a> pour contacter un membre par email.</p>';
 
   // requiert une connection à la BD
   require("dbconnect.php");

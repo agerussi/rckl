@@ -31,7 +31,12 @@ if($rowCheck == 1){ // exactly one result must have been returned
   $_SESSION['login']=$user; 
   $_SESSION['userid']=$row['id'];
   $_SESSION['realname']=$row['nom'];
-  header("Location: news.php?menu");
+
+  // go to the target page if defined, or news.php by default
+  $location="Location: ";
+  if (isset($_GET['target'])) $location.=$_GET['target'];
+  else $location.="news.php?menu";
+  header($location);
 }
 else {
   session_destroy();

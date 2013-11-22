@@ -6,7 +6,14 @@
 <body>
   <h1>Connexion des membres du GL</h1>
     <div align="center">
-      <form accept-charset="utf-8" method="post" action="login.php">
+
+<?php 
+$action="login.php?target=";
+if (isset($_GET['target'])) $action.=$_GET['target'];
+else $action.="news.php?menu";
+
+echo '<form accept-charset="utf-8" method="post" action="'.$action.'">';
+?>
 	<table>
 	  <tr>
 	    <td align=right>Nom de connexion:</td>

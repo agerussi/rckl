@@ -38,7 +38,7 @@
 
 <h3>AG du groupe loisirs</h3> 
 <?php
-  if (!$connected) echo '<p>Connectez-vous pour accéder aux comptes-rendus.</p>';
+  if (!$connected) echo '<p><a href="loginpage.php?target=documents.php?menu">Connectez-vous</a> pour accéder aux comptes-rendus.</p>';
   else echo <<<EOS
 <ul>
   <li> <a href="DOCS/cr13.pdf">Compte rendu</a> AG groupe loisirs 2013.</li>
@@ -54,7 +54,7 @@ EOS;
   <li> La <a href="DOCS/fichedesortie.pdf">fiche de sortie</a> à l'usage de l'organisateur d'une sortie officielle GL.</li>
   <li>
     <?php
-      if (!$connected) echo 'Connectez-vous pour accéder au règlement du groupe loisirs.';
+      if (!$connected) echo '<a href="loginpage.php?target=documents.php?menu">Connectez-vous</a> pour accéder au règlement du groupe loisirs.';
       else echo 'Le <a href="DOCS/règlement-GL.pdf">règlement</a> du groupe: vos droits et devoirs en tant que membre (en cours de validation)';
     ?>
   </li>
