@@ -55,7 +55,7 @@ function ajouterExterieur() {
   
   // ajout du bouton d'annulation
   var croix=document.createElement("img");
-  croix.setAttribute("src","FONDS/b_drop.png");
+  croix.setAttribute("src","ICONS/b_drop.png");
   croix.setAttribute("title","supprimer cet extérieur");
   croix.setAttribute("style","margin-right:2em");
   croix.addEventListener("click", supprimerExterieur);

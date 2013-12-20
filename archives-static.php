@@ -16,7 +16,7 @@
 ?>
 <h1>ARCHIVES DES SORTIES DU GL</h1>
 En cas de problème de lecture des vidéos, essayez <b>un vrai lecteur</b>: <a href="http://www.mplayerhq.hu">MPlayer</a>.<br/>
-Pas de source pour votre torrent ? <a href="mailto:gl.aslslb@free.fr">envoyez un courrier</a>
+Pas de source pour votre torrent ? <a href="mailto:rckl@free.fr">envoyez un courrier</a>
 <?php
   // le titre en fonction de l'année demandée
  if (isset($_GET['y'])) $year = $_GET['y'];

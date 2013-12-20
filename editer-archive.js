@@ -215,15 +215,15 @@ function gestionAjoutVideo(fichier) {
   table.innerHTML=[
     '<tr><td>',
     '<img src="IMG/video-default-mini.jpg" height="85px" name="miniatureVideo" />',
-    '<img title="choisir une miniature" src="FONDS/insert_image.png" name="choisirminiature"/>',
+    '<img title="choisir une miniature" src="ICONS/insert_image.png" name="choisirminiature"/>',
     '<input type="hidden" name="MAX_FILE_SIZE" value="10240" />',
     '<input type="file" style="display:none" name="ajoutMiniature"/>',
     '</td></tr><tr><td>', 
     '<label>#VIMEO</label><input type="text" size="10" name="vimeo" value=""/>',
     '</td></tr><tr><td>', 
-    '<img title="supprimer la vidéo" src="FONDS/b_drop.png" name="supprimervideo"/>', 
+    '<img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/>', 
     '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Video|MediaType.New,'"/>',
-    '<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/>',
+    '<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/>',
     '<input type="hidden" name="commentaireMedia" value=""/>',
     '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="',extension(fichier.name),'/"/>',
     '<span id="progresMedia',numeroMedia,'">chargement...</span>',
@@ -253,9 +253,9 @@ return function(evt) { // ajout d'une image: evt.target.result contient l'URL
     '<tr><td>',
     '<img src="', evt.target.result, '" height="85px" name="photo" />',
     '</td></tr><tr><td>',
-    '<img title="supprimer la photo" src="FONDS/b_drop.png" name="supprimerphoto"/>', 
+    '<img title="supprimer la photo" src="ICONS/b_drop.png" name="supprimerphoto"/>', 
     '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Photo|MediaType.New,'"/>',
-    '<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/>',
+    '<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/>',
     '<input type="hidden" name="commentaireMedia" value=""/>',
     '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="jpg/"/>',
     '<span id="progresMedia',numeroMedia,'">chargement...</span>'
@@ -318,12 +318,12 @@ function supprimerMedia() { // gère la suppression / réhabilitation de photos 
   var type=(input.value&MediaType.Photo) ? "la photo":"la vidéo";
   if (input.value&MediaType.On) {
     input.value = input.value&(~MediaType.On);
-    this.setAttribute("src","FONDS/b_add.png");
+    this.setAttribute("src","ICONS/b_add.png");
     this.setAttribute("title","rajouter "+type);
     imgMedia.style.opacity = "0.5";
   } else {
     input.value = input.value|MediaType.On;
-    this.setAttribute("src","FONDS/b_drop.png");
+    this.setAttribute("src","ICONS/b_drop.png");
     this.setAttribute("title","supprimer "+type);
     imgMedia.style.opacity = "1";
   } 
@@ -463,7 +463,7 @@ function ajouterParticipant() { // ajoute un participant de la liste
  span.setAttribute("class","participant");
  span.setAttribute("name","participant");
  var croix=document.createElement("img");
- croix.src="FONDS/b_drop.png";
+ croix.src="ICONS/b_drop.png";
  croix.title="supprimer ce participant";
  croix.addEventListener("click", supprimerParticipant);
 

@@ -54,7 +54,7 @@ require("rss.php");
 
 $item='<item>';
 $item.='<title>Déclaration de frais de '.$_SESSION['realname'].'</title>';
-$item.='<link>http://gl.aslslb.free.fr</link>';
+$item.='<link>http://rckl.free.fr</link>';
 $item.='<description><![CDATA[';
 $item.='Somme déclarée: '.$somme.'€<br />';
 $item.='Membres concernés et variations: '.$listevariations.'<br />';

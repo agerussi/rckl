@@ -2,7 +2,7 @@
 session_start();
 
 function adddrop() { // crée un bouton d'annulation cablé
-  echo '<img class="edit" title="effacer la sortie" src="FONDS/b_drop.png" />';
+  echo '<img class="edit" title="effacer la sortie" src="ICONS/b_drop.png" />';
 }
 
 function bissextile($annee) {
@@ -112,7 +112,7 @@ else {
 	    // rajouter la possibilité de supprimer son nom
             $inscrit=true;
 	    echo '<a href="supprimermembresortie.php?ids='.$sortie['id'].'">';
-	    echo '<img class="edit" title="supprimer son nom" src="FONDS/b_drop.png" /></a>';
+	    echo '<img class="edit" title="supprimer son nom" src="ICONS/b_drop.png" /></a>';
 	  }
 	}
 	if ($i!=$n-2) echo ", ";
@@ -120,9 +120,9 @@ else {
     }
     if (!$inscrit && !$deadline && $logged) { // proposer de s'inscrire
       echo '<br /><a href="ajoutermembresortie.php?ids='.$sortie['id'].'">';
-      echo '<img class="edit" title="rajouter son nom" src="FONDS/b_add.png" /></a>';
+      echo '<img class="edit" title="rajouter son nom" src="ICONS/b_add.png" /></a>';
     }
-    if ($deadline) echo '<br /><img class="edit" title="la deadline est passée" src="FONDS/file-locked-icon.png" />';
+    if ($deadline) echo '<br /><img class="edit" title="la deadline est passée" src="ICONS/file-locked-icon.png" />';
     echo "</td>";
 
       // les modalités   
@@ -135,9 +135,9 @@ else {
     echo "<td>".$nom['nom'];
     if ($own) {
       echo "<br />";
-      echo '<img onclick="deleteSortie('.$sortie['id'].')" class="edit" title="supprimer la sortie" src="FONDS/b_drop.png" />';
+      echo '<img onclick="deleteSortie('.$sortie['id'].')" class="edit" title="supprimer la sortie" src="ICONS/b_drop.png" />';
       echo '<a href="editsortie.php?ids='.$sortie['id'].'">';
-      echo '<img class="edit" title="éditer la sortie" src="FONDS/b_edit.png" /></a>';
+      echo '<img class="edit" title="éditer la sortie" src="ICONS/b_edit.png" /></a>';
     } 
     echo "</td>";
 

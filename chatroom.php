@@ -47,7 +47,7 @@
   </div>
   -->
   <div id="chatfooter">
-    <input type="text" id="chatbox"><img src="FONDS/Chat-icon.png" id="sendButton" title="envoyer le message"/>
+    <input type="text" id="chatbox"><img src="ICONS/Chat-icon.png" id="sendButton" title="envoyer le message"/>
     <div id="chatmembers">
       <span>Actuellement dans le salon:</span>
       <!-- exemple de membre

@@ -2,9 +2,9 @@
 // $db = la base
 
 $dbHost = "sql.free.fr";
-$dbUser = "gl.aslslb";
+$dbUser = "rckl";
 $dbPass = "okxbt6ai";
-$dbDatabase = "gl.aslslb";
+$dbDatabase = "rckl";
 
 //connect to the database
 

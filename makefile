@@ -1,3 +1,3 @@
 
-siteUpload:
-	../update
+Upload:
+	sitecopy --update rckl

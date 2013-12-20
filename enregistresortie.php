@@ -22,7 +22,7 @@ if ($_GET['ids']==-1) { // nouvelle sortie
 
   $item='<item>';
   $item.='<title>Nouvelle sortie de '.$_SESSION['realname'].'</title>';
-  $item.='<link>http://gl.aslslb.free.fr/calendrier.php?menu</link>';
+  $item.='<link>http://rckl.free.fr/calendrier.php?menu</link>';
   $item.='<description><![CDATA[';
   $item.='Date départ: '.$_POST['datedebut'].'<br />';
   $item.='Deadline: '.$_POST['deadline'].'<br />';

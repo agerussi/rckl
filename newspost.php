@@ -26,7 +26,7 @@ require("rss.php");
 
 $item='<item>';
 $item.='<title>News de '.$_SESSION['realname'].'</title>';
-$item.='<link>http://gl.aslslb.free.fr/news.php?menu</link>';
+$item.='<link>http://rckl.free.fr/news.php?menu</link>';
 $item.='<description><![CDATA['.trim($_POST['newsbody']).']]></description>';
 $item.='<pubDate>'.date($rssdateformat).'</pubDate>';
 $item.='</item>';

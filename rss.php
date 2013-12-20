@@ -18,11 +18,11 @@ function rssUpdate() {
   $header='<?xml version="1.0"?>';
   $header.='<rss version="2.0">';
   $header.='<channel><title>Direct\'GL</title>';
-  $header.='<link>http://gl.aslslb.free.fr/</link>';
+  $header.='<link>http://rckl.free.fr/</link>';
   $header.='<description>En direct du Groupe Loisirs de Saint-Laurent-Blangy</description>';
   $header.='<language>fr</language>';
   $header.='<pubDate>'.date($rssdateformat).'</pubDate>';
-  $header.='<webMaster>gl.aslslb@free.fr</webMaster>';
+  $header.='<webMaster>rckl@free.fr</webMaster>';
   fwrite($rssfile,$header);
 
   while ($item=mysql_fetch_array($itemlist)) fwrite($rssfile,$item['item']);
