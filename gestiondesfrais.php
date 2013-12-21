@@ -61,10 +61,10 @@ echo "</tr>";
 </table>
 
 <form action="nouvelledepense.php">
-<input type="submit" value="Déclarer une nouvelle dépense" title="pour déclarer de l'argent que vous avez dépensé pour (ou donné à) des membres du GL ou des personnes extérieures"/>
+<input type="submit" value="Déclarer une nouvelle dépense" title="pour déclarer de l'argent que vous avez dépensé pour (ou donné à) des membres du RCKL ou des personnes extérieures"/>
 </form>
 <form action="recuexterieur.php">
-<input type="submit" value="Déclarer un reçu extérieur" title="si vous avez reçu directement de l'argent d'une personne *extérieure* au GL"/>
+<input type="submit" value="Déclarer un reçu extérieur" title="si vous avez reçu directement de l'argent d'une personne *extérieure* au RCKL"/>
 </form>
 
 <h2>Historique des paiements</h2>

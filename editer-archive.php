@@ -43,7 +43,7 @@ if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.ph
   // crée le xml de la sortie
   $xmltext="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
   $xmltext.='<editsortie id="'.$_GET['id'].'">';
-  $xmltext.="<path>IMG</path> <mini>-mini</mini>";
+  $xmltext.="<path>IMGDB</path> <mini>-mini</mini>";
   $xmltext.=$data['xml'];
   $xmltext.="</editsortie>";
 

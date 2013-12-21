@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<archive>
+  <path>IMGDB</path>
+  <mini>-mini</mini>
+
+<sortie id="SL121209">
+<date jour="12" mois="12" annee="2009"/>
+<titre>Sortie au Salon Nautique</titre>
+<participants><nom>Daniel, Emmanuel, Hughes, Pascal, Thierry, Tony</nom></participants>
+<photo fichier="salon12120901.jpg" />
+<photo fichier="salon12120902.jpg" />
+<photo fichier="salon12120903.jpg" />
+<photo fichier="salon12120904.jpg" />
+<photo fichier="salon12120905.jpg" />
+<photo fichier="salon12120906.jpg" />
+<photo fichier="salon12120907.jpg" />
+<photo fichier="salon12120908.jpg" />
+<photo fichier="salon12120909.jpg" />
+</sortie>
+
+
+
+<sortie id="hulle61209">
+<date jour="6" mois="12" annee="2009"/>
+<titre>Sortie sur la Hulle</titre>
+<participants><nom>Alexandre, Antoine, Emmanuel</nom></participants>
+<commentaire>
+Une Hulle un peu plus dégagée que la dernière fois... avec navette en vélo épique (écologie oblige!) sous le vent et la pluie.
+</commentaire>
+</sortie>
+
+<sortie id="oise141109">
+<date jour="14" mois="11" annee="2009"/>
+<titre>Sortie sur l'Oise</titre>
+<participants><nom>Alexandre, Bertrand, Pascal, Stefan</nom></participants>
+<commentaire>
+Balade et travail technique juste sous Hirson. Stefan a fêté sa première sortie RCKL sans dessalage, preuve qu'il n'a pas dû travailler assez. Pascal fut plus assidu à la tâche ;-)
+</commentaire>
+<photo fichier="oise14110901.jpg" commentaire="Après Pitch, le groupe loisirs valorise son nouveau sponsort"/>
+</sortie>
+
+
+
+<sortie id="faux211009">
+<date jour="31" mois="10" annee="2009"/>
+<titre>Navigation sur La FAUX</titre>
+<participants><nom>Alexandre, Antoine, Arnaud, Daniel, Hughes, Katrin, Stefan, Tony</nom></participants>
+<commentaire>
+Première descente de cette belle rivière, plus technique que prévue: un régal pour les expérimentés, carnage total pour les autres !
+</commentaire>
+<photo fichier="faux31100901.jpg" commentaire="Alex tape le surf sur le petit rouleau au départ"/>
+<photo fichier="faux31100902.jpg" commentaire="Hughes vachement concentré lorsqu'il embarque"/>
+<photo fichier="faux31100903.jpg" commentaire="Katrin dans les belles couleurs automnales"/>
+<photo fichier="faux31100904.jpg" commentaire="Antoine prouve qu'on peut surfer en overflow"/>
+<photo fichier="faux31100905.jpg" commentaire="Daniel effectue un stop acrobatique"/>
+<photo fichier="faux31100906.jpg" commentaire="Arnaud fait une belle démonstration de la position de sécurité en rivière"/>
+<photo fichier="faux31100907.jpg" commentaire="Ambiance tarte aux pommes dans la pénombre, avant le retour au bercail"/>
+</sortie>
+
+
+
+<sortie id="RC251009">
+<date jour="25" mois="10" annee="2009"/>
+<titre>Rafting Cup</titre>
+<participants><nom>Arnaud, Bertrand, Daniel, Emmanuel, Hughes, Mathieu</nom></participants>
+<commentaire>
+La fameuse compétition où les rafteurs belges viennent se prendre une leçon de navigation par les touristes et les ligneux. Davantage par les ligneux cette année !
+</commentaire>
+<photo fichier="raftingcup25100901.jpg" commentaire="On affute le matos"/>
+<photo fichier="raftingcup25100902.jpg" commentaire="'dream on'... ok mais la victoire est déjà loin"/>
+<photo fichier="raftingcup25100903.jpg" commentaire="On négocie le virage"/>
+<photo fichier="raftingcup25100904.jpg" commentaire="les deux équipes locales presque au complet"/>
+<photo fichier="raftingcup25100905.jpg" commentaire="Encore l'escalier à monter et c'est l'arrivée"/>
+<photo fichier="raftingcup25100906.jpg" commentaire="Dans le feu du départ"/>
+<photo fichier="raftingcup25100907.jpg" commentaire="L'épreuve où le groupe loisirs excelle"/>
+<photo fichier="raftingcup25100908.jpg" commentaire="Les futurs vainqueurs embarquent sous l'oeil réjoui du groupe loisirs"/>
+<photo fichier="raftingcup25100909.jpg" commentaire="Quatre équipiers efficaces"/>
+<photo fichier="raftingcup25100910.jpg" commentaire="On pourrait presque croire qu'ils sont fatigués"/>
+<photo fichier="raftingcup25100911.jpg" commentaire="Mathieu: 'démerdez-vous avec ce raft, moi je monte à pied'"/>
+</sortie>
+
+
+<sortie id="picq171009">
+<date jour="17" mois="10" annee="2009"/>
+<titre>sortie à Picquigny</titre>
+<participants><nom>Alexandre, Arnaud, Bertrand, Daniel, Emmanuel, Katrin, Mathieu, Stefan, Tony</nom></participants>
+<commentaire>
+Navigation automnale sur le bassin, sous un ciel et des températures clémentes. L'accueil des locaux fut chaleureux comme à leur habitude, nous finîmes la journée autour de leur cidre maison.
+</commentaire>
+<photo fichier="picquigny17100901.jpg" commentaire="préparation minutieuse du matériel"/>
+<photo fichier="picquigny17100902.jpg" commentaire="l'équipe du jour"/>
+<photo fichier="picquigny17100903.jpg" commentaire="en route vers l'embarquement"/>
+<photo fichier="picquigny17100904.jpg" commentaire="les premiers embarqués"/>
+<photo fichier="picquigny17100905.jpg" commentaire="et les autres qui attendent"/>
+<photo fichier="picquigny17100906.jpg" commentaire="Stefan est prêt"/>
+<photo fichier="picquigny17100907.jpg" commentaire="embarquement au sommet de la boucle"/>
+<photo fichier="picquigny17100908.jpg" commentaire="Tony n'a pas tenté le loop au rebond"/>
+<photo fichier="picquigny17100909.jpg" commentaire="les vannes offraient un beau surf"/>
+<photo fichier="picquigny17100910.jpg" commentaire="les débutants réfléchissent de trop"/>
+<photo fichier="picquigny17100911.jpg" commentaire="Stefan se lance"/>
+<photo fichier="picquigny17100912.jpg" commentaire="Arnaud aussi"/>
+<photo fichier="picquigny17100913.jpg" commentaire="l'accueillant club-house local"/>
+</sortie>
+
+
+
+<sortie id="cure26092009">
+<date jour="26/27" mois="9" annee="2009"/>
+<titre>rallye de la Cure</titre>
+<participants><nom>Alexandre, Daniel, Emmanuel, Hughes, Mathieu, Mickael, Pierre</nom></participants>
+<commentaire>
+Direction le Morvan pour un beau week-end sur la Cure. 
+Avec les nuits au chalet et les journées au soleil, on a gouté aux joies de la navigation de retraités.
+Mickael nous a montré sur l'eau combien il a progressé depuis ses aventures malheureuses sur la Lesse; moins convaincant concernant les navettes !
+</commentaire>
+<photo fichier="cure26090901.jpg" commentaire="Mickael sort son pyjama en velour!"/>
+<photo fichier="cure26090902.jpg" commentaire="sur le parking du départ"/>
+<photo fichier="cure26090903.jpg" commentaire="notre camping au bord du lac"/>
+<photo fichier="cure26090904.jpg" commentaire="le lac des Settons"/>
+<photo fichier="cure26090905.jpg" commentaire="pique-nique au bord de l'eau"/>
+<photo fichier="cure26090906.jpg" commentaire="à l'embarquement de la Cure supérieure !"/>
+<photo fichier="cure26090907.jpg" commentaire="Daniel invoque les esprits de la navigation"/>
+<photo fichier="cure26090908.jpg" commentaire="embarquement à l'américaine - avant"/>
+<photo fichier="cure26090909.jpg" commentaire="...et après"/>
+<photo fichier="cure26090910.jpg" commentaire="on refait le monde à la kro"/>
+<photo fichier="cure26090911.jpg" commentaire="le calme avant les hostilités"/>
+<photo fichier="cure26090912.jpg" commentaire="Comme d'hab, Manu passe en même temps que tout le monde"/>
+<photo fichier="cure26090913.jpg" commentaire="Alex se fait enterrer"/>
+<photo fichier="cure26090914.jpg" commentaire="Hughes avant le grand saut"/>
+<photo fichier="cure26090915.jpg" commentaire="Le réveil est plus sympa qu'en camping"/>
+<photo fichier="cure26090916.jpg" commentaire="Mike bien content de retrouver son sandwich"/>
+<photo fichier="cure26090917.jpg" commentaire="le saut du Gouloux - après"/>
+</sortie>
+
+
+
+<sortie id="canche200609">
+<date jour="20" mois="6" annee="2009"/>
+<titre>sortie sur la Canche</titre>
+<participants><nom>Alexandre, Aurélie, Daniel, Hughes, Emmanuel</nom></participants>
+<commentaire>
+La petite classique Maresquel/Brimeux sous un temps de saison.
+</commentaire>
+<photo fichier="canche20060901.jpg" />
+<photo fichier="canche20060902.jpg" />
+<photo fichier="canche20060903.jpg" />
+<photo fichier="canche20060904.jpg" />
+<photo fichier="canche20060905.jpg" />
+<photo fichier="canche20060906.jpg" />
+</sortie>
+
+
+
+<sortie id="somme130409">
+<date jour="13" mois="4" annee="2009"/>
+<titre>sortie mer en baie de Somme</titre>
+<participants><nom>Hélène, du club d'Armentières, Pierre, Mickael, Mathieu</nom></participants>
+<commentaire>
+Balade cool de St Valéry à la mer, porté par le courant, et retour avec la marée montante. Météo (presque) estivale, mer calme... et une bonne partie de la colonie de phoques pour nous accompagner sur l'eau ! Que demander de plus ?!?
+</commentaire>
+<photo fichier="somme13040901.jpg" />
+<photo fichier="somme13040902.jpg" />
+<photo fichier="somme13040903.jpg" />
+<photo fichier="somme13040904.jpg" />
+<photo fichier="somme13040905.jpg" />
+<photo fichier="somme13040906.jpg" />
+<photo fichier="somme13040907.jpg" />
+</sortie>
+
+
+<sortie id="jura110409">
+<date jour="11/12/13" mois="4" annee="2009"/>
+<titre>périple dans le Doubs et le Jura</titre>
+<participants><nom>Alexandre, Daniel, Emmanuel, Hughes</nom></participants>
+<commentaire>
+Week-end nickel avec du beau temps et des rivières plus belles les unes que les autres: Loue, Doubs, Saine, Ain.
+</commentaire>
+<photo fichier="jura11040901.jpg" commentaire="La majestueuse source de la Loue"/>
+<photo fichier="jura11040902.jpg" commentaire="Pique nique à la source"/>
+<photo fichier="jura11040903.jpg" commentaire="100 m après la source"/>
+<photo fichier="jura11040904.jpg" commentaire="Un des beaux barages sur la Loue, à Lods"/>
+<photo fichier="jura11040905.jpg" commentaire="Hughes bien content d'être là !"/>
+<photo fichier="jura11040906.jpg" commentaire="Alex de corvée caméra"/>
+<photo fichier="jura11040907.jpg" commentaire="Fin de la première journée, on sêche les fringues comme on peut"/>
+<photo fichier="jura11040908.jpg" commentaire="Notre gîte à Vuillafans"/>
+<photo fichier="jura11040909.jpg" commentaire="L'embarquement des gorges du Fourperret sur le Doubs"/>
+<photo fichier="jura11040910.jpg" commentaire="Réembarquement quelque part dans les gorges"/>
+<photo fichier="jura11040911.jpg" commentaire="Le seuil dit 'le tout con' sur la Saine, juste assez con pour se gauffrer en beauté"/>
+<photo fichier="jura11040912.jpg" commentaire="Le passage de l'éventail sur la Saine"/>
+<photo fichier="jura11040913.jpg" commentaire="Encore l'éventail"/>
+<photo fichier="jura11040914.jpg" commentaire="Avec la branche en travers, le rappel, le seuil vicieux et l'éventail lui-même, Hughes préfère porter, comme nous tous"/>
+<photo fichier="jura11040915.jpg" />
+<photo fichier="jura11040916.jpg" commentaire="La magnifique source du Lison, pas assez en eau cette fois là"/>
+<photo fichier="jura11040917.jpg" commentaire="La première ligne droite de l'Ain, juste après la source"/>
+<photo fichier="jura11040918.jpg" commentaire="La première chute de l'Ain, infran, qui mérite son portage"/>
+<photo fichier="jura11040919.jpg" commentaire="Hughes souffle un peu après le portage périlleux"/>
+<photo fichier="jura11040920.jpg" commentaire="Une bombe pour la déconne, au débarquement de l'Ain"/>
+<video type="video/x-matroska" fichier="jura110409-HQ-x264.mkv" vimeo="14322050" />
+<video type="video/x-matroska" fichier="jura110409-LQ-xvid.mkv"/>
+</sortie>
+
+
+
+<sortie id="picq070309">
+<date jour="7" mois="3" annee="2009"/>
+<titre>sortie à Picquigny</titre>
+<participants><nom>Aurélie, Bertrand, Daniel, Emmanuel, Hugues</nom></participants>
+<commentaire>
+A la recherche d'un peu d'eau vive pour s'entraîner...
+</commentaire>
+<photo fichier="picquigny07030901.jpg" />
+<photo fichier="picquigny07030902.jpg" />
+<photo fichier="picquigny07030903.jpg" />
+<photo fichier="picquigny07030904.jpg" />
+<photo fichier="picquigny07030905.jpg" />
+<photo fichier="picquigny07030906.jpg" />
+<photo fichier="picquigny07030907.jpg" />
+</sortie>
+
+
+
+
+<sortie id="mer010309">
+<date jour="1" mois="3" annee="2009"/>
+<titre>balade mer au Hourdel</titre>
+<participants><nom>Bertrand, Emmanuel, Mathieu, Mickael</nom></participants>
+<commentaire>
+  Un peu plus de 3 heures de navigation sur un parcours Le Hourdel, chenaux dans les mollières, St Valéry et retour.<![CDATA[<br/>]]>
+Ciel brumeux, du bon vent et juste ce qu'il faut de clapot pour apprécier les qualités marines de nos bateaux.  
+Très belle balade.
+</commentaire>
+</sortie>
+
+<sortie id="oisebrune070209">
+<date jour="7" mois="2" annee="2009"/>
+<titre>descente de l'Oise et de la Brune</titre>
+<participants><nom>Alexandre, Daniel, Emmanuel</nom></participants>
+<commentaire>
+Journée d'exploration des rivières autour d'Hirson.
+L'oise est particulièrement adaptée pour apprendre les manoeuvres de base: des dizaines de contres "école" jalonnent la descente.
+La Brune, étroite et encombrée, offre un slalom amusant entre les arbres.
+</commentaire>
+<photo fichier="oise07020901.jpg" />
+<photo fichier="oise07020902.jpg" />
+<photo fichier="oise07020903.jpg" />
+<photo fichier="oise07020904.jpg" />
+<photo fichier="oise07020905.jpg" />
+<photo fichier="oise07020906.jpg" />
+<photo fichier="oise07020907.jpg" />
+<photo fichier="oise07020908.jpg" />
+</sortie>
+
+
+
+<sortie id="lesse240109">
+<date jour="24" mois="1" annee="2009"/>
+<titre>descente de la Lesse</titre>
+<participants><nom>Alexandre, Emmanuel, Mickael</nom></participants>
+<commentaire>
+Bon niveau d'eau pour cette première sortie rivière de l'année.
+Grande découverte pour Mickael: il y a des rochers dans les rivières !
+Il en a perdu ses chaussures.
+</commentaire>
+<photo fichier="lesse24010901.jpg" />
+<photo fichier="lesse24010902.jpg" />
+<photo fichier="lesse24010903.jpg" />
+<photo fichier="lesse24010904.jpg" />
+<photo fichier="lesse24010905.jpg" />
+</sortie>
+
+</archive>

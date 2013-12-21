@@ -28,7 +28,7 @@ contacter un membre par mail,
 écrire une news,
 s'abonner au flux RSS,
 accéder au salon de discussion"
->CONNEXION</a>
+>MEMBRES</a>
 EOS;
 }
 ?>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <?xml-stylesheet type="text/xsl" href="archives.xsl"?> -->
+<archive>
+  <path>IMG</path>
+  <mini>-mini</mini>
+
+  <sortie id="athome">
+    <commentaire>Quelques photos ou vidéos prises au hasard des samedis passés à la base.
+    </commentaire>
+
+    <video type="video/wmv" fichier="baselestouristesmontage.wmv"/>
+    <photo fichier="baseraft07.jpg"  commentaire="la fine équipe surfe la première vague"/>
+    <photo fichier="basediscussion1107.jpg"  commentaire="Alex et Daniel discutent technique"/>
+    <photo fichier="basesurfdaniel1107.jpg"  commentaire="Daniel tape le surf"/>
+    <photo fichier="basesternstall1107.jpg"  commentaire="Alex en stern stall"/>
+    <photo fichier="basestephcart0208.jpg"  commentaire="Stéphane enchaîne les pointes"/>
+    <photo fichier="basealexcart0208.jpg"  commentaire="Alex termine son cartwheel"/>
+    <photo fichier="katrin050909.jpg"  commentaire="Katrin en a pris plein la figure"/>
+    <photo fichier="hughes050909.jpg"  commentaire="Hughes affiche sa tête de warrior en C1"/>
+    <photo fichier="daniel050909.jpg"  commentaire="Daniel chopé par le rouleau"/>
+    <photo fichier="basemanusurf0909.jpg"  commentaire="Manu en action"/>
+    <photo fichier="basestef0909.jpg"  commentaire="Stefan concentré sur son job"/>
+    <photo fichier="baseKajaArnaud02.jpg"  commentaire="Arnaud attaque!"/>
+    <photo fichier="baseKajaDaniel02.jpg"  commentaire="Daniel juste avant le crash"/>
+    <photo fichier="baseKajakat03.jpg"  commentaire="Katrin nose up!"/>
+    <photo fichier="baseKajaMat01.jpg"  commentaire="Mathieu: attention j'arrive"/>
+    <photo fichier="baseKajastef04.jpg"  commentaire="Stefan sur la Dudh Kosi ?"/>
+    <photo fichier="baseKajaAlex3286.jpg"  commentaire="Nathan fait une descente guidée avec son père!"/>
+    <photo fichier="baseKajaKat3299.jpg"  commentaire="Katrin: belle attitude mais pagaie trop longue!"/>
+    <photo fichier="baseKajaPascal3259.jpg"  commentaire="Pascal et son style 'chavirant'"/>
+  </sortie>
+</archive>

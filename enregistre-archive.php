@@ -87,7 +87,7 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
       // gestion de la miniature
       if ($isNew || $isMin) { // la miniature doit être créée/changée 
 	if ($_FILES["ajoutMiniature".$i]['size']==0) // pas de fichier uploadé, copie la miniature par défaut
-	  copy("IMG/video-default-mini.jpg",nomFichierMiniature($path));
+	  copy("ICONS/video-default-mini.jpg",nomFichierMiniature($path));
 	else // récupère la miniature sélectionnée
 	  move_uploaded_file($_FILES["ajoutMiniature".$i]['tmp_name'], nomFichierMiniature($path)) or die("erreur lors de la récupération d'une miniature");
       } 

@@ -6,9 +6,9 @@
   if (isset($_GET['menu'])) require("menuh.php"); 
   else require("head.html");
 ?>
-  <script type="text/javascript" src="OUTILS/SLIMBOX/js/mootools.js"></script>
-  <script type="text/javascript" src="OUTILS/SLIMBOX/js/slimbox.js"></script>
-  <link rel="stylesheet" href="OUTILS/SLIMBOX/css/slimbox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="OUTILS/jQuery.js"></script>
+  <script type="text/javascript" src="OUTILS/slimbox/js/slimbox2.js"></script>
+  <link rel="stylesheet" href="OUTILS/slimbox/css/slimbox2.css" type="text/css" media="screen" />
   <script type="text/javascript">
     function areYouSure(id) {
       if (confirm("Effacement de l'archive !\n\n Êtes-vous sûr(e) ?")) window.location.replace("effacerarchive.php?id="+id);
@@ -19,7 +19,7 @@
 <?php
   if (isset($_GET['menu'])) require("menub.php"); 
 ?>
-<h1>ARCHIVES DES SORTIES DU GL</h1>
+<h1>ARCHIVES DES SORTIES RCKL</h1>
 En cas de problème de lecture des vidéos, essayez <b>un vrai lecteur</b>: <a href="http://www.mplayerhq.hu">MPlayer</a>.<br/>
 Pas de source pour votre torrent ? <a href="mailto:rckl@free.fr">envoyez un courrier</a>
 <?php
@@ -43,7 +43,7 @@ Pas de source pour votre torrent ? <a href="mailto:rckl@free.fr">envoyez un cour
   $xmltext="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
   $root=(isset($_SESSION['login']) && $_SESSION['login']=='root'); 
   $xmltext.="<archive edit=\"".($root ? "yes":"no")."\">";
-  $xmltext.="<path>IMG</path> <mini>-mini</mini>";
+  $xmltext.="<path>IMGDB</path> <mini>-mini</mini>";
 
   while ($data = mysql_fetch_array($req)) {
     $xmltext.="<sortie id=\"".$data['id']."\">";

@@ -214,7 +214,7 @@ function gestionAjoutVideo(fichier) {
   table.setAttribute("class", "mediaTable");
   table.innerHTML=[
     '<tr><td>',
-    '<img src="IMG/video-default-mini.jpg" height="85px" name="miniatureVideo" />',
+    '<img src="ICONS/video-default-mini.jpg" height="85px" name="miniatureVideo" />',
     '<img title="choisir une miniature" src="ICONS/insert_image.png" name="choisirminiature"/>',
     '<input type="hidden" name="MAX_FILE_SIZE" value="10240" />',
     '<input type="file" style="display:none" name="ajoutMiniature"/>',

@@ -1,7 +1,18 @@
 /* ============== style général */
+#header {
+  background-color:#dddddd;
+} 
+
+#mainmenu {
+  margin-left:auto;
+  margin-right:auto;
+  font-size:80%;
+}
+
 body {
   background-image:url(FONDS/mosaique-snapshot.jpg);
-  background-repeat:repeat;
+  background-size:100%;
+  background-attachment:fixed;
   text-align:justify;
 }
 
@@ -13,14 +24,22 @@ h1,h2,h3,h4,h5,h6 {
   clear:both;
 }
 
-.bigfont { 
-  font-size:30pt; 
+/* ============== logo RCKL */
+#logo {
+ height:50pt; 
+ vertical-align:-30%;
+} 
+
+#rckl, #rckl-long { 
   font-family:Impact, Charcoal, sans-serif;
 }
 
-/*============ style spécifique au menu principal */
-#mainmenu {
-  z-index: 1;
+#rckl { 
+  font-size:50pt; 
+}
+
+#rckl-long {
+  font-size:20pt; 
 }
 
 /* =============== style pour le chat */

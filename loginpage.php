@@ -4,7 +4,7 @@
 <?php require("head.html"); ?>
 </head>
 <body>
-  <h1>Connexion des membres du GL</h1>
+  <h1>Connexion des membres du RCKL</h1>
     <div align="center">
 
 <?php 

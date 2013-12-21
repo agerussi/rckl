@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<archive>
+  <path>IMGDB</path>
+  <mini>-mini</mini>
+<sortie id="pic151207">
+<date jour="15" mois="12" annee="2007"/>
+<titre>sortie à Picquigny</titre>
+<participants><nom>Alexandre</nom><nom> Bertrand</nom><nom> Stéphane</nom><nom> Teddy</nom></participants>
+<commentaire>
+Un peu de slalom sous le ciel bleu et le froid glacial.
+Uniquement pour les braves.
+</commentaire>
+</sortie>
+
+<sortie id="SN91207">
+<date jour="9" mois="12" annee="2007"/>
+<titre>sortie au salon nautique</titre>
+<participants><nom>Alexandre</nom><nom> Bertrand(+père)</nom><nom> Daniel(+fils)</nom><nom> Teddy</nom></participants>
+<commentaire>
+Sympathique journée, occasion de nous retrouver et de rêver un peu dans les allées du salon.
+</commentaire>
+<photo fichier="salon09120701.jpg" />
+<photo fichier="salon09120702.jpg" />
+<photo fichier="salon09120703.jpg" />
+<photo fichier="salon09120704.jpg" />
+</sortie>
+  
+
+
+<sortie id="wimereux101107">
+<date jour="10" mois="11" annee="2007"/>
+<titre>session surf à Wimereux</titre>
+<participants><nom>Alexandre</nom><nom> Guillaume</nom><nom> Stéphane</nom></participants>
+<commentaire>
+Des conditions quasi-idéales, au milieu des surfeurs, kites et planches.
+</commentaire>
+</sortie>
+
+<sortie id="RC201007">
+<date jour="20" mois="10" annee="2007"/>
+<titre>Rafting Cup, match aller</titre>
+<commentaire>
+Cette année, l'équipe "touristes" était composée d'Alexandre, Bertrand, Daniel, Jean-Luc, Nicolas et Teddy.
+Résultat honorable (5ième) malgré une petite sortie de route dans la manche de slalom...
+</commentaire>
+<photo fichier="rafting21100701.jpg" />
+<photo fichier="rafting21100702.jpg" />
+<photo fichier="rafting21100703.jpg" />
+<photo fichier="rafting21100704.jpg" />
+<photo fichier="rafting21100705.jpg" />
+<photo fichier="rafting21100707.jpg" />
+<photo fichier="rafting21100706.jpg" />
+</sortie>
+  
+
+
+<sortie id="pic131007">
+<date jour="13" mois="10" annee="2007"/>
+<titre>Sortie à Picquigny</titre>
+<participants><nom>Alexandre</nom><nom> Alexis</nom><nom> Bertrand</nom><nom> Daniel</nom><nom> Jean-Luc</nom><nom> Mathieu</nom><nom> Sébastien</nom></participants>
+<commentaire>
+Superbe après-midi ensoleillée pour cette désormais classique sortie à Picquigny. Record de dessalages battu haut la main par Sébastien.
+</commentaire>
+<photo fichier="picquigny13100701.jpg" />
+<photo fichier="picquigny13100702.jpg" />
+<photo fichier="picquigny13100703.jpg" />
+<photo fichier="picquigny13100704.jpg" />
+<photo fichier="picquigny13100705.jpg" />
+<photo fichier="picquigny13100706.jpg" />
+<photo fichier="picquigny13100707.jpg" />
+<photo fichier="picquigny13100708.jpg" />
+</sortie>
+  
+
+
+<sortie id="CURE220907">
+<date jour="22/23" mois="9" annee="2007"/>
+<titre>rallye de la Cure</titre>
+<participants><nom>Alexandre</nom><nom> Mathieu</nom></participants>
+<commentaire>
+Températures agréables et temps (presque) beau pour cette nouvelle édition du rallye.
+Partie gratuite dans le rappel du premier seuil de Nataloup->Gouloux pour Mathieu.
+</commentaire>
+<photo fichier="cure22100701.jpg" />
+<photo fichier="cure22100702.jpg" />
+<photo fichier="cure22100703.jpg" />
+<photo fichier="cure22100704.jpg" />
+<photo fichier="cure22100705.jpg" />
+</sortie>
+  
+
+
+<sortie id="mer040807">
+<date jour="4" mois="8" annee="2007"/>
+<titre>randonnée mer</titre>
+<participants><nom>Mathieu</nom><nom> Nicolas</nom></participants>
+<commentaire>
+Rencontre pas très amicale avec nos amis les chasseurs... qui ne valent finalement pas mieux que les pêcheurs lorsque l'on pratique le kayak.
+</commentaire>
+</sortie>
+
+<sortie id="mer160607">
+<date jour="16" mois="6" annee="2007"/>
+<titre>randonnée mer: Le Hourdel - St-Valery</titre>
+<participants><nom>Bertrand</nom><nom> Jean-Luc</nom><nom> Mathieu+femme+fils</nom><nom> Nicolas</nom><nom> Teddy</nom></participants>
+<commentaire>
+Temps orageux pour cette première randonnée en mer (en K1 et K2 mer) du groupe Loisirs.
+</commentaire>
+<photo fichier="rando16060701.jpg" />
+<photo fichier="rando16060702.jpg" />
+<photo fichier="rando16060703.jpg" />
+<photo fichier="rando16060704.jpg" />
+<photo fichier="rando16060705.jpg" />
+</sortie>
+  
+
+<sortie id="chalaux260507">
+<date jour="26/27/28" mois="5" annee="2007"/>
+<titre>Chalaux dans le Morvan</titre>
+<participants><nom>Alexandre</nom><nom> Daniel</nom><nom> Florent</nom><nom> Stéphane</nom></participants>
+<commentaire>
+Il ne manquait que le soleil...
+</commentaire>
+<video type="video/x-matroska" fichier="chalaux0507-xvid.mkv" vimeo="14321128"/>
+<photo fichier="chalaux26050701.jpg" />
+<photo fichier="chalaux26050702.jpg"/>
+<photo fichier="chalaux26050703.jpg" />
+<photo fichier="chalaux26050704.jpg" />
+<photo fichier="chalaux26050705.jpg" />
+</sortie>
+  
+
+
+<sortie id="canche060507">
+<date jour="6" mois="5" annee="2007"/>
+<titre>Sortie Canche (Maresquel/Brimeux)</titre>
+<participants><nom>Alexandre</nom><nom> Dorian</nom><nom> Florent</nom><nom> Julien</nom></participants>
+<commentaire>
+La sortie classique du RCKL, avec une bonne séance d'eau vive à Beaurainville.
+</commentaire>
+<photo fichier="canche06050701.jpg" />
+</sortie>
+  
+
+<sortie id="chalaux070407">
+<date jour="7/8/9" mois="4" annee="2007"/>
+<titre>Chalaux + Cure ! dans le Morvan</titre>
+<participants><nom>Alexandre</nom><nom> Bruno</nom><nom> Daniel</nom><nom> Jérôme</nom></participants>
+<commentaire>
+Superbe week-end ensoleillé avec de belles sensations au rendez-vous, le pied ! Butterfly, butterfly...
+</commentaire>
+<photo fichier="chalaux07040701.jpg" />
+<photo fichier="chalaux07040702.jpg" />
+<photo fichier="chalaux07040703.jpg" />
+<photo fichier="chalaux07040704.jpg" />
+<photo fichier="chalaux07040705.jpg" />
+<photo fichier="chalaux07040706.jpg" />
+<photo fichier="chalaux07040707.jpg" />
+<video type="video/x-matroska" fichier="chalaux070407-xvid.mkv" vimeo="14320837"/>
+<video type="video/wmv" fichier="chalaux070407-diaporama.wmv"/>
+</sortie>
+  
+
+
+<sortie id="RC100307">
+<date jour="10/11" mois="3" annee="2007"/>
+<titre>Rafting Cup sur l'Ourthe (ardennes belges)</titre>
+<participants><nom>Bertrand</nom><nom> Jean-Luc</nom><nom> Nicolas</nom></participants>
+<commentaire>
+Le match retour de la coupe, avec malheureusement une équipe quelque peu réduite. 
+Elle termine tout de même à la 20e place sur 43 équipes. 
+</commentaire>
+<photo fichier="raftingcup10030701.jpg" />
+<photo fichier="raftingcup10030702.jpg" />
+<photo fichier="raftingcup10030703.jpg" />
+<photo fichier="raftingcup10030704.jpg" />
+</sortie>
+  
+
+
+<sortie id="hulle100307">
+<date jour="10" mois="3" annee="2007"/>
+<titre>Hulle dans les ardennes belges</titre>
+<participants><nom>Alexandre, Daniel avec les belges Patrick, Jean-Pierre et ses deux fils</nom></participants>
+<commentaire>
+Sympathique petite rivière II/III, soutenue, étroite et manoeuvrière, sous un soleil radieux: le bonheur !
+</commentaire>
+<photo fichier="hulle10030701.jpg" />
+<photo fichier="hulle10030702.jpg" />
+<photo fichier="hulle10030703.jpg" />
+<photo fichier="hulle10030704.jpg" />
+<photo fichier="hulle10030705.jpg" />
+<photo fichier="hulle10030706.jpg" />
+<photo fichier="hulle10030707.jpg" />
+<photo fichier="hulle10030708.jpg" />
+<photo fichier="hulle10030709.jpg" />
+<photo fichier="hulle10030710.jpg" />
+<photo fichier="hulle10030711.jpg" />
+<photo fichier="hulle10030712.jpg" />
+</sortie>
+  
+
+
+<sortie id="lesse110207">
+<date jour="11" mois="2" annee="2007"/>
+<titre>Haute Lesse dans les ardennes belges</titre>
+<participants><nom>Alexandre</nom><nom> Daniel</nom><nom> Mathieu</nom><nom> Teddy</nom><nom> Florent</nom></participants>
+<commentaire>
+Très petit niveau malgré un temps pluvieux, ou comment avoir un jour d'avance sur le ruissellement... sympathique descente tout de même.
+</commentaire>
+<photo fichier="lesse11020701.jpg" />
+<photo fichier="lesse11020702.jpg" />
+<photo fichier="lesse11020703.jpg" />
+<photo fichier="lesse11020704.jpg" />
+<photo fichier="lesse11020705.jpg" />
+</sortie>
+
+
+
+<sortie id="rur200107">
+<date jour="20" mois="1" annee="2007"/>
+<titre>Haute Rur dans les fagnes allemandes</titre>
+<participants><nom>Alexandre</nom><nom> Jérôme</nom></participants>
+<commentaire>
+Découverte plus que convaincante de la Haute Rur (8km de II/III/IV), dans un décor de qualité.
+Un parcours à ne pas prendre à la légère, avec en prime une arrivée superbe dans Montjoie.
+</commentaire>
+<photo fichier="rur21010701.jpg" />
+<photo fichier="rur21010702.jpg" />
+<photo fichier="rur21010703.jpg" />
+<photo fichier="rur21010704.jpg" />
+<photo fichier="rur21010705.jpg" />
+<photo fichier="rur21010706.jpg" />
+<photo fichier="rur21010707.jpg" />
+</sortie>
+  
+
+<sortie id="merlimont130107">
+<date jour="13" mois="1" annee="2007"/>
+<titre>Surf à Merlimont</titre>
+<participants><nom>Alexandre</nom><nom> Mathieu</nom><nom> Daniel</nom><nom> Julien</nom><nom> Dorian</nom><nom> Florent</nom><nom> Bertrand</nom><nom> Olivier</nom><nom> Pierre</nom><nom> Jean-Luc</nom></participants>
+<commentaire>
+Séance spéciale roustes pour cette sortie sur mer démontée ! Une "petite brise" pour accompagner... hostile la nature ! 
+</commentaire>
+<photo fichier="merlimont13010701.jpg" />
+<photo fichier="merlimont13010702.jpg" />
+<photo fichier="merlimont13010703.jpg" />
+<photo fichier="merlimont13010704.jpg" />
+<photo fichier="merlimont13010705.jpg" />
+<photo fichier="merlimont13010706.jpg" />
+</sortie>
+  
+
+
+<sortie id="lesse06007">
+<date jour="6" mois="1" annee="2007"/>
+<titre>Haute Lesse et Our dans les ardennes belges</titre>
+<participants><nom>Alexandre, les belges Patrick, Guy et toute une bande de kayakistes flamands</nom></participants>
+<commentaire>
+Journée pluvieuse mais fort sympathique sur la Haute Lesse (8,5 km de II/III) et l'Our (4 km de II/III).
+</commentaire>
+<photo fichier="lesse0601071.jpg" />
+<photo fichier="lesse0601072.jpg" />
+</sortie>
+</archive>
+

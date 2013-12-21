@@ -12,7 +12,7 @@
   if (isset($_GET['menu'])) require("menub.php"); 
 ?>
 <h1>LISTE DE DIFFUSION</h1>
-<p>La liste de diffusion <b>gl.asl@ml.free.fr</b> est, en parallèle avec ce site, le moyen privilégié de communication au sein du groupe loisirs.
+<p>La liste de diffusion <b>gl.asl@ml.free.fr</b> est, en parallèle avec ce site, le moyen privilégié de communication au sein du RCKL.
 Par ailleurs vous pouvez communiquer avec un membre particulier par l'intermédiaire du trombinoscope.
 <br/>
 L'inscription à cette liste est réservée aux membres inscrits, ou à titre exceptionnel à des personnes extérieures connues.

@@ -17,9 +17,9 @@ function rssUpdate() {
   $rssfile=fopen("glrss.xml","w") or die("Erreur lors de l'écriture du flux rss.");
   $header='<?xml version="1.0"?>';
   $header.='<rss version="2.0">';
-  $header.='<channel><title>Direct\'GL</title>';
+  $header.='<channel><title>Direct\'RCKL</title>';
   $header.='<link>http://rckl.free.fr/</link>';
-  $header.='<description>En direct du Groupe Loisirs de Saint-Laurent-Blangy</description>';
+  $header.='<description>En direct du RCKL</description>';
   $header.='<language>fr</language>';
   $header.='<pubDate>'.date($rssdateformat).'</pubDate>';
   $header.='<webMaster>rckl@free.fr</webMaster>';
