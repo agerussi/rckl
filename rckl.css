@@ -10,9 +10,13 @@
 }
 
 body {
-  background-image:url(FONDS/mosaique-snapshot.jpg);
-  background-size:100%;
+  background-image:url(FONDS/background1.jpg);
+  background-size:1280px;
   background-attachment:fixed;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-color:#8ca6c3;
+
   text-align:justify;
 }
 
@@ -262,3 +266,39 @@ table.mediaTable {
   right:5px;
 }
 
+
+/* ========== le fond des pages ============== */
+#changing-picture-div {
+  position:fixed; 
+  bottom:5%; 
+  right:5%; 
+  border-style:solid;
+  border-color:red;
+  border-width:10px; 
+  border-radius:10px;
+  z-index:-1;
+}
+
+#changing-picture-img-front, #changing-picture-img-back {
+  width:500px;
+}
+
+#changing-picture-img-front {
+  z-index:-1;
+}
+#changing-picture-img-back {
+  z-index:-2;
+  position:absolute; 
+  top:0pt;
+  left:0pt;
+}
+
+
+body {
+  background-image:url(FONDS/background1.jpg);
+  background-size:1280px;
+  background-attachment:fixed;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-color:#8ca6c3;
+}   
