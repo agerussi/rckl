@@ -65,13 +65,13 @@
     <xsl:for-each select="nom">
       <span class="participant" name="participant">
 	<xsl:value-of select="normalize-space(.)"/>
-	<img title="supprimer ce participant" src="FONDS/b_drop.png" name="supprimerparticipant"/> 
+	<img title="supprimer ce participant" src="ICONS/b_drop.png" name="supprimerparticipant"/> 
       </span>
     </xsl:for-each>
   </div>
   <div id="ligneajout">
     <input type="text" size="10" id="nouveauparticipant"/>
-    <img title="ajouter un participant" id="ajouterparticipant" src="FONDS/b_add.png"/> 
+    <img title="ajouter un participant" id="ajouterparticipant" src="ICONS/b_add.png"/> 
   </div>
   <div id="suggestions"></div>
   <div class="bigskip"/>
@@ -84,7 +84,7 @@
   </div>
   <div id="ligneajout">
     <input type="text" size="10" id="nouveauparticipant"/>
-    <img title="ajouter un participant" id="ajouterparticipant" src="FONDS/b_add.png"/> 
+    <img title="ajouter un participant" id="ajouterparticipant" src="ICONS/b_add.png"/> 
   </div>
   <div id="suggestions"></div>
   <div class="bigskip"/>
@@ -126,9 +126,9 @@
     </tr>
     <tr>
       <td>
-        <img title="supprimer la photo" src="FONDS/b_drop.png" name="supprimerphoto"/> 
+        <img title="supprimer la photo" src="ICONS/b_drop.png" name="supprimerphoto"/> 
 	<input type="hidden" name="typeMedia" value="3"/> <!-- 3 = On+Photo+!New -->
-	<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/> 
+	<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/> 
 	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
 	<xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-2)"/>
 	<input type="hidden" name="nomMedia" value="{concat($ext,'/',@fichier)}"/>
@@ -142,7 +142,7 @@
     <tr>
       <td>
 	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')}" alt="{@fichier}" />
-        <img title="choisir une miniature" src="FONDS/insert_image.png" name="choisirminiature"/> 
+        <img title="choisir une miniature" src="ICONS/insert_image.png" name="choisirminiature"/> 
 	<input type="hidden" name="MAX_FILE_SIZE" value="10240" />
 	<input type="file" style="display:none" name="ajoutMiniature"/>
       </td>
@@ -155,9 +155,9 @@
     </tr>
     <tr>
       <td>
-        <img title="supprimer la vidéo" src="FONDS/b_drop.png" name="supprimervideo"/> 
+        <img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/> 
 	<input type="hidden" name="typeMedia" value="5"/> <!-- 5 = On+Video -->
-	<img title="éditer le commentaire" src="FONDS/b_edit.png" name="editercommentaire"/> 
+	<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/> 
 	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
 	<xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-2)"/>
 	<input type="hidden" name="nomMedia" value="{concat($ext,'/',@fichier)}"/>

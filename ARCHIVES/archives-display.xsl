@@ -21,14 +21,14 @@
 	<xsl:element name="img">
 	  <xsl:attribute name="class">edit</xsl:attribute>
 	  <xsl:attribute name="title">effacer la sortie</xsl:attribute>
-	  <xsl:attribute name="src">FONDS/b_drop.png</xsl:attribute>
+	  <xsl:attribute name="src">ICONS/b_drop.png</xsl:attribute>
 	  <xsl:attribute name="onclick">areYouSure("<xsl:value-of select="@id"/>")</xsl:attribute>
 	</xsl:element>
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
 	    <xsl:value-of select="concat('editer-archive.php?id=',@id)"/>
 	  </xsl:attribute>
-	  <img class="edit" title="éditer la sortie" src="FONDS/b_edit.png" />
+	  <img class="edit" title="éditer la sortie" src="ICONS/b_edit.png" />
 	</xsl:element>
       </xsl:if>
     </div>
