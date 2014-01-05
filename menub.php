@@ -41,6 +41,7 @@
   <li>LIENS
     <ul>
       <li><a href="http://www.eauxvives.org" target="_blank" title="l'incontournable site francophone pour l'eau vive">EAUXVIVES.ORG</a></li>
+      <li><a href="http://www.kayaksportif.be" target="_blank" title="un site belge similaire au RCKL">KayakSportif.be</a></li>
     </ul>
    </li>
 
