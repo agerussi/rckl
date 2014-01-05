@@ -14,6 +14,7 @@
 
   <li title="photos/vidéos des sorties"><span class="iphonefix">ARCHIVES</span>
     <ul>
+      <li><a href="archives.php?menu&amp;y=2014">année 2014</a></li>
       <li><a href="archives.php?menu&amp;y=2013">année 2013</a></li>
       <li><a href="archives.php?menu&amp;y=2012">année 2012</a></li>
       <li><a href="archives-static.php?menu&amp;y=2011">année 2011</a></li>
