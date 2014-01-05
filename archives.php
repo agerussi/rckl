@@ -18,11 +18,7 @@
 <body>
 <?php
   if (isset($_GET['menu'])) require("menub.php"); 
-?>
-<h1>ARCHIVES DES SORTIES RCKL</h1>
-En cas de problème de lecture des vidéos, essayez <b>un vrai lecteur</b>: <a href="http://www.mplayerhq.hu">MPlayer</a>.<br/>
-Pas de source pour votre torrent ? <a href="mailto:rckl@free.fr">envoyez un courrier</a>
-<?php
+  
   // le titre en fonction de l'année demandée
  if (isset($_GET['y'])) $year = $_GET['y'];
  else $year = "@home";
@@ -31,6 +27,7 @@ Pas de source pour votre torrent ? <a href="mailto:rckl@free.fr">envoyez un cour
     $year= "1973"; // année de la sortie spéciale "@home"
  }
  else $titre = "ANNÉE ".$year;
+ echo "<h1>ARCHIVES DES ACTIVITÉS DU RCKL</h1>";
  echo "<h2>".$titre."</h2>";
 
  // récupère les archives de l'année sélectionnée

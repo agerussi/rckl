@@ -13,14 +13,11 @@
 <body>
 <?php
   if (isset($_GET['menu'])) require("menub.php"); 
-?>
-<h1>ARCHIVES DES SORTIES RCKL</h1>
-En cas de problème de lecture des vidéos, essayez <b>un vrai lecteur</b>: <a href="http://www.mplayerhq.hu">MPlayer</a>.<br/>
-Pas de source pour votre torrent ? <a href="mailto:rckl@free.fr">envoyez un courrier</a>
-<?php
+
   // le titre en fonction de l'année demandée
  $year=$_GET['y'];
  $titre = "ANNÉE ".$year;
+ echo "<h1>ARCHIVES DES ACTIVITÉS DU RCKL</h1>";
  echo "<h2>".$titre."</h2>";
 
  // affichage de l'archive
