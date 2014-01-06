@@ -7,6 +7,9 @@ var INTERVAL=5*1000;
 // vitesse de fade In/Out
 var fadeSpeed=25;
 
+// abonnement du div pour masquage du slide
+var div=document.getElementById("changing-picture-div");
+div.addEventListener("click", divClick);
 // image à modifier
 var imgFront=document.getElementById("changing-picture-img-front");
 imgFront.setAttribute("src",pathList[0]);
@@ -20,6 +23,25 @@ window.setInterval(changePicture,INTERVAL);
 /****************************************
   ********* FIN PROGRAMME PRINCIPAL *****
   ***************************************/
+
+// masque le slide pour 30 secondes
+var divTimer;
+var divOpacity;
+function divClick() {
+  div.style.visibility="hidden";
+  window.setTimeout(
+      function(){
+        div.style.opacity=divOpacity=0;
+	div.style.visibility="visible";
+        divTimer=window.setInterval(divFadeIn,2*fadeSpeed);
+      },5*1000);
+}
+
+function divFadeIn() {
+  divOpacity+=0.02;
+  div.style.opacity=divOpacity;
+  if (divOpacity==1) clearInterval(divTimer);
+}
 
 var current=2%pathList.length;
 var useBack=true;
