@@ -1,12 +1,12 @@
-Ce dépot est le site du Réseau du Canoë Kayak Libre (RCKL).
+Ce dépôt est le site du Réseau du Canoë Kayak Libre (RCKL).
 Il est en ligne à l'adresse: http://rckl.free.fr
 
 Les sources du site sont en ligne avant tout pour respecter
-les principes de transparence et de pérénité du RCKL.
+les principes de transparence et de pérennité du RCKL.
 
 L'ensemble du site n'est pas repris sous Git: il manque notamment
 certains répertoires contenant des paquetages JS que j'ai récupéré
-ailleurs sur le web, ainsi que des repértoires contenant des fichiers
+ailleurs sur le web, ainsi que des répertoires contenant des fichiers
 photos des archives ou du trombinoscope.
 Enfin le site fonctionne à partir d'une base de données mySQL dont une copie
 à jour (au moins du point de vue de sa structure) est disponible dans le 
