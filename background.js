@@ -1,19 +1,32 @@
 window.addEventListener("load", main);
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 
 // paramètres
 //////////////
-// liste des fichiers (théoriquement préfabriquée par background.php)
-var pathList=new Array("FONDS/AUTO/dsc_3839-reduced.jpg","FONDS/AUTO/DSC_7981-reduced.jpg","FONDS/AUTO/DSC_9356-reduced.jpg");
 // intervalle entre les images (ms)
 var INTERVAL=5*1000;
 // vitesse de fade In/Out
 var fadeSpeed=25;
 
 // variables globales
+var pathList=new Array();
 var divBack, divFront;
 var imgFront, imgBack;
 
 function main() {
+  // récupère les noms de fichiers
+  var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function() {
+      if (this.readyState==this.DONE && this.status==200) pathList=JSON.parse(this.response);
+    }
+    xhr.open("POST", "background_fetchFiles.php", false); // asynchrone pour ne pas avoir d'interruptions
+    xhr.send();
+  //alert(pathList);
+
+  // prochaine image
+  current=2%pathList.length;
+
   // place les images de départ
   imgFront=document.getElementById("changing-picture-img-front");
   imgFront.setAttribute("src",pathList[0]);
@@ -32,7 +45,7 @@ function main() {
   divFront.addEventListener("click", divClick);
 }
 
-// masque le slide pour 30 secondes
+// masque le slide pour 15 secondes
 var divTimer;
 var divOpacity;
 function divClick() {
@@ -44,7 +57,7 @@ function divClick() {
         divBack.style.opacity=divOpacity=0;
 	divBack.style.visibility="visible";
         divTimer=window.setInterval(divFadeIn,2*fadeSpeed);
-      },5*1000);
+      },15*1000);
 }
 
 function divFadeIn() {
@@ -54,7 +67,7 @@ function divFadeIn() {
 }
 
 var fadeTimer;
-var current=2%pathList.length;
+var current;
 var useBack=true;
 function changePicture() {
   if (useBack) fadeTimer=window.setInterval(fadeOut,fadeSpeed);
@@ -73,7 +86,6 @@ function fadeOut() {
   imgFront.setAttribute("src",pathList[current]);
   clearInterval(fadeTimer);
 }
-
 
 function fadeIn() {
   opacityValue+=0.02;

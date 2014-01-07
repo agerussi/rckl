@@ -283,9 +283,11 @@ table.mediaTable {
 }
 
 #changing-picture-div-front {
+  /*
   border-style:solid;
   border-color:green;
   border-width:1px; 
+  */
   z-index:0;
 }
 
@@ -302,7 +304,6 @@ table.mediaTable {
   top:0pt;
   left:0pt;
 }
-
 
 body {
   background-image:url(FONDS/background1.jpg);
