@@ -268,15 +268,25 @@ table.mediaTable {
 
 
 /* ========== le fond des pages ============== */
-#changing-picture-div {
+.changing-picture-div {
   position:fixed; 
   bottom:5%; 
   right:5%; 
+}
+
+#changing-picture-div-back {
   border-style:solid;
   border-color:red;
   border-width:10px; 
   border-radius:10px;
   z-index:-1;
+}
+
+#changing-picture-div-front {
+  border-style:solid;
+  border-color:green;
+  border-width:1px; 
+  z-index:0;
 }
 
 #changing-picture-img-front, #changing-picture-img-back {

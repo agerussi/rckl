@@ -1,3 +1,5 @@
+window.addEventListener("load", main);
+
 // paramètres
 //////////////
 // liste des fichiers (théoriquement préfabriquée par background.php)
@@ -7,42 +9,51 @@ var INTERVAL=5*1000;
 // vitesse de fade In/Out
 var fadeSpeed=25;
 
-// abonnement du div pour masquage du slide
-var div=document.getElementById("changing-picture-div");
-div.addEventListener("click", divClick);
-// image à modifier
-var imgFront=document.getElementById("changing-picture-img-front");
-imgFront.setAttribute("src",pathList[0]);
-var imgBack=document.getElementById("changing-picture-img-back");
-imgBack.setAttribute("src",pathList[1%pathList.length]);
-var fadeTimer;
+// variables globales
+var divBack, divFront;
+var imgFront, imgBack;
 
-// déclenchement du timer
-window.setInterval(changePicture,INTERVAL);
+function main() {
+  // place les images de départ
+  imgFront=document.getElementById("changing-picture-img-front");
+  imgFront.setAttribute("src",pathList[0]);
+  imgBack=document.getElementById("changing-picture-img-back");
+  imgBack.setAttribute("src",pathList[1%pathList.length]);
 
-/****************************************
-  ********* FIN PROGRAMME PRINCIPAL *****
-  ***************************************/
+  // setup du div-front 
+  divBack=document.getElementById("changing-picture-div-back");
+  divFront=document.getElementById("changing-picture-div-front");
+  
+  divFront.style.setProperty("width", divBack.offsetWidth+"px");
+  divFront.style.setProperty("height", divBack.offsetHeight+"px");
+
+  // abonnements 
+  window.setInterval(changePicture,INTERVAL);
+  divFront.addEventListener("click", divClick);
+}
 
 // masque le slide pour 30 secondes
 var divTimer;
 var divOpacity;
 function divClick() {
-  div.style.visibility="hidden";
+  divBack.style.visibility="hidden";
+  divFront.style.setProperty("pointer-events","none");
   window.setTimeout(
       function(){
-        div.style.opacity=divOpacity=0;
-	div.style.visibility="visible";
+	divFront.style.setProperty("pointer-events","auto");
+        divBack.style.opacity=divOpacity=0;
+	divBack.style.visibility="visible";
         divTimer=window.setInterval(divFadeIn,2*fadeSpeed);
       },5*1000);
 }
 
 function divFadeIn() {
   divOpacity+=0.02;
-  div.style.opacity=divOpacity;
+  divBack.style.opacity=divOpacity;
   if (divOpacity==1) clearInterval(divTimer);
 }
 
+var fadeTimer;
 var current=2%pathList.length;
 var useBack=true;
 function changePicture() {
