@@ -9,6 +9,7 @@
 </head>
 <body>
 <?php
+require("background.html");
 if (isset($_GET['menu'])) require("menub.php"); 
 // si quelqu'un est loggé, proposer le rajout d'une news
 if (isset($_SESSION['login'])) {

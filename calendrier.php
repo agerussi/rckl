@@ -42,7 +42,10 @@ function analysedate($date,$a,$m,$j,$jds) {
 </head>
 
 <body>
-<?php require("menub.php"); ?>
+<?php
+require("background.html");
+require("menub.php"); 
+?>
 
 <h1>LES ACTIVITÉS À VENIR</h1>
 
