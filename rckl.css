@@ -283,9 +283,11 @@ table.mediaTable {
 }
 
 #changing-picture-div-front {
+  /*
   border-style:solid;
   border-color:green;
   border-width:1px; 
+  */
   z-index:0;
 }
 
