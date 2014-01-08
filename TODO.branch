@@ -1,3 +1,8 @@
-* tester sur différents navigateurs
+* tester sur différents navigateurs:
+FF ok
+OPERA ok
+CHROME ok
+SAFARI ok
+IE 
 * agrandir un peu la banque d'images auto.
-* BUG: le clic de masquage ne fonctionne que lorsque l'on rafraîchit la page.
+* BUG click de souris non détecté sous IE

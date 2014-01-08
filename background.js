@@ -1,6 +1,3 @@
-window.addEventListener("load", main);
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////
 
 // paramètres
 //////////////
@@ -14,29 +11,33 @@ var pathList=new Array();
 var divBack, divFront;
 var imgFront, imgBack;
 
-function main() {
-  // récupère les noms de fichiers
-  var xhr=new XMLHttpRequest();
-    xhr.onreadystatechange=function() {
-      if (this.readyState==this.DONE && this.status==200) pathList=JSON.parse(this.response);
-    }
-    xhr.open("POST", "background_fetchFiles.php", false); // asynchrone pour ne pas avoir d'interruptions
-    xhr.send();
-  //alert(pathList);
+// récupère les noms de fichiers
+var xhr=new XMLHttpRequest();
+  xhr.onreadystatechange=function() {
+    if (this.readyState==this.DONE && this.status==200) pathList=JSON.parse(this.response);
+  }
+  xhr.open("POST", "background_fetchFiles.php", false); // asynchrone pour ne pas avoir d'interruptions
+  xhr.send();
+//alert(pathList);
 
-  // prochaine image
-  current=2%pathList.length;
+// prochaine image
+current=2%pathList.length;
 
-  // place les images de départ
-  imgFront=document.getElementById("changing-picture-img-front");
-  imgFront.setAttribute("src",pathList[0]);
-  imgBack=document.getElementById("changing-picture-img-back");
-  imgBack.setAttribute("src",pathList[1%pathList.length]);
+// place les images de départ
+imgFront=document.getElementById("changing-picture-img-front");
+imgFront.setAttribute("src",pathList[0]);
+imgBack=document.getElementById("changing-picture-img-back");
+imgBack.setAttribute("src",pathList[1%pathList.length]);
 
-  // setup du div-front 
-  divBack=document.getElementById("changing-picture-div-back");
-  divFront=document.getElementById("changing-picture-div-front");
-  
+// setup du div-front 
+divBack=document.getElementById("changing-picture-div-back");
+divFront=document.getElementById("changing-picture-div-front");
+
+window.addEventListener("load", setDivFront);
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+function setDivFront() {
   divFront.style.setProperty("width", divBack.offsetWidth+"px");
   divFront.style.setProperty("height", divBack.offsetHeight+"px");
 
