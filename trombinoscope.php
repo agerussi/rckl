@@ -10,7 +10,6 @@ else require("head.html");
 
 <body>
 <?php 
-  //require("background.php");
   if (isset($_GET['menu'])) require("menub.php"); 
 
 

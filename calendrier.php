@@ -43,7 +43,7 @@ function analysedate($date,$a,$m,$j,$jds) {
 
 <body>
 <?php
-require("background.php");
+require("background.html");
 require("menub.php"); 
 ?>
 

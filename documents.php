@@ -9,7 +9,7 @@
 </head>
 <body>
 <?php
-  require("background.php");
+  require("background.html");
   if (isset($_GET['menu'])) require("menub.php"); 
   $connected=isset($_SESSION['login']);
 ?>
