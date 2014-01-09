@@ -1,7 +1,7 @@
 <?php
-  // récupère tous les fichiers .jpg du répertoire FONDS/AUTO et renvoie un tableau au format JSON
+  // récupère tous les fichiers .jpg du répertoire $_GET['path'] et renvoie un tableau au format JSON
 
-  $dir="FONDS/AUTO";
+  $dir=$_GET['path'];
   $files=scandir($dir);
   unset($json);
   foreach ($files as $file) {
