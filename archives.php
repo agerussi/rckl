@@ -16,7 +16,7 @@
 </head>
 <body>
 <?php
-  if (isset($_GET['menu'])) require("menub.php"); 
+ require("menub.php"); 
   
   // le titre en fonction de l'année demandée
  if (isset($_GET['y'])) $year = $_GET['y'];
