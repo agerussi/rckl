@@ -2,7 +2,7 @@
 session_start();
 
 // test de sécurité 
-if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.php?menu");
+if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.php");
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

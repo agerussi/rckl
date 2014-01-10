@@ -1,7 +1,7 @@
 <?php
 session_start();
 // test de sécurité 
-if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.php?menu");
+if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.php");
 $id=$_GET['id'];
 
 require("dbconnect.php");

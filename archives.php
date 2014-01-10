@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 <?php
-  if (isset($_GET['menu'])) require("menuh.php"); 
-  else require("head.html");
+  require("menuh.php"); 
 ?>
   <script type="text/javascript" src="OUTILS/jQuery.js"></script>
   <script type="text/javascript" src="OUTILS/slimbox/js/slimbox2.js"></script>

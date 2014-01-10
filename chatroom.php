@@ -2,24 +2,19 @@
   session_start(); 
   //teste si l'utilisateur est connecté
   if (!isset($_SESSION['userid']) || empty($_SESSION['userid'])) {
-    header("Location: news.php?menu");
+    header("Location: news.php");
   }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php
-  if (isset($_GET['menu'])) require("menuh.php"); 
-  else require("head.html");
-?>
+<?php require("menuh.php"); ?>
   <script type="text/javascript" src="chat.js"></script>
 </head>
 <body>
-<?php
-  if (isset($_GET['menu'])) require("menub.php"); 
-?>
 
 <?php
+  require("menub.php"); 
   // début du programme spécifique 'chatroom'
   require("dbconnect.php");
   

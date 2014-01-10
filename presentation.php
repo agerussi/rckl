@@ -2,15 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php
-  if (isset($_GET['menu'])) require("menuh.php"); 
-  else require("head.html");
-?>
+<?php require("menuh.php"); ?>
 </head>
 <body>
-<?php
-  if (isset($_GET['menu'])) require("menub.php"); 
-?>
+<?php require("menub.php"); ?>
 <h1>PRÉSENTATION</h1>
 Le <b>groupe loisirs</b> est une structure intégrée au club de canoë-kayak de Saint Laurent Blangy et regroupe des personnes, pour la plupart majeures, qui souhaitent pratiquer le kayak (sous toutes ses formes) dans un but de détente et de découverte.
 Le <b>groupe loisirs</b> ne dispose pas d'un cadre diplômé spécialement rattaché: c'est un groupe qui s'auto-gère, mutualise les ressources, et chaque membre du groupe progresse au contact des autres membres plus expérimentés.
@@ -45,9 +40,9 @@ Le prix pour une saison est légèrement variable d'années en années, mais à 
 
 <h4>Vous êtes intéressé(e) ?</h4>
 
-Nous vous suggérons de continuer votre lecture avec la page d'<a href="integration.php?menu">intégration</a> au groupe et de ne pas hésiter à passer nous voir un samedi après midi pour toutes questions supplémentaires.
+Nous vous suggérons de continuer votre lecture avec la page d'<a href="integration.php">intégration</a> au groupe et de ne pas hésiter à passer nous voir un samedi après midi pour toutes questions supplémentaires.
 <br/>
-Vous pouvez trouver les documents d'inscription détaillés (à imprimer) dans la rubrique <a href="documents.php?menu">documents</a>.
+Vous pouvez trouver les documents d'inscription détaillés (à imprimer) dans la rubrique <a href="documents.php">documents</a>.
 
 </body>
 </html>

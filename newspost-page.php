@@ -11,7 +11,7 @@
     <p><textarea name="newsbody" cols="50" rows="10"></textarea></p>
     <p><input type="submit" value="Poster"/></p>
   </form>
-  <form method="post" action="news.php?menu">
+  <form method="post" action="news.php">
     <p><input type="submit" value="Annuler"/></p>
   </form>
   </div>

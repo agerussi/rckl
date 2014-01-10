@@ -3,7 +3,7 @@ session_start();
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['userid'])) {
-  header("Location: news.php?menu");
+  header("Location: news.php");
 }
 //check that the user is calling the page from the passwd form and not accessing it directly
 if (!isset($_POST['passwordone']) || !isset($_POST['passwordtwo'])) {
@@ -27,5 +27,5 @@ require("dbconnect.php");
 
 $query="UPDATE membres SET motdepasse='$newpass' WHERE id='$id'";
 mysql_query($query, $db) or die("erreur lors du changement de mot de passe: ".mysql_error());
-header("Location: news.php?menu");
+header("Location: news.php");
 ?> 

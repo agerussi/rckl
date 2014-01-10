@@ -2,15 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php
-  if (isset($_GET['menu'])) require("menuh.php"); 
-  else require("head.html");
-?>
+<?php require("menuh.php"); ?>
 </head>
 <body>
 <?php
 require("background.html");
-if (isset($_GET['menu'])) require("menub.php"); 
+require("menub.php"); 
 // si quelqu'un est loggé, proposer le rajout d'une news
 if (isset($_SESSION['login'])) {
   echo '<p><a href="glrss.xml"><img border=0 src="ICONS/RSS-icon.png" /></a></p>';

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['userid']) || !isset($_GET['ids'])) header("Location: calendrier.php?menu");
+if (!isset($_SESSION['userid']) || !isset($_GET['ids'])) header("Location: calendrier.php");
 
 // récupère la valeur des champs s'il s'agit d'une sortie existante
 $ids=$_GET['ids']; // id de la sortie
@@ -108,7 +108,7 @@ echo '<form accept-charset="utf-8" action="enregistresortie.php?ids='.$ids.'" me
 </p>
 <p><input type="submit" name="sortiesubmit" value="Valider la sortie" /></p>
 </form>
-<form method="post" action="calendrier.php?menu">
+<form method="post" action="calendrier.php">
   <p><input type="submit" name="cancel" value="Annuler" /></p>
 </form>
 </div>

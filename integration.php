@@ -2,15 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php
-  if (isset($_GET['menu'])) require("menuh.php"); 
-  else require("head.html");
-?>
+<?php require("menuh.php"); ?>
 </head>
 <body>
-<?php
-  if (isset($_GET['menu'])) require("menub.php"); 
-?>
+<?php require("menub.php"); ?>
+
 <h1>INTÉGRER LE GROUPE LOISIRS</h1>
 Vous avez pris votre décision: à la rentrée vous faites du kayak! 
 Voici quelques conseils pour une rentrée réussie au groupe loisirs, en particulier pour les débutants complets ou presque.

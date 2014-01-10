@@ -10,7 +10,7 @@
 <?php 
 $action="login.php?target=";
 if (isset($_GET['target'])) $action.=$_GET['target'];
-else $action.="news.php?menu";
+else $action.="news.php";
 
 echo '<form accept-charset="utf-8" method="post" action="'.$action.'">';
 ?>

@@ -3,7 +3,7 @@ session_start();
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['login'])) {
-  header("Location: news.php?menu");
+  header("Location: news.php");
 }
 // teste si l'utilisateur provient de la page "recuexterieur.php"
 if (!isset($_POST['somme']) || !isset($_POST['commentaire'])) {

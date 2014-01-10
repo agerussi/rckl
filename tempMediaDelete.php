@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-  if ($_SESSION["login"]!="root" || !isset($_POST["xml"])) header("Location: news.php?menu");
+  if ($_SESSION["login"]!="root" || !isset($_POST["xml"])) header("Location: news.php");
 
   $xml=$_POST["xml"]; 
   // analyse l'xml pour obtenir les fichiers à effacer

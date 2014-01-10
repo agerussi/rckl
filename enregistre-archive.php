@@ -5,7 +5,7 @@ session_start();
 if ( !isset($_SESSION['userid']) 
   || ($_SESSION['userid']!=1)
   || !isset($_GET['id'])  // recoit l'id de la sortie en paramètre
-) header("Location: news.php?menu");
+) header("Location: news.php");
 
 require("dbconnect.php");
 
@@ -113,7 +113,7 @@ mysql_query($query,$db) or die("Erreur lors de la création/modification d'une s
 mysql_close($db);
 
 // retourne sur la page de l'archive modifiée
-header("Location: archives.php?menu&y=".$annee);
+header("Location: archives.php?y=".$annee);
  
 // #################### HELPER FUNCTIONS
 // #####################################

@@ -3,7 +3,7 @@ session_start();
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['login'])) {
-  header("Location: news.php?menu");
+  header("Location: news.php");
 }
 // teste si les données sont en place
 if (!isset($_SESSION['paiement-numTotal'])) {

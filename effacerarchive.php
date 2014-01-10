@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.php?menu");
+if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.php");
 
 require("dbconnect.php");
 require("helper.php");
@@ -28,7 +28,7 @@ require("helper.php");
   efface($videos);
 
   // retour à la page d'archives d'où l'effacement a été fait
-  header("Location: archives.php?menu&y=".$year);
+  header("Location: archives.php?y=".$year);
 
 function efface($medias) { // DOMNodeList $medias
   global $repStockage;

@@ -3,7 +3,7 @@ session_start();
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['login'])) {
-  header("Location: news.php?menu");
+  header("Location: news.php");
 }
 require("dbconnect.php");
 ?>

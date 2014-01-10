@@ -1,7 +1,7 @@
 <?php
 // supprime le membre de la sortie ids
 session_start();
-if (!isset($_SESSION['userid'])|| !isset($_GET['ids'])) header("Location: calendrier.php?menu");
+if (!isset($_SESSION['userid'])|| !isset($_GET['ids'])) header("Location: calendrier.php");
 $idsortie=$_GET['ids']; // sortie
 
 require("dbconnect.php");
@@ -28,5 +28,5 @@ for ($i=0; $i<$n; $i+=2) {
 $query="UPDATE sorties SET participants=\"$newliste\" WHERE id=$idsortie";
 if (!mysql_query($query,$db)) die("Erreur lors de la mise à jour des participants à une sortie: ".mysql_error());
 
-header("Location: calendrier.php?menu");
+header("Location: calendrier.php");
 ?>

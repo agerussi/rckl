@@ -1,7 +1,7 @@
 <?php
 session_start();
 // test de sécurité 
-if ($_SESSION['login']!="root") header("Location: news.php?menu");
+if ($_SESSION['login']!="root") header("Location: news.php");
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -33,7 +33,7 @@ function validationId() {
   <label>Choisissez un identifiant pour l'archive:</label>
   <input type="text" id="id" width="20" />
   <p><input type="submit" value="Nouvelle archive" onclick="validationId()"/></p>
-  <form method="post" action="news.php?menu">
+  <form method="post" action="news.php">
     <p><input type="submit" value="Annuler" /></p>
   </form>
 </body>

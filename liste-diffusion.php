@@ -2,15 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php
-  if (isset($_GET['menu'])) require("menuh.php"); 
-  else require("head.html");
-?>
+<?php require("menuh.php"); ?>
 </head>
 <body>
-<?php
-  if (isset($_GET['menu'])) require("menub.php"); 
-?>
+<?php require("menub.php"); ?>
+
 <h1>LISTE DE DIFFUSION</h1>
 <p>La liste de diffusion <b>gl.asl@ml.free.fr</b> est, en parallèle avec ce site, le moyen privilégié de communication au sein du RCKL.
 Par ailleurs vous pouvez communiquer avec un membre particulier par l'intermédiaire du trombinoscope.

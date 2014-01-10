@@ -35,11 +35,11 @@ if($rowCheck == 1){ // exactly one result must have been returned
   // go to the target page if defined, or news.php by default
   $location="Location: ";
   if (isset($_GET['target'])) $location.=$_GET['target'];
-  else $location.="news.php?menu";
+  else $location.="news.php";
   header($location);
 }
 else {
   session_destroy();
-  header("Location: loginfailed.php?menu");
+  header("Location: loginfailed.php");
 }
 ?> 

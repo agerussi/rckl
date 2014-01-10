@@ -3,7 +3,7 @@ session_start();
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['login'])) {
-  header("Location: news.php?menu");
+  header("Location: news.php");
 }
 // teste si l'utilisateur provient de la page "nouveaupaiement.php"
 if (!isset($_POST['validerpaiement'])) {
@@ -39,12 +39,10 @@ $numTotal=$numMembres+$numExt;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php
-  if (isset($_GET['menu'])) require("menuh.php"); 
-  else require("head.html");
-?>
+<?php require("menuh.php"); ?>
 </head>
 <body>
+<?php require("menub.php"); ?>
 <h2>Récapitulatif du paiement</h2>
 <div align="center">
 <?php

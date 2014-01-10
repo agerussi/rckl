@@ -12,7 +12,7 @@ if (!isset($_SESSION['userid'])
   || !isset($_POST['datedebut'])
   || !isset($_POST['datefin'])
   || !isset($_POST['deadline'])
-) header("Location: calendrier.php?menu");
+) header("Location: calendrier.php");
 
 require("dbconnect.php");
 
@@ -22,7 +22,7 @@ if ($_GET['ids']==-1) { // nouvelle sortie
 
   $item='<item>';
   $item.='<title>Nouvelle sortie de '.$_SESSION['realname'].'</title>';
-  $item.='<link>http://rckl.free.fr/calendrier.php?menu</link>';
+  $item.='<link>http://rckl.free.fr/calendrier.php</link>';
   $item.='<description><![CDATA[';
   $item.='Date départ: '.$_POST['datedebut'].'<br />';
   $item.='Deadline: '.$_POST['deadline'].'<br />';
@@ -59,6 +59,6 @@ else { // modification d'une sortie existante
 
 mysql_query($query,$db) or die("Erreur lors de la création/modification d'une sortie: ".mysql_error());
 //die ($query);
-header("Location: calendrier.php?menu");
+header("Location: calendrier.php");
 ?>
 

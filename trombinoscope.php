@@ -2,15 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php
-if (isset($_GET['menu'])) require("menuh.php");
-else require("head.html");
-?>
+<?php require("menuh.php"); ?>
 </head>
 
 <body>
 <?php 
-  if (isset($_GET['menu'])) require("menub.php"); 
+  require("menub.php"); 
 
 
   echo "<h1>TROMBINOSCOPE</h1>";
@@ -19,7 +16,7 @@ else require("head.html");
   if ($connected) 
     echo '<p>Cliquez sur un nom de membre pour lui envoyer un email.</p>';
   else 
-    echo '<p><a href="loginpage.php?target=trombinoscope.php?menu">Connectez-vous</a> pour contacter un membre par email.</p>';
+    echo '<p><a href="loginpage.php?target=trombinoscope.php">Connectez-vous</a> pour contacter un membre par email.</p>';
 
   // requiert une connection à la BD
   require("dbconnect.php");

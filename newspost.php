@@ -3,7 +3,7 @@ session_start();
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['login'])) {
-  header("Location: news.php?menu");
+  header("Location: news.php");
 }
 if (!isset($_POST['newsbody'])) {
   header( "Location: newspost-page.php" );
@@ -26,7 +26,7 @@ require("rss.php");
 
 $item='<item>';
 $item.='<title>News de '.$_SESSION['realname'].'</title>';
-$item.='<link>http://rckl.free.fr/news.php?menu</link>';
+$item.='<link>http://rckl.free.fr/news.php</link>';
 $item.='<description><![CDATA['.trim($_POST['newsbody']).']]></description>';
 $item.='<pubDate>'.date($rssdateformat).'</pubDate>';
 $item.='</item>';
@@ -34,5 +34,5 @@ $item.='</item>';
 rssAdditem($item);
 rssUpdate();
 
-header("Location: news.php?menu");
+header("Location: news.php");
 ?> 

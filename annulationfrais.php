@@ -1,9 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['userid']) || !isset($_GET['id'])) {
-  header("Location: news.php?menu");
+  header("Location: news.php");
 }
-if ($_SESSION['userid']!=1) header("Location: news.php?menu");
+if ($_SESSION['userid']!=1) header("Location: news.php");
 $id=$_GET['id'];
 
 // connexion à la base de données
