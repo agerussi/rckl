@@ -261,41 +261,29 @@ table.mediaTable {
 
 
 /* ========== le fond des pages ============== */
-.changing-picture-div {
+.SlideBox-box1-div {
   position:fixed; 
   bottom:5%; 
   right:5%; 
 }
 
-#changing-picture-div-back {
+.SlideBox-box1-img {
+  width:300px;
+}
+
+#SlideBox-box1-div {
   border-style:solid;
   border-color:red;
   border-width:10px; 
   border-radius:10px;
-  z-index:-1;
 }
 
-#changing-picture-div-front {
-  /*
+#SlideBox-box1-div-front { /* pour debug */
+ /* 
   border-style:solid;
   border-color:green;
   border-width:1px; 
-  */
-  z-index:0;
-}
-
-#changing-picture-img-front, #changing-picture-img-back {
-  width:500px;
-}
-
-#changing-picture-img-front {
-  z-index:-1;
-}
-#changing-picture-img-back {
-  z-index:-2;
-  position:absolute; 
-  top:0pt;
-  left:0pt;
+ */ 
 }
 
 body {

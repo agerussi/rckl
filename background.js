@@ -1,9 +1,11 @@
-///////////////////////////////////////////////////////
-///////// PROGRAMME PRINCIPAL /////////////////////////
-///////////////////////////////////////////////////////
 
-/* classe SlideBox
+/* /////////////////// classe SlideBox
+Quelques éléments de style peuvent être ajustés par CSS via les
+classes SlideBox-<name>-div et SlideBox-<name>-img 
+et l'élément SlideBox-<name>-div
+
 * paramètres:
+   - name: nom du SlideBox (utilisé pour le CSS)
    - imgPath: chemin du répertoire contenant les images
 * attributs publics:
    - slideSpeed: vitesse de défilement du slide
@@ -13,10 +15,10 @@
    - changePicture: passage à l'image suivante
    - hideSlide(interval): masque le slide pour un certain temps 
 */ 
-function SlideBox(imgPath) {
+function SlideBox(name, imgPath) {
   ////////// ATTRIBUTS PUBLICS
-  this.slideSpeed=5*1000;
-  this.fadeSpeed=50;
+  this.slideSpeed=10*1000;
+  this.fadeSpeed=35;
 
   ////////// MÉTHODES PUBLIQUES
   // fonction gérant le changement d'image
@@ -92,8 +94,8 @@ function SlideBox(imgPath) {
 
     // pour IE il faut abonner imgFront plutôt que divFront... mystère car ce n'est pas censé marcher
     // apparemment dans IE les éléments de premier plan ne masquent pas les clics aux éléments en arrière
-    if (SlideBox.isIE) imgFront.addEventListener("mousedown", function() {self.hideSlide(15*1000)});
-    else divFront.addEventListener("mousedown", function() {self.hideSlide(15*1000)});
+    if (SlideBox.isIE) imgFront.addEventListener("mousedown", function() {self.hideSlide(20*1000)});
+    else divFront.addEventListener("mousedown", function() {self.hideSlide(20*1000)});
   }
 
   // fonction faisant réapparaitre les images progressivement
@@ -127,25 +129,50 @@ function SlideBox(imgPath) {
     imgBack.setAttribute("src",pathList[current]);
   }
 
+  // crée les éléments HTML nécéssaires à une divBox
+  // initialise imgFront, imgBack, divFront, divBack
+  function buildHTML() {
+    divBack=document.createElement("div");
+    divBack.setAttribute("class", "SlideBox-"+name+"-div");
+    divBack.setAttribute("id", "SlideBox-"+name+"-div");
+    divBack.style.setProperty("z-index", -1);
+
+    divFront=document.createElement("div");
+    divFront.setAttribute("class", "SlideBox-"+name+"-div");
+    divFront.setAttribute("id", "SlideBox-"+name+"-div-front"); // pour debug
+    divFront.style.setProperty("z-index", 0);
+
+    imgBack=document.createElement("img");
+    imgBack.setAttribute("class", "SlideBox-"+name+"-img");
+    imgBack.style.setProperty("z-index", -1);
+    imgBack.style.setProperty("position", "absolute");
+    imgBack.style.setProperty("top", "0pt");
+    imgBack.style.setProperty("left", "0pt");
+    divBack.appendChild(imgBack);
+
+    imgFront=document.createElement("img");
+    imgFront.setAttribute("class", "SlideBox-"+name+"-img");
+    divBack.appendChild(imgFront);
+
+    var body=document.getElementsByTagName("body")[0];
+    body.appendChild(divBack);
+    body.appendChild(divFront);
+  }
+
   /////////////////////////
   // CORPS DU CONSTRUCTEUR 
   /////////////////////////
   // récupère la liste des fichiers images
   pathList=getPaths();
 
+  // construit les éléments HTML nécessaires à une SlideBox
+  buildHTML();
+
   // place les images de départ
-  imgFront=document.getElementById("changing-picture-img-front");
   imgFront.setAttribute("src",pathList[0]);
-  imgBack=document.getElementById("changing-picture-img-back");
   imgBack.setAttribute("src",pathList[1%pathList.length]);
 
   // «troisième» image
   current=2%pathList.length;
-
-  // setup du div-front 
-  divBack=document.getElementById("changing-picture-div-back");
-  divFront=document.getElementById("changing-picture-div-front");
 }
 
-var slideBox1=new SlideBox("FONDS/AUTO");
-slideBox1.start();
