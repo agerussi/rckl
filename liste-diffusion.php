@@ -5,10 +5,12 @@
 <?php require("menuh.php"); ?>
 </head>
 <body>
-<?php require("menub.php"); ?>
+<?php 
+require("background.html");
+require("menub.php"); ?>
 
 <h1>LISTE DE DIFFUSION</h1>
-<p>La liste de diffusion <b>gl.asl@ml.free.fr</b> est, en parallèle avec ce site, le moyen privilégié de communication au sein du RCKL.
+<p>La liste de diffusion <b>rckl@freelists.org</b> est, en parallèle avec ce site, le moyen privilégié de communication au sein du RCKL.
 Par ailleurs vous pouvez communiquer avec un membre particulier par l'intermédiaire du trombinoscope.
 <br/>
 L'inscription à cette liste est réservée aux membres inscrits, ou à titre exceptionnel à des personnes extérieures connues.
@@ -18,12 +20,14 @@ Cependant, des personnes non inscrites peuvent poster sur la liste mais leur mes
 Pour utiliser plusieurs adresses il faut vous inscrire plusieurs fois, pour chacune d'entre elles.
 </p>
 <ul>
-  <li> Pour vous inscrire, envoyez ce mail: <a href="mailto:gl.asl-request@ml.free.fr?subject=subscribe">gl.asl-request@ml.free.fr?subject=subscribe</a>.</li>
-  <li> Pour vous désinscrire, envoyez ce mail: <a href="mailto:gl.asl-request@ml.free.fr?subject=unsubscribe">gl.asl-request@ml.free.fr?subject=unsubscribe</a>.</li>
-  <li> Une fois inscrit(e), vous pourrez poster sur la liste via cette adresse: <a href="mailto:gl.asl@ml.free.fr">gl.asl@ml.free.fr</a></li>
-  <li> Enfin, pour contacter spécialement l'administrateur de la liste en cas de problème: <a href="mailto:gl.asl-owner@ml.free.fr">gl.asl-owner@ml.free.fr</a>.</li>
+  <li> Pour vous inscrire, envoyez ce mail: <a href="mailto:rckl-request@freelists.org?subject=subscribe">rckl-request@freelists.org?subject=subscribe</a>.</li>
+  <li> Pour vous désinscrire, envoyez ce mail: <a href="mailto:rckl-request@freelists.org?subject=unsubscribe">rckl-request@freelists.org?subject=unsubscribe</a>.</li>
+  <li> Une fois inscrit(e), vous pourrez poster sur la liste via cette adresse: <a href="mailto:rckl@freelists.org">rckl@freelists.org</a></li>
 </ul>
-NB: si l'utilisation de ces liens pose problème vous pouvez aussi envoyer un mail de votre propre chef. 
-Par exemple pour vous inscrire, envoyez un mail à l'adresse <i>gl.asl-request@ml.free.fr</i> avec comme titre le seul et unique mot <i>subscribe</i>.
+NB: si l'utilisation directe de ces liens pose problème, il vous reste deux possibilités:
+<ol>
+<li>vous pouvez envoyer un mail de votre propre chef.  Par exemple pour vous inscrire, envoyez un mail à l'adresse <i>rckl-request@freelists.org</i> avec comme titre le seul et unique mot <i>subscribe</i>.</li>
+<li>vous pouvez demander à vous faire inscrire ou désincrire en écrivant un mail à un administrateur du site, par le menu RCKL/CONTACT.</li>
+</ol>
 </body>
 </html>
