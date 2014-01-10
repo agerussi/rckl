@@ -2,14 +2,59 @@
 ///////// PROGRAMME PRINCIPAL /////////////////////////
 ///////////////////////////////////////////////////////
 
-// classe SlideBox
-// imgPath: chemin du répertoire contenant les images
+/* classe SlideBox
+* paramètres:
+   - imgPath: chemin du répertoire contenant les images
+* attributs publics:
+   - slideSpeed: vitesse de défilement du slide
+   - fadeSpeed: vitesse de fade in/out
+* méthodes publiques:
+   - start: démarre le slide
+   - changePicture: passage à l'image suivante
+   - hideSlide(interval): masque le slide pour un certain temps 
+*/ 
 function SlideBox(imgPath) {
-  // vitesse du slide et du fade par défaut
+  ////////// ATTRIBUTS PUBLICS
   this.slideSpeed=5*1000;
-  var fadeSpeed=50;
+  this.fadeSpeed=50;
 
-  // variables globales
+  ////////// MÉTHODES PUBLIQUES
+  // fonction gérant le changement d'image
+  this.changePicture=function() {
+    if (useBack) fadeTimer=window.setInterval(fadeOut,this.fadeSpeed);
+    else fadeTimer=window.setInterval(fadeIn,this.fadeSpeed);
+
+    current=(current+1)%pathList.length;
+    useBack=!useBack;
+  }
+
+  // fonction appelée lors d'un clic sur l'image, ou manuellement
+  // masque l'image le temps donné (ms)
+  // puis la fait réapparaitre progressivement
+  this.hideSlide=function(interval) {
+    divBack.style.visibility="hidden";
+    divFront.style.setProperty("pointer-events","none");
+    var self=this;
+    window.setTimeout(
+	function(){
+	  divFront.style.setProperty("pointer-events","auto");
+	  divBack.style.opacity=divOpacity=0;
+	  divBack.style.visibility="visible";
+	  divTimer=window.setInterval(divFadeIn,2*self.fadeSpeed);
+	},interval);
+  }
+
+  // pour démarrer le slide
+  // laisse le temps d'ajuster des paramètres éventuels
+  this.start=function() {
+    var self=this;
+    window.addEventListener("load", function(){self.whenDOMReady()});
+  }
+
+  //////////////////////////////////////////////////////////////////////////////// 
+  ////////////// DÉFINITIONS INTERNES ////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+  // variables privées
   SlideBox.isIE = /*@cc_on!@*/false; // comprends rien mais ça à l'air de marcher!!
   var pathList=new Array();
   var divBack, divFront;
@@ -37,32 +82,18 @@ function SlideBox(imgPath) {
   // fonction qui donne à divFront les dimensions des images affichées
   // elle doit être appelée après l'évenement 'load' pour être sûr que 
   // le DOM soit à jour
-  function whenDOMReady() {
+  this.whenDOMReady=function() {
     divFront.style.setProperty("width", divBack.offsetWidth+"px");
     divFront.style.setProperty("height", divBack.offsetHeight+"px");
 
     // abonnements 
-    window.setInterval(changePicture,this.slideSpeed);
+    var self=this;
+    window.setInterval(function() {self.changePicture()},this.slideSpeed);
 
     // pour IE il faut abonner imgFront plutôt que divFront... mystère car ce n'est pas censé marcher
-    // apparemment dans les éléments de premier plan ne masquent pas les clics aux éléments en arrière
-    if (SlideBox.isIE) imgFront.addEventListener("mousedown", divClick);
-    else divFront.addEventListener("mousedown", divClick);
-  }
-
-  // fonction appelée lors d'un clic sur l'image
-  // masque l'image pour 15 secondes
-  // puis la fait réapparaitre progressivement
-  function divClick() {
-    divBack.style.visibility="hidden";
-    divFront.style.setProperty("pointer-events","none");
-    window.setTimeout(
-	function(){
-	  divFront.style.setProperty("pointer-events","auto");
-	  divBack.style.opacity=divOpacity=0;
-	  divBack.style.visibility="visible";
-	  divTimer=window.setInterval(divFadeIn,2*fadeSpeed);
-	},15*1000);
+    // apparemment dans IE les éléments de premier plan ne masquent pas les clics aux éléments en arrière
+    if (SlideBox.isIE) imgFront.addEventListener("mousedown", function() {self.hideSlide(15*1000)});
+    else divFront.addEventListener("mousedown", function() {self.hideSlide(15*1000)});
   }
 
   // fonction faisant réapparaitre les images progressivement
@@ -70,15 +101,6 @@ function SlideBox(imgPath) {
     divOpacity+=0.02;
     divBack.style.opacity=divOpacity;
     if (divOpacity==1) clearInterval(divTimer);
-  }
-
-  // fonction gérant le changement d'image
-  function changePicture() {
-    if (useBack) fadeTimer=window.setInterval(fadeOut,fadeSpeed);
-    else fadeTimer=window.setInterval(fadeIn,fadeSpeed);
-
-    current=(current+1)%pathList.length;
-    useBack=!useBack;
   }
 
   // fonction qui fait disparaître progressivement l'image de devant
@@ -105,12 +127,6 @@ function SlideBox(imgPath) {
     imgBack.setAttribute("src",pathList[current]);
   }
 
-  // méthode publique pour démarrer le slide
-  // laisse le temps d'ajuster des paramètres éventuels
-  this.start=function() {
-    window.addEventListener("load", whenDOMReady.call(this));
-  }
- 
   /////////////////////////
   // CORPS DU CONSTRUCTEUR 
   /////////////////////////
