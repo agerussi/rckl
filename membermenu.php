@@ -7,14 +7,14 @@ if(isset($_SESSION['login'])){ // on est loggé
   echo <<<EOS
 <ul>
 <li><a href="newspost-page.php">poster une news</a></li>
-<li><a href="editsortie.php?ids=-1">proposer une nouvelle sortie</a></li>
-<li><a href="gestiondesfrais.php">gestion des frais</a></li>
-<li><a href="chatroom.php">salon de discussion</a></li>
+<li><a href="editsortie.php?ids=-1">proposer une activité</a></li>
+<li><a href="nouvelle-archive.php">créer une archive</a></li>
+<li><a href="gestiondesfrais.php">gérer ses frais</a></li>
+<li><a href="chatroom.php">accéder au salon de discussion</a></li>
 <li><a href="chpasswd-page.php">changer le mot de passe</a></li>
-<li><a href="logout.php">déconnexion</a></li>
+<li><a href="logout.php">se déconnecter</a></li>
 EOS;
   if ($_SESSION['login'] == 'root') { // additions spéciales pour root
-    echo '<li><a href="nouvelle-archive.php">nouvelle archive</a></li>';
   }
   echo "</ul>";
 }
@@ -22,10 +22,12 @@ else{
   echo <<<EOS
 <a href="loginpage.php"
 title="permet de
-s'inscrire à une sortie,
+proposer une activité,
+s'inscrire à une activité,
+écrire une news,
+créer ou modifier une archive,
 gérer ses frais,
 contacter un membre par mail,
-écrire une news,
 s'abonner au flux RSS,
 accéder au salon de discussion"
 >MEMBRES</a>
