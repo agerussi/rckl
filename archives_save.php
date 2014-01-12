@@ -33,6 +33,9 @@ $xml.="/>";
 $titre=htmlspecialchars(trim($_POST['valeurtitre']));
 if (strlen($titre)!=0) $xml.="<titre>".$titre."</titre>";
 
+// l'auteur
+$xml.="<auteur>".$_SESSION['realname']."</auteur>";
+
 // le commentaire
 $commentaire=htmlspecialchars(trim($_POST['valeurcommentaire']));
 if (strlen($commentaire)!=0) $xml.="<commentaire>".$commentaire."</commentaire>";
