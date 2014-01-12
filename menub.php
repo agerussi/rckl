@@ -45,6 +45,6 @@
     </ul>
    </li>
 
-  <li><?php include("membermenu.php");?></li>
+  <li><?php include("menu_members.php");?></li>
 </ul>
 </div>
