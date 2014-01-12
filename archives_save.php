@@ -3,7 +3,6 @@ session_start();
 
 // tests de sécurité
 if ( !isset($_SESSION['userid']) 
-  || ($_SESSION['userid']!=1)
   || !isset($_GET['id'])  // recoit l'id de la sortie en paramètre
 ) header("Location: news.php");
 

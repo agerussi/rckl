@@ -80,9 +80,17 @@ function gestionAnnulation() {
   xmlList+="</delete>";
   // appelle le php qui va effacer les fichiers
   var xhr = new XMLHttpRequest();
-  xhr.open("POST","tempMediaDelete.php",false); 
+  xhr.open("POST","archives_tempMediaDelete.php",false); 
   xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
   xhr.send("xml="+xmlList);
+
+  // si l'archive était nouvelle, on l'efface de la BD
+  if (isNewArchive) {
+    xhr= new XMLHttpRequest();
+    xhr.open("GET","archives_delete.php?id="+idArchive,false); 
+    xhr.send();
+  }
+
   window.back();
 }
 
@@ -390,6 +398,10 @@ function validationArchive() { // vérification et préparation avant soumission
 }
 
 // main() est appelée lorsque la page est chargée
+// les variables suivantes sont définies:
+//   isNewArchive = booléen qui dit si l'archive a déjà été éditée ou non
+//   idArchive = id de l'archive en cours d'édition (utile pour l'effacer)
+//   suggestions = tableau donnant la liste des membres pour formuler les suggestions
 window.addEventListener("load",main);
 function main() {
   initGestionDate();

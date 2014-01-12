@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="OUTILS/slimbox/css/slimbox2.css" type="text/css" media="screen" />
   <script type="text/javascript">
     function areYouSure(id) {
-      if (confirm("Effacement de l'archive !\n\n Êtes-vous sûr(e) ?")) window.location.replace("effacerarchive.php?id="+id);
+      if (confirm("Effacement de l'archive !\n\n Êtes-vous sûr(e) ?")) window.location.replace("archives_delete.php?id="+id);
     }
   </script>
 </head>
@@ -19,13 +19,10 @@
  require("menub.php"); 
   
   // le titre en fonction de l'année demandée
- if (isset($_GET['y'])) $year = $_GET['y'];
- else $year = "@home";
- if ($year=="@home") {
-    $titre = "À LA MAISON";
-    $year= "1973"; // année de la sortie spéciale "@home"
- }
- else $titre = "ANNÉE ".$year;
+ if (!isset($_GET['y'])) header("Location: news.php");
+ $year = $_GET['y'];
+
+ $titre = "ANNÉE ".$year;
  echo "<h1>ARCHIVES DES ACTIVITÉS DU RCKL</h1>";
  echo "<h2>".$titre."</h2>";
 

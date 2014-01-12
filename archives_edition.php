@@ -2,7 +2,7 @@
 session_start();
 
 // test de sécurité 
-if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.php");
+if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.php");
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,9 +11,12 @@ if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.ph
 <?php require("head.html"); ?>
 <link rel="stylesheet" type="text/css" media="all" href="OUTILS/JSDATEPICK/jsDatePick_ltr.min.css" />
 <script type="text/javascript" src="OUTILS/JSDATEPICK/jsDatePick.min.1.3.js"></script>
-<script type="text/javascript" src="editer-archive.js"></script>
+<script type="text/javascript" src="archives_edition.js"></script>
 <script type="text/javascript">
-<?php // crée la liste des suggestions de membres (utilisée dans editer-archive.js)
+<?php 
+// initialisation de certaines variables utilisées dans archives_edition.js
+
+// crée la liste des suggestions de membres 
  require("dbconnect.php");
  mysql_query("SET NAMES UTF8");
  $sql = 'SELECT nom FROM membres WHERE id>1';
@@ -23,20 +26,25 @@ if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.ph
  while ($data = mysql_fetch_array($req)) echo ',"'.$data['nom'].'"'; 
  echo '];';
  mysql_free_result($req);
+
+ // positionne le drapeau isNewArchive  
+ $js="var isNewArchive=";
+ $js.=isset($_GET['new']) ? "true;":"false;";
+ echo $js;
+
+ // transmet l'id de l'archive
+ $js="var idArchive=".$_GET['id'].';';
+ echo $js;
 ?>
 </script>
 </head>
 <body>
 <?php
- if ($_GET['id']==-1) {
-   // nouvelle sortie
- } else {
-   echo '<h1>Édition de la sortie "'.$_GET['id'].'"</h1>';
- }
+ echo "<h1>Édition d'une activité RCKL</h1>";
  // récupère l'archive sélectionnée
  require("dbconnect.php");
  mysql_query("SET NAMES UTF8");
- $sql = 'SELECT xml FROM archives WHERE id="'.$_GET['id'].'"';
+ $sql = 'SELECT authId, xml FROM archives WHERE id="'.$_GET['id'].'"';
  $req = mysql_query($sql) or die("erreur lors de la lecture de l'archive id=".$_GET['id'].": ".mysql_error());
  $data = mysql_fetch_array($req);
 

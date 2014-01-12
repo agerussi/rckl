@@ -4,7 +4,7 @@
 <xsl:output method="html" indent="no" omit-xml-declaration="yes" encoding="utf-8"/>
 
 <xsl:template match="/editsortie">
-  <form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="{concat('enregistre-archive.php?id=',@id)}" onsubmit="return validationArchive()"> 
+  <form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="{concat('archives_save.php?id=',@id)}" onsubmit="return validationArchive()"> 
     <xsl:apply-templates select="date"/>
     <xsl:if test="not(titre)">
       <xsl:call-template name="titreDefault"/>

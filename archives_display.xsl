@@ -26,7 +26,7 @@
 	</xsl:element>
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
-	    <xsl:value-of select="concat('editer-archive.php?id=',@id)"/>
+	    <xsl:value-of select="concat('archives_edition.php?id=',@id)"/>
 	  </xsl:attribute>
 	  <img class="edit" title="éditer la sortie" src="ICONS/b_edit.png" />
 	</xsl:element>
