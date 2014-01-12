@@ -17,7 +17,7 @@
       <xsl:apply-templates select="date"/>
       <xsl:apply-templates select="titre"/>
       <xsl:apply-templates select="participants"/>
-      <xsl:if test="/archive/@edit='yes'">
+      <xsl:if test="@edit='yes'">
 	<xsl:element name="img">
 	  <xsl:attribute name="class">edit</xsl:attribute>
 	  <xsl:attribute name="title">effacer la sortie</xsl:attribute>
@@ -31,6 +31,7 @@
 	  <img class="edit" title="éditer la sortie" src="ICONS/b_edit.png" />
 	</xsl:element>
       </xsl:if>
+      <xsl:apply-templates select="auteur"/>
     </div>
     <div class="commentaire">
       <xsl:apply-templates select="commentaire"/>
@@ -41,6 +42,12 @@
     </div>
   </div>
   <hr/>
+</xsl:template>
+
+<xsl:template match="auteur">
+  <span class="auteur">
+    créée par <xsl:value-of select="."/>
+  </span>
 </xsl:template>
 
 <xsl:template match="date">

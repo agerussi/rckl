@@ -32,17 +32,20 @@
  // récupère les archives de l'année sélectionnée
  require("dbconnect.php");
  mysql_query("SET NAMES UTF8");
- $sql = 'SELECT id, xml FROM archives WHERE DATE_FORMAT(date,"%Y")='.$year;
+ $sql = 'SELECT id, authId, xml FROM archives WHERE DATE_FORMAT(date,"%Y")='.$year;
  $req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
 
   // collecte les sorties au format xml
   $xmltext="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-  $root=(isset($_SESSION['login']) && $_SESSION['login']=='root'); 
-  $xmltext.="<archive edit=\"".($root ? "yes":"no")."\">";
+  $xmltext.="<archive>";
   $xmltext.="<path>IMGDB</path> <mini>-mini</mini>";
 
   while ($data = mysql_fetch_array($req)) {
-    $xmltext.="<sortie id=\"".$data['id']."\">";
+    $xmltext.="<sortie ";
+    $xmltext.='id="'.$data['id'].'"';
+    $editable=(isset($_SESSION['userid']) && $_SESSION['userid']==$data['authId']);
+    $xmltext.=' edit="'.($editable ? "yes":"no").'"';
+    $xmltext.=">";  
     $xmltext.=$data['xml'];
     $xmltext.="</sortie>";
   }
@@ -57,7 +60,7 @@
   $xml = new DOMDocument; 
   $xml->loadXML($xmltext);
   $xsl = new DOMDocument;
-  $xsl->load("ARCHIVES/archives-display.xsl");
+  $xsl->load("archives_display.xsl");
   $proc = new XSLTProcessor;
   $proc->importStyleSheet($xsl); 
   echo htmlspecialchars_decode($proc->transformToXML($xml)); 

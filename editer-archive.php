@@ -55,7 +55,7 @@ if ($_SESSION['login']!="root" || !isset($_GET['id'])) header("Location: news.ph
   $xml = new DOMDocument; 
   $xml->loadXML($xmltext);
   $xsl = new DOMDocument;
-  $xsl->load("ARCHIVES/archives-edit.xsl");
+  $xsl->load("archives_edit.xsl");
   $proc = new XSLTProcessor;
   $proc->importStyleSheet($xsl); 
   echo htmlspecialchars_decode($proc->transformToXML($xml)); 

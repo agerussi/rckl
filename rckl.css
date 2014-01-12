@@ -124,6 +124,13 @@ hr { clear:both; }
 }
 
 /* ================ style des archives */
+.archive .auteur {
+  font-size:.8em;
+  color:#ffffff;
+  float:right;
+  margin:0 0 0 50px;
+}
+
 .archive div.entete {
   margin-bottom:7px;
 }
