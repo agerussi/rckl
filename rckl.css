@@ -124,6 +124,12 @@ hr { clear:both; }
 }
 
 /* ================ style des archives */
+.archive .playableIcon {
+  position:fixed;
+  z-index:1;
+  border-width:0px;
+}
+
 .archive .auteur {
   font-size:.8em;
   color:#ffffff;

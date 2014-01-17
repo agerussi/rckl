@@ -23,12 +23,13 @@
     </div>  
     <div id="listeVideos">
       <xsl:apply-templates select="video"/> 
+      <xsl:apply-templates select="vimeo"/> 
     </div>
     <div id="validannulation">
       <p>Ajouter une photo: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
-      <p>Ajouter une vidéo de Vimeo: <input type="text" id="VimeoId"/>
+      <p>Ajouter une vidéo Vimeo: <input type="text" id="VimeoId"/>
       <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" src="ICONS/b_add.png"/> </p>
-      <p>Ajouter une vidéo de YouTube: <input type="text" id="YouTubeId"/>
+      <p>Ajouter une vidéo YouTube: <input type="text" id="YouTubeId"/>
       <img title="ajouter une vidéo YouTube" id="ajouterYouTube" src="ICONS/b_add.png"/> </p>
       <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
       <p><input type="button" id="cancel" value="Annuler" /></p>
@@ -136,6 +137,25 @@
 	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
 	<xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-2)"/>
 	<input type="hidden" name="nomMedia" value="{concat($ext,'/',@fichier)}"/>
+      </td>
+    </tr>
+  </table>
+</xsl:template>
+
+<xsl:template match="vimeo">
+  <table class="mediaTable">
+    <tr>
+      <td>
+	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{@miniurl}" alt="{@id}"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/> 
+	<input type="hidden" name="typeMedia" value="33"/> <!-- 33 = On+Vimeo -->
+	<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/> 
+	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
+	<input type="hidden" name="nomMedia" value="{@id}"/>
       </td>
     </tr>
   </table>

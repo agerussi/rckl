@@ -2,9 +2,63 @@
 var beeingUploaded=0; // nombre de médias en cours d'upload
 var uploadLIMIT=2; // nombre maximal de connexions simultanées
 var chunkSize=256*1024; // 256 KB
-var MediaType = { // enumération pour le type de media
-  On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16
+var MediaType = { // enumération pour le type de media (attention à garder synchro avec celui de helper.php !!)
+  On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16, Vimeo: 32
 };
+
+// gestion de l'ajout d'une vidéo de vimeo
+function gestionAjoutVimeo() {
+  // récupération du n° de la vidéo
+  vimeoId=parseInt(document.getElementById("VimeoId").value);
+  if (isNaN(vimeoId)) {
+    alert("Numéro non valide !");
+    return;
+  }
+
+  // récupère les informations sur la vidéo
+  try {
+    var videoData=getVimeoVideoData(vimeoId);
+  }
+  catch (erreur) {
+    window.alert(erreur+"\nVérifiez le numéro.");
+    return;
+  }
+
+  // création d'un nouveau média
+  var table=document.createElement("table");
+  table.setAttribute("id", "table"+numeroMedia);
+  table.setAttribute("class", "mediaTable");
+  table.innerHTML=[
+    '<tr><td>',
+    '<img src="', videoData.thumbnail_small, '" height="85px" name="vimeo" title="@Vimeo: ',videoData.title,'" />',
+    '</td></tr><tr><td>',
+    '<img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/>', 
+    '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Vimeo|MediaType.New,'"/>',
+    '<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/>',
+    '<input type="hidden" name="commentaireMedia" value="',videoData.title,'"/>',
+    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="',videoData.id,'"/>',
+    //'<span id="progresMedia',numeroMedia,'">chargement...</span>'
+   ].join('');
+  // insertion de l'image dans la liste
+  var input=document.getElementById("listeVideos");
+  input.insertBefore(table,null); 
+  abonnementsVideos(); // abonnements aux diverses fonctions
+  
+  numeroMedia++;
+}
+
+// récupère les informations sur une vidéo VIMEO via l'API Simple
+function getVimeoVideoData(id) {
+  var json;
+  var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function() {
+      if (this.readyState==this.DONE && this.status==200) json=JSON.parse(this.response);
+    }
+   xhr.open("GET", "http://vimeo.com/api/v2/video/"+id+".json", false); 
+   xhr.send();
+   if (typeof(json)=="undefined") throw("Erreur de récupération des informations de la vidéo VIMEO n°"+id+".");
+   return json[0];
+}
 
 // gère le bouton choixMiniature.
 // se contente de déclencher le input
@@ -408,6 +462,8 @@ function main() {
   abonnementsVideos();
   // gestion du bouton d'ajout de fichiers photos
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
+  // ajout d'un vidéo Vimeo
+  document.getElementById("ajouterVimeo").addEventListener("click", gestionAjoutVimeo, false);
   // annulation des modifs
   document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);
 }

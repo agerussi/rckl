@@ -39,6 +39,7 @@
     <div class="galerie">
       <xsl:apply-templates select="photo"/>
       <xsl:apply-templates select="video"/>
+      <xsl:apply-templates select="vimeo"/>
     </div>
   </div>
   <hr/>
@@ -101,6 +102,15 @@
     <xsl:apply-templates select="text()|*"/>
 </xsl:template>
 
+<xsl:template match="vimeo">
+  <span class="miniature">
+    <a title="{@commentaire}" href="{@url}">
+      <img src="ICONS/playable.png" class="playableIcon"/>
+      <img src="{@miniurl}" alt="{@id}" />
+    </a>
+  </span>
+</xsl:template>
+
 <xsl:template match="photo">
   <span class="miniature">
     <xsl:element name="a">
@@ -128,30 +138,24 @@
 
 <xsl:template match="video">
   <div class="miniature">
-    <xsl:element name="table">
-      <xsl:element name="tr">
-	<xsl:element name="td">
-	  <xsl:element name="a">
-	    <xsl:attribute name="type">
-	      <xsl:value-of select="@type"/>
-	    </xsl:attribute>
-	    <xsl:attribute name="title">
-	      <xsl:value-of select="@commentaire"/>
-	    </xsl:attribute>
-	    <xsl:attribute name="href">
-		<xsl:value-of select="concat(/archive/path,'/',@fichier)"/>
-	    </xsl:attribute>
-	    <xsl:element name="img">
-	      <xsl:attribute name="src">
-		<xsl:value-of select="concat(/archive/path,'/',substring-before(@fichier,'.'),/archive/mini,'.jpg')"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="alt">
-		<xsl:value-of select="@fichier"/>
-	      </xsl:attribute>
-	    </xsl:element> <!-- img -->
-	  </xsl:element>
-	</xsl:element>
-      </xsl:element>
+    <xsl:element name="a">
+      <xsl:attribute name="type">
+	<xsl:value-of select="@type"/>
+      </xsl:attribute>
+      <xsl:attribute name="title">
+	<xsl:value-of select="@commentaire"/>
+      </xsl:attribute>
+      <xsl:attribute name="href">
+	  <xsl:value-of select="concat(/archive/path,'/',@fichier)"/>
+      </xsl:attribute>
+      <xsl:element name="img">
+	<xsl:attribute name="src">
+	  <xsl:value-of select="concat(/archive/path,'/',substring-before(@fichier,'.'),/archive/mini,'.jpg')"/>
+	</xsl:attribute>
+	<xsl:attribute name="alt">
+	  <xsl:value-of select="@fichier"/>
+	</xsl:attribute>
+      </xsl:element> <!-- img -->
     </xsl:element>
   </div>
 </xsl:template>

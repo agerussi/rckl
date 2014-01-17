@@ -54,10 +54,12 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
   $type=$_POST["typeMedia".$i];
   $isNew = $type & $TypeMedia["New"];
   $isMin = $type & $TypeMedia["Miniature"];
-  $fichier=getFileName($_POST["nomMedia".$i]);
-  $extension=getExtension($_POST["nomMedia".$i]);
+  $nomMedia=$_POST["nomMedia".$i];
 
-  if ($type & $TypeMedia["Photo"]) { // c'est une photo
+  // Traitement des photos ============
+  if ($type & $TypeMedia["Photo"]) { 
+    $fichier=getFileName($nomMedia);
+    $extension=getExtension($nomMedia);
     if ($type & $TypeMedia["On"]) { // si le média est sélectionné
       if ($isNew) { 
 	// établit le nouveau nom du fichier photo
@@ -77,7 +79,11 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
     }
     else effaceFichier($fichier, $isNew);
   }
-  if ($type & $TypeMedia["Video"]) { // c'est une vidéo
+
+  // Traitement des fichiers vidéos ============
+  if ($type & $TypeMedia["Video"]) { 
+    $fichier=getFileName($nomMedia);
+    $extension=getExtension($nomMedia);
     if ($type & $TypeMedia["On"]) { // si le média est sélectionné
       if ($isNew) { // crée le nouveau fichier vidéo
 	$nouveauNom=nouveauNomFichier($idSortie."-video",$extension); 
@@ -100,6 +106,15 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
     }
     else effaceFichier($fichier, $isNew);
   }
+
+  // Traitement des vidéos Viméo ================
+  if ($type & $TypeMedia["Vimeo"]) { 
+    // création de l'XML
+    $xml.='<vimeo url="https://vimeo.com/'.$nomMedia.'"';
+    $xml.=' miniurl="'.getVimeoMiniatureUrl($nomMedia).'"';
+    $commentaire=htmlspecialchars(trim($_POST["commentaireMedia".$i]),ENT_QUOTES|ENT_XML1);
+    $xml.=(strlen($commentaire)==0) ? "/>" : ' commentaire="'.$commentaire.'" />';
+  }
   $i++;
 } // fin du parcours
 
@@ -117,6 +132,17 @@ header("Location: archives.php?y=".$annee);
  
 // #################### HELPER FUNCTIONS
 // #####################################
+
+function getVimeoMiniatureUrl($id) { // cherche l'url avec l'API vimeo
+  $ch=curl_init("http://vimeo.com/api/v2/video/".$id.".php");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+  $videoData = unserialize(curl_exec($ch));
+  curl_close($ch);
+
+  return $videoData[0]['thumbnail_small'];
+}
 
 function getFileName($chaine) { // récupère la partie "nom" dans une chaine de type "ext/nom"
  $n=strpos($chaine, "/");
