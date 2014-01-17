@@ -95,8 +95,6 @@ while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
       } 
       // création de l'XML
       $xml.='<video fichier="'.$fichier.'"';
-      $vimeo=trim($_POST["vimeo".$i]);
-      if (strlen($vimeo)!=0) $xml.=' vimeo="'.$vimeo.'"';
       $commentaire=htmlspecialchars(trim($_POST["commentaireMedia".$i]),ENT_QUOTES|ENT_XML1);
       $xml.=(strlen($commentaire)==0) ? "/>" : ' commentaire="'.$commentaire.'" />';
     }
@@ -167,14 +165,14 @@ function creerMiniature($fichier) {
   imagedestroy($image_p);
 }
 
-// cherche le premier nom libre sous la forme idsortieXX.$ext
+// cherche le premier nom libre sous la forme idsortie-XX.$ext
 function nouveauNomFichier($idSortie,$ext) { 
   // détermine un nouveau nom
    global $repStockage;
    $i=0;
    do {
      $i++;
-     $nouveauNom = $idSortie.sprintf("%02d",$i).".".$ext;
+     $nouveauNom = $idSortie."-".sprintf("%02d",$i).".".$ext;
    }
    while (file_exists($repStockage."/".$nouveauNom));
 

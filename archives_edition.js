@@ -227,8 +227,6 @@ function gestionAjoutVideo(fichier) {
     '<input type="hidden" name="MAX_FILE_SIZE" value="10240" />',
     '<input type="file" style="display:none" name="ajoutMiniature"/>',
     '</td></tr><tr><td>', 
-    '<label>#VIMEO</label><input type="text" size="10" name="vimeo" value=""/>',
-    '</td></tr><tr><td>', 
     '<img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/>', 
     '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Video|MediaType.New,'"/>',
     '<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/>',
@@ -293,7 +291,8 @@ function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo
       continue;
     }
     if (fichier.type.match('video.*')) { 
-      gestionAjoutVideo(fichier);
+      var msg="Attention, l'upload de fichiers vidéos n'est autorisée qu'à titre exceptionnel.\nLa procédure préconisée est de déposer votre vidéo sur YouTube ou Vimeo.\n\n Voulez-vous vraiment continuer ?";
+      if (window.confirm(msg)) gestionAjoutVideo(fichier);
       continue;
     } 
     // arrivé ici, le fichier n'a pas été traité
@@ -317,8 +316,6 @@ function enregistrerCommentaire(change) { // récupère le commentaire et l'attr
   var imgPhoto = domMove(commentaireCourant,"PPPccc");
   imgPhoto.title = commentaire; 
 }
-
-
 
 function supprimerMedia() { // gère la suppression / réhabilitation de photos ou vidéos
   var imgMedia = domMove(this,"PPPccc");
@@ -381,13 +378,14 @@ function validationArchive() { // vérification et préparation avant soumission
   var listeTypes=document.getElementsByName("typeMedia"); 
   var listeCommentaires=document.getElementsByName("commentaireMedia"); 
   var listeNoms=document.getElementsByName("nomMedia"); 
-  var listeVimeos=document.getElementsByName("vimeo");
   var listeAjouts=document.getElementsByName("ajoutMiniature");
-  var vids=listeVimeos.length-1;
+  // compte le nombre de vidéos pour la numérotation
+  var vids=-1;
+  for (var i=0; i<listeTypes.length; i++) if ((listeTypes[i].value&MediaType.Video)!=0) vids++;
+  // numérote: on est obligé de numéroter à l'envers sinon on altere le DOM !
   for (var i=listeTypes.length-1; i>=0; i--) {
     if ((listeTypes[i].value&MediaType.Video)!=0) { // le média est une vidéo
-      listeAjouts[vids].setAttribute("name","ajoutMiniature"+i);
-      listeVimeos[vids--].setAttribute("name","vimeo"+i);
+      listeAjouts[vids--].setAttribute("name","ajoutMiniature"+i);
     }
     listeTypes[i].setAttribute("name","typeMedia"+i);
     listeCommentaires[i].setAttribute("name","commentaireMedia"+i);
@@ -408,7 +406,7 @@ function main() {
   initGestionParticipants();
   abonnementsPhotos();
   abonnementsVideos();
-  // gestion du bouton d'ajout de fichiers
+  // gestion du bouton d'ajout de fichiers photos
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
   // annulation des modifs
   document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);

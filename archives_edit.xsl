@@ -25,7 +25,11 @@
       <xsl:apply-templates select="video"/> 
     </div>
     <div id="validannulation">
-      <p>Ajout de fichiers: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
+      <p>Ajouter une photo: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
+      <p>Ajouter une vidéo de Vimeo: <input type="text" id="VimeoId"/>
+      <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" src="ICONS/b_add.png"/> </p>
+      <p>Ajouter une vidéo de YouTube: <input type="text" id="YouTubeId"/>
+      <img title="ajouter une vidéo YouTube" id="ajouterYouTube" src="ICONS/b_add.png"/> </p>
       <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
       <p><input type="button" id="cancel" value="Annuler" /></p>
     </div>
@@ -145,12 +149,6 @@
         <img title="choisir une miniature" src="ICONS/insert_image.png" name="choisirminiature"/> 
 	<input type="hidden" name="MAX_FILE_SIZE" value="10240" />
 	<input type="file" style="display:none" name="ajoutMiniature"/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-	<label>#VIMEO</label>
-	<input type="text" size="10" name="vimeo" value="{@vimeo}" />
       </td>
     </tr>
     <tr>

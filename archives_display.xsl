@@ -151,24 +151,6 @@
 	    </xsl:element> <!-- img -->
 	  </xsl:element>
 	</xsl:element>
-	<xsl:if test="@vimeo">
-	  <xsl:element name="td">
-	    <xsl:element name="a">
-	      <xsl:attribute name="href">
-		<xsl:value-of select="concat('http://vimeo.com/',@vimeo)"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="title"> 
-		<xsl:text>La vidéo sur VIMEO</xsl:text>
-	      </xsl:attribute>
-	      <xsl:element name="img">
-		<xsl:attribute name="alt"/>
-		<xsl:attribute name="src">
-		  <xsl:value-of select="concat(/archive/path,'/vimeo-mini.jpg')"/>
-		</xsl:attribute>	
-	      </xsl:element>
-	    </xsl:element>
-	  </xsl:element>
-	</xsl:if>
       </xsl:element>
     </xsl:element>
   </div>
