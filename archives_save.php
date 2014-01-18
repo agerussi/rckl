@@ -5,8 +5,7 @@ session_start();
 if ( !isset($_SESSION['userid']) 
   || !isset($_GET['id'])  // recoit l'id de la sortie en paramètre
 ) header("Location: news.php");
-
-require("dbconnect.php");
+$idSortie=$_GET["id"]; // identifiant de sortie
 
 /*
 // examen des variables retournées
@@ -24,198 +23,46 @@ $edate="$annee-$mois-$jour"; // date pour la BDD
 $xml.="<date ";
 $xml.='jour="'.$jour.'" ';
 $xml.='mois="'.$mois.'" ';
-$xml.='annee="'.$annee.'" ';
+$xml.='annee="'.$annee.'"';
 $textedate=$_POST['valeurtextedate'];
 if (strlen($textedate)>0) $xml.='texte="'.$textedate.'"';
 $xml.="/>";
+$xml.="\n";
 
 // le titre
 $titre=htmlspecialchars(trim($_POST['valeurtitre']),ENT_QUOTES|ENT_XML1);
 if (strlen($titre)!=0) $xml.="<titre>".$titre."</titre>";
+$xml.="\n";
 
 // l'auteur
 $xml.="<auteur>".$_SESSION['realname']."</auteur>";
+$xml.="\n";
 
 // le commentaire
 $commentaire=htmlspecialchars(trim($_POST['valeurcommentaire']),ENT_QUOTES|ENT_XML1);
 if (strlen($commentaire)!=0) $xml.="<commentaire>".$commentaire."</commentaire>";
+$xml.="\n";
 
 // les participants
 $participants=$_POST['listeparticipants']; // la liste est déjà passée par htmlspecialchars() version JS
 if (strlen($participants)!=0) $xml.="<participants>".$participants."</participants>";
+$xml.="\n";
 
 // la liste des medias (photos/vidéos)
-require("helper.php");
-
-$idSortie=$_GET["id"]; // identifiant de sortie
-
-$i=0;
-while (isset($_POST["typeMedia".$i])) { // parcours de l'ensemble des médias
-  $type=$_POST["typeMedia".$i];
-  $isNew = $type & $TypeMedia["New"];
-  $isMin = $type & $TypeMedia["Miniature"];
-  $nomMedia=$_POST["nomMedia".$i];
-
-  // Traitement des photos ============
-  if ($type & $TypeMedia["Photo"]) { 
-    $fichier=getFileName($nomMedia);
-    $extension=getExtension($nomMedia);
-    if ($type & $TypeMedia["On"]) { // si le média est sélectionné
-      if ($isNew) { 
-	// établit le nouveau nom du fichier photo
-	$nouveauNom=nouveauNomFichier($idSortie,$extension); 
-	$path=$repStockage."/".$nouveauNom; // chemin complet
-	// renomme le fichier photo temporaire
-	rename($fichier,$path);
-	$fichier=$nouveauNom;
-	//creer1080p($path); 
-	// crée la miniature de la photo
-	creerMiniature($path);
-      }
-      // création de l'XML
-      $xml.='<photo fichier="'.$fichier.'" ';
-      $commentaire=htmlspecialchars(trim($_POST["commentaireMedia".$i]),ENT_QUOTES|ENT_XML1);
-      $xml.=(strlen($commentaire)==0) ? "/>" : 'commentaire="'.$commentaire.'" />';
-    }
-    else effaceFichier($fichier, $isNew);
-  }
-
-  // Traitement des fichiers vidéos ============
-  if ($type & $TypeMedia["Video"]) { 
-    $fichier=getFileName($nomMedia);
-    $extension=getExtension($nomMedia);
-    if ($type & $TypeMedia["On"]) { // si le média est sélectionné
-      if ($isNew) { // crée le nouveau fichier vidéo
-	$nouveauNom=nouveauNomFichier($idSortie."-video",$extension); 
-	$path=$repStockage."/".$nouveauNom; 
-	rename($fichier,$path); 
-	$fichier=$nouveauNom;
-      } 
-      else $path=$repStockage."/".$fichier; 
-      // gestion de la miniature
-      if ($isNew || $isMin) { // la miniature doit être créée/changée 
-	if ($_FILES["ajoutMiniature".$i]['size']==0) // pas de fichier uploadé, copie la miniature par défaut
-	  copy("ICONS/video-default-mini.jpg",nomFichierMiniature($path));
-	else // récupère la miniature sélectionnée
-	  move_uploaded_file($_FILES["ajoutMiniature".$i]['tmp_name'], nomFichierMiniature($path)) or die("erreur lors de la récupération d'une miniature");
-      } 
-      // création de l'XML
-      $xml.='<video fichier="'.$fichier.'"';
-      $commentaire=htmlspecialchars(trim($_POST["commentaireMedia".$i]),ENT_QUOTES|ENT_XML1);
-      $xml.=(strlen($commentaire)==0) ? "/>" : ' commentaire="'.$commentaire.'" />';
-    }
-    else effaceFichier($fichier, $isNew);
-  }
-
-  // Traitement des vidéos Viméo ================
-  if ($type & $TypeMedia["Vimeo"]) { 
-    // création de l'XML
-    $xml.='<vimeo url="https://vimeo.com/'.$nomMedia.'"';
-    $xml.=' miniurl="'.getVimeoMiniatureUrl($nomMedia).'"';
-    $commentaire=htmlspecialchars(trim($_POST["commentaireMedia".$i]),ENT_QUOTES|ENT_XML1);
-    $xml.=(strlen($commentaire)==0) ? "/>" : ' commentaire="'.$commentaire.'" />';
-  }
-  $i++;
-} // fin du parcours
+$xml.=$_POST['xmlmedias'];
 
 // sauvegarde de l'xml dans la base de données
+require("dbconnect.php");
 mysql_query("SET NAMES UTF8");
 $query="UPDATE archives SET ";
 $query.="date='".$edate."'";
 $query.=",xml='".$xml."'";
 $query.=" WHERE id='".$idSortie."'";
-mysql_query($query,$db) or die("Erreur lors de la création/modification d'une sortie: ".mysql_error());
+//mysql_query($query,$db) or die("Erreur lors de la création/modification d'une sortie: ".mysql_error());
+die("<pre>".htmlspecialchars($xml)."</pre>");
 mysql_close($db);
 
 // retourne sur la page de l'archive modifiée
 header("Location: archives.php?y=".$annee);
  
-// #################### HELPER FUNCTIONS
-// #####################################
-
-function getVimeoMiniatureUrl($id) { // cherche l'url avec l'API vimeo
-  $ch=curl_init("http://vimeo.com/api/v2/video/".$id.".php");
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-  $videoData = unserialize(curl_exec($ch));
-  curl_close($ch);
-
-  return $videoData[0]['thumbnail_small'];
-}
-
-function getFileName($chaine) { // récupère la partie "nom" dans une chaine de type "ext/nom"
- $n=strpos($chaine, "/");
- return substr($chaine,$n+1); 
-}
-
-function getExtension($chaine) { // récupère la partie "ext" dans une chaine de type "ext/nom"
- $n=strpos($chaine, "/");
- return substr($chaine,0,$n); 
-}
-
-// crée l'image en taille standard 1080p
-function creer1080p($fichier) { // TODO: cette fonction plante sur un problème de taille mémoire...
-  // calcul des nouvelles dimensions
-  $standardHeight = 1080; // hauteur des miniatures
-  list($width, $height) = getimagesize($fichier);
-  if ($height<=$standardHeight) return; // ne touche pas l'image si elle est de taille inférieure
-  $standardWidth = $width*$standardHeight/$height;
-
-  // Redimensionnement
-  $image_p = imagecreatetruecolor($standardWidth, $standardHeight);
-  $image = imagecreatefromjpeg($fichier);
-  imagecopyresampled($image_p, $image, 0, 0, 0, 0, $standardWidth, $standardHeight, $width, $height);
-  imagedestroy($image);
-
-  // écrasement
-  imagejpeg($image_p, $fichier, 80);
-  imagedestroy($image_p);
-}
-
-// crée la miniature associée à l'image $fichier
-function creerMiniature($fichier) {
-  // calcul des nouvelles dimensions
-  $miniHeight = 96; // hauteur des miniatures
-  list($width, $height) = getimagesize($fichier);
-  $miniWidth = $width*$miniHeight/$height;
-
-  // Redimensionnement
-  $image_p = imagecreatetruecolor($miniWidth, $miniHeight);
-  $image = imagecreatefromjpeg($fichier);
-  imagecopyresampled($image_p, $image, 0, 0, 0, 0, $miniWidth, $miniHeight, $width, $height);
-  imagedestroy($image);
-
-  // sauvegarde
-  imagejpeg($image_p, nomFichierMiniature($fichier), 75);
-  imagedestroy($image_p);
-}
-
-// cherche le premier nom libre sous la forme idsortie-XX.$ext
-function nouveauNomFichier($idSortie,$ext) { 
-  // détermine un nouveau nom
-   global $repStockage;
-   $i=0;
-   do {
-     $i++;
-     $nouveauNom = $idSortie."-".sprintf("%02d",$i).".".$ext;
-   }
-   while (file_exists($repStockage."/".$nouveauNom));
-
-   return $nouveauNom;
-}
-
-// efface le fichier et sa miniature si le fichier n'est pas nouveau
-function effaceFichier($fichier, $isNew) { 
-  if ($isNew) { // effacer simplement le fichier
-    unlink($fichier);
-  }
-  else { // effacer le fichier et sa miniature dans le répertoire de stockage
-    global $repStockage;
-    $path=$repStockage."/".$fichier;
-    $pathMini=nomFichierMiniature($path);
-    unlink($path);
-    unlink($pathMini);
-  } 
-}
 ?>

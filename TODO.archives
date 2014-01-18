@@ -1,0 +1,11 @@
+- FAIT: avoir un identifiant automatique
+- FAIT: changer le format pour inclure l'auteur de l'archive 
+- FAIT: ajouter une balise <auteur> qui va permettre de signer l'archive
+- récupérer automatiquement les miniatures et les commentaires des vidéos YT et VIMEO
+- sécuriser le texte du compte-rendu (permettre uniquement certaines balises bénignes)
+- FAIT: édition pour tout le monde (par auteur)
+
+Modifications sur la BD:
+
+1) le champ 'id' est devenu 'int' et 'index' 'autoincrément' 'unique'
+2) rajout du champ authId (unsigned int, défaut=1)

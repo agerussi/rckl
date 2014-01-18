@@ -18,12 +18,12 @@
       <xsl:call-template name="commentaireDefault"/>
     </xsl:if>
     <xsl:apply-templates select="commentaire"/>
-    <div id="listePhotos">
+    <div id="listeMedias">
+      <!--  
       <xsl:apply-templates select="photo"/>
-    </div>  
-    <div id="listeVideos">
       <xsl:apply-templates select="video"/> 
       <xsl:apply-templates select="vimeo"/> 
+      -->
     </div>
     <div id="validannulation">
       <p>Ajouter une photo: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
@@ -34,6 +34,7 @@
       <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
       <p><input type="button" id="cancel" value="Annuler" /></p>
     </div>
+    <input type="hidden" id="xmlmedias" />
   </form>
   <div id="zoneSaisie">
     <textarea cols="50" rows="5" id="inputCommentaire"/>

@@ -458,39 +458,12 @@ window.addEventListener("load",main);
 function main() {
   initGestionDate();
   initGestionParticipants();
-  abonnementsPhotos();
-  abonnementsVideos();
-  // gestion du bouton d'ajout de fichiers photos
+  // gestion du bouton d'ajout de fichiers 
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
   // ajout d'un vidéo Vimeo
   document.getElementById("ajouterVimeo").addEventListener("click", gestionAjoutVimeo, false);
   // annulation des modifs
   document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);
-}
-
-function abonnementsVideos() { // abonnements aux diverses fonctions
-  var listeVideos = document.getElementsByName("video");
-  var i=0;
-  var listeSupprimerVideos = document.getElementsByName("supprimervideo");
-  while (listeSupprimerVideos[i]) listeSupprimerVideos[i++].addEventListener("click", supprimerMedia);
-  i=0;
-  var listeEditerCommentaires = document.getElementsByName("editercommentaire");
-  while (listeEditerCommentaires[i]) listeEditerCommentaires[i++].addEventListener("click", editerCommentaire);
-  i=0;
-  var listeChoisirMiniatures = document.getElementsByName("choisirminiature");
-  while (listeChoisirMiniatures[i]) listeChoisirMiniatures[i++].addEventListener("click", choisirMiniature);
-}
-
-function abonnementsPhotos() { // abonnements aux diverses fonctions
-  var listePhotos = document.getElementsByName("photo");
-  var i=0;
-  while (listePhotos[i]) listePhotos[i++].addEventListener("click", deplacementPhoto);
-  var listeSupprimerPhotos = document.getElementsByName("supprimerphoto");
-  i=0;
-  while (listeSupprimerPhotos[i]) listeSupprimerPhotos[i++].addEventListener("click", supprimerMedia);
-  var listeEditerCommentaires = document.getElementsByName("editercommentaire");
-  i=0;
-  while (listeEditerCommentaires[i]) listeEditerCommentaires[i++].addEventListener("click", editerCommentaire);
 }
 
 function initGestionDate() { // règle les paramètres du chooser de date
