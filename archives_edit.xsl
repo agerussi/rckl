@@ -19,27 +19,44 @@
     </xsl:if>
     <xsl:apply-templates select="commentaire"/>
     <div id="listeMedias">
-      <!--  
-      <xsl:apply-templates select="photo"/>
-      <xsl:apply-templates select="video"/> 
-      <xsl:apply-templates select="vimeo"/> 
-      -->
-    </div>
-    <div id="validannulation">
-      <p>Ajouter une photo: <input type="file" id="ajoutFichiers" multiple="multiple" /></p>
-      <p>Ajouter une vidéo Vimeo: <input type="text" id="VimeoId"/>
-      <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" src="ICONS/b_add.png"/> </p>
-      <p>Ajouter une vidéo YouTube: <input type="text" id="YouTubeId"/>
-      <img title="ajouter une vidéo YouTube" id="ajouterYouTube" src="ICONS/b_add.png"/> </p>
-      <p><input type="submit" name="archivesubmit" value="Modifier l'archive" /></p>
-      <p><input type="button" id="cancel" value="Annuler" /></p>
     </div>
     <input type="hidden" id="xmlmedias" />
+    <script type="text/javascript">
+      function createMedias() { 
+        <xsl:apply-templates select="photo"/>
+    <!--  
+        <xsl:apply-templates select="video"/> 
+        <xsl:apply-templates select="vimeo"/> 
+    -->
+      }
+    </script>
+    <div id="validannulation">
+      <p>
+	Ajouter une photo: 
+	<input type="file" id="ajoutFichiers" multiple="multiple" />
+      </p>
+      <p>
+	Ajouter une vidéo Vimeo: 
+	<input type="text" id="VimeoId"/>
+        <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" src="ICONS/b_add.png"/> 
+      </p>
+      <p>
+	Ajouter une vidéo YouTube:
+	<input type="text" id="YouTubeId"/>
+	<img title="ajouter une vidéo YouTube" id="ajouterYouTube" src="ICONS/b_add.png"/> 
+      </p>
+      <p>
+	<input type="submit" name="archivesubmit" value="Modifier l'archive" />
+      </p>
+      <p>
+	<input type="button" id="cancel" value="Annuler" />
+      </p>
+    </div>
   </form>
   <div id="zoneSaisie">
     <textarea cols="50" rows="5" id="inputCommentaire"/>
-    <input type="button" value="Modifier" onclick="enregistrerCommentaire(true)"/>
-    <input type="button" value="Annuler" onclick="enregistrerCommentaire(false)"/>
+    <input type="button" value="Modifier" id="boutonModifierCommentaire"/>
+    <input type="button" value="Annuler" id="boutonAnnulerCommentaire"/>
   </div>
 </xsl:template>
 
@@ -111,7 +128,12 @@
   <div class="bigskip"/>
 </xsl:template>
 
+
 <xsl:template match="photo">
+  mediaList.push(new Media("<xsl:value-of select="@commentaire"/>"));
+</xsl:template>
+
+<xsl:template match="photo-old">
   <table class="mediaTable">
     <tr>
       <td>

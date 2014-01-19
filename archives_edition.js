@@ -5,7 +5,191 @@ var chunkSize=256*1024; // 256 KB
 var MediaType = { // enumération pour le type de media (attention à garder synchro avec celui de helper.php !!)
   On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16, Vimeo: 32
 };
+var mediaList = new Array(); // liste des médias
 
+
+//// classe Media
+function Media(commentaire) {
+  ////////////////////////////////////////// attributs publics
+  // le commentaire du média
+  this.commentaire=commentaire;
+
+  ////////////////////////////////////////// attributs privés
+  // position dans la liste
+  var position=mediaList.length; // dernier par défaut
+  // n° d'identification de ce média
+  var id=createUniqueId();
+  // statut du média
+  var vivant=true;
+
+  ////////////////////////////////////////// méthodes
+  // crée un identifiant «unique» (avec probabilité très grande)
+  function createUniqueId() {
+    var id="";
+    for (var i=1; i<=10; i++) id+=String(Math.floor(Math.random()*10));
+    return id;
+  }
+
+  // méthode appelée pour changer le statut
+  this.changeStatus = function(img) {
+    vivant=!vivant;
+    if (vivant) img.setAttribute("src","ICONS/b_drop.png");
+    else img.setAttribute("src","ICONS/b_add.png");
+    //alert("vivant="+vivant);
+  }
+
+  // méthode appelée pour changer le commentaire par l'interface graphique
+  this.changeCommentaire=function() {
+    // copie le commentaire actuel dans la zone de saisie
+    document.getElementById("inputCommentaire").value = this.commentaire;
+    // abonnements des boutons de l'interface
+    self=this;
+    document.getElementById("boutonModifierCommentaire").addEventListener("click",function(){self.enregistrerCommentaire(true)});
+    document.getElementById("boutonAnnulerCommentaire").addEventListener("click",function() {self.enregistrerCommentaire(false)});
+    // affiche la zone de saisie
+    document.getElementById("zoneSaisie").style.display = "inline";
+    //alert("commentaire="+this.commentaire);
+  }
+
+  // récupère le commentaire de la boîte de saisie 
+  this.enregistrerCommentaire=function(change) { 
+    document.getElementById("zoneSaisie").style.display = "none";
+    if (!change) return; 
+    this.commentaire=document.getElementById("inputCommentaire").value;
+  }
+
+  // affichage du média
+  this.buildHTML = function() {
+    var div=document.createElement("div");
+    div.setAttribute("id", "media"+id);
+    div.setAttribute("class", "media");
+    div.innerHTML=[
+      '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',id,'"/>', 
+      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',id,'"/>',
+      '<span id="progresMedia',id,'"></span>',
+      '</td></tr>'
+     ].join('');
+    // insertion de l'image dans la liste
+    var liste=document.getElementById("listeMedias");
+    liste.appendChild(div); 
+    // abonnements
+    var self=this;
+    document.getElementById("supprimer"+id).addEventListener("click",function() {self.changeStatus(this)});
+    document.getElementById("editerCommentaire"+id).addEventListener("click",function() {self.changeCommentaire()});
+  }
+
+  ////////////////////////////////////////// constructeur
+  // affichage du média
+  this.buildHTML();
+}
+
+// main() est appelée lorsque la page est chargée
+// les variables suivantes sont définies:
+//   isNewArchive = booléen qui dit si l'archive a déjà été éditée ou non
+//   idArchive = id de l'archive en cours d'édition (utile pour l'effacer)
+//   suggestions = tableau donnant la liste des membres pour formuler les suggestions
+window.addEventListener("load",main);
+function main() {
+  initGestionDate();
+  initGestionParticipants();
+  createMedias(); // cette fonction est écrite par archives_edit.xsl
+  // gestion du bouton d'ajout de fichiers 
+  document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
+  // ajout d'un vidéo Vimeo
+  document.getElementById("ajouterVimeo").addEventListener("click", gestionAjoutVimeo, false);
+  // annulation des modifs
+  document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);
+}
+
+function initGestionDate() { // règle les paramètres du chooser de date
+  new JsDatePick({
+	  useMode:2,
+	  target:"valeurdate",
+	  dateFormat:"%d-%m-%Y"
+  });
+}
+
+function initGestionParticipants() { // déclenche les annulations et l'ajout
+  // ajout
+  document.getElementById("ajouterparticipant").addEventListener("click", ajouterParticipant);
+  document.getElementById("nouveauparticipant").addEventListener("keyup", suggestionParticipant);
+  // annulations
+  var listeSupprimer = document.getElementsByName("supprimerparticipant");
+  var i=0;
+  while (listeSupprimer[i]) listeSupprimer[i++].addEventListener("click", supprimerParticipant);
+}
+
+function supprimerParticipant() { // supprime un participant de la liste
+  var span=this.parentNode;
+  span.parentNode.removeChild(span);
+}
+
+function ajouterParticipant() { // ajoute un participant de la liste
+ // récupère le nom
+ var input=document.getElementById("nouveauparticipant");
+ var nom=input.value;
+ if (nom.length==0) return;
+ input.value=""; // efface le nom
+ effaceSuggestions();
+
+ // crée le nom
+ var span=document.createElement("span");
+ span.setAttribute("class","participant");
+ span.setAttribute("name","participant");
+ var croix=document.createElement("img");
+ croix.src="ICONS/b_drop.png";
+ croix.title="supprimer ce participant";
+ croix.addEventListener("click", supprimerParticipant);
+
+ span.appendChild(document.createTextNode(nom));
+ span.appendChild(croix);
+ document.getElementById("ligneparticipants").appendChild(span);
+ //this.parentNode.insertBefore(span,input);
+}
+
+function suggestionParticipant() { // affiche des suggestions sélectionnables à partir du nom
+ var nom=this.value.toLowerCase();
+ effaceSuggestions();
+ if (nom.length==0) return;
+
+ // parcours le tableau des noms à la recherche de suggestions
+ for (var i=0; i<suggestions.length; i++) {
+   var sugg=suggestions[i].toLowerCase();
+   if (sugg.indexOf(nom)==0) ajouteSuggestion(suggestions[i]);
+ }
+}
+
+function ajouteSuggestion(nom) { // ajoute le nom comme suggestion
+ var affichage=document.getElementById("suggestions");
+ 
+ var suggestion=document.createElement("span");
+ suggestion.setAttribute("name","suggestionParticipant");
+ suggestion.setAttribute("class","suggestionParticipant");
+ suggestion.appendChild(document.createTextNode(nom));
+ suggestion.addEventListener("click",ecritSuggestion);
+ affichage.appendChild(suggestion);
+}
+
+function effaceSuggestions() { // clair !
+ var liste=document.getElementsByName("suggestionParticipant");
+ for (var i=liste.length-1; i>=0; i--) liste[i].parentNode.removeChild(liste[i]);
+}
+
+function ecritSuggestion() { // réagit lorsqu'on a cliqué sur une suggestion
+  document.getElementById("nouveauparticipant").value = this.innerHTML;
+}
+
+function htmlspecialchars(text) {
+  return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+}
+
+//////////////////////////////////////////////////////
+///////////// VIEILLES FONCTIONS À REMISER ///////////
 // gestion de l'ajout d'une vidéo de vimeo
 function gestionAjoutVimeo() {
   // récupération du n° de la vidéo
@@ -354,23 +538,6 @@ function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo
   }
 }
 
-var commentaireCourant; // permet de sauvegarder le pointeur vers le commentaire a modifier pendant l'aller/retour de l'édition
-function editerCommentaire(param) { // affiche la zone de saisie
-  document.getElementById("inputCommentaire").value = this.nextSibling.value;
-  commentaireCourant = this;
-  document.getElementById("zoneSaisie").style.display = "inline";
-}
-
-function enregistrerCommentaire(change) { // récupère le commentaire et l'attribue à la photo
-  document.getElementById("zoneSaisie").style.display = "none";
-  if (!change) return; 
-  var commentaire=document.getElementById("inputCommentaire").value;
-  var input = commentaireCourant.nextSibling;
-  input.value = commentaire;
-  var imgPhoto = domMove(commentaireCourant,"PPPccc");
-  imgPhoto.title = commentaire; 
-}
-
 function supprimerMedia() { // gère la suppression / réhabilitation de photos ou vidéos
   var imgMedia = domMove(this,"PPPccc");
   var input = this.nextSibling;
@@ -449,106 +616,3 @@ function validationArchive() { // vérification et préparation avant soumission
   return true;
 }
 
-// main() est appelée lorsque la page est chargée
-// les variables suivantes sont définies:
-//   isNewArchive = booléen qui dit si l'archive a déjà été éditée ou non
-//   idArchive = id de l'archive en cours d'édition (utile pour l'effacer)
-//   suggestions = tableau donnant la liste des membres pour formuler les suggestions
-window.addEventListener("load",main);
-function main() {
-  initGestionDate();
-  initGestionParticipants();
-  // gestion du bouton d'ajout de fichiers 
-  document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
-  // ajout d'un vidéo Vimeo
-  document.getElementById("ajouterVimeo").addEventListener("click", gestionAjoutVimeo, false);
-  // annulation des modifs
-  document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);
-}
-
-function initGestionDate() { // règle les paramètres du chooser de date
-  new JsDatePick({
-	  useMode:2,
-	  target:"valeurdate",
-	  dateFormat:"%d-%m-%Y"
-  });
-}
-
-function initGestionParticipants() { // déclenche les annulations et l'ajout
-  // ajout
-  document.getElementById("ajouterparticipant").addEventListener("click", ajouterParticipant);
-  document.getElementById("nouveauparticipant").addEventListener("keyup", suggestionParticipant);
-  // annulations
-  var listeSupprimer = document.getElementsByName("supprimerparticipant");
-  var i=0;
-  while (listeSupprimer[i]) listeSupprimer[i++].addEventListener("click", supprimerParticipant);
-}
-
-function supprimerParticipant() { // supprime un participant de la liste
-  var span=this.parentNode;
-  span.parentNode.removeChild(span);
-}
-
-function ajouterParticipant() { // ajoute un participant de la liste
- // récupère le nom
- var input=document.getElementById("nouveauparticipant");
- var nom=input.value;
- if (nom.length==0) return;
- input.value=""; // efface le nom
- effaceSuggestions();
-
- // crée le nom
- var span=document.createElement("span");
- span.setAttribute("class","participant");
- span.setAttribute("name","participant");
- var croix=document.createElement("img");
- croix.src="ICONS/b_drop.png";
- croix.title="supprimer ce participant";
- croix.addEventListener("click", supprimerParticipant);
-
- span.appendChild(document.createTextNode(nom));
- span.appendChild(croix);
- document.getElementById("ligneparticipants").appendChild(span);
- //this.parentNode.insertBefore(span,input);
-}
-
-function suggestionParticipant() { // affiche des suggestions sélectionnables à partir du nom
- var nom=this.value.toLowerCase();
- effaceSuggestions();
- if (nom.length==0) return;
-
- // parcours le tableau des noms à la recherche de suggestions
- for (var i=0; i<suggestions.length; i++) {
-   var sugg=suggestions[i].toLowerCase();
-   if (sugg.indexOf(nom)==0) ajouteSuggestion(suggestions[i]);
- }
-}
-
-function ajouteSuggestion(nom) { // ajoute le nom comme suggestion
- var affichage=document.getElementById("suggestions");
- 
- var suggestion=document.createElement("span");
- suggestion.setAttribute("name","suggestionParticipant");
- suggestion.setAttribute("class","suggestionParticipant");
- suggestion.appendChild(document.createTextNode(nom));
- suggestion.addEventListener("click",ecritSuggestion);
- affichage.appendChild(suggestion);
-}
-
-function effaceSuggestions() { // clair !
- var liste=document.getElementsByName("suggestionParticipant");
- for (var i=liste.length-1; i>=0; i--) liste[i].parentNode.removeChild(liste[i]);
-}
-
-function ecritSuggestion() { // réagit lorsqu'on a cliqué sur une suggestion
-  document.getElementById("nouveauparticipant").value = this.innerHTML;
-}
-
-function htmlspecialchars(text) {
-  return text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-}
