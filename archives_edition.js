@@ -6,22 +6,10 @@ var MediaType = { // enumération pour le type de media (attention à garder syn
   On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16, Vimeo: 32
 };
 var mediaList = new Array(); // liste des médias
-
+var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 
 //// classe Media
 function Media(commentaire) {
-  ////////////////////////////////////////// attributs publics
-  // le commentaire du média
-  this.commentaire=commentaire;
-
-  ////////////////////////////////////////// attributs privés
-  // position dans la liste
-  var position=mediaList.length; // dernier par défaut
-  // n° d'identification de ce média
-  var id=createUniqueId();
-  // statut du média
-  var vivant=true;
-
   ////////////////////////////////////////// méthodes
   // crée un identifiant «unique» (avec probabilité très grande)
   function createUniqueId() {
@@ -59,14 +47,14 @@ function Media(commentaire) {
   }
 
   // affichage du média
-  this.buildHTML = function() {
+  this.display = function() {
     var div=document.createElement("div");
-    div.setAttribute("id", "media"+id);
+    div.setAttribute("id", "media"+this.id);
     div.setAttribute("class", "media");
     div.innerHTML=[
-      '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',id,'"/>', 
-      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',id,'"/>',
-      '<span id="progresMedia',id,'"></span>',
+      '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
+      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>',
+      '<span id="progresMedia',this.id,'"></span>',
       '</td></tr>'
      ].join('');
     // insertion de l'image dans la liste
@@ -74,14 +62,66 @@ function Media(commentaire) {
     liste.appendChild(div); 
     // abonnements
     var self=this;
-    document.getElementById("supprimer"+id).addEventListener("click",function() {self.changeStatus(this)});
-    document.getElementById("editerCommentaire"+id).addEventListener("click",function() {self.changeCommentaire()});
+    document.getElementById("supprimer"+this.id).addEventListener("click",function() {self.changeStatus(this)});
+    document.getElementById("editerCommentaire"+this.id).addEventListener("click",function() {self.changeCommentaire()});
   }
 
   ////////////////////////////////////////// constructeur
-  // affichage du média
-  this.buildHTML();
+  ////////////////////////////////////////// attributs publics
+  // le commentaire du média
+  this.commentaire=(commentaire==undefined) ? "":commentaire;
+  // n° d'identification de ce média
+  this.id=createUniqueId();
+
+  ////////////////////////////////////////// attributs privés
+  // position dans la liste
+  var position=mediaList.length; // dernier par défaut
+  // statut du média
+  var vivant=true;
+
+  ////// affichage
+  this.display();
 }
+
+// classe FileMedia, sous classe de Media.
+FileMedia.prototype=Object.create(Media.prototype);
+FileMedia.prototype.constructor=FileMedia;
+function FileMedia(commentaire,fileName) {
+ // appel du constructeur de la classe mère
+ Media.call(this,commentaire);
+
+ /////////////////////// méthodes
+ // déduit le nom de la miniature à partir du nom du fichier
+ function getMiniFileName(file) {
+    var index=file.lastIndexOf(".");
+    return file.slice(0,index)+"-mini"+file.slice(index);
+ }
+
+ // spécialisation de la fonction d'affichage du média
+ this.display=function() {
+   // cherche la partie déjà construite par Media
+   var div=document.getElementById("media"+this.id);
+   var miniImg=document.createElement("img");
+   miniImg.setAttribute("id", "miniImg"+this.id);
+   miniImg.setAttribute("src", IMGDB+"/"+this.miniFileName);
+   div.insertBefore(miniImg,div.firstChild);
+ } 
+
+ // spécialisation de la fonction d'annulation: grise l'image
+ // TODO
+
+ /////////////////////////////////////////// constructeur
+ /////////////////////// attributs publics
+ // nom du fichier
+ this.fileName=fileName;
+ // nom de la miniature
+ if (fileName!=undefined) this.miniFileName=getMiniFileName(fileName);
+ else this.miniFileName="mini-default.jpg";
+
+ // affichage
+ this.display();
+}
+
 
 // main() est appelée lorsque la page est chargée
 // les variables suivantes sont définies:
@@ -92,7 +132,9 @@ window.addEventListener("load",main);
 function main() {
   initGestionDate();
   initGestionParticipants();
+  // affiche les médias chargés
   createMedias(); // cette fonction est écrite par archives_edit.xsl
+  //for (var i in mediaList) mediaList[i].display();
   // gestion du bouton d'ajout de fichiers 
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
   // ajout d'un vidéo Vimeo
