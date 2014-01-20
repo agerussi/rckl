@@ -130,7 +130,7 @@
 
 
 <xsl:template match="photo">
-  mediaList.push(new FileMedia("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@fichier"/>"));
+  mediaList.push(new Photo("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@fichier"/>"));
 </xsl:template>
 
 <xsl:template match="photo-old">

@@ -8,8 +8,10 @@ var MediaType = { // enumération pour le type de media (attention à garder syn
 var mediaList = new Array(); // liste des médias
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 
-//// classe Media
-function Media(commentaire) {
+/////////////////////////////////////
+//// classe Media : implémente l'essentiel de la représentation graphique
+/////////////////////////////////////
+function Media(commentaire,urlMiniature) {
   ////////////////////////////////////////// méthodes
   // crée un identifiant «unique» (avec probabilité très grande)
   function createUniqueId() {
@@ -51,7 +53,9 @@ function Media(commentaire) {
     var div=document.createElement("div");
     div.setAttribute("id", "media"+this.id);
     div.setAttribute("class", "media");
+    var urlMini=(_urlMiniature==undefined) ? "ICONS/mini-default.jpg":_urlMiniature;
     div.innerHTML=[
+      '<img src="',urlMini,'" id="miniImg',this.id,'"/>',
       '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
       '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>',
       '<span id="progresMedia',this.id,'"></span>',
@@ -78,17 +82,37 @@ function Media(commentaire) {
   var position=mediaList.length; // dernier par défaut
   // statut du média
   var vivant=true;
+  // url de la miniature
+  var _urlMiniature=urlMiniature;
 
-  ////// affichage
+  // construction de la partie graphique et affichage
   this.display();
 }
 
-// classe FileMedia, sous classe de Media.
+///////////////////////////////////////////////
+// classe FileMedia, spécialisation de Media
+// implémente la capacité à uploader des fichiers
+///////////////////////////////////////////////
 FileMedia.prototype=Object.create(Media.prototype);
 FileMedia.prototype.constructor=FileMedia;
-function FileMedia(commentaire,fileName) {
+function FileMedia(commentaire,urlMiniature) {
  // appel du constructeur de la classe mère
- Media.call(this,commentaire);
+ Media.call(this,commentaire,urlMiniature);
+
+ // TODO : implémentation des méthodes d'upload
+}
+
+///////////////////////////////////////////////
+// classe Photo, spécialisation de FileMedia.
+// implémente la gestion particulière des photos: miniatures automatiques, ...
+///////////////////////////////////////////////
+Photo.prototype=Object.create(FileMedia.prototype);
+Photo.prototype.constructor=Photo;
+function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier de l'XML 
+ // appel du constructeur de la classe mère
+ var urlMiniature;
+ if (fichierImage!=undefined) urlMiniature=IMGDB+"/"+getMiniFileName(fichierImage);
+ FileMedia.call(this,commentaire,urlMiniature);
 
  /////////////////////// méthodes
  // déduit le nom de la miniature à partir du nom du fichier
@@ -97,31 +121,9 @@ function FileMedia(commentaire,fileName) {
     return file.slice(0,index)+"-mini"+file.slice(index);
  }
 
- // spécialisation de la fonction d'affichage du média
- this.display=function() {
-   // cherche la partie déjà construite par Media
-   var div=document.getElementById("media"+this.id);
-   var miniImg=document.createElement("img");
-   miniImg.setAttribute("id", "miniImg"+this.id);
-   miniImg.setAttribute("src", IMGDB+"/"+this.miniFileName);
-   div.insertBefore(miniImg,div.firstChild);
- } 
-
- // spécialisation de la fonction d'annulation: grise l'image
- // TODO
-
- /////////////////////////////////////////// constructeur
- /////////////////////// attributs publics
- // nom du fichier
- this.fileName=fileName;
- // nom de la miniature
- if (fileName!=undefined) this.miniFileName=getMiniFileName(fileName);
- else this.miniFileName="mini-default.jpg";
-
- // affichage
- this.display();
+ //////////////// construction de l'objet
+ var cible=fichierImage;
 }
-
 
 // main() est appelée lorsque la page est chargée
 // les variables suivantes sont définies:
