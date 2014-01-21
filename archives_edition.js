@@ -1,4 +1,4 @@
-// constantes et variables globales
+// constantes et variables globales */
 var beeingUploaded=0; // nombre de médias en cours d'upload
 var uploadLIMIT=3; // nombre maximal de connexions simultanées
 var chunkSize=256*1024; // 256 KB
@@ -8,6 +8,7 @@ var MediaType = { // enumération pour le type de media (attention à garder syn
 var mediaList = new Array(); // liste des médias
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 
+// efface les chunks restants, en cas d'échec
 function deleteUploadedChunks(baseName) {
   var xhr=new XMLHttpRequest();
   xhr.open("POST", "chunkUpload.php?cmd=delete&name="+baseName, false);
@@ -81,7 +82,7 @@ function Media(commentaire,urlMiniature) {
     // copie le commentaire actuel dans la zone de saisie
     document.getElementById("inputCommentaire").value = this.commentaire;
     // abonnements des boutons de l'interface
-    self=this;
+    var self=this;
     document.getElementById("boutonModifierCommentaire").addEventListener("click",function(){self.enregistrerCommentaire(true)});
     document.getElementById("boutonAnnulerCommentaire").addEventListener("click",function() {self.enregistrerCommentaire(false)});
     // affiche la zone de saisie
@@ -149,8 +150,8 @@ function FileMedia(commentaire,urlMiniature) {
   // fonction qui se charge de l'upLoad d'un fichier
   this.upLoad=function(fichier) {
     if (beeingUploaded==uploadLIMIT) { // réessaye dans 5 secondes !
-      self=this;
-      setTimeout(function(){self.upLoad(fichier);},5*1000);
+      var self=this;
+      window.setTimeout(function(){self.upLoad(fichier);},5*1000);
       return;
     }
 
@@ -163,16 +164,10 @@ function FileMedia(commentaire,urlMiniature) {
     // initialise et démarre l'upload
     beeingUploaded++;
     this.mediaFile=fichier;
-    this.tmpName="tmp/file-"+this.id;
-    this.xhr=new XMLHttpRequest(); 
-    this.numChunk=1;
-    this.uploadByChunks(null); //makeUploadByChunk(xhr,mediaFile,mediaNum,fileName,1)(null);
-  }
-
-  // fonction appelée une fois le média en place sur le serveur
-  // serverFileName contient alors le nom du fichier sur le serveur
-  this.afterUpload=function() {
-    alert("afterUpload: serverFileName="+this.serverFileName);
+    tmpName="tmp/file-"+this.id;
+    xhr=new XMLHttpRequest(); 
+    numChunk=1;
+    this.uploadByChunks(null); 
   }
 
   // affichage de la progression d'un upload
@@ -182,27 +177,25 @@ function FileMedia(commentaire,urlMiniature) {
     var percentage = Math.round(100*position/total);
 
     var progressSpan=document.getElementById("progressBar"+this.id);     
-    progressSpan.innerHTML="chunk n°"+this.numChunk+": "+percentage+"%"; 
+    progressSpan.innerHTML="chunk n°"+numChunk+": "+percentage+"%"; 
   }
   
   // fonction qui se charge de gérer l'upload d'un fichier par petits morceaux
   // réassemblés sur le serveur 
   this.uploadByChunks=function(evt) {
-    if (this.xhr.readyState==0 || (this.xhr.readyState==4 && this.xhr.status==200)) { // il faut commencer ou continuer l'upload
+    if (xhr.readyState==0 || (xhr.readyState==4 && xhr.status==200)) { // il faut commencer ou continuer l'upload
       if (this.mediaFile.size==0) { // il faut reconstituer le fichier à partir de ses bouts
 	beeingUploaded--;
-	var affichage=document.getElementById("progressBar"+this.id);     
-	affichage.innerHTML="merging chunks..."
+	document.getElementById("progressBar"+this.id).innerHTML="merging chunks...";
 	try {
-	  mergeChunks(this.tmpName);
+	  mergeChunks(tmpName);
           this.serverFileName="TODO";
-	  affichage.innerHTML="upload OK";
 	  this.afterUpload();
 	}
 	catch (erreur) {
 	  window.alert(this.mediaFile.name+": échec lors du réassemblage: "+erreur);
 	  //this.kill();
-	  deleteUploadedChunks(this.tmpName);
+	  deleteUploadedChunks(tmpName);
 	}
 	return;
       }
@@ -212,30 +205,43 @@ function FileMedia(commentaire,urlMiniature) {
       var rest=this.mediaFile.mozSlice(chunkSize);
 
       // déclenche l'upload de chunk
-      this.xhr=new XMLHttpRequest(); // utile ??
-      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk, true);
+      xhr=new XMLHttpRequest(); 
+      xhr.open("POST", "chunkUpload.php?cmd=upload&name="+tmpName+numChunk, true);
 
       // affichage de la progression de l'upload 
       var self=this;
-      var eventSource = this.xhr.upload || this.xhr;
+      var eventSource = xhr.upload || xhr;
       eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
 
-      this.numChunk++;
-      this.xhr.onreadystatechange = function(evt) {self.mediaFile=rest; self.uploadByChunks(evt);}; 
-      this.xhr.send(chunk);
+      numChunk++;
+      xhr.onreadystatechange = function(evt) {self.mediaFile=rest; self.uploadByChunks(evt);}; 
+      xhr.send(chunk);
       return;
     }
 
-    if (this.xhr.readyState==4 && this.xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
-      window.alert(this.mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+this.xhr.status);
+    if (xhr.readyState==4 && xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
+      window.alert(this.mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+xhr.status);
       //this.kill();
-      //deleteUploadedChunks();
+      deleteUploadedChunks(tmpName);
       beeingUploaded--;
       return;
     }
   }
   //////////////////// construction de l'objet
+  /////////////// attributs privés
+  var numChunk; // variable interne pour l'upload
+  var tmpName; // variable interne pour l'upload
+  var xhr; // variable interne pour l'upload
 } // fileMedia
+
+// fonction appelée une fois le média en place sur le serveur
+// serverFileName contient alors le nom du fichier sur le serveur
+FileMedia.prototype.afterUpload=function() {
+  // supprime la barre de progression
+  var span=document.getElementById("progressBar"+this.id);
+  span.parentNode.removeChild(span);
+}
+
 
 ///////////////////////////////////////////////
 // classe Photo, spécialisation de FileMedia.
@@ -244,20 +250,27 @@ function FileMedia(commentaire,urlMiniature) {
 Photo.prototype=Object.create(FileMedia.prototype);
 Photo.prototype.constructor=Photo;
 function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier de l'XML 
- // appel du constructeur de la classe mère
- var urlMiniature;
- if (fichierImage!=undefined) urlMiniature=IMGDB+"/"+getMiniFileName(fichierImage);
- FileMedia.call(this,commentaire,urlMiniature);
+  // appel du constructeur de la classe mère
+  var urlMiniature;
+  if (fichierImage!=undefined) urlMiniature=IMGDB+"/"+getMiniFileName(fichierImage);
+  FileMedia.call(this,commentaire,urlMiniature);
 
- /////////////////////// méthodes
- // déduit le nom de la miniature à partir du nom du fichier
- function getMiniFileName(file) {
+  /////////////////////// méthodes
+  // déduit le nom de la miniature à partir du nom du fichier
+  function getMiniFileName(file) {
     var index=file.lastIndexOf(".");
     return file.slice(0,index)+"-mini"+file.slice(index);
- }
+  }
+
+  // fonction appelée une fois le média en place sur le serveur
+  // serverFileName contient alors le nom du fichier sur le serveur
+  this.afterUpload=function() {
+    FileMedia.prototype.afterUpload.call(this);
+    alert("afterUpload.Photo: serverFileName="+this.serverFileName);
+  } 
  
- //////////////// construction de l'objet
- var cible=fichierImage;
+  //////////////// construction de l'objet
+  var cible=fichierImage;
 }
 
 // main() est appelée lorsque la page est chargée
@@ -548,26 +561,6 @@ function uploadAsynchroneByChunks(mediaFile, mediaNum) {
   beeingUploaded++;
   var xhr=new XMLHttpRequest(); 
   makeUploadByChunk(xhr,mediaFile,mediaNum,fileName,1)(null);
-}
-
-function getMediaName() {
-  var name="tmp/file-";
-  for (var i=0; i<6; i++) name+=Math.floor(10*Math.random());
-  return name;
-}
-
-function deleteUploadedChunks(baseName) {
-  var xhr=new XMLHttpRequest();
-  xhr.open("POST", "chunkUpload.php?cmd=delete&name="+baseName, false);
-  xhr.send();
-  return (xhr.status==200);
-}
-
-function mergeChunks(baseName) {
-  var xhr=new XMLHttpRequest();
-  xhr.open("POST", "chunkUpload.php?cmd=merge&name="+baseName, false);
-  xhr.send();
-  return (xhr.status==200);
 }
 
 function makeUploadByChunk(xhr,mediaFile, mediaNum, serverFileName, numChunk) {
