@@ -8,6 +8,12 @@ var MediaType = { // enumération pour le type de media (attention à garder syn
 var mediaList = new Array(); // liste des médias
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 
+// récupère l'extension (écrite en minuscules) à partir du nom de fichier
+function extension(nom) { 
+  var n=nom.lastIndexOf(".");
+  return nom.substr(n+1).toLowerCase();
+}
+
 // efface les chunks restants, en cas d'échec
 function deleteUploadedChunks(baseName) {
   var xhr=new XMLHttpRequest();
@@ -102,7 +108,7 @@ function Media(commentaire,urlMiniature) {
     var div=document.createElement("div");
     div.setAttribute("id", "media"+this.id);
     div.setAttribute("class", "media");
-    var urlMini=(_urlMiniature==undefined) ? "ICONS/media-default-mini.jpg":_urlMiniature;
+    var urlMini=(this.urlMiniature==undefined) ? "ICONS/media-default-mini.jpg":this.urlMiniature;
     div.innerHTML=[
       '<img src="',urlMini,'" id="miniImg',this.id,'"/>',
       '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
@@ -123,14 +129,14 @@ function Media(commentaire,urlMiniature) {
   this.commentaire=(commentaire==undefined) ? "":commentaire;
   // n° d'identification de ce média
   this.id=createUniqueId();
+  // url de la miniature
+  this.urlMiniature=urlMiniature;
 
   //////////////////////////////// attributs privés
   // position dans la liste
   var position=mediaList.length; // dernier par défaut
   // statut du média
   var vivant=true;
-  // url de la miniature
-  var _urlMiniature=urlMiniature;
 
   // construction de la partie graphique et affichage
   this.display();
@@ -147,29 +153,6 @@ function FileMedia(commentaire,urlMiniature) {
   Media.call(this,commentaire,urlMiniature);
 
   /////////////////////// méthodes
-  // fonction qui se charge de l'upLoad d'un fichier
-  this.upLoad=function(fichier) {
-    if (beeingUploaded==uploadLIMIT) { // réessaye dans 5 secondes !
-      var self=this;
-      window.setTimeout(function(){self.upLoad(fichier);},5*1000);
-      return;
-    }
-
-    // initialise la barre de progression du chargement 
-    var span=document.createElement("span");
-    span.setAttribute("id", "progressBar"+this.id);
-    span.innerHTML="uploading..."; 
-    document.getElementById("media"+this.id).appendChild(span);
-
-    // initialise et démarre l'upload
-    beeingUploaded++;
-    this.mediaFile=fichier;
-    tmpName="tmp/file-"+this.id;
-    xhr=new XMLHttpRequest(); 
-    numChunk=1;
-    this.uploadByChunks(null); 
-  }
-
   // affichage de la progression d'un upload
   this.uploadChunksProgressHandler=function(evt) { 
     var position = evt.position || evt.loaded;
@@ -177,25 +160,25 @@ function FileMedia(commentaire,urlMiniature) {
     var percentage = Math.round(100*position/total);
 
     var progressSpan=document.getElementById("progressBar"+this.id);     
-    progressSpan.innerHTML="chunk n°"+numChunk+": "+percentage+"%"; 
+    progressSpan.innerHTML="chunk n°"+this.numChunk+": "+percentage+"%"; 
   }
   
   // fonction qui se charge de gérer l'upload d'un fichier par petits morceaux
   // réassemblés sur le serveur 
   this.uploadByChunks=function(evt) {
-    if (xhr.readyState==0 || (xhr.readyState==4 && xhr.status==200)) { // il faut commencer ou continuer l'upload
+    if (this.xhr.readyState==0 || (this.xhr.readyState==4 && this.xhr.status==200)) { // il faut commencer ou continuer l'upload
       if (this.mediaFile.size==0) { // il faut reconstituer le fichier à partir de ses bouts
 	beeingUploaded--;
 	document.getElementById("progressBar"+this.id).innerHTML="merging chunks...";
 	try {
-	  mergeChunks(tmpName);
-          this.serverFileName="TODO";
+	  mergeChunks(this.tmpName);
+          this.serverFileName=this.tmpName;
 	  this.afterUpload();
 	}
 	catch (erreur) {
 	  window.alert(this.mediaFile.name+": échec lors du réassemblage: "+erreur);
 	  //this.kill();
-	  deleteUploadedChunks(tmpName);
+	  deleteUploadedChunks(this.tmpName);
 	}
 	return;
       }
@@ -205,33 +188,28 @@ function FileMedia(commentaire,urlMiniature) {
       var rest=this.mediaFile.mozSlice(chunkSize);
 
       // déclenche l'upload de chunk
-      xhr=new XMLHttpRequest(); 
-      xhr.open("POST", "chunkUpload.php?cmd=upload&name="+tmpName+numChunk, true);
+      this.xhr=new XMLHttpRequest(); 
+      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk, true);
 
       // affichage de la progression de l'upload 
       var self=this;
-      var eventSource = xhr.upload || xhr;
+      var eventSource = this.xhr.upload || this.xhr;
       eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
 
-      numChunk++;
-      xhr.onreadystatechange = function(evt) {self.mediaFile=rest; self.uploadByChunks(evt);}; 
-      xhr.send(chunk);
+      this.numChunk++;
+      this.xhr.onreadystatechange = function(evt) {self.mediaFile=rest; self.uploadByChunks(evt);}; 
+      this.xhr.send(chunk);
       return;
     }
 
-    if (xhr.readyState==4 && xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
-      window.alert(this.mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+xhr.status);
+    if (this.xhr.readyState==4 && this.xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
+      window.alert(this.mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+this.xhr.status);
       //this.kill();
-      deleteUploadedChunks(tmpName);
+      deleteUploadedChunks(this.tmpName);
       beeingUploaded--;
       return;
     }
   }
-  //////////////////// construction de l'objet
-  /////////////// attributs privés
-  var numChunk; // variable interne pour l'upload
-  var tmpName; // variable interne pour l'upload
-  var xhr; // variable interne pour l'upload
 } // fileMedia
 
 // fonction appelée une fois le média en place sur le serveur
@@ -242,6 +220,28 @@ FileMedia.prototype.afterUpload=function() {
   span.parentNode.removeChild(span);
 }
 
+// fonction qui se charge de l'upLoad d'un fichier
+FileMedia.prototype.upLoad=function(fichier) {
+  if (beeingUploaded==uploadLIMIT) { // réessaye dans 5 secondes !
+    var self=this;
+    window.setTimeout(function(){self.upLoad(fichier);},5*1000);
+    return;
+  }
+
+  // initialise la barre de progression du chargement 
+  var span=document.createElement("span");
+  span.setAttribute("id", "progressBar"+this.id);
+  span.innerHTML="uploading..."; 
+  document.getElementById("media"+this.id).appendChild(span);
+
+  // initialise et démarre l'upload
+  beeingUploaded++;
+  this.mediaFile=fichier;
+  this.tmpName="tmp/file-"+this.id;
+  this.xhr=new XMLHttpRequest(); 
+  this.numChunk=1;
+  this.uploadByChunks(null); 
+}
 
 ///////////////////////////////////////////////
 // classe Photo, spécialisation de FileMedia.
@@ -262,21 +262,47 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     return file.slice(0,index)+"-mini"+file.slice(index);
   }
 
-  // fonction appelée une fois le média en place sur le serveur
+  // fonction appelée automatiquement une fois le média uploadé sur le serveur
   // serverFileName contient alors le nom du fichier sur le serveur
+  // extensionFichier contient l'extension du fichier original
   this.afterUpload=function() {
+    // fait le ménage dans la classe mère
     FileMedia.prototype.afterUpload.call(this);
-    alert("afterUpload.Photo: serverFileName="+this.serverFileName);
+
+    // renomme le fichier et fabrique la miniature
+    var nouveauNom;
+    var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function() {
+      if (this.readyState==this.DONE && this.status==200) nouveauNom=this.response;
+    };
+    xhr.open("GET", "archives_photo.php?name="+this.serverFileName+"&ext="+extensionFichier+"&pre="+IMGDB+"/"+idArchive+"-photo-", false); 
+    xhr.send();
+    
+    // le fichier devient à présent la cible officielle
+    cible=nouveauNom;  
+    // remplace la miniature provisoire par la vraie miniature
+    this.urlMiniature=IMGDB+"/"+getMiniFileName(cible);
+    // graphiquement aussi...
+    document.getElementById("miniImg"+this.id).setAttribute("src",this.urlMiniature);
   } 
+
+  // prise en charge d'un fichier photo à uploader
+  this.upLoad=function(fichier) {
+    // récupère l'extension pour le renommage final
+    extensionFichier=extension(fichier.name);
+    // upload du fichier, suite dans afterUpload()
+    FileMedia.prototype.upLoad.call(this,fichier);
+  }
  
   //////////////// construction de l'objet
   var cible=fichierImage;
+  var extensionFichier;
 }
 
 // main() est appelée lorsque la page est chargée
 // les variables suivantes sont définies:
 //   isNewArchive = booléen qui dit si l'archive a déjà été éditée ou non
-//   idArchive = id de l'archive en cours d'édition (utile pour l'effacer)
+//   idArchive = id de l'archive en cours d'édition 
 //   suggestions = tableau donnant la liste des membres pour formuler les suggestions
 window.addEventListener("load",main);
 function main() {
@@ -652,11 +678,6 @@ function gestionAjoutVideo(fichier) {
   
   // démarre le chargement du fichier
   uploadAsynchroneByChunks(fichier,numeroMedia++);
-}
-
-function extension(nom) { // récupère l'extension à partir du nom de fichier
-  var n=nom.lastIndexOf(".");
-  return nom.substr(n+1);
 }
 
 function makeGestionAjoutImage(fichier) { // renvoie la fonction qui va s'occuper du rajout de l'image lorsqu'elle sera chargée
