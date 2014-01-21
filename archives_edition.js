@@ -1,12 +1,54 @@
 // constantes et variables globales
 var beeingUploaded=0; // nombre de médias en cours d'upload
-var uploadLIMIT=2; // nombre maximal de connexions simultanées
+var uploadLIMIT=3; // nombre maximal de connexions simultanées
 var chunkSize=256*1024; // 256 KB
 var MediaType = { // enumération pour le type de media (attention à garder synchro avec celui de helper.php !!)
   On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16, Vimeo: 32
 };
 var mediaList = new Array(); // liste des médias
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
+
+function deleteUploadedChunks(baseName) {
+  var xhr=new XMLHttpRequest();
+  xhr.open("POST", "chunkUpload.php?cmd=delete&name="+baseName, false);
+  xhr.send();
+  if (xhr.status!=200) throw("deleteUploadedChunks error: xhr.status="+xhr.status);
+}
+
+// fonction qui se charge d'assembler les chunks 
+function mergeChunks(baseName) {
+  var xhr=new XMLHttpRequest();
+  xhr.open("POST", "chunkUpload.php?cmd=merge&name="+baseName, false);
+  xhr.send();
+  if (xhr.status!=200) throw("mergeChunks error: xhr.status="+xhr.status);
+}
+
+// gère tous les ajouts de fichiers à partir du chooser
+// dispatche crée le Media suivant le type de fichier selectionné
+function gestionAjoutFichiers(evt) { 
+  var listeFichiers = evt.target.files; // FileList object
+  var fichier;
+
+  for (var i=0; fichier=listeFichiers[i]; i++) { // traitement individuel de chaque fichier
+    if (fichier.type.match('image.*')) {
+      var photo=new Photo();
+      photo.upLoad(fichier);
+      mediaList.push(photo);
+      continue;
+    }
+    if (fichier.type.match('video.*')) { 
+      var msg="Attention, vous avez sélectionné un fichier de type «vidéo», est-ce une erreur ?\nL'upload de fichiers vidéos est possible mais n'est souhaitée qu'à titre exceptionnel.\nLa procédure préconisée est de déposer votre vidéo sur YouTube ou Vimeo.\n\n Voulez-vous vraiment continuer ?";
+      if (window.confirm(msg)) {
+	var video=new Video();
+	video.upLoad(fichier);
+	mediaList.push(video);
+      }
+      continue;
+    } 
+    // arrivé ici, le fichier n'a pas été traité
+    window.alert("Le fichier '"+fichier.name+"' est d'un type inconnu - non traité");
+  }
+}
 
 /////////////////////////////////////
 //// classe Media : implémente l'essentiel de la représentation graphique
@@ -23,8 +65,14 @@ function Media(commentaire,urlMiniature) {
   // méthode appelée pour changer le statut
   this.changeStatus = function(img) {
     vivant=!vivant;
-    if (vivant) img.setAttribute("src","ICONS/b_drop.png");
-    else img.setAttribute("src","ICONS/b_add.png");
+    if (vivant) {
+      img.setAttribute("src","ICONS/b_drop.png");
+      document.getElementById("miniImg"+this.id).style.opacity=1;
+    }
+    else {
+      img.setAttribute("src","ICONS/b_add.png");
+      document.getElementById("miniImg"+this.id).style.opacity=0.4;
+    }
     //alert("vivant="+vivant);
   }
 
@@ -53,13 +101,11 @@ function Media(commentaire,urlMiniature) {
     var div=document.createElement("div");
     div.setAttribute("id", "media"+this.id);
     div.setAttribute("class", "media");
-    var urlMini=(_urlMiniature==undefined) ? "ICONS/mini-default.jpg":_urlMiniature;
+    var urlMini=(_urlMiniature==undefined) ? "ICONS/media-default-mini.jpg":_urlMiniature;
     div.innerHTML=[
       '<img src="',urlMini,'" id="miniImg',this.id,'"/>',
       '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
-      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>',
-      '<span id="progresMedia',this.id,'"></span>',
-      '</td></tr>'
+      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>'
      ].join('');
     // insertion de l'image dans la liste
     var liste=document.getElementById("listeMedias");
@@ -70,14 +116,14 @@ function Media(commentaire,urlMiniature) {
     document.getElementById("editerCommentaire"+this.id).addEventListener("click",function() {self.changeCommentaire()});
   }
 
-  ////////////////////////////////////////// constructeur
-  ////////////////////////////////////////// attributs publics
+  ////////////////////////////////////////// constructeur de l'objet
+  //////////////////////////////// attributs publics
   // le commentaire du média
   this.commentaire=(commentaire==undefined) ? "":commentaire;
   // n° d'identification de ce média
   this.id=createUniqueId();
 
-  ////////////////////////////////////////// attributs privés
+  //////////////////////////////// attributs privés
   // position dans la liste
   var position=mediaList.length; // dernier par défaut
   // statut du média
@@ -96,11 +142,100 @@ function Media(commentaire,urlMiniature) {
 FileMedia.prototype=Object.create(Media.prototype);
 FileMedia.prototype.constructor=FileMedia;
 function FileMedia(commentaire,urlMiniature) {
- // appel du constructeur de la classe mère
- Media.call(this,commentaire,urlMiniature);
+  // appel du constructeur de la classe mère
+  Media.call(this,commentaire,urlMiniature);
 
- // TODO : implémentation des méthodes d'upload
-}
+  /////////////////////// méthodes
+  // fonction qui se charge de l'upLoad d'un fichier
+  this.upLoad=function(fichier) {
+    if (beeingUploaded==uploadLIMIT) { // réessaye dans 5 secondes !
+      self=this;
+      setTimeout(function(){self.upLoad(fichier);},5*1000);
+      return;
+    }
+
+    // initialise la barre de progression du chargement 
+    var span=document.createElement("span");
+    span.setAttribute("id", "progressBar"+this.id);
+    span.innerHTML="uploading..."; 
+    document.getElementById("media"+this.id).appendChild(span);
+
+    // initialise et démarre l'upload
+    beeingUploaded++;
+    this.mediaFile=fichier;
+    this.tmpName="tmp/file-"+this.id;
+    this.xhr=new XMLHttpRequest(); 
+    this.numChunk=1;
+    this.uploadByChunks(null); //makeUploadByChunk(xhr,mediaFile,mediaNum,fileName,1)(null);
+  }
+
+  // fonction appelée une fois le média en place sur le serveur
+  // serverFileName contient alors le nom du fichier sur le serveur
+  this.afterUpload=function() {
+    alert("afterUpload: serverFileName="+this.serverFileName);
+  }
+
+  // affichage de la progression d'un upload
+  this.uploadChunksProgressHandler=function(evt) { 
+    var position = evt.position || evt.loaded;
+    var total = evt.totalSize || evt.total;
+    var percentage = Math.round(100*position/total);
+
+    var progressSpan=document.getElementById("progressBar"+this.id);     
+    progressSpan.innerHTML="chunk n°"+this.numChunk+": "+percentage+"%"; 
+  }
+  
+  // fonction qui se charge de gérer l'upload d'un fichier par petits morceaux
+  // réassemblés sur le serveur 
+  this.uploadByChunks=function(evt) {
+    if (this.xhr.readyState==0 || (this.xhr.readyState==4 && this.xhr.status==200)) { // il faut commencer ou continuer l'upload
+      if (this.mediaFile.size==0) { // il faut reconstituer le fichier à partir de ses bouts
+	beeingUploaded--;
+	var affichage=document.getElementById("progressBar"+this.id);     
+	affichage.innerHTML="merging chunks..."
+	try {
+	  mergeChunks(this.tmpName);
+          this.serverFileName="TODO";
+	  affichage.innerHTML="upload OK";
+	  this.afterUpload();
+	}
+	catch (erreur) {
+	  window.alert(this.mediaFile.name+": échec lors du réassemblage: "+erreur);
+	  //this.kill();
+	  deleteUploadedChunks(this.tmpName);
+	}
+	return;
+      }
+
+      // sépare le fichier à uploader en chunk+rest
+      var chunk=this.mediaFile.mozSlice(0,chunkSize);
+      var rest=this.mediaFile.mozSlice(chunkSize);
+
+      // déclenche l'upload de chunk
+      this.xhr=new XMLHttpRequest(); // utile ??
+      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk, true);
+
+      // affichage de la progression de l'upload 
+      var self=this;
+      var eventSource = this.xhr.upload || this.xhr;
+      eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
+
+      this.numChunk++;
+      this.xhr.onreadystatechange = function(evt) {self.mediaFile=rest; self.uploadByChunks(evt);}; 
+      this.xhr.send(chunk);
+      return;
+    }
+
+    if (this.xhr.readyState==4 && this.xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
+      window.alert(this.mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+this.xhr.status);
+      //this.kill();
+      //deleteUploadedChunks();
+      beeingUploaded--;
+      return;
+    }
+  }
+  //////////////////// construction de l'objet
+} // fileMedia
 
 ///////////////////////////////////////////////
 // classe Photo, spécialisation de FileMedia.
@@ -120,7 +255,7 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     var index=file.lastIndexOf(".");
     return file.slice(0,index)+"-mini"+file.slice(index);
  }
-
+ 
  //////////////// construction de l'objet
  var cible=fichierImage;
 }
@@ -560,27 +695,6 @@ return function(evt) { // ajout d'une image: evt.target.result contient l'URL
   if (filesToProcess==0) abonnementsPhotos(); // pour l'ensemble des nouvelles images
 }}
 
-function gestionAjoutFichiers(evt) { // gère tous les ajouts de fichiers (photo + vidéo)
-  var listeFichiers = evt.target.files; // FileList object
-  var fichier;
-
-  for (var i=0; fichier=listeFichiers[i]; i++) { // traitement individuel de chaque fichier
-    if (fichier.type.match('image.*')) {
-      var reader = new FileReader();
-      reader.onload = makeGestionAjoutImage(fichier);
-      filesToProcess++;
-      reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans gestionAjoutImage()
-      continue;
-    }
-    if (fichier.type.match('video.*')) { 
-      var msg="Attention, l'upload de fichiers vidéos n'est autorisée qu'à titre exceptionnel.\nLa procédure préconisée est de déposer votre vidéo sur YouTube ou Vimeo.\n\n Voulez-vous vraiment continuer ?";
-      if (window.confirm(msg)) gestionAjoutVideo(fichier);
-      continue;
-    } 
-    // arrivé ici, le fichier n'a pas été traité
-    window.alert("Le fichier '"+fichier.name+"' est d'un type inconnu - non traité");
-  }
-}
 
 function supprimerMedia() { // gère la suppression / réhabilitation de photos ou vidéos
   var imgMedia = domMove(this,"PPPccc");
