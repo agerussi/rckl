@@ -8,6 +8,85 @@ var MediaType = { // enumération pour le type de media (attention à garder syn
 var mediaList = new Array(); // liste des médias
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 
+// efface un fichier du serveur
+function fileDelete(path) {
+  //alert("effacement du fichier: "+path);
+  xhr= new XMLHttpRequest();
+  xhr.open("GET","archives_fileDelete.php?path="+path,false); 
+  xhr.send();
+}
+
+// teste s'il reste des fichiers en cours d'upload
+// et affiche un message
+function uploadFini() {
+  if (beeingUploaded!=0) {
+    var msg=(beeingUploaded==1) ? "Un fichier est " : beeingUploaded+" fichiers sont ";
+    window.alert(msg+"en cours d'upload!");
+    return false;
+  }
+  else return true;
+}
+
+// annule toutes les modifications effectuées
+// supprime les fichiers uploadés "pour rien"
+function gestionAnnulation() {
+  if (!uploadFini()) return;
+ 
+  // efface les médias fraîchement uploadés
+  for (var i in mediaList) {
+    if (mediaList[i].uploaded) mediaList[i].erase();
+  }
+
+  // si l'archive était nouvelle, on l'efface de la BD
+  if (isNewArchive) {
+    xhr= new XMLHttpRequest();
+    xhr.open("GET","archives_delete.php?id="+idArchive,false); 
+    xhr.send();
+  }
+
+  window.back();
+}
+
+// vérification et préparation avant soumission de l'archive
+// appelée par l'élément <form> quand la modification de l'archive est demandée
+// TODO à relire
+function validationArchive() { 
+  // return false; // à décommenter pour empêcher les mises à jour intempestives 
+  if (!uploadFini()) return false;
+  // la date
+  if (document.getElementById("valeurdate").value.length==0) {
+    window.alert("La date n'est pas définie!");
+    return false;
+  }
+
+  // récolte des participants dans listeparticipants
+  var listexml="";
+  var liste=document.getElementsByName("participant");
+  for (var i=0; i<liste.length; i++) listexml += "<nom>"+htmlspecialchars(liste[i].firstChild.data)+"</nom>";
+
+  document.getElementById("listeparticipants").value = listexml;  
+
+  // nomme les différentes zones input dans l'ordre 
+  var listeTypes=document.getElementsByName("typeMedia"); 
+  var listeCommentaires=document.getElementsByName("commentaireMedia"); 
+  var listeNoms=document.getElementsByName("nomMedia"); 
+  var listeAjouts=document.getElementsByName("ajoutMiniature");
+  // compte le nombre de vidéos pour la numérotation
+  var vids=-1;
+  for (var i=0; i<listeTypes.length; i++) if ((listeTypes[i].value&MediaType.Video)!=0) vids++;
+  // numérote: on est obligé de numéroter à l'envers sinon on altere le DOM !
+  for (var i=listeTypes.length-1; i>=0; i--) {
+    if ((listeTypes[i].value&MediaType.Video)!=0) { // le média est une vidéo
+      listeAjouts[vids--].setAttribute("name","ajoutMiniature"+i);
+    }
+    listeTypes[i].setAttribute("name","typeMedia"+i);
+    listeCommentaires[i].setAttribute("name","commentaireMedia"+i);
+    listeNoms[i].setAttribute("name","nomMedia"+i);
+  }
+
+  return true;
+}
+
 // récupère l'extension (écrite en minuscules) à partir du nom de fichier
 function extension(nom) { 
   var n=nom.lastIndexOf(".");
@@ -44,7 +123,7 @@ function gestionAjoutFichiers(evt) {
       continue;
     }
     if (fichier.type.match('video.*')) { 
-      var msg="Attention, vous avez sélectionné un fichier de type «vidéo», est-ce une erreur ?\nL'upload de fichiers vidéos est possible mais n'est souhaitée qu'à titre exceptionnel.\nLa procédure préconisée est de déposer votre vidéo sur YouTube ou Vimeo.\n\n Voulez-vous vraiment continuer ?";
+      var msg="Attention, vous avez sélectionné un fichier de type «vidéo», est-ce une erreur ?\nL'upload de fichiers vidéos est possible mais n'est souhaitée qu'à titre exceptionnel.\nLa procédure préconisée est de déposer votre vidéo sur YouTube ou Vimeo.\n\nVoulez-vous *vraiment* continuer ?";
       if (window.confirm(msg)) {
 	var video=new Video();
 	video.upLoad(fichier);
@@ -62,6 +141,18 @@ function gestionAjoutFichiers(evt) {
 /////////////////////////////////////
 function Media(commentaire,urlMiniature) {
   ////////////////////////////////////////// méthodes
+  // supprime entièrement le média
+  this.kill=function() {
+    // suppression du HTML
+    var div=document.getElementById("media"+this.id);
+    div.parentNode.removeChild(div);
+    // auto suppression de la mediaList
+    // ainsi l'objet sera récolté (en théorie) par le garbage collector
+    var i=0;
+    while(mediaList[i].id!=this.id) i++;
+    mediaList.splice(i,1);
+  }
+
   // crée un identifiant «unique» (avec probabilité très grande)
   function createUniqueId() {
     var id="";
@@ -177,7 +268,7 @@ function FileMedia(commentaire,urlMiniature) {
 	}
 	catch (erreur) {
 	  window.alert(this.mediaFile.name+": échec lors du réassemblage: "+erreur);
-	  //this.kill();
+	  this.kill();
 	  deleteUploadedChunks(this.tmpName);
 	}
 	return;
@@ -204,12 +295,16 @@ function FileMedia(commentaire,urlMiniature) {
 
     if (this.xhr.readyState==4 && this.xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
       window.alert(this.mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+this.xhr.status);
-      //this.kill();
+      this.kill();
       deleteUploadedChunks(this.tmpName);
       beeingUploaded--;
       return;
     }
   }
+
+  ////////////// attributs
+  this.uploaded=false;
+
 } // fileMedia
 
 // fonction appelée une fois le média en place sur le serveur
@@ -218,6 +313,7 @@ FileMedia.prototype.afterUpload=function() {
   // supprime la barre de progression
   var span=document.getElementById("progressBar"+this.id);
   span.parentNode.removeChild(span);
+  this.uploaded=true;
 }
 
 // fonction qui se charge de l'upLoad d'un fichier
@@ -256,6 +352,12 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   FileMedia.call(this,commentaire,urlMiniature);
 
   /////////////////////// méthodes
+  // efface du serveur le fichier photo et sa miniature 
+  this.erase=function() {
+    if (this.urlMiniature!=undefined) fileDelete(this.urlMiniature);
+    if (cible!=undefined) fileDelete(IMGDB+"/"+cible);
+  }
+
   // déduit le nom de la miniature à partir du nom du fichier
   function getMiniFileName(file) {
     var index=file.lastIndexOf(".");
@@ -310,7 +412,6 @@ function main() {
   initGestionParticipants();
   // affiche les médias chargés
   createMedias(); // cette fonction est écrite par archives_edit.xsl
-  //for (var i in mediaList) mediaList[i].display();
   // gestion du bouton d'ajout de fichiers 
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
   // ajout d'un vidéo Vimeo
@@ -521,50 +622,11 @@ return function(evt) { // evt.target.result contient l'URL
     miniature.setAttribute("src",evt.target.result);
 }}
 
-// annule les modifications de l'archive
-// c'est-à-dire efface les éventuels fichiers temporaires uploadés
-function gestionAnnulation() {
-  if (!uploadFini()) return;
- 
-  // efface les médias fraîchement uploadés
-  var listeTypes=document.getElementsByName("typeMedia"); 
-  var listeNoms=document.getElementsByName("nomMedia"); 
-  var xmlList="<delete>";
-  for (var i=listeTypes.length-1; i>=0; i--) {
-    if ((listeTypes[i].value&MediaType.New)!=0) xmlList+="<file>"+nomDuFichier(listeNoms[i].value)+"</file>"; 
-  }
-  xmlList+="</delete>";
-  // appelle le php qui va effacer les fichiers
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST","archives_tempMediaDelete.php",false); 
-  xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-  xhr.send("xml="+xmlList);
-
-  // si l'archive était nouvelle, on l'efface de la BD
-  if (isNewArchive) {
-    xhr= new XMLHttpRequest();
-    xhr.open("GET","archives_delete.php?id="+idArchive,false); 
-    xhr.send();
-  }
-
-  window.back();
-}
 
 // récupère la partie "nom" dans une chaine de type "ext/nom"
 function nomDuFichier(nom) {
   var n=nom.indexOf("/");
   return nom.substr(n+1);
-}
-
-// teste s'il reste des fichiers en cours d'upload
-// et affiche un message
-function uploadFini() {
-  if (beeingUploaded!=0) {
-    var msg=(beeingUploaded==1) ? "Un fichier est " : beeingUploaded+" fichiers sont ";
-    window.alert(msg+"en cours d'upload!");
-    return false;
-  }
-  else return true;
 }
 
 // supprime un média de l'affichage à partir de son numéro
@@ -749,42 +811,5 @@ function deplacementPhoto() { // gestion du déplacement d'une photo (1er ou 2e 
    this.style.border = "5px solid black";
  }
  switchDeplacement = !switchDeplacement;
-}
-
-function validationArchive() { // vérification et préparation avant soumission de l'archive
-  // return false; // à décommenter pour empêcher les mises à jour intempestives 
-  if (!uploadFini()) return false;
-  // la date
-  if (document.getElementById("valeurdate").value.length==0) {
-    window.alert("La date n'est pas définie!");
-    return false;
-  }
-
-  // récolte des participants dans listeparticipants
-  var listexml="";
-  var liste=document.getElementsByName("participant");
-  for (var i=0; i<liste.length; i++) listexml += "<nom>"+htmlspecialchars(liste[i].firstChild.data)+"</nom>";
-
-  document.getElementById("listeparticipants").value = listexml;  
-
-  // nomme les différentes zones input dans l'ordre 
-  var listeTypes=document.getElementsByName("typeMedia"); 
-  var listeCommentaires=document.getElementsByName("commentaireMedia"); 
-  var listeNoms=document.getElementsByName("nomMedia"); 
-  var listeAjouts=document.getElementsByName("ajoutMiniature");
-  // compte le nombre de vidéos pour la numérotation
-  var vids=-1;
-  for (var i=0; i<listeTypes.length; i++) if ((listeTypes[i].value&MediaType.Video)!=0) vids++;
-  // numérote: on est obligé de numéroter à l'envers sinon on altere le DOM !
-  for (var i=listeTypes.length-1; i>=0; i--) {
-    if ((listeTypes[i].value&MediaType.Video)!=0) { // le média est une vidéo
-      listeAjouts[vids--].setAttribute("name","ajoutMiniature"+i);
-    }
-    listeTypes[i].setAttribute("name","typeMedia"+i);
-    listeCommentaires[i].setAttribute("name","commentaireMedia"+i);
-    listeNoms[i].setAttribute("name","nomMedia"+i);
-  }
-
-  return true;
 }
 

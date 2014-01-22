@@ -1,4 +1,7 @@
 <?php
+// transforme un fichier photo fraîchement uploadé (dans tmp)
+// en un fichier au nom correct et sa miniature
+//
 // arguments:
 // name = chemin du fichier temporaire
 // ext = extension du fichier à créer

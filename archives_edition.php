@@ -40,7 +40,7 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
 </head>
 <body>
 <?php
- echo "<h1>Édition d'une activité RCKL</h1>";
+ echo "<h1>Édition d'une archive RCKL</h1>";
  // récupère l'archive sélectionnée
  require("dbconnect.php");
  mysql_query("SET NAMES UTF8");
