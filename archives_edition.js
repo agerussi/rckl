@@ -66,23 +66,14 @@ function validationArchive() {
 
   document.getElementById("listeparticipants").value = listexml;  
 
-  // nomme les différentes zones input dans l'ordre 
-  var listeTypes=document.getElementsByName("typeMedia"); 
-  var listeCommentaires=document.getElementsByName("commentaireMedia"); 
-  var listeNoms=document.getElementsByName("nomMedia"); 
-  var listeAjouts=document.getElementsByName("ajoutMiniature");
-  // compte le nombre de vidéos pour la numérotation
-  var vids=-1;
-  for (var i=0; i<listeTypes.length; i++) if ((listeTypes[i].value&MediaType.Video)!=0) vids++;
-  // numérote: on est obligé de numéroter à l'envers sinon on altere le DOM !
-  for (var i=listeTypes.length-1; i>=0; i--) {
-    if ((listeTypes[i].value&MediaType.Video)!=0) { // le média est une vidéo
-      listeAjouts[vids--].setAttribute("name","ajoutMiniature"+i);
-    }
-    listeTypes[i].setAttribute("name","typeMedia"+i);
-    listeCommentaires[i].setAttribute("name","commentaireMedia"+i);
-    listeNoms[i].setAttribute("name","nomMedia"+i);
+  // récolte les médias toujours vivants, détruit les autres
+  var mediasXML="";
+  for (var i in mediaList) {
+    if (mediaList[i].isAlive()) mediasXML+=mediaList[i].toXML();
+    else mediaList[i].erase();
   }
+
+  document.getElementById("xmlmedias").value=mediasXML;
 
   return true;
 }
@@ -141,7 +132,7 @@ function gestionAjoutFichiers(evt) {
 /////////////////////////////////////
 function Media(commentaire,urlMiniature) {
   ////////////////////////////////////////// méthodes
-  // supprime entièrement le média
+  // supprime entièrement le média (graphiquement)
   this.kill=function() {
     // suppression du HTML
     var div=document.getElementById("media"+this.id);
@@ -213,6 +204,11 @@ function Media(commentaire,urlMiniature) {
     document.getElementById("supprimer"+this.id).addEventListener("click",function() {self.changeStatus(this)});
     document.getElementById("editerCommentaire"+this.id).addEventListener("click",function() {self.changeCommentaire()});
   }
+
+  // retourne le statut du média
+  this.isAlive=function() {
+    return vivant;
+  } 
 
   ////////////////////////////////////////// constructeur de l'objet
   //////////////////////////////// attributs publics
@@ -352,6 +348,15 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   FileMedia.call(this,commentaire,urlMiniature);
 
   /////////////////////// méthodes
+  // donne le code XML du média tel qu'il est sauvegardé dans les archives du serveur
+  this.toXML=function() {
+    var xml="<photo ";
+    xml+='fichier="'+cible+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+this.commentaire+'"';
+    xml+=" />";
+    return xml;
+  }
+
   // efface du serveur le fichier photo et sa miniature 
   this.erase=function() {
     if (this.urlMiniature!=undefined) fileDelete(this.urlMiniature);

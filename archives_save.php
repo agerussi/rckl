@@ -58,8 +58,8 @@ $query="UPDATE archives SET ";
 $query.="date='".$edate."'";
 $query.=",xml='".$xml."'";
 $query.=" WHERE id='".$idSortie."'";
-//mysql_query($query,$db) or die("Erreur lors de la création/modification d'une sortie: ".mysql_error());
-die("<pre>".htmlspecialchars($xml)."</pre>");
+mysql_query($query,$db) or die("Erreur lors de la création/modification d'une sortie: ".mysql_error());
+//die("<pre>".htmlspecialchars($xml)."</pre>");
 mysql_close($db);
 
 // retourne sur la page de l'archive modifiée

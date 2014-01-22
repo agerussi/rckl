@@ -20,7 +20,7 @@
     <xsl:apply-templates select="commentaire"/>
     <div id="listeMedias">
     </div>
-    <input type="hidden" id="xmlmedias" />
+    <input type="hidden" id="xmlmedias" name="xmlmedias"/>
     <script type="text/javascript">
       function createMedias() { 
         <xsl:apply-templates select="photo"/>
