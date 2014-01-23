@@ -49,7 +49,6 @@ function gestionAnnulation() {
 
 // vérification et préparation avant soumission de l'archive
 // appelée par l'élément <form> quand la modification de l'archive est demandée
-// TODO à relire
 function validationArchive() { 
   // return false; // à décommenter pour empêcher les mises à jour intempestives 
   if (!uploadFini()) return false;
@@ -62,7 +61,7 @@ function validationArchive() {
   // récolte des participants dans listeparticipants
   var listexml="";
   var liste=document.getElementsByName("participant");
-  for (var i=0; i<liste.length; i++) listexml += "<nom>"+htmlspecialchars(liste[i].firstChild.data)+"</nom>";
+  for (var i=0; i<liste.length; i++) listexml += "<nom>"+htmlspecialchars(liste[i].firstChild.data.trim())+"</nom>";
 
   document.getElementById("listeparticipants").value = listexml;  
 
@@ -170,9 +169,8 @@ function Media(commentaire,urlMiniature) {
     // copie le commentaire actuel dans la zone de saisie
     document.getElementById("inputCommentaire").value = this.commentaire;
     // abonnements des boutons de l'interface
-    var self=this;
-    document.getElementById("boutonModifierCommentaire").addEventListener("click",function(){self.enregistrerCommentaire(true)});
-    document.getElementById("boutonAnnulerCommentaire").addEventListener("click",function() {self.enregistrerCommentaire(false)});
+    document.getElementById("boutonModifierCommentaire").addEventListener("click",modifierCommentaireCaller);
+    document.getElementById("boutonAnnulerCommentaire").addEventListener("click",annulerCommentaireCaller);
     // affiche la zone de saisie
     document.getElementById("zoneSaisie").style.display = "inline";
     //alert("commentaire="+this.commentaire);
@@ -180,9 +178,12 @@ function Media(commentaire,urlMiniature) {
 
   // récupère le commentaire de la boîte de saisie 
   this.enregistrerCommentaire=function(change) { 
+    document.getElementById("boutonModifierCommentaire").removeEventListener("click",modifierCommentaireCaller);
+    document.getElementById("boutonAnnulerCommentaire").removeEventListener("click",annulerCommentaireCaller);
     document.getElementById("zoneSaisie").style.display = "none";
     if (!change) return; 
     this.commentaire=document.getElementById("inputCommentaire").value;
+    document.getElementById("miniImg"+this.id).setAttribute("title",this.commentaire);
   }
 
   // affichage du média
@@ -192,7 +193,7 @@ function Media(commentaire,urlMiniature) {
     div.setAttribute("class", "media");
     var urlMini=(this.urlMiniature==undefined) ? "ICONS/media-default-mini.jpg":this.urlMiniature;
     div.innerHTML=[
-      '<img src="',urlMini,'" id="miniImg',this.id,'"/>',
+      '<img src="',urlMini,'" id="miniImg',this.id,'" title="',htmlspecialchars(this.commentaire),'"/>',
       '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
       '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>'
      ].join('');
@@ -200,7 +201,6 @@ function Media(commentaire,urlMiniature) {
     var liste=document.getElementById("listeMedias");
     liste.appendChild(div); 
     // abonnements
-    var self=this;
     document.getElementById("supprimer"+this.id).addEventListener("click",function() {self.changeStatus(this)});
     document.getElementById("editerCommentaire"+this.id).addEventListener("click",function() {self.changeCommentaire()});
   }
@@ -213,7 +213,7 @@ function Media(commentaire,urlMiniature) {
   ////////////////////////////////////////// constructeur de l'objet
   //////////////////////////////// attributs publics
   // le commentaire du média
-  this.commentaire=(commentaire==undefined) ? "":commentaire;
+  this.commentaire=(commentaire==undefined) ? "":decode(commentaire);
   // n° d'identification de ce média
   this.id=createUniqueId();
   // url de la miniature
@@ -224,6 +224,9 @@ function Media(commentaire,urlMiniature) {
   var position=mediaList.length; // dernier par défaut
   // statut du média
   var vivant=true;
+  var self=this;
+  var modifierCommentaireCaller=function() { self.enregistrerCommentaire(true) };
+  var annulerCommentaireCaller=function() { self.enregistrerCommentaire(false) };
 
   // construction de la partie graphique et affichage
   this.display();
@@ -352,7 +355,7 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   this.toXML=function() {
     var xml="<photo ";
     xml+='fichier="'+cible+'"';
-    if (this.commentaire.length>0) xml+=' commentaire="'+this.commentaire+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
     xml+=" />";
     return xml;
   }
@@ -510,6 +513,16 @@ function htmlspecialchars(text) {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+}
+
+function encode(text) {
+  return text
+      .replace(/"/g, "[dq]");
+}
+   
+function decode(text) {
+  return text
+      .replace(/\[dq\]/g, '"');
 }
 
 //////////////////////////////////////////////////////
