@@ -36,7 +36,7 @@ h1,h2,h3,h4,h5,h6 {
 #mainmenu {
   font-size:90%;
   line-height:normal;
-  display:inline-block;
+  display:inline-table;
 }
 
 #logo {
