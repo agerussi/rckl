@@ -1,10 +1,7 @@
-<div id="header">
-  <img id="logo" src="LOGO/rckl-logo.svg"/>
-  <span id="rckl">RCKL</span>
-  <span id="rckl-long">Réseau du Canoë Kayak Libre</span>
-
+<div id="topPagePadding"></div>
+<div id="header"><img id="logo" src="LOGO/rckl-logo.svg"/><div id="headerBody"><img id="rckl-short" src="LOGO/rckl-short.png" /><img id="rckl-long" src="LOGO/rckl-long.png" />
 <ul id="mainmenu" class="menuinline">
-  <li><a href="news.php">NEWS</a></li>
+<li><a href="news.php">NEWS</a></li>
 
   <li><a href="calendrier.php" title="les sorties ou autres activités en préparation" >CALENDRIER</a></li>
 
@@ -48,3 +45,9 @@
   <li><?php include("membermenu.php");?></li>
 </ul>
 </div>
+</div>
+<script type="text/javascript">
+  div=document.getElementById("topPagePadding");
+  div.style.height=document.getElementById("header").clientHeight+"px";
+  //div.style.backgroundColor="green";
+</script>

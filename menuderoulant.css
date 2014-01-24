@@ -19,8 +19,8 @@
 .menuinline>li { 
   display:inline; 
   white-space:nowrap; 
-  margin:0 3px; 
-  padding:2px; 
+  margin:0 5px 0px 0px; 
+  padding:2px;
 }
 
 .menuinline ul { 
