@@ -8,10 +8,6 @@
 <node TEXT="besoin d&apos;un design &quot;clean&quot; parce que sinon c&apos;est l&apos;usine &#xe0; gaz" ID="ID_1977765261" CREATED="1389984641747" MODIFIED="1389984666903"/>
 <node TEXT="utiliser des URL pour sp&#xe9;cifier les cibles permettrait d&apos;unifier les approches et de simplifier la hi&#xe9;rarchie de classes ??" ID="ID_1462026137" CREATED="1390165959287" MODIFIED="1390165986635"/>
 </node>
-<node TEXT="Flow" POSITION="left" ID="ID_1698139078" CREATED="1389985859961" MODIFIED="1389985863245">
-<node TEXT="l&apos;XML est lu par PHP, puis XSL qui cr&#xe9;e la page" ID="ID_421104897" CREATED="1389985868512" MODIFIED="1389985945428"/>
-<node TEXT="les objets m&#xe9;dia sont cr&#xe9;&#xe9;s par le XSL via un appel au constructeur qui prend les donn&#xe9;es XML en param&#xe8;tres" ID="ID_973261444" CREATED="1389985947783" MODIFIED="1389985989699"/>
-</node>
 <node TEXT="classes" POSITION="right" ID="ID_164204486" CREATED="1389985998245" MODIFIED="1389986087212" HGAP="42" VSHIFT="68">
 <node TEXT="media" ID="ID_489009631" CREATED="1389986014765" MODIFIED="1390244401381" HGAP="58" VSHIFT="-43">
 <node TEXT="publique" ID="ID_1731601264" CREATED="1389993274987" MODIFIED="1389996754689">
@@ -32,6 +28,9 @@
 </node>
 <node TEXT="m&#xe9;thodes" ID="ID_204099724" CREATED="1389986078356" MODIFIED="1390164252428" HGAP="24" VSHIFT="33">
 <node TEXT="constructeur(commentaire,urlMiniature*,urlCible*)" ID="ID_11752871" CREATED="1389993497183" MODIFIED="1390245453020">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="setMiniatureURL(path)" ID="ID_678987247" CREATED="1390770080872" MODIFIED="1390770106287">
 <icon BUILTIN="button_ok"/>
 </node>
 <node TEXT="editerCommentaire" ID="ID_244372049" CREATED="1389993686835" MODIFIED="1390122999298">
@@ -107,17 +106,24 @@
 <node TEXT="media:fileMedia:video" ID="ID_220443102" CREATED="1389986035085" MODIFIED="1389995679926" HGAP="81" VSHIFT="-31">
 <node TEXT="publique" ID="ID_1340508092" CREATED="1389993310803" MODIFIED="1390036211619" HGAP="42" VSHIFT="4">
 <node TEXT="attributs" ID="ID_1338036020" CREATED="1390248009591" MODIFIED="1390248012867">
-<node TEXT="url cible" ID="ID_1212166517" CREATED="1390248014263" MODIFIED="1390248017643"/>
+<node TEXT="url cible" ID="ID_1212166517" CREATED="1390248014263" MODIFIED="1390770128006">
+<icon BUILTIN="button_ok"/>
+</node>
 </node>
 <node TEXT="m&#xe9;thodes" ID="ID_1000044599" CREATED="1389993042216" MODIFIED="1389993045349">
-<node TEXT="constructeur(commentaire,url fichier vid&#xe9;o*)" ID="ID_1704721914" CREATED="1389994868465" MODIFIED="1390247803808"/>
-<node TEXT="choixMiniature" ID="ID_297342652" CREATED="1389995702464" MODIFIED="1389995711428">
+<node TEXT="constructeur(commentaire,url fichier vid&#xe9;o*)" ID="ID_1704721914" CREATED="1389994868465" MODIFIED="1390770130614">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="choixMiniature" ID="ID_297342652" CREATED="1389995702464" MODIFIED="1390770132118">
+<icon BUILTIN="button_ok"/>
 <node TEXT="permet de choisir une autre miniature que celle par d&#xe9;faut" ID="ID_1019909314" CREATED="1389995720039" MODIFIED="1389995731628"/>
 </node>
-<node TEXT="erase" ID="ID_878332103" CREATED="1390417005168" MODIFIED="1390417064595">
+<node TEXT="erase" ID="ID_878332103" CREATED="1390417005168" MODIFIED="1390770136734">
+<icon BUILTIN="button_ok"/>
 <node TEXT="efface les fichiers upload&#xe9;s" ID="ID_235857084" CREATED="1390417011912" MODIFIED="1390417057075"/>
 </node>
-<node TEXT="toXML" ID="ID_1916575962" CREATED="1389994037443" MODIFIED="1389994050591">
+<node TEXT="toXML" ID="ID_1916575962" CREATED="1389994037443" MODIFIED="1390770138334">
+<icon BUILTIN="button_ok"/>
 <node TEXT="&lt;video fichier=&quot;...&quot; commentaire=&quot;...&quot; /&gt;" ID="ID_283005150" CREATED="1389995015782" MODIFIED="1389995194647"/>
 </node>
 </node>

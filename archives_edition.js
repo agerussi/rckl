@@ -37,7 +37,7 @@ function gestionAnnulation() {
     if (mediaList[i].uploaded) mediaList[i].erase();
   }
 
-  // si l'archive était nouvelle, on l'efface de la BD
+  // si l'archive était nouvelle, on annule sa création, donc on l'efface de la BD
   if (isNewArchive) {
     xhr= new XMLHttpRequest();
     xhr.open("GET","archives_delete.php?id="+idArchive,false); 
@@ -437,8 +437,8 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
 
   // efface du serveur le fichier vidéo et sa miniature 
   this.erase=function() {
-    //if (this.urlMiniature!=undefined) fileDelete(this.urlMiniature);
-    //if (cible!=undefined) fileDelete(IMGDB+"/"+cible);
+    fileDelete(this.urlMiniature);
+    if (cible!=undefined) fileDelete(IMGDB+"/"+cible);
   }
 
   // déduit le nom de la miniature à partir du nom du fichier
@@ -528,7 +528,9 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
 
   //////////////// construction de l'objet
   var self=this;
-  var gestionAjoutMiniatureCaller=function(evt) {self.gestionAjoutMiniature(evt.target.files[0]);};
+  var gestionAjoutMiniatureCaller=function(evt) {
+    self.gestionAjoutMiniature(evt.target.files[0]);
+  };
   var cible=fichierImage;
   var extensionFichier;
 }

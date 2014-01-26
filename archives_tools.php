@@ -3,7 +3,7 @@
 //   transforme un fichier photo fraîchement uploadé (dans tmp)
 //   en un fichier au nom correct et sa miniature
 // mode video:
-//   idem mais pas de création de miniature
+//   idem mais simple copie de la miniature par défaut
 // arguments:
 // mode = photo ou video
 // name = chemin du fichier temporaire
@@ -25,6 +25,9 @@ $nouveauNom=nouveauNomFichier($pre, $ext);
 rename($name,$nouveauNom); 
 if ($mode=="photo") { // crée la miniature 
   creerMiniature($nouveauNom);
+}
+if ($mode=="video") { // copie la miniature
+  copy("ICONS/video-default-mini.jpg",nomFichierMiniature($nouveauNom));
 }
 // renvoie le nouveau nom, mais sans le chemin
 echo basename($nouveauNom);

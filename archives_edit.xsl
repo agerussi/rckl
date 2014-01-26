@@ -20,13 +20,12 @@
     <xsl:apply-templates select="commentaire"/>
     <div id="listeMedias">
     </div>
-    <input type="file" id="ajoutMiniature" style="display:none"/>
     <input type="hidden" id="xmlmedias" name="xmlmedias"/>
     <script type="text/javascript">
       function createMedias() { 
         <xsl:apply-templates select="photo"/>
-    <!--  
         <xsl:apply-templates select="video"/> 
+    <!--  
         <xsl:apply-templates select="vimeo"/> 
     -->
       }
@@ -54,6 +53,7 @@
       </p>
     </div>
   </form>
+  <input type="file" id="ajoutMiniature" style="display:none"/>
   <div id="zoneSaisie">
     <textarea cols="50" rows="5" id="inputCommentaire"/>
     <input type="button" value="Modifier" id="boutonModifierCommentaire"/>
@@ -133,36 +133,8 @@
   mediaList.push(new Photo("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@fichier"/>"));
 </xsl:template>
 
-<xsl:template match="photo-old">
-  <table class="mediaTable">
-    <tr>
-      <td>
-	<xsl:element name="img">
-	  <xsl:attribute name="name">photo</xsl:attribute>
-	  <xsl:attribute name="title">
-	    <xsl:value-of select="@commentaire"/>
-	  </xsl:attribute>
-	  <xsl:attribute name="src">
-	    <xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-3)"/>
-	    <xsl:value-of select="concat(/editsortie/path,'/',substring-before(@fichier,$ext),/editsortie/mini,$ext)"/>
-	  </xsl:attribute>
-	  <xsl:attribute name="alt">
-	    <xsl:value-of select="@fichier"/>
-	  </xsl:attribute>
-	</xsl:element>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <img title="supprimer la photo" src="ICONS/b_drop.png" name="supprimerphoto"/> 
-	<input type="hidden" name="typeMedia" value="3"/> <!-- 3 = On+Photo+!New -->
-	<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/> 
-	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
-	<xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-2)"/>
-	<input type="hidden" name="nomMedia" value="{concat($ext,'/',@fichier)}"/>
-      </td>
-    </tr>
-  </table>
+<xsl:template match="video">
+  mediaList.push(new Video("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@fichier"/>"));
 </xsl:template>
 
 <xsl:template match="vimeo">
@@ -179,29 +151,6 @@
 	<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/> 
 	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
 	<input type="hidden" name="nomMedia" value="{@id}"/>
-      </td>
-    </tr>
-  </table>
-</xsl:template>
-
-<xsl:template match="video">
-  <table class="mediaTable">
-    <tr>
-      <td>
-	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{concat(/editsortie/path,'/',substring-before(@fichier,'.'),'-mini.jpg')}" alt="{@fichier}" />
-        <img title="choisir une miniature" src="ICONS/insert_image.png" name="choisirminiature"/> 
-	<input type="hidden" name="MAX_FILE_SIZE" value="10240" />
-	<input type="file" style="display:none" name="ajoutMiniature"/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/> 
-	<input type="hidden" name="typeMedia" value="5"/> <!-- 5 = On+Video -->
-	<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/> 
-	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
-	<xsl:variable name="ext" select="substring(@fichier,string-length(@fichier)-2)"/>
-	<input type="hidden" name="nomMedia" value="{concat($ext,'/',@fichier)}"/>
       </td>
     </tr>
   </table>
