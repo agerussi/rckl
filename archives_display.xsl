@@ -47,7 +47,8 @@
 
 <xsl:template match="auteur">
   <span class="auteur">
-    créée par <xsl:value-of select="."/>
+    <xsl:text>créée par </xsl:text>
+    <xsl:value-of select="."/>
   </span>
 </xsl:template>
 
@@ -97,9 +98,8 @@
 </xsl:template>
 
 <xsl:template match="commentaire">
-  <!-- <xsl:value-of select="normalize-space(.)"> 
-  </xsl:value-of> -->
-    <xsl:apply-templates select="text()|*"/>
+  <!--<xsl:value-of select="concat('toto',normalize-space(.),'toto')"/> -->
+  <xsl:apply-templates select="text()"/>
 </xsl:template>
 
 <xsl:template match="vimeo">

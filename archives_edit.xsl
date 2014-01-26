@@ -20,6 +20,7 @@
     <xsl:apply-templates select="commentaire"/>
     <div id="listeMedias">
     </div>
+    <input type="file" id="ajoutMiniature" style="display:none"/>
     <input type="hidden" id="xmlmedias" name="xmlmedias"/>
     <script type="text/javascript">
       function createMedias() { 

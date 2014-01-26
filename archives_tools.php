@@ -1,12 +1,17 @@
 <?php
-// transforme un fichier photo fraîchement uploadé (dans tmp)
-// en un fichier au nom correct et sa miniature
-//
+// mode photo:
+//   transforme un fichier photo fraîchement uploadé (dans tmp)
+//   en un fichier au nom correct et sa miniature
+// mode video:
+//   idem mais pas de création de miniature
 // arguments:
+// mode = photo ou video
 // name = chemin du fichier temporaire
 // ext = extension du fichier à créer
 // pre = préfixe du fichier à créer
 
+if (isset($_GET['mode'])) $mode=$_GET['mode'];
+else die("argument 'mode' is missing.");
 if (isset($_GET['name'])) $name=$_GET['name'];
 else die("argument 'name' is missing.");
 if (isset($_GET['ext'])) $ext=$_GET['ext'];
@@ -18,8 +23,9 @@ else die("argument 'pre' is missing.");
 $nouveauNom=nouveauNomFichier($pre, $ext); 
 // renomme le fichier temporaire
 rename($name,$nouveauNom); 
-// crée la miniature 
-creerMiniature($nouveauNom);
+if ($mode=="photo") { // crée la miniature 
+  creerMiniature($nouveauNom);
+}
 // renvoie le nouveau nom, mais sans le chemin
 echo basename($nouveauNom);
 

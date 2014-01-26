@@ -369,7 +369,7 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   // déduit le nom de la miniature à partir du nom du fichier
   function getMiniFileName(file) {
     var index=file.lastIndexOf(".");
-    return file.slice(0,index)+"-mini"+file.slice(index);
+    return file.slice(0,index)+"-mini.jpg";
   }
 
   // fonction appelée automatiquement une fois le média uploadé sur le serveur
@@ -385,7 +385,7 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     xhr.onreadystatechange=function() {
       if (this.readyState==this.DONE && this.status==200) nouveauNom=this.response;
     };
-    xhr.open("GET", "archives_photo.php?name="+this.serverFileName+"&ext="+extensionFichier+"&pre="+IMGDB+"/"+idArchive+"-photo-", false); 
+    xhr.open("GET", "archives_tools.php?mode=photo&name="+this.serverFileName+"&ext="+extensionFichier+"&pre="+IMGDB+"/"+idArchive+"-photo-", false); 
     xhr.send();
     
     // le fichier devient à présent la cible officielle
@@ -405,6 +405,102 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   }
  
   //////////////// construction de l'objet
+  var cible=fichierImage;
+  var extensionFichier;
+}
+
+///////////////////////////////////////////////
+// classe Video, spécialisation de FileMedia.
+// implémente la gestion particulière des vidéos: miniatures sélectionnables, ...
+///////////////////////////////////////////////
+Photo.prototype=Object.create(FileMedia.prototype);
+Photo.prototype.constructor=Video;
+function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier de l'XML 
+  // appel du constructeur de la classe mère
+  var urlMiniature;
+  if (fichierImage!=undefined) urlMiniature=IMGDB+"/"+getMiniFileName(fichierImage);
+  FileMedia.call(this,commentaire,urlMiniature);
+
+  /////////////////////// méthodes
+  // donne le code XML du média tel qu'il est sauvegardé dans les archives du serveur
+  this.toXML=function() {
+    var xml="<video ";
+    xml+='fichier="'+cible+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
+    xml+=" />";
+    return xml;
+  }
+
+  // efface du serveur le fichier vidéo et sa miniature 
+  this.erase=function() {
+    //if (this.urlMiniature!=undefined) fileDelete(this.urlMiniature);
+    //if (cible!=undefined) fileDelete(IMGDB+"/"+cible);
+  }
+
+  // déduit le nom de la miniature à partir du nom du fichier
+  function getMiniFileName(file) {
+    var index=file.lastIndexOf(".");
+    return file.slice(0,index)+"-mini.jpg";
+  }
+
+  // fonction appelée automatiquement une fois le média uploadé sur le serveur
+  // serverFileName contient alors le nom du fichier sur le serveur
+  // extensionFichier contient l'extension du fichier original
+  this.afterUpload=function() {
+    // fait le ménage dans la classe mère
+    FileMedia.prototype.afterUpload.call(this);
+
+    // affiche la miniature provisoire
+    document.getElementById("miniImg"+this.id).setAttribute("src","ICONS/video-default-mini.jpg");
+
+    // affichage du gadget de sélection de la miniature
+    var img=document.createElement("img");
+    img.setAttribute("id", "miniatureSelect"+this.id);
+    img.setAttribute("src", "ICONS/insert_image.png");
+    img.setAttribute("title", "choix une miniature pour la vidéo");
+    document.getElementById("media"+this.id).appendChild(img);
+    var self=this;
+    document.getElementById("miniatureSelect"+this.id).addEventListener("click", function(){self.chooseMiniature();});
+
+    // renomme le fichier 
+    var nouveauNom;
+    var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function() {
+      if (this.readyState==this.DONE && this.status==200) nouveauNom=this.response;
+    };
+    xhr.open("GET", "archives_tools.php?mode=video&name="+this.serverFileName+"&ext="+extensionFichier+"&pre="+IMGDB+"/"+idArchive+"-video-", false); 
+    xhr.send();
+    
+    // le fichier devient à présent la cible officielle
+    cible=nouveauNom;  
+  } 
+
+  // prise en charge d'un fichier photo à uploader
+  this.upLoad=function(fichier) {
+    // récupère l'extension pour le renommage final
+    extensionFichier=extension(fichier.name);
+    // upload du fichier, suite dans afterUpload()
+    FileMedia.prototype.upLoad.call(this,fichier);
+  }
+
+  // fonction qui se charge de la sélection d'une miniature 
+  this.chooseMiniature=function() {
+    alert("choix d'une miniature");
+    // déclenche artificiellement le input
+    var input=document.getElementById("ajoutMiniature");
+    var self=this;
+    input.addEventListener("change", gestionAjoutMiniatureCaller, false);
+    input.click(); // déclenche le input
+    // on récupère le fil dans gestionAjoutMiniature si l'utilisateur a sélectionné un fichier
+  } 
+
+  this.gestionAjoutMiniature=function() {
+    document.getElementById("ajoutMiniature").removeEventListener("change", gestionAjoutMiniatureCaller, false);
+    alert("traitement fichier miniature");
+  }
+  //////////////// construction de l'objet
+  var self=this;
+  var gestionAjoutMiniatureCaller=function() {self.gestionAjoutMiniature();};
   var cible=fichierImage;
   var extensionFichier;
 }
