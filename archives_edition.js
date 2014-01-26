@@ -122,7 +122,7 @@ function gestionAjoutFichiers(evt) {
       continue;
     } 
     // arrivé ici, le fichier n'a pas été traité
-    window.alert("Le fichier '"+fichier.name+"' est d'un type inconnu - non traité");
+    window.alert("Le fichier '"+fichier.name+"' n'est ni une photo, ni une vidéo - non traité");
   }
 }
 
@@ -131,6 +131,12 @@ function gestionAjoutFichiers(evt) {
 /////////////////////////////////////
 function Media(commentaire,urlMiniature) {
   ////////////////////////////////////////// méthodes
+  // remplace la miniature
+  this.setMiniatureURL=function(path) {
+    this.urlMiniature=path;
+    document.getElementById("miniImg"+this.id).setAttribute("src",path+"?version="+Date());
+  }
+
   // supprime entièrement le média (graphiquement)
   this.kill=function() {
     // suppression du HTML
@@ -391,9 +397,7 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     // le fichier devient à présent la cible officielle
     cible=nouveauNom;  
     // remplace la miniature provisoire par la vraie miniature
-    this.urlMiniature=IMGDB+"/"+getMiniFileName(cible);
-    // graphiquement aussi...
-    document.getElementById("miniImg"+this.id).setAttribute("src",this.urlMiniature);
+    this.setMiniatureURL(IMGDB+"/"+getMiniFileName(cible));
   } 
 
   // prise en charge d'un fichier photo à uploader
@@ -468,7 +472,8 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     xhr.onreadystatechange=function() {
       if (this.readyState==this.DONE && this.status==200) nouveauNom=this.response;
     };
-    xhr.open("GET", "archives_tools.php?mode=video&name="+this.serverFileName+"&ext="+extensionFichier+"&pre="+IMGDB+"/"+idArchive+"-video-", false); 
+    xhr.open("GET", "archives_tools.php?mode=video&name="+this.serverFileName+"&ext="+extensionFichier+"&pre="+IMGDB+"/"+idArchive+"-"+extensionFichier+"-video-", false); 
+    // remarque: le motif "ext-video" est nécessaire pour éviter que deux vidéos de type différent recoivent le même numéro et donc la même miniature !
     xhr.send();
     
     // le fichier devient à présent la cible officielle
@@ -485,22 +490,45 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
 
   // fonction qui se charge de la sélection d'une miniature 
   this.chooseMiniature=function() {
-    alert("choix d'une miniature");
     // déclenche artificiellement le input
     var input=document.getElementById("ajoutMiniature");
-    var self=this;
     input.addEventListener("change", gestionAjoutMiniatureCaller, false);
     input.click(); // déclenche le input
     // on récupère le fil dans gestionAjoutMiniature si l'utilisateur a sélectionné un fichier
   } 
 
-  this.gestionAjoutMiniature=function() {
+  this.gestionAjoutMiniature=function(fichier) {
     document.getElementById("ajoutMiniature").removeEventListener("change", gestionAjoutMiniatureCaller, false);
-    alert("traitement fichier miniature");
+
+    // teste si le fichier est acceptable 
+    if (!fichier.type.match('image.jpeg')) {
+      window.alert("Le fichier "+fichier.name+" n'est pas un fichier jpeg");
+      return;
+    }
+    if (fichier.size>15*1024)  {  // 15 KB MAX
+      window.alert("Le fichier "+fichier.name+" est trop gros pour une miniature (15 KB maximum).");
+      return;
+    }
+    // upload du fichier (en écrasant l'ancien s'il y en avait déjà un autre)
+    var xhr=new XMLHttpRequest(); 
+    urlMiniature=IMGDB+"/"+getMiniFileName(cible);
+    xhr.open("POST", "chunkUpload.php?cmd=upload&name="+urlMiniature, false);
+    var result;
+    xhr.onreadystatechange=function() {
+      if (this.readyState==this.DONE && this.status==200) result=this.response;
+    }
+    xhr.send(fichier); // synchrone
+    if (result!="OK") {
+      alert("L'upload de la miniature a échoué !");
+      return;
+    }
+    // déclare la nouvelle miniature
+    this.setMiniatureURL(urlMiniature);
   }
+
   //////////////// construction de l'objet
   var self=this;
-  var gestionAjoutMiniatureCaller=function() {self.gestionAjoutMiniature();};
+  var gestionAjoutMiniatureCaller=function(evt) {self.gestionAjoutMiniature(evt.target.files[0]);};
   var cible=fichierImage;
   var extensionFichier;
 }
