@@ -25,9 +25,7 @@
       function createMedias() { 
         <xsl:apply-templates select="photo"/>
         <xsl:apply-templates select="video"/> 
-    <!--  
         <xsl:apply-templates select="vimeo"/> 
-    -->
       }
     </script>
     <div id="validannulation">
@@ -138,22 +136,7 @@
 </xsl:template>
 
 <xsl:template match="vimeo">
-  <table class="mediaTable">
-    <tr>
-      <td>
-	<img name="miniatureVideo" height="85px" title="{@commentaire}" src="{@miniurl}" alt="{@id}"/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/> 
-	<input type="hidden" name="typeMedia" value="33"/> <!-- 33 = On+Vimeo -->
-	<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/> 
-	<input type="hidden" name="commentaireMedia" value="{@commentaire}"/>
-	<input type="hidden" name="nomMedia" value="{@id}"/>
-      </td>
-    </tr>
-  </table>
+  mediaList.push(new Vimeo("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@url"/>", "<xsl:value-of select="@miniurl"/>"));
 </xsl:template>
 
 <!--
@@ -161,11 +144,6 @@
   <xsl:value-of select="normalize-space(.)"/>
 </xsl:template>
 -->
-
-<xsl:template match="quote">
-  toto
-</xsl:template>
-
 
 <xsl:template match="*">
   <xsl:copy-of select="."/>

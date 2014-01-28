@@ -104,10 +104,20 @@
 
 <xsl:template match="vimeo">
   <span class="miniature">
-    <a title="{@commentaire}" href="{@url}">
-      <img src="ICONS/playable.png" class="playableIcon"/>
+    <xsl:element name="a">
+      <xsl:attribute name="title">
+	<xsl:call-template name="replace-string">
+	  <xsl:with-param name="text" select="@commentaire"/>
+	  <xsl:with-param name="replace" select="'[dq]'" />
+	  <xsl:with-param name="with" select="'&amp;quot;'"/>
+	</xsl:call-template>
+      </xsl:attribute>
+      <xsl:attribute name="href">
+	  <xsl:value-of select="@url"/>
+      </xsl:attribute>
       <img src="{@miniurl}" alt="{@id}" />
-    </a>
+      <img src="ICONS/playable.png" class="playableIcon"/>
+    </xsl:element>
   </span>
 </xsl:template>
 
@@ -147,7 +157,11 @@
 	<xsl:value-of select="@type"/>
       </xsl:attribute>
       <xsl:attribute name="title">
-	<xsl:value-of select="@commentaire"/>
+	<xsl:call-template name="replace-string">
+	  <xsl:with-param name="text" select="@commentaire"/>
+	  <xsl:with-param name="replace" select="'[dq]'" />
+	  <xsl:with-param name="with" select="'&amp;quot;'"/>
+	</xsl:call-template>
       </xsl:attribute>
       <xsl:attribute name="href">
 	  <xsl:value-of select="concat(/archive/path,'/',@fichier)"/>
@@ -160,6 +174,7 @@
 	  <xsl:value-of select="@fichier"/>
 	</xsl:attribute>
       </xsl:element> <!-- img -->
+      <img src="ICONS/playable.png" class="playableIcon"/>
     </xsl:element>
   </div>
 </xsl:template>

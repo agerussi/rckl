@@ -8,6 +8,21 @@ var MediaType = { // enumération pour le type de media (attention à garder syn
 var mediaList = new Array(); // liste des médias
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 
+// gestion de l'ajout d'une vidéo de vimeo
+function gestionAjoutVimeo() {
+  // récupération du n° de la vidéo
+  vimeoId=parseInt(document.getElementById("VimeoId").value);
+  if (isNaN(vimeoId)) {
+    alert("Numéro non valide !");
+    return;
+  }
+
+  // récupère les informations sur la vidéo
+  var vimeo=new Vimeo();
+  if (vimeo.setId(vimeoId)) mediaList.push(vimeo); 
+  else window.alert(erreur+"\nVérifiez le numéro.");
+}
+
 // efface un fichier du serveur
 function fileDelete(path) {
   //alert("effacement du fichier: "+path);
@@ -137,6 +152,12 @@ function Media(commentaire,urlMiniature) {
     document.getElementById("miniImg"+this.id).setAttribute("src",path+"?version="+Date());
   }
 
+  // remplace le commentaire (décodé)
+  this.setCommentaire=function(comment) {
+    this.commentaire=comment;
+    document.getElementById("miniImg"+this.id).setAttribute("title",this.commentaire);
+  }
+
   // supprime entièrement le média (graphiquement)
   this.kill=function() {
     // suppression du HTML
@@ -236,6 +257,11 @@ function Media(commentaire,urlMiniature) {
 
   // construction de la partie graphique et affichage
   this.display();
+}
+
+// méthode erase() par défaut: ne fait rien
+// cette fonction est appelée si le média doit physiquement disparaître du serveur
+Media.prototype.erase=function() {
 }
 
 ///////////////////////////////////////////////
@@ -345,6 +371,54 @@ FileMedia.prototype.upLoad=function(fichier) {
 }
 
 ///////////////////////////////////////////////
+// classe Vimeo, spécialisation de Media.
+// implémente la gestion particulière des vidéos vimeo par l'API VIMEO
+///////////////////////////////////////////////
+Vimeo.prototype=Object.create(Media.prototype);
+Vimeo.prototype.constructor=Vimeo;
+function Vimeo(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'archive
+  // constructeur de la classe mère
+  Media.call(this,commentaire);
+
+  // fonction récupérant l'url, le commentaire et la miniature à partir de l'id d'une vidéo 
+  // retourne true ou false si une erreur est survenue
+  this.setId=function(vimeoId) { // TODO
+    // récupère les informations via l'API Simple
+    var json;
+    var xhr=new XMLHttpRequest();
+      xhr.onreadystatechange=function() {
+	if (this.readyState==this.DONE && this.status==200) json=JSON.parse(this.response);
+      }
+     xhr.open("GET", "http://vimeo.com/api/v2/video/"+vimeoId+".json", false); 
+     xhr.send();
+     if (typeof(json)=="undefined" || json[0].id!=vimeoId) return false;
+     // json[0] contient les infos sur la vidéo
+     
+     // règle le commentaire
+     this.setCommentaire(json[0].title+" (par "+json[0].user_name+")");
+     _url=json[0].url;
+     _miniUrl=json[0].thumbnail_small;
+     this.setMiniatureURL(_miniUrl);
+     return true;
+  } 
+
+  // donne le code XML du média tel qu'il est sauvegardé dans les archives du serveur
+  this.toXML=function() {
+    var xml="<vimeo ";
+    xml+='url="'+_url+'" ';
+    xml+='miniurl="'+_miniUrl+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
+    xml+=" />";
+    return xml;
+  }
+
+  /////////// construction de l'objet
+  var _url=url;
+  var _miniUrl=miniUrl;
+  if (_miniUrl!=undefined) this.setMiniatureURL(_miniUrl);
+}
+
+///////////////////////////////////////////////
 // classe Photo, spécialisation de FileMedia.
 // implémente la gestion particulière des photos: miniatures automatiques, ...
 ///////////////////////////////////////////////
@@ -417,8 +491,8 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
 // classe Video, spécialisation de FileMedia.
 // implémente la gestion particulière des vidéos: miniatures sélectionnables, ...
 ///////////////////////////////////////////////
-Photo.prototype=Object.create(FileMedia.prototype);
-Photo.prototype.constructor=Video;
+Video.prototype=Object.create(FileMedia.prototype);
+Video.prototype.constructor=Video;
 function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier de l'XML 
   // appel du constructeur de la classe mère
   var urlMiniature;
@@ -653,60 +727,6 @@ function decode(text) {
 
 //////////////////////////////////////////////////////
 ///////////// VIEILLES FONCTIONS À REMISER ///////////
-// gestion de l'ajout d'une vidéo de vimeo
-function gestionAjoutVimeo() {
-  // récupération du n° de la vidéo
-  vimeoId=parseInt(document.getElementById("VimeoId").value);
-  if (isNaN(vimeoId)) {
-    alert("Numéro non valide !");
-    return;
-  }
-
-  // récupère les informations sur la vidéo
-  try {
-    var videoData=getVimeoVideoData(vimeoId);
-  }
-  catch (erreur) {
-    window.alert(erreur+"\nVérifiez le numéro.");
-    return;
-  }
-
-  // création d'un nouveau média
-  var table=document.createElement("table");
-  table.setAttribute("id", "table"+numeroMedia);
-  table.setAttribute("class", "mediaTable");
-  table.innerHTML=[
-    '<tr><td>',
-    '<img src="', videoData.thumbnail_small, '" height="85px" name="vimeo" title="@Vimeo: ',videoData.title,'" />',
-    '</td></tr><tr><td>',
-    '<img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/>', 
-    '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Vimeo|MediaType.New,'"/>',
-    '<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/>',
-    '<input type="hidden" name="commentaireMedia" value="',videoData.title,'"/>',
-    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="',videoData.id,'"/>',
-    //'<span id="progresMedia',numeroMedia,'">chargement...</span>'
-   ].join('');
-  // insertion de l'image dans la liste
-  var input=document.getElementById("listeVideos");
-  input.insertBefore(table,null); 
-  abonnementsVideos(); // abonnements aux diverses fonctions
-  
-  numeroMedia++;
-}
-
-// récupère les informations sur une vidéo VIMEO via l'API Simple
-function getVimeoVideoData(id) {
-  var json;
-  var xhr=new XMLHttpRequest();
-    xhr.onreadystatechange=function() {
-      if (this.readyState==this.DONE && this.status==200) json=JSON.parse(this.response);
-    }
-   xhr.open("GET", "http://vimeo.com/api/v2/video/"+id+".json", false); 
-   xhr.send();
-   if (typeof(json)=="undefined") throw("Erreur de récupération des informations de la vidéo VIMEO n°"+id+".");
-   return json[0];
-}
-
 // gère le bouton choixMiniature.
 // se contente de déclencher le input
 function choisirMiniature() {
