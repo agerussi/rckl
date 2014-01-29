@@ -37,7 +37,7 @@
       <xsl:apply-templates select="commentaire"/>
     </div>
     <div class="galerie">
-      <xsl:apply-templates select="photo|video|vimeo"/>
+      <xsl:apply-templates select="photo|video|vimeo|youtube"/>
       <!--  <xsl:apply-templates select="video"/>
       <xsl:apply-templates select="vimeo"/> -->
     </div>
@@ -102,7 +102,7 @@
   <xsl:apply-templates select="text()"/>
 </xsl:template>
 
-<xsl:template match="vimeo">
+<xsl:template match="vimeo|youtube">
   <span class="miniature">
     <xsl:element name="a">
       <xsl:attribute name="title">

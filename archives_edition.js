@@ -2,11 +2,25 @@
 var beeingUploaded=0; // nombre de médias en cours d'upload
 var uploadLIMIT=3; // nombre maximal de connexions simultanées
 var chunkSize=256*1024; // 256 KB
-var MediaType = { // enumération pour le type de media (attention à garder synchro avec celui de helper.php !!)
-  On: 1, Photo: 2, Video: 4, New: 8, Miniature: 16, Vimeo: 32
-};
 var mediaList = new Array(); // liste des médias
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
+
+// gestion de l'ajout d'une vidéo de youtube
+function gestionAjoutYouTube() {
+  // récupération du n° de la vidéo
+  youTubeId=parseInt(document.getElementById("YouTubeId").value);
+  if (youTubeId.length==0) {
+    alert("Entrez le numéro de la vidéo !");
+    return;
+  }
+  // récupère les informations sur la vidéo
+  var yt=new YouTube();
+  if (yt.setId(youTubeId)) mediaList.push(yt); 
+  else {
+    window.alert("Une erreur s'est produite. Vérifiez le numéro.");
+    yt.kill();
+  }
+}
 
 // gestion de l'ajout d'une vidéo de vimeo
 function gestionAjoutVimeo() {
@@ -16,11 +30,13 @@ function gestionAjoutVimeo() {
     alert("Numéro non valide !");
     return;
   }
-
   // récupère les informations sur la vidéo
   var vimeo=new Vimeo();
   if (vimeo.setId(vimeoId)) mediaList.push(vimeo); 
-  else window.alert(erreur+"\nVérifiez le numéro.");
+  else {
+    window.alert("Une erreur s'est produite. Vérifiez le numéro.");
+    vimeo.kill();
+  }
 }
 
 // efface un fichier du serveur
@@ -163,11 +179,11 @@ function Media(commentaire,urlMiniature) {
     // suppression du HTML
     var div=document.getElementById("media"+this.id);
     div.parentNode.removeChild(div);
-    // auto suppression de la mediaList
+    // auto suppression de la mediaList (si inséré)
     // ainsi l'objet sera récolté (en théorie) par le garbage collector
     var i=0;
-    while(mediaList[i].id!=this.id) i++;
-    mediaList.splice(i,1);
+    while(i<mediaList.length && mediaList[i].id!=this.id) i++;
+    if (i<mediaList.length) mediaList.splice(i,1);
   }
 
   // crée un identifiant «unique» (avec probabilité très grande)
@@ -430,6 +446,55 @@ function Vimeo(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'ar
 }
 
 ///////////////////////////////////////////////
+// classe YouTube, spécialisation de Media.
+// implémente la gestion particulière des vidéos vimeo par l'API VIMEO
+///////////////////////////////////////////////
+YouTube.prototype=Object.create(Media.prototype);
+YouTube.prototype.constructor=YouTube;
+function YouTube(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'archive
+  // constructeur de la classe mère
+  Media.call(this,commentaire);
+  this.addPlayableIcon();
+
+  // fonction récupérant l'url, le commentaire et la miniature à partir de l'id d'une vidéo 
+  // retourne true ou false si une erreur est survenue
+  this.setId=function(youTubeId) {  // TODO à adapter à l'API Google
+    // récupère les informations via l'API Simple
+    var json;
+    var xhr=new XMLHttpRequest();
+      xhr.onreadystatechange=function() {
+	if (this.readyState==this.DONE && this.status==200) json=JSON.parse(this.response);
+      }
+     xhr.open("GET", "https://www.googleapis.com/youtube/v3/videos?id="+youTubeId+"&key=AIzaSyDyvgizLu1uatxqXBPomR4EHsMDipLin4s&part=snippet", false); 
+     xhr.send();
+     if (typeof(json)=="undefined" || json[0].id!=youTubeId) return false;
+     // json[0] contient les infos sur la vidéo
+     
+     // règle le commentaire
+     this.setCommentaire(json[0].snippet.title); // l'auteur semble inaccessible
+     _url="http://youtu.be/"+youTubeId; // url officiel ??
+     _miniUrl=json[0].snippet.thumbnails.default.url;
+     this.setMiniatureURL(_miniUrl);
+     return true;
+  } 
+
+  // donne le code XML du média tel qu'il est sauvegardé dans les archives du serveur
+  this.toXML=function() {
+    var xml="<youtube ";
+    xml+='url="'+_url+'" ';
+    xml+='miniurl="'+_miniUrl+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
+    xml+=" />";
+    return xml;
+  }
+
+  /////////// construction de l'objet
+  var _url=url;
+  var _miniUrl=miniUrl;
+  if (_miniUrl!=undefined) this.setMiniatureURL(_miniUrl);
+}
+
+///////////////////////////////////////////////
 // classe Photo, spécialisation de FileMedia.
 // implémente la gestion particulière des photos: miniatures automatiques, ...
 ///////////////////////////////////////////////
@@ -636,6 +701,8 @@ function main() {
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
   // ajout d'un vidéo Vimeo
   document.getElementById("ajouterVimeo").addEventListener("click", gestionAjoutVimeo, false);
+  // ajout d'une vidéo YouTube
+  document.getElementById("ajouterYouTube").addEventListener("click", gestionAjoutYouTube, false);
   // annulation des modifs
   document.getElementById("cancel").addEventListener("click", gestionAnnulation, false);
 }

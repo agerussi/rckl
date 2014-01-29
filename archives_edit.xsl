@@ -23,7 +23,7 @@
     <input type="hidden" id="xmlmedias" name="xmlmedias"/>
     <script type="text/javascript">
       function createMedias() { 
-        <xsl:apply-templates select="photo|video|vimeo"/>
+        <xsl:apply-templates select="photo|video|vimeo|youtube"/>
       }
     </script>
     <div id="validannulation">
@@ -137,6 +137,9 @@
   mediaList.push(new Vimeo("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@url"/>", "<xsl:value-of select="@miniurl"/>"));
 </xsl:template>
 
+<xsl:template match="youtube">
+  mediaList.push(new YouTube("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@url"/>", "<xsl:value-of select="@miniurl"/>"));
+</xsl:template>
 <!--
 <xsl:template match="text()">
   <xsl:value-of select="normalize-space(.)"/>
