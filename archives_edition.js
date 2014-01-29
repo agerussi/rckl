@@ -237,6 +237,16 @@ function Media(commentaire,urlMiniature) {
     return vivant;
   } 
 
+  // rajoute l'icône "playable" au média
+  // (utilisé par les vidéos)
+  this.addPlayableIcon=function() {
+    var img=document.createElement("img");
+    img.setAttribute("src","ICONS/playable.png");
+    img.setAttribute("class","playableIcon");
+    var media=document.getElementById("media"+this.id);
+    media.insertBefore(img,media.firstChild);
+  }
+
   ////////////////////////////////////////// constructeur de l'objet
   //////////////////////////////// attributs publics
   // le commentaire du média
@@ -379,6 +389,7 @@ Vimeo.prototype.constructor=Vimeo;
 function Vimeo(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'archive
   // constructeur de la classe mère
   Media.call(this,commentaire);
+  this.addPlayableIcon();
 
   // fonction récupérant l'url, le commentaire et la miniature à partir de l'id d'une vidéo 
   // retourne true ou false si une erreur est survenue
@@ -498,6 +509,7 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   var urlMiniature;
   if (fichierImage!=undefined) urlMiniature=IMGDB+"/"+getMiniFileName(fichierImage);
   FileMedia.call(this,commentaire,urlMiniature);
+  this.addPlayableIcon();
 
   /////////////////////// méthodes
   // donne le code XML du média tel qu'il est sauvegardé dans les archives du serveur

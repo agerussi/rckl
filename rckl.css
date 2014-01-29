@@ -125,12 +125,12 @@ hr { clear:both; }
 
 /* ================ style des archives */
 .archive .playableIcon {
-  position:relative;
+  position:absolute;
   z-index:1;
   height:19px;
   border-width:0px;
   bottom:5px;
-  left:-40px;
+  left:5px;
 }
 
 .archive .auteur {
@@ -188,6 +188,7 @@ hr { clear:both; }
 
 .archive .miniature {
   float:left;
+  position:relative;
   vertical-align:top;
   margin-bottom:10px;
   margin-right:10px;
@@ -266,6 +267,7 @@ input.archiveedit, textarea.archiveedit, span.archiveedit {
 
 div.media {
   display:inline-block;
+  position:relative;
   padding-right:20px;
   padding-bottom:20px;
 }
@@ -273,6 +275,15 @@ div.media {
 div.media img.miniature {
   height:85px;
   display:block;
+}
+
+div.media img.playableIcon {
+  position:absolute;
+  z-index:1;
+  height:19px;
+  border-width:0px;
+  top:60px;
+  left:5px;
 }
 
 /* ========== le fond des pages ============== */
