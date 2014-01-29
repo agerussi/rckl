@@ -393,7 +393,7 @@ function Vimeo(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'ar
 
   // fonction récupérant l'url, le commentaire et la miniature à partir de l'id d'une vidéo 
   // retourne true ou false si une erreur est survenue
-  this.setId=function(vimeoId) { // TODO
+  this.setId=function(vimeoId) { 
     // récupère les informations via l'API Simple
     var json;
     var xhr=new XMLHttpRequest();

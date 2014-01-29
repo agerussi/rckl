@@ -37,9 +37,9 @@
       <xsl:apply-templates select="commentaire"/>
     </div>
     <div class="galerie">
-      <xsl:apply-templates select="photo"/>
-      <xsl:apply-templates select="video"/>
-      <xsl:apply-templates select="vimeo"/>
+      <xsl:apply-templates select="photo|video|vimeo"/>
+      <!--  <xsl:apply-templates select="video"/>
+      <xsl:apply-templates select="vimeo"/> -->
     </div>
   </div>
   <hr/>

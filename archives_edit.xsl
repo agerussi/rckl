@@ -23,9 +23,7 @@
     <input type="hidden" id="xmlmedias" name="xmlmedias"/>
     <script type="text/javascript">
       function createMedias() { 
-        <xsl:apply-templates select="photo"/>
-        <xsl:apply-templates select="video"/> 
-        <xsl:apply-templates select="vimeo"/> 
+        <xsl:apply-templates select="photo|video|vimeo"/>
       }
     </script>
     <div id="validannulation">
