@@ -220,7 +220,7 @@ function Media(commentaire,urlMiniature) {
     div.setAttribute("class", "media");
     var urlMini=(this.urlMiniature==undefined) ? "ICONS/media-default-mini.jpg":this.urlMiniature;
     div.innerHTML=[
-      '<img src="',urlMini,'" id="miniImg',this.id,'" title="',htmlspecialchars(this.commentaire),'"/>',
+      '<img class="miniature" src="',urlMini,'" id="miniImg',this.id,'" title="',htmlspecialchars(this.commentaire),'"/>',
       '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
       '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>'
      ].join('');
@@ -791,12 +791,6 @@ return function(evt) { // evt.target.result contient l'URL
 function nomDuFichier(nom) {
   var n=nom.indexOf("/");
   return nom.substr(n+1);
-}
-
-// supprime un média de l'affichage à partir de son numéro
-function supprimeMedia(mediaNum) {
-  var mediaTable = document.getElementById("table"+mediaNum);
-  mediaTable.parentNode.removeChild(mediaTable);	
 }
 
 // media=le fichier à uploader
