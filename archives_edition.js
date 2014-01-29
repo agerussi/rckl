@@ -181,9 +181,8 @@ function Media(commentaire,urlMiniature) {
     div.parentNode.removeChild(div);
     // auto suppression de la mediaList (si inséré)
     // ainsi l'objet sera récolté (en théorie) par le garbage collector
-    var i=0;
-    while(i<mediaList.length && mediaList[i].id!=this.id) i++;
-    if (i<mediaList.length) mediaList.splice(i,1);
+    var i=mediaList.indexOf(self);
+    if (i!=-1) mediaList.splice(i,1);
   }
 
   // crée un identifiant «unique» (avec probabilité très grande)
@@ -248,6 +247,31 @@ function Media(commentaire,urlMiniature) {
     // abonnements
     document.getElementById("supprimer"+this.id).addEventListener("click",function() {self.changeStatus(this)});
     document.getElementById("editerCommentaire"+this.id).addEventListener("click",function() {self.changeCommentaire()});
+    document.getElementById("leftArrow"+this.id).addEventListener("click",bouger);
+    document.getElementById("rightArrow"+this.id).addEventListener("click",bouger);
+  }
+
+  // change la position du média dans mediaList et dans le DOM
+  function bouger() {
+    var isLeft=(this.getAttribute("id").charAt(0)=="l");
+    var media=this.parentNode;
+    var index=mediaList.indexOf(self);
+    if (isLeft) {
+      var previousMedia=media.previousSibling;
+      if (previousMedia!=null) previousMedia.parentNode.insertBefore(media,previousMedia);
+      if (index!=0) {
+	mediaList[index]=mediaList[index-1];
+	mediaList[index-1]=self;
+      }
+    }
+    else {
+      var nextMedia=media.nextSibling;
+      if (nextMedia!=null) media.parentNode.insertBefore(nextMedia,media);
+      if (index!=mediaList.length-1) {
+	mediaList[index]=mediaList[index+1];
+	mediaList[index+1]=self;
+      }
+    }
   }
 
   // retourne le statut du média
