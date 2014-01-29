@@ -286,6 +286,9 @@ div.media img.playableIcon {
   left:5px;
 }
 
+div.media img.arrows {
+  float:right;
+}
 /* ========== le fond des pages ============== */
 .SlideBox-box1-div {
   position:fixed; 

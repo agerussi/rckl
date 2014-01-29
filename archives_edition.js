@@ -238,7 +238,9 @@ function Media(commentaire,urlMiniature) {
     div.innerHTML=[
       '<img class="miniature" src="',urlMini,'" id="miniImg',this.id,'" title="',htmlspecialchars(this.commentaire),'"/>',
       '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
-      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>'
+      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>',
+      '<img class="arrows" title="déplacer vers la droite" src="ICONS/20_Right_Arrow_16x16.png" id="rightArrow',this.id,'"/>',
+      '<img class="arrows" title="déplacer vers la gauche" src="ICONS/19_Left_Arrow_16x16.png" id="leftArrow',this.id,'"/>'
      ].join('');
     // insertion de l'image dans la liste
     var liste=document.getElementById("listeMedias");
@@ -608,15 +610,6 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     // affiche la miniature provisoire
     document.getElementById("miniImg"+this.id).setAttribute("src","ICONS/video-default-mini.jpg");
 
-    // affichage du gadget de sélection de la miniature
-    var img=document.createElement("img");
-    img.setAttribute("id", "miniatureSelect"+this.id);
-    img.setAttribute("src", "ICONS/insert_image.png");
-    img.setAttribute("title", "choix une miniature pour la vidéo");
-    document.getElementById("media"+this.id).appendChild(img);
-    var self=this;
-    document.getElementById("miniatureSelect"+this.id).addEventListener("click", function(){self.chooseMiniature();});
-
     // renomme le fichier 
     var nouveauNom;
     var xhr=new XMLHttpRequest();
@@ -684,6 +677,15 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   };
   var cible=fichierImage;
   var extensionFichier;
+
+  // affichage du gadget de sélection de la miniature
+  var img=document.createElement("img");
+  img.setAttribute("id", "miniatureSelect"+this.id);
+  img.setAttribute("src", "ICONS/insert_image.png");
+  img.setAttribute("title", "choix une miniature pour la vidéo");
+  var rightArrow=document.getElementById("rightArrow"+this.id);
+  rightArrow.parentNode.insertBefore(img,rightArrow);
+  document.getElementById("miniatureSelect"+this.id).addEventListener("click", function(){self.chooseMiniature();});
 }
 
 // main() est appelée lorsque la page est chargée
@@ -802,251 +804,5 @@ function encode(text) {
 function decode(text) {
   return text
       .replace(/\[dq\]/g, '"');
-}
-
-//////////////////////////////////////////////////////
-///////////// VIEILLES FONCTIONS À REMISER ///////////
-// gère le bouton choixMiniature.
-// se contente de déclencher le input
-function choisirMiniature() {
-  var input=this.nextSibling.nextSibling;
-  input.addEventListener("change", makeGestionAjoutMiniature(this), false);
-  input.click(); // déclenche le input
-  // on récupère le fil dans gestionAjoutMiniature si l'utilisateur a sélectionné un fichier
-}
-
-// chargement d'une miniature + affichage
-// se contente de déclencher la lecture asynchrone du fichier
-function makeGestionAjoutMiniature(img) { // img est l'image sur laquelle on a cliqué 
-return function(evt) { 
-  // récupération du fichier
-  var fichier = evt.target.files[0]; // objet File 
-
-  // teste si le fichier est acceptable 
-  if (!fichier.type.match('image.*')) {
-    window.alert("Le fichier "+fichier.name+" n'est pas un fichier image");
-    return;
-  }
-  if (fichier.size>10*1024)  {  // 10 KB MAX
-    window.alert("Le fichier "+fichier.name+" est trop gros pour une miniature!");
-    return;
-  }
-  // TODO: le champ 'value' de l'input n'est pas mis à zéro lorsque le fichier est inacceptable, donc 
-  // en théorie il sera uploadé et traité... 
-  // mais en pratique l'utilisateur va re-sélectionner un autre fichier miniature.
-
-  // signale que la miniature a changé
-  var typeMedia=domMove(img,"PPnnccn");
-  typeMedia.value = typeMedia.value|MediaType.Miniature;
-
-  // lecture du fichier pour affichage 
-  var reader=new FileReader();
-  reader.onload = makeAffichageMiniature(img);
-  reader.readAsDataURL(fichier); // lecture asynchrone => atterri dans AffichageMiniature
-}}
-
-// se déplace dans l'arbre DOM et renvoie le noeud correspondant
-// p=previousSibling, P=parentNode, n=nextSibling, c=child
-function domMove(noeud, deplacements) { 
-  for (var i=0; i<deplacements.length; i++) {
-    switch (deplacements.charAt(i)) {
-      case "p": noeud=noeud.previousSibling; break;
-      case "P": noeud=noeud.parentNode; break;
-      case "n": noeud=noeud.nextSibling; break;
-      case "c": noeud=noeud.firstChild; break;
-    }
-  }
-  return noeud;
-}
-
-function makeAffichageMiniature(img) {
-return function(evt) { // evt.target.result contient l'URL 
-    var miniature=domMove(img,"p");
-    miniature.setAttribute("src",evt.target.result);
-}}
-
-
-// récupère la partie "nom" dans une chaine de type "ext/nom"
-function nomDuFichier(nom) {
-  var n=nom.indexOf("/");
-  return nom.substr(n+1);
-}
-
-// media=le fichier à uploader
-// mediaNum=le numéro sous lequel le media est enregistré (permet de retrouver les labels)
-// obtient un nom pour le media puis découpe le media en packet qui seront reconstitués sur le serveur à la fin
-function uploadAsynchroneByChunks(mediaFile, mediaNum) { 
-  if (beeingUploaded==uploadLIMIT) { // il faut retarder l'upload
-    setTimeout(function(){uploadAsynchroneByChunks(mediaFile,mediaNum);},5*1000);
-    return;
-  }
-
-  var fileName=getMediaName();
- 
-  beeingUploaded++;
-  var xhr=new XMLHttpRequest(); 
-  makeUploadByChunk(xhr,mediaFile,mediaNum,fileName,1)(null);
-}
-
-function makeUploadByChunk(xhr,mediaFile, mediaNum, serverFileName, numChunk) {
-return function(evt) {
-  if (xhr.readyState==0 || (xhr.readyState==4 && xhr.status==200)) { // il faut commencer ou continuer l'upload
-    if (mediaFile.size==0) { // il faut reconstituer le fichier à partir de ses bouts
-      var affichage=document.getElementById("progresMedia"+mediaNum);     
-      affichage.innerHTML="merging chunks..."
-      if (mergeChunks(serverFileName)) { // succès
-        var inputNomMedia=document.getElementById("nomMedia"+mediaNum);
-        inputNomMedia.value+=serverFileName;
-        affichage.innerHTML="upload OK";
-      }
-      else { // échec
-	window.alert(mediaFile.name+": échec lors du réassemblage: xhr.status="+newxhr.status);
-        supprimeMedia(mediaNum);
-        deleteUploadedChunks(serverFileName);
-      }
-      beeingUploaded--;
-      return;
-    }
-
-    var chunk=mediaFile.mozSlice(0,chunkSize);
-    var rest=mediaFile.mozSlice(chunkSize);
-
-    // déclenche l'upload de chunk
-    var newxhr=new XMLHttpRequest();
-    //newxhr.open("POST", "uploadChunk.php?chunkname="+serverFileName+numChunk, true);
-    newxhr.open("POST", "chunkUpload.php?cmd=upload&name="+serverFileName+numChunk, true);
-
-    // affichage de la progression de l'upload 
-    var eventSource = newxhr.upload || newxhr;
-    eventSource.addEventListener("progress", makeUploadChunkProgressHandler(mediaNum,numChunk)); 
-
-    newxhr.onreadystatechange = makeUploadByChunk(newxhr,rest,mediaNum,serverFileName,numChunk+1); 
-    newxhr.send(chunk);
-    return;
-  }
-
-  if (xhr.readyState==4 && xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
-    window.alert(mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+xhr.status);
-    supprimeMedia(mediaNum);
-    deleteUploadedChunks(serverFileName);
-    beeingUploaded--;
-    return;
-  }
-}}
-
-// affichage de la progression d'un upload
-function makeUploadChunkProgressHandler(mediaNum,chunkNum) { // int, int
-return function(evt) {
-  var position = evt.position || evt.loaded;
-  var total = evt.totalSize || evt.total;
-  var percentage = Math.round(100*position/total);
-
-  var progressSpan=document.getElementById("progresMedia"+mediaNum);     
-  progressSpan.innerHTML="chunk n°"+chunkNum+": "+percentage+"%"; 
-}}
-
-var filesToProcess=0;
-var numeroMedia=1;
-
-// ajout d'une vidéo
-// on utilise la miniature par défaut et on lance l'upload du fichier
-function gestionAjoutVideo(fichier) { 
-  // création d'une nouvelle vidéo
-  var table=document.createElement("table");
-  table.setAttribute("id", "table"+numeroMedia);
-  table.setAttribute("class", "mediaTable");
-  table.innerHTML=[
-    '<tr><td>',
-    '<img src="ICONS/video-default-mini.jpg" height="85px" name="miniatureVideo" />',
-    '<img title="choisir une miniature" src="ICONS/insert_image.png" name="choisirminiature"/>',
-    '<input type="hidden" name="MAX_FILE_SIZE" value="10240" />',
-    '<input type="file" style="display:none" name="ajoutMiniature"/>',
-    '</td></tr><tr><td>', 
-    '<img title="supprimer la vidéo" src="ICONS/b_drop.png" name="supprimervideo"/>', 
-    '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Video|MediaType.New,'"/>',
-    '<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/>',
-    '<input type="hidden" name="commentaireMedia" value=""/>',
-    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="',extension(fichier.name),'/"/>',
-    '<span id="progresMedia',numeroMedia,'">chargement...</span>',
-    '</td></tr>'
-   ].join('');
-  // insertion de l'image dans la liste
-  var input=document.getElementById("listeVideos");
-  input.insertBefore(table,null); 
-  abonnementsVideos(); // abonnements aux diverses fonctions
-  
-  // démarre le chargement du fichier
-  uploadAsynchroneByChunks(fichier,numeroMedia++);
-}
-
-function makeGestionAjoutImage(fichier) { // renvoie la fonction qui va s'occuper du rajout de l'image lorsqu'elle sera chargée
-return function(evt) { // ajout d'une image: evt.target.result contient l'URL
-  // création d'un nouveau média
-  var table=document.createElement("table");
-  table.setAttribute("id", "table"+numeroMedia);
-  table.setAttribute("class", "mediaTable");
-  table.innerHTML=[
-    '<tr><td>',
-    '<img src="', evt.target.result, '" height="85px" name="photo" />',
-    '</td></tr><tr><td>',
-    '<img title="supprimer la photo" src="ICONS/b_drop.png" name="supprimerphoto"/>', 
-    '<input type="hidden" name="typeMedia" value="',MediaType.On|MediaType.Photo|MediaType.New,'"/>',
-    '<img title="éditer le commentaire" src="ICONS/b_edit.png" name="editercommentaire"/>',
-    '<input type="hidden" name="commentaireMedia" value=""/>',
-    '<input type="hidden" id="nomMedia',numeroMedia,'" name="nomMedia" value="jpg/"/>',
-    '<span id="progresMedia',numeroMedia,'">chargement...</span>'
-   ].join('');
-  // insertion de l'image dans la liste
-  var input=document.getElementById("listePhotos");
-  input.insertBefore(table,null); 
-  
-  // démarre le chargement du fichier
-  uploadAsynchroneByChunks(fichier,numeroMedia++);
-
-  // gestion des abonnements pour les nouveaux fichiers
-  filesToProcess--;
-  if (filesToProcess==0) abonnementsPhotos(); // pour l'ensemble des nouvelles images
-}}
-
-
-function supprimerMedia() { // gère la suppression / réhabilitation de photos ou vidéos
-  var imgMedia = domMove(this,"PPPccc");
-  var input = this.nextSibling;
-  var type=(input.value&MediaType.Photo) ? "la photo":"la vidéo";
-  if (input.value&MediaType.On) {
-    input.value = input.value&(~MediaType.On);
-    this.setAttribute("src","ICONS/b_add.png");
-    this.setAttribute("title","rajouter "+type);
-    imgMedia.style.opacity = "0.5";
-  } else {
-    input.value = input.value|MediaType.On;
-    this.setAttribute("src","ICONS/b_drop.png");
-    this.setAttribute("title","supprimer "+type);
-    imgMedia.style.opacity = "1";
-  } 
-  //window.alert("fin supprimerMedia");
-}
-  
-// TODO: buggy, à remanier: le problème est apparemment que lorsque l'on clone, on perd les infos
-// sur les abonnements (et peut-être même sur d'autres attributs ?) 
-var switchDeplacement=false, tableauSource, tableauSourceClone;
-function deplacementPhoto() { // gestion du déplacement d'une photo (1er ou 2e clic)
- // récupère le noeud "tableau" correspondant à l'image 
- var tableau=this.parentNode.parentNode.parentNode;
- if (switchDeplacement) {
-  if (tableau==tableauSource) {
-    this.style.border = "0px";
-  } else {
-    var tableauDestClone=tableau.cloneNode(true); 
-    tableauSource.parentNode.replaceChild(tableauDestClone,tableauSource);
-    tableau.parentNode.replaceChild(tableauSourceClone,tableau);
-    abonnementsPhotos();
-  } 
- } else {
-   tableauSource=tableau;
-   tableauSourceClone = tableauSource.cloneNode(true);
-   this.style.border = "5px solid black";
- }
- switchDeplacement = !switchDeplacement;
 }
 
