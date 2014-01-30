@@ -131,6 +131,7 @@ hr { clear:both; }
   border-width:0px;
   bottom:5px;
   left:5px;
+  opacity:1;
 }
 
 .archive .auteur {

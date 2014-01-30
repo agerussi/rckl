@@ -24,14 +24,14 @@ $xml.="<date ";
 $xml.='jour="'.$jour.'" ';
 $xml.='mois="'.$mois.'" ';
 $xml.='annee="'.$annee.'"';
-$textedate=$_POST['valeurtextedate'];
-if (strlen($textedate)>0) $xml.='texte="'.$textedate.'"';
+$textedate=htmlspecialchars(trim($_POST['valeurtextedate']),ENT_QUOTES|ENT_XML1);
+if (strlen($textedate)>0) $xml.=' texte="'.$textedate.'"';
 $xml.="/>";
 $xml.="\n";
 
 // le titre
 $titre=htmlspecialchars(trim($_POST['valeurtitre']),ENT_QUOTES|ENT_XML1);
-if (strlen($titre)!=0) $xml.="<titre>".$titre."</titre>";
+if (strlen($titre)!=0) $xml.="<titre><![CDATA[".$titre."]]></titre>";
 $xml.="\n";
 
 // l'auteur
@@ -39,8 +39,8 @@ $xml.="<auteur>".$_SESSION['realname']."</auteur>";
 $xml.="\n";
 
 // le commentaire
-$commentaire=htmlspecialchars(trim($_POST['valeurcommentaire']),ENT_QUOTES|ENT_XML1);
-if (strlen($commentaire)!=0) $xml.="<commentaire>".$commentaire."</commentaire>";
+$commentaire=addslashes(trim($_POST['valeurcommentaire']));
+if (strlen($commentaire)!=0) $xml.="<commentaire><![CDATA[".$commentaire."]]></commentaire>";
 $xml.="\n";
 
 // les participants

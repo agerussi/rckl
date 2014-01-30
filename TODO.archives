@@ -1,9 +1,13 @@
 - FAIT: avoir un identifiant automatique
 - FAIT: changer le format pour inclure l'auteur de l'archive 
 - FAIT: ajouter une balise <auteur> qui va permettre de signer l'archive
-- récupérer automatiquement les miniatures et les commentaires des vidéos YT et VIMEO
-- sécuriser le texte du compte-rendu (permettre uniquement certaines balises bénignes)
+- FAIT: récupérer automatiquement les miniatures et les commentaires des vidéos YT et VIMEO
 - FAIT: édition pour tout le monde (par auteur)
+- sécuriser les textes
+- Vérifier la compatibilité inter-navigateurs
+- adaptation des archives après le merge:
+  * entrer les archives statiques dans la BD
+  * refaire les liens avec les vidéos
 
 Modifications sur la BD:
 

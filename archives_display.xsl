@@ -98,8 +98,7 @@
 </xsl:template>
 
 <xsl:template match="commentaire">
-  <!--<xsl:value-of select="concat('toto',normalize-space(.),'toto')"/> -->
-  <xsl:apply-templates select="text()"/>
+  <xsl:value-of select="."/>
 </xsl:template>
 
 <xsl:template match="vimeo|youtube">
@@ -116,7 +115,7 @@
 	  <xsl:value-of select="@url"/>
       </xsl:attribute>
       <img src="{@miniurl}" alt="{@id}" />
-      <img src="ICONS/playable.png" class="playableIcon"/>
+      <img src="ICONS/playable2.png" class="playableIcon"/>
     </xsl:element>
   </span>
 </xsl:template>
@@ -177,15 +176,6 @@
       <img src="ICONS/playable.png" class="playableIcon"/>
     </xsl:element>
   </div>
-</xsl:template>
-
-<!-- <xsl:template match="text()">
-  <xsl:value-of select="normalize-space(.)"/>
-</xsl:template>
--->
-
-<xsl:template match="*">
-  <xsl:copy-of select="."/>
 </xsl:template>
 
 <xsl:template name="replace-string">

@@ -92,7 +92,7 @@ function validationArchive() {
   // récolte des participants dans listeparticipants
   var listexml="";
   var liste=document.getElementsByName("participant");
-  for (var i=0; i<liste.length; i++) listexml += "<nom>"+htmlspecialchars(liste[i].firstChild.data.trim())+"</nom>";
+  for (var i=0; i<liste.length; i++) listexml += "<nom><![CDATA["+htmlspecialchars(liste[i].firstChild.innerHTML.trim())+"]]></nom>";
 
   document.getElementById("listeparticipants").value = listexml;  
 
@@ -283,7 +283,7 @@ function Media(commentaire,urlMiniature) {
   // (utilisé par les vidéos)
   this.addPlayableIcon=function() {
     var img=document.createElement("img");
-    img.setAttribute("src","ICONS/playable.png");
+    img.setAttribute("src","ICONS/playable2.png");
     img.setAttribute("class","playableIcon");
     var media=document.getElementById("media"+this.id);
     media.insertBefore(img,media.firstChild);
