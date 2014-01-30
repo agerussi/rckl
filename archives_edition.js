@@ -351,8 +351,8 @@ function FileMedia(commentaire,urlMiniature) {
       }
 
       // sépare le fichier à uploader en chunk+rest
-      var chunk=this.mediaFile.mozSlice(0,chunkSize);
-      var rest=this.mediaFile.mozSlice(chunkSize);
+      var chunk=this.mediaFile.slice(0,chunkSize); // was: mozSlice
+      var rest=this.mediaFile.slice(chunkSize);
 
       // déclenche l'upload de chunk
       this.xhr=new XMLHttpRequest(); 

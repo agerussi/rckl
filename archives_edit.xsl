@@ -10,10 +10,7 @@
       <xsl:call-template name="titreDefault"/>
     </xsl:if>
     <xsl:apply-templates select="titre"/>
-    <xsl:if test="not(participants)">
-      <xsl:call-template name="participantsDefault"/>
-    </xsl:if>
-    <xsl:apply-templates select="participants"/>
+    <xsl:call-template name="participants"/>
     <xsl:if test="not(commentaire)">
       <xsl:call-template name="commentaireDefault"/>
     </xsl:if>
@@ -83,20 +80,7 @@
   participantsList.push(new Participant("<xsl:value-of select="."/>"));
 </xsl:template>
 
-<xsl:template match="participants">
-  <label class="archiveedit">Liste des participants: </label>
-  <input type="hidden" id="listeparticipants" name="listeparticipants"/>
-  <div id="ligneparticipants">
-  </div>
-  <div id="ligneajout">
-    <input type="text" size="10" id="nouveauparticipant"/>
-    <img title="ajouter un participant" id="ajouterparticipant" src="ICONS/b_add.png"/> 
-  </div>
-  <div id="suggestions"></div>
-  <div class="bigskip"/>
-</xsl:template>
-
-<xsl:template name="participantsDefault">
+<xsl:template name="participants" match="participants">
   <label class="archiveedit">Liste des participants: </label>
   <input type="hidden" id="listeparticipants" name="listeparticipants"/>
   <div id="ligneparticipants">
@@ -139,11 +123,6 @@
 <xsl:template match="youtube">
   mediaList.push(new YouTube("<xsl:value-of select="@commentaire"/>","<xsl:value-of select="@url"/>", "<xsl:value-of select="@miniurl"/>"));
 </xsl:template>
-<!--
-<xsl:template match="text()">
-  <xsl:value-of select="normalize-space(.)"/>
-</xsl:template>
--->
 
 <xsl:template match="*">
   <xsl:copy-of select="."/>
