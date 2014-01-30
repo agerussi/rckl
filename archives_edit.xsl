@@ -22,8 +22,9 @@
     </div>
     <input type="hidden" id="xmlmedias" name="xmlmedias"/>
     <script type="text/javascript">
-      function createMedias() { 
+      function createObjects() { 
         <xsl:apply-templates select="photo|video|vimeo|youtube"/>
+	<xsl:apply-templates select="participants/nom"/>
       }
     </script>
     <div id="validannulation">
@@ -78,16 +79,14 @@
   <div class="bigskip"/>
 </xsl:template>
 
+<xsl:template name="makeParticipantsList" match="nom">
+  participantsList.push(new Participant("<xsl:value-of select="."/>"));
+</xsl:template>
+
 <xsl:template match="participants">
   <label class="archiveedit">Liste des participants: </label>
   <input type="hidden" id="listeparticipants" name="listeparticipants"/>
   <div id="ligneparticipants">
-    <xsl:for-each select="nom">
-      <span class="participant" name="participant">
-	<xsl:value-of select="normalize-space(.)"/>
-	<img title="supprimer ce participant" src="ICONS/b_drop.png" name="supprimerparticipant"/> 
-      </span>
-    </xsl:for-each>
   </div>
   <div id="ligneajout">
     <input type="text" size="10" id="nouveauparticipant"/>

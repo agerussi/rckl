@@ -3,7 +3,7 @@
 - FAIT: ajouter une balise <auteur> qui va permettre de signer l'archive
 - FAIT: récupérer automatiquement les miniatures et les commentaires des vidéos YT et VIMEO
 - FAIT: édition pour tout le monde (par auteur)
-- sécuriser les textes
+- FAIT: sécuriser les textes
 - Vérifier la compatibilité inter-navigateurs
 - adaptation des archives après le merge:
   * entrer les archives statiques dans la BD

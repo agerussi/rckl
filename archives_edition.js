@@ -3,6 +3,7 @@ var beeingUploaded=0; // nombre de médias en cours d'upload
 var uploadLIMIT=3; // nombre maximal de connexions simultanées
 var chunkSize=256*1024; // 256 KB
 var mediaList = new Array(); // liste des médias
+var participantsList = new Array(); // liste des participants
 var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 
 // gestion de l'ajout d'une vidéo de youtube
@@ -90,11 +91,10 @@ function validationArchive() {
   }
 
   // récolte des participants dans listeparticipants
-  var listexml="";
-  var liste=document.getElementsByName("participant");
-  for (var i=0; i<liste.length; i++) listexml += "<nom><![CDATA["+htmlspecialchars(liste[i].firstChild.innerHTML.trim())+"]]></nom>";
+  var listeXML="";
+  for (var i in participantsList) listeXML += participantsList[i].toXML();
 
-  document.getElementById("listeparticipants").value = listexml;  
+  document.getElementById("listeparticipants").value = listeXML;  
 
   // récolte les médias toujours vivants, détruit les autres
   var mediasXML="";
@@ -183,13 +183,6 @@ function Media(commentaire,urlMiniature) {
     // ainsi l'objet sera récolté (en théorie) par le garbage collector
     var i=mediaList.indexOf(self);
     if (i!=-1) mediaList.splice(i,1);
-  }
-
-  // crée un identifiant «unique» (avec probabilité très grande)
-  function createUniqueId() {
-    var id="";
-    for (var i=1; i<=10; i++) id+=String(Math.floor(Math.random()*10));
-    return id;
   }
 
   // méthode appelée pour changer le statut
@@ -292,7 +285,7 @@ function Media(commentaire,urlMiniature) {
   ////////////////////////////////////////// constructeur de l'objet
   //////////////////////////////// attributs publics
   // le commentaire du média
-  this.commentaire=(commentaire==undefined) ? "":decode(commentaire);
+  this.commentaire=(commentaire==undefined) ? "":decodeQuotes(commentaire);
   // n° d'identification de ce média
   this.id=createUniqueId();
   // url de la miniature
@@ -460,7 +453,7 @@ function Vimeo(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'ar
     var xml="<vimeo ";
     xml+='url="'+_url+'" ';
     xml+='miniurl="'+_miniUrl+'"';
-    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encodeQuotes(this.commentaire.trim()))+'"';
     xml+=" />";
     return xml;
   }
@@ -509,7 +502,7 @@ function YouTube(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'
     var xml="<youtube ";
     xml+='url="'+_url+'" ';
     xml+='miniurl="'+_miniUrl+'"';
-    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encodeQuotes(this.commentaire.trim()))+'"';
     xml+=" />";
     return xml;
   }
@@ -537,7 +530,7 @@ function Photo(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   this.toXML=function() {
     var xml="<photo ";
     xml+='fichier="'+cible+'"';
-    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encodeQuotes(this.commentaire.trim()))+'"';
     xml+=" />";
     return xml;
   }
@@ -607,7 +600,7 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   this.toXML=function() {
     var xml="<video ";
     xml+='fichier="'+cible+'"';
-    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encode(this.commentaire.trim()))+'"';
+    if (this.commentaire.length>0) xml+=' commentaire="'+htmlspecialchars(encodeQuotes(this.commentaire.trim()))+'"';
     xml+=" />";
     return xml;
   }
@@ -722,7 +715,7 @@ function main() {
   initGestionDate();
   initGestionParticipants();
   // affiche les médias chargés
-  createMedias(); // cette fonction est écrite par archives_edit.xsl
+  createObjects(); // cette fonction est écrite par archives_edit.xsl
   // gestion du bouton d'ajout de fichiers 
   document.getElementById("ajoutFichiers").addEventListener("change", gestionAjoutFichiers, false);
   // ajout d'un vidéo Vimeo
@@ -745,15 +738,48 @@ function initGestionParticipants() { // déclenche les annulations et l'ajout
   // ajout
   document.getElementById("ajouterparticipant").addEventListener("click", ajouterParticipant);
   document.getElementById("nouveauparticipant").addEventListener("keyup", suggestionParticipant);
-  // annulations
-  var listeSupprimer = document.getElementsByName("supprimerparticipant");
-  var i=0;
-  while (listeSupprimer[i]) listeSupprimer[i++].addEventListener("click", supprimerParticipant);
 }
 
-function supprimerParticipant() { // supprime un participant de la liste
-  var span=this.parentNode;
-  span.parentNode.removeChild(span);
+//////////////////////
+// classe Participant
+//////////////////////
+function Participant(nom) {
+  // supprime un participant (appelé par un click sur la croix)
+  function erase() { 
+    // effacement de la liste
+    participantsList.splice(participantsList.indexOf(self),1);
+    // effacement graphique
+    var span=document.getElementById("participant"+_id);
+    span.parentNode.removeChild(span);
+  }
+
+  // transforme le participant en structure XML pour les archives
+  this.toXML=function() {
+    return ["<nom>",
+    "<![CDATA[",
+    htmlspecialchars(encodeQuotes(_nom.trim())),
+    "]]>",
+    "</nom>"
+      ].join("");
+  }
+
+  /////////// construction
+  var _id=createUniqueId();
+  var _nom=decodeQuotes(unhtmlspecialchars(nom));
+  var self=this;
+
+  // affichage du nom
+  var span=document.createElement("span");
+  span.setAttribute("class","participant");
+  span.setAttribute("id","participant"+_id);
+  var croix=document.createElement("img");
+  croix.setAttribute("src","ICONS/b_drop.png");
+  croix.setAttribute("title","supprimer ce participant");
+  croix.addEventListener("click", function() {erase();});
+
+  span.appendChild(document.createTextNode(_nom));
+  span.appendChild(croix);
+  document.getElementById("ligneparticipants").appendChild(span);
 }
 
 function ajouterParticipant() { // ajoute un participant de la liste
@@ -761,22 +787,9 @@ function ajouterParticipant() { // ajoute un participant de la liste
  var input=document.getElementById("nouveauparticipant");
  var nom=input.value;
  if (nom.length==0) return;
+ participantsList.push(new Participant(nom));
  input.value=""; // efface le nom
  effaceSuggestions();
-
- // crée le nom
- var span=document.createElement("span");
- span.setAttribute("class","participant");
- span.setAttribute("name","participant");
- var croix=document.createElement("img");
- croix.src="ICONS/b_drop.png";
- croix.title="supprimer ce participant";
- croix.addEventListener("click", supprimerParticipant);
-
- span.appendChild(document.createTextNode(nom));
- span.appendChild(croix);
- document.getElementById("ligneparticipants").appendChild(span);
- //this.parentNode.insertBefore(span,input);
 }
 
 function suggestionParticipant() { // affiche des suggestions sélectionnables à partir du nom
@@ -817,16 +830,32 @@ function htmlspecialchars(text) {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+      .replace(/'/g, "&apos;");
 }
 
-function encode(text) {
+function unhtmlspecialchars(text) {
+  return text
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, "\"")
+      .replace(/&apos;/g, "'");
+}
+
+function encodeQuotes(text) {
   return text
       .replace(/"/g, "[dq]");
 }
    
-function decode(text) {
+function decodeQuotes(text) {
   return text
       .replace(/\[dq\]/g, '"');
+}
+
+// crée un identifiant «unique» (avec probabilité très grande)
+function createUniqueId() {
+  var id="";
+  for (var i=1; i<=10; i++) id+=String(Math.floor(Math.random()*10));
+  return id;
 }
 

@@ -38,8 +38,6 @@
     </div>
     <div class="galerie">
       <xsl:apply-templates select="photo|video|vimeo|youtube"/>
-      <!--  <xsl:apply-templates select="video"/>
-      <xsl:apply-templates select="vimeo"/> -->
     </div>
   </div>
   <hr/>
@@ -91,7 +89,12 @@
   <xsl:variable name="liste">
     <xsl:for-each select="nom">
       <xsl:sort select="normalize-space(.)"/>
-      <xsl:value-of select="concat(', ',normalize-space(.))"/>
+	<xsl:text>, </xsl:text>
+	<xsl:call-template name="replace-string">
+	  <xsl:with-param name="text" select="."/>
+	  <xsl:with-param name="replace" select="'[dq]'" />
+	  <xsl:with-param name="with" select="'&amp;quot;'"/>
+	</xsl:call-template>
     </xsl:for-each>
   </xsl:variable>
   <xsl:value-of select="concat(substring($liste,3),'.')"/>
