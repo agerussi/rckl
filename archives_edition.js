@@ -351,8 +351,11 @@ function FileMedia(commentaire,urlMiniature) {
       }
 
       // sépare le fichier à uploader en chunk+rest
-      var chunk=this.mediaFile.slice(0,chunkSize); // was: mozSlice
-      var rest=this.mediaFile.slice(chunkSize);
+      var slicer=this.mediaFile.slice || this.mediaFile.webkitSlice;
+      /*if (!this.mediaFile.slice) alert("slice not available!!");
+      else if (!this.mediaFile.webkitSlice) alert("webkitSlice not available!!"); */
+      var chunk=slicer.call(this.mediaFile,0,chunkSize); 
+      var rest=slicer.call(this.mediaFile,chunkSize);
 
       // déclenche l'upload de chunk
       this.xhr=new XMLHttpRequest(); 
@@ -364,7 +367,12 @@ function FileMedia(commentaire,urlMiniature) {
       eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
 
       this.numChunk++;
-      this.xhr.onreadystatechange = function(evt) {self.mediaFile=rest; self.uploadByChunks(evt);}; 
+      this.xhr.onreadystatechange = function(evt) {
+	if (self.xhr.readyState==4) { 
+	  self.mediaFile=rest; 
+	  self.uploadByChunks(evt);
+	}
+      }; 
       this.xhr.send(chunk);
       return;
     }
@@ -624,9 +632,6 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     // fait le ménage dans la classe mère
     FileMedia.prototype.afterUpload.call(this);
 
-    // affiche la miniature provisoire
-    document.getElementById("miniImg"+this.id).setAttribute("src","ICONS/video-default-mini.jpg");
-
     // renomme le fichier 
     var nouveauNom;
     var xhr=new XMLHttpRequest();
@@ -639,6 +644,8 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
     
     // le fichier devient à présent la cible officielle
     cible=nouveauNom;  
+    // déclare la miniature provisoire officiellement (pour qu'elle soit effacée)
+    this.setMiniatureURL(IMGDB+"/"+getMiniFileName(cible));
   } 
 
   // prise en charge d'un fichier photo à uploader
