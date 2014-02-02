@@ -139,16 +139,26 @@ function gestionAjoutFichiers(evt) {
   for (var i=0; fichier=listeFichiers[i]; i++) { // traitement individuel de chaque fichier
     if (fichier.type.match('image.*')) {
       var photo=new Photo();
-      photo.upLoad(fichier);
-      mediaList.push(photo);
+      try { 
+	photo.upLoad(fichier); 
+        mediaList.push(photo);
+      }
+      catch (erreur) { 
+	photo.kill();
+      }
       continue;
     }
     if (fichier.type.match('video.*')) { 
       var msg="Attention, vous avez sélectionné un fichier de type «vidéo», est-ce une erreur ?\nL'upload de fichiers vidéos est possible mais n'est souhaitée qu'à titre exceptionnel.\nLa procédure préconisée est de déposer votre vidéo sur YouTube ou Vimeo.\n\nVoulez-vous *vraiment* continuer ?";
       if (window.confirm(msg)) {
 	var video=new Video();
-	video.upLoad(fichier);
-	mediaList.push(video);
+	try {
+	  video.upLoad(fichier);
+	  mediaList.push(video);
+	}
+	catch (erreur) {
+	  video.kill();
+	}
       }
       continue;
     } 
@@ -351,8 +361,12 @@ function FileMedia(commentaire,urlMiniature) {
 
     // sépare le fichier à uploader en chunk+rest
     var slicer=this.mediaFile.slice || this.mediaFile.webkitSlice;
-    /*if (!this.mediaFile.slice) alert("slice not available!!");
-    else if (!this.mediaFile.webkitSlice) alert("webkitSlice not available!!"); */
+    if (!slicer) {
+      alert("Votre navigateur ne permet pas d'uploader correctement les fichiers.\n Si vous utilisez SAFARI v1.5.7 ou inférieure, cela est normal.\n Mettez à jour votre navigateur et contactez l'administrateur si le problème persiste.");
+      beeingUploaded--;
+      throw ("fonction slice non disponible");
+      return;
+    }
     var chunk=slicer.call(this.mediaFile,0,chunkSize); 
     var rest=slicer.call(this.mediaFile,chunkSize);
 
@@ -373,10 +387,9 @@ function FileMedia(commentaire,urlMiniature) {
 
     this.xhr.onerror=function(evt) { // en cas d'erreur on annule tout
       window.alert("Échec de l'upload d'un chunk: xhr.status="+self.xhr.status+" statusText="+self.xhr.statusText);
-      self.kill();
       deleteUploadedChunks(self.tmpName);
       beeingUploaded--;
-      return;
+      throw ("xmlhttprequest a déclenché une erreur");
     }
 
     this.numChunk++;
