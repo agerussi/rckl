@@ -333,7 +333,7 @@ function FileMedia(commentaire,urlMiniature) {
   // fonction qui se charge de gérer l'upload d'un fichier par petits morceaux
   // réassemblés sur le serveur 
   this.uploadByChunks=function(evt) {
-    if (this.xhr.readyState==0 || (this.xhr.readyState==4 && this.xhr.status==200)) { // il faut commencer ou continuer l'upload
+    if (this.xhr.readyState==this.xhr.UNSENT || (this.xhr.readyState==this.xhr.DONE && this.xhr.status==200)) { // il faut commencer ou continuer l'upload
       if (this.mediaFile.size==0) { // il faut reconstituer le fichier à partir de ses bouts
 	beeingUploaded--;
 	document.getElementById("progressBar"+this.id).innerHTML="merging chunks...";
@@ -359,26 +359,27 @@ function FileMedia(commentaire,urlMiniature) {
 
       // déclenche l'upload de chunk
       this.xhr=new XMLHttpRequest(); 
-      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk, true);
+      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk+"&"+Date(), true);
+      this.xhr.setRequestHeader("Cache-Control","no-cache");
 
       // affichage de la progression de l'upload 
       var self=this;
       var eventSource = this.xhr.upload || this.xhr;
-      eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
+      //eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
 
-      this.numChunk++;
       this.xhr.onreadystatechange = function(evt) {
-	if (self.xhr.readyState==4) { 
+	if (self.xhr.readyState==self.xhr.DONE) { 
 	  self.mediaFile=rest; 
 	  self.uploadByChunks(evt);
 	}
       }; 
+      this.numChunk++;
       this.xhr.send(chunk);
       return;
     }
 
-    if (this.xhr.readyState==4 && this.xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
-      window.alert(this.mediaFile.name+": échec de l'upload d'un chunk: xhr.status="+this.xhr.status);
+    if (this.xhr.readyState==this.xhr.DONE && this.xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
+      window.alert("Échec de l'upload d'un chunk: xhr.status="+this.xhr.status+" statusText="+this.xhr.statusText);
       this.kill();
       deleteUploadedChunks(this.tmpName);
       beeingUploaded--;

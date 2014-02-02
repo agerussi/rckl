@@ -5,6 +5,11 @@
 - FAIT: édition pour tout le monde (par auteur)
 - FAIT: sécuriser les textes
 - Vérifier la compatibilité inter-navigateurs
+  - FF OK
+  - Chrome OK
+  - Opera Pb durant l'upload
+  - Safari pb de CSS + upload ne démarre pas?
+  - IE ?
 - adaptation des archives après le merge:
   * entrer les archives statiques dans la BD
   * refaire les liens avec les vidéos

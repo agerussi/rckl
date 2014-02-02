@@ -115,7 +115,7 @@ hr { clear:both; }
 
 #sorties thead {
   background-color:#dddddd;
-  text-align:center; 
+  text-align:center;
 }
 
 #sorties td:nth-child(4), #sorties td:nth-child(6) { 
@@ -210,7 +210,7 @@ hr { clear:both; }
 
 #historique thead { 
   background-color:#dddddd;
-  text-align:center; 
+  text-align:center;
 }
 
 #historique td:nth-child(4), #historique td:nth-child(5) { 
