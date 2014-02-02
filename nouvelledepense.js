@@ -57,6 +57,7 @@ function ajouterExterieur() {
   var croix=document.createElement("img");
   croix.setAttribute("src","ICONS/b_drop.png");
   croix.setAttribute("title","supprimer cet extérieur");
+  croix.setAttribute("class","icon");
   croix.setAttribute("style","margin-right:2em");
   croix.addEventListener("click", supprimerExterieur);
   champNbBenExt.parentNode.appendChild(croix);

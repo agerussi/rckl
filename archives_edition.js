@@ -229,10 +229,10 @@ function Media(commentaire,urlMiniature) {
     var urlMini=(this.urlMiniature==undefined) ? "ICONS/media-default-mini.jpg":this.urlMiniature;
     div.innerHTML=[
       '<img class="miniature" src="',urlMini,'" id="miniImg',this.id,'" title="',htmlspecialchars(this.commentaire),'"/>',
-      '<img title="supprimer le média" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
-      '<img title="éditer le commentaire" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>',
-      '<img class="arrows" title="déplacer vers la droite" src="ICONS/20_Right_Arrow_16x16.png" id="rightArrow',this.id,'"/>',
-      '<img class="arrows" title="déplacer vers la gauche" src="ICONS/19_Left_Arrow_16x16.png" id="leftArrow',this.id,'"/>'
+      '<img title="supprimer le média" class="icon" src="ICONS/b_drop.png" id="supprimer',this.id,'"/>', 
+      '<img title="éditer le commentaire" class="icon" src="ICONS/b_edit.png" id="editerCommentaire',this.id,'"/>',
+      '<img class="arrows" title="déplacer vers la droite" class="icon" src="ICONS/20_Right_Arrow_16x16.png" id="rightArrow',this.id,'"/>',
+      '<img class="arrows" title="déplacer vers la gauche" class="icon" src="ICONS/19_Left_Arrow_16x16.png" id="leftArrow',this.id,'"/>'
      ].join('');
     // insertion de l'image dans la liste
     var liste=document.getElementById("listeMedias");
@@ -704,6 +704,7 @@ function Video(commentaire,fichierImage) { // fichierImage = attribut @fichier d
   var img=document.createElement("img");
   img.setAttribute("id", "miniatureSelect"+this.id);
   img.setAttribute("src", "ICONS/insert_image.png");
+  img.setAttribute("class", "icon");
   img.setAttribute("title", "choix une miniature pour la vidéo");
   var rightArrow=document.getElementById("rightArrow"+this.id);
   rightArrow.parentNode.insertBefore(img,rightArrow);
@@ -779,6 +780,7 @@ function Participant(nom) {
   span.setAttribute("id","participant"+_id);
   var croix=document.createElement("img");
   croix.setAttribute("src","ICONS/b_drop.png");
+  croix.setAttribute("class","icon");
   croix.setAttribute("title","supprimer ce participant");
   croix.addEventListener("click", function() {erase();});
 

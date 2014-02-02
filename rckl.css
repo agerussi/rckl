@@ -217,9 +217,10 @@ hr { clear:both; }
   min-width:35%; 
 }
 
-img.edit {
+img.icon {
   border:0;
-  height:100%;
+  width:auto;
+  height:auto;
   opacity:1;
 }
 
@@ -242,11 +243,15 @@ input.archiveedit, textarea.archiveedit, span.archiveedit {
 
 #valeurdate {
   text-align:center;
+  width:8%;
 }
 
-.participant, .suggestionParticipant {
-  margin-left:10px;
-  margin-right:10px;
+#valeurtextedate, #valeurtitre {
+  width:20%;
+}
+
+#valeurcommentaire {
+  width:50%;
 }
 
 #ligneajout, #ligneparticipants, #suggestions{

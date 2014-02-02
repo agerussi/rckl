@@ -32,12 +32,12 @@
       <p>
 	Ajouter une vidéo Vimeo: 
 	<input type="text" id="VimeoId"/>
-        <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" src="ICONS/b_add.png"/> 
+        <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" class="icon" src="ICONS/b_add.png"/> 
       </p>
       <p>
 	Ajouter une vidéo YouTube:
 	<input type="text" id="YouTubeId"/>
-	<img title="ajouter une vidéo YouTube" id="ajouterYouTube" src="ICONS/b_add.png"/> 
+	<img title="ajouter une vidéo YouTube" id="ajouterYouTube" class="icon" src="ICONS/b_add.png"/> 
       </p>
       <p>
 	<input type="submit" name="archivesubmit" value="Modifier l'archive" />
@@ -60,19 +60,19 @@
   <input class="archiveedit" type="text" size="10" id="valeurdate" name="valeurdate" readonly="readonly" value="{concat(@jour,'-',@mois,'-',@annee)}"/>
   <div class="bigskip"/>
   <label class="archiveedit">Date spéciale: </label>
-  <input class="archiveedit" type="text" size="20" name="valeurtextedate" value="{@texte}" />
+  <input class="archiveedit" type="text" size="20" id="valeurtextedate" name="valeurtextedate" value="{@texte}" />
   <div class="bigskip"/>
 </xsl:template>
 
 <xsl:template match="titre">
   <label class="archiveedit">Titre de la sortie: </label>
-  <input class="archiveedit" type="text" size="20" name="valeurtitre" value="{normalize-space(.)}" />
+  <input class="archiveedit" type="text" size="20" id="valeurtitre" name="valeurtitre" value="{normalize-space(.)}" />
   <div class="bigskip"/>
 </xsl:template>
 
 <xsl:template name="titreDefault">
   <label class="archiveedit">Titre de la sortie: </label>
-  <input class="archiveedit" type="text" size="20" name="valeurtitre" value="" />
+  <input class="archiveedit" type="text" size="20" id="valeurtitre" name="valeurtitre" value="" />
   <div class="bigskip"/>
 </xsl:template>
 
@@ -87,7 +87,7 @@
   </div>
   <div id="ligneajout">
     <input type="text" size="10" id="nouveauparticipant"/>
-    <img title="ajouter un participant" id="ajouterparticipant" src="ICONS/b_add.png"/> 
+    <img title="ajouter un participant" id="ajouterparticipant" class="icon" src="ICONS/b_add.png"/> 
   </div>
   <div id="suggestions"></div>
   <div class="bigskip"/>

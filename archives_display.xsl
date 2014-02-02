@@ -19,7 +19,7 @@
       <xsl:apply-templates select="participants"/>
       <xsl:if test="@edit='yes'">
 	<xsl:element name="img">
-	  <xsl:attribute name="class">edit</xsl:attribute>
+	  <xsl:attribute name="class">icon</xsl:attribute>
 	  <xsl:attribute name="title">effacer la sortie</xsl:attribute>
 	  <xsl:attribute name="src">ICONS/b_drop.png</xsl:attribute>
 	  <xsl:attribute name="onclick">areYouSure("<xsl:value-of select="@id"/>")</xsl:attribute>
@@ -28,7 +28,7 @@
 	  <xsl:attribute name="href">
 	    <xsl:value-of select="concat('archives_edition.php?id=',@id)"/>
 	  </xsl:attribute>
-	  <img class="edit" title="éditer la sortie" src="ICONS/b_edit.png" />
+	  <img class="icon" title="éditer la sortie" src="ICONS/b_edit.png" />
 	</xsl:element>
       </xsl:if>
       <xsl:apply-templates select="auteur"/>

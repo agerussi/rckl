@@ -94,7 +94,7 @@ else {
     echo "<td>" . $ligne['auteur'] . "</td>";
     echo "<td>" . $ligne['somme'];
     if ($root) {
-      echo '<img class="edit" title="annuler les frais" src="ICONS/b_drop.png"';
+      echo '<img class="icon" title="annuler les frais" src="ICONS/b_drop.png"';
       echo ' onclick="doCancel(' . $ligne['id'] . ')" />';
     }
     echo "</td>";

@@ -53,7 +53,7 @@ echo "</tr></table>"
  <p>
    <label> 
      <b>Bénéficiaire(s) extérieur(s)</b> 
-     <img id="boutonPlus" title="ajouter un bénéficiaire" src="ICONS/b_add.png" />
+     <img id="boutonPlus" title="ajouter un bénéficiaire" src="ICONS/b_add.png" class="icon"/>
    </label>
  </p>
  <p>
