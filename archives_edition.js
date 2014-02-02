@@ -359,30 +359,29 @@ function FileMedia(commentaire,urlMiniature) {
 
       // déclenche l'upload de chunk
       this.xhr=new XMLHttpRequest(); 
-      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk+"&"+Date(), true);
+      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk, true);
       this.xhr.setRequestHeader("Cache-Control","no-cache");
 
       // affichage de la progression de l'upload 
       var self=this;
       var eventSource = this.xhr.upload || this.xhr;
-      //eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
+      eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
 
-      this.xhr.onreadystatechange = function(evt) {
-	if (self.xhr.readyState==self.xhr.DONE) { 
+      this.xhr.onload = function(evt) { // en cas de succès, on upload le reste
 	  self.mediaFile=rest; 
 	  self.uploadByChunks(evt);
-	}
       }; 
+
+      this.xhr.onerror=function(evt) { // en cas d'erreur on annule tout
+	window.alert("Échec de l'upload d'un chunk: xhr.status="+self.xhr.status+" statusText="+self.xhr.statusText);
+	self.kill();
+	deleteUploadedChunks(self.tmpName);
+	beeingUploaded--;
+	return;
+      }
+
       this.numChunk++;
       this.xhr.send(chunk);
-      return;
-    }
-
-    if (this.xhr.readyState==this.xhr.DONE && this.xhr.status!=200) { // erreur dans l'envoi de chunk, on annule tout
-      window.alert("Échec de l'upload d'un chunk: xhr.status="+this.xhr.status+" statusText="+this.xhr.statusText);
-      this.kill();
-      deleteUploadedChunks(this.tmpName);
-      beeingUploaded--;
       return;
     }
   }
