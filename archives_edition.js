@@ -333,57 +333,55 @@ function FileMedia(commentaire,urlMiniature) {
   // fonction qui se charge de gérer l'upload d'un fichier par petits morceaux
   // réassemblés sur le serveur 
   this.uploadByChunks=function(evt) {
-    if (this.xhr.readyState==this.xhr.UNSENT || (this.xhr.readyState==this.xhr.DONE && this.xhr.status==200)) { // il faut commencer ou continuer l'upload
-      if (this.mediaFile.size==0) { // il faut reconstituer le fichier à partir de ses bouts
-	beeingUploaded--;
-	document.getElementById("progressBar"+this.id).innerHTML="merging chunks...";
-	try {
-	  mergeChunks(this.tmpName);
-          this.serverFileName=this.tmpName;
-	  this.afterUpload();
-	}
-	catch (erreur) {
-	  window.alert(this.mediaFile.name+": échec lors du réassemblage: "+erreur);
-	  this.kill();
-	  deleteUploadedChunks(this.tmpName);
-	}
-	return;
+    if (this.mediaFile.size==0) { // il faut reconstituer le fichier à partir de ses bouts
+      beeingUploaded--;
+      document.getElementById("progressBar"+this.id).innerHTML="merging chunks...";
+      try {
+	mergeChunks(this.tmpName);
+	this.serverFileName=this.tmpName;
+	this.afterUpload();
       }
-
-      // sépare le fichier à uploader en chunk+rest
-      var slicer=this.mediaFile.slice || this.mediaFile.webkitSlice;
-      /*if (!this.mediaFile.slice) alert("slice not available!!");
-      else if (!this.mediaFile.webkitSlice) alert("webkitSlice not available!!"); */
-      var chunk=slicer.call(this.mediaFile,0,chunkSize); 
-      var rest=slicer.call(this.mediaFile,chunkSize);
-
-      // déclenche l'upload de chunk
-      this.xhr=new XMLHttpRequest(); 
-      this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk, true);
-      this.xhr.setRequestHeader("Cache-Control","no-cache");
-
-      // affichage de la progression de l'upload 
-      var self=this;
-      var eventSource = this.xhr.upload || this.xhr;
-      eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
-
-      this.xhr.onload = function(evt) { // en cas de succès, on upload le reste
-	  self.mediaFile=rest; 
-	  self.uploadByChunks(evt);
-      }; 
-
-      this.xhr.onerror=function(evt) { // en cas d'erreur on annule tout
-	window.alert("Échec de l'upload d'un chunk: xhr.status="+self.xhr.status+" statusText="+self.xhr.statusText);
-	self.kill();
-	deleteUploadedChunks(self.tmpName);
-	beeingUploaded--;
-	return;
+      catch (erreur) {
+	window.alert(this.mediaFile.name+": échec lors du réassemblage: "+erreur);
+	this.kill();
+	deleteUploadedChunks(this.tmpName);
       }
-
-      this.numChunk++;
-      this.xhr.send(chunk);
       return;
     }
+
+    // sépare le fichier à uploader en chunk+rest
+    var slicer=this.mediaFile.slice || this.mediaFile.webkitSlice;
+    /*if (!this.mediaFile.slice) alert("slice not available!!");
+    else if (!this.mediaFile.webkitSlice) alert("webkitSlice not available!!"); */
+    var chunk=slicer.call(this.mediaFile,0,chunkSize); 
+    var rest=slicer.call(this.mediaFile,chunkSize);
+
+    // déclenche l'upload de chunk
+    this.xhr=new XMLHttpRequest(); 
+    this.xhr.open("POST", "chunkUpload.php?cmd=upload&name="+this.tmpName+this.numChunk, true);
+    this.xhr.setRequestHeader("Cache-Control","no-cache");
+
+    // affichage de la progression de l'upload 
+    var self=this;
+    var eventSource = this.xhr.upload || this.xhr;
+    eventSource.addEventListener("progress", function(evt) {self.uploadChunksProgressHandler(evt);}); 
+
+    this.xhr.onload = function(evt) { // en cas de succès, on upload le reste
+	self.mediaFile=rest; 
+	self.uploadByChunks(evt);
+    }; 
+
+    this.xhr.onerror=function(evt) { // en cas d'erreur on annule tout
+      window.alert("Échec de l'upload d'un chunk: xhr.status="+self.xhr.status+" statusText="+self.xhr.statusText);
+      self.kill();
+      deleteUploadedChunks(self.tmpName);
+      beeingUploaded--;
+      return;
+    }
+
+    this.numChunk++;
+    this.xhr.send(chunk);
+    return;
   }
 
   ////////////// attributs
