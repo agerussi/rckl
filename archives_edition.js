@@ -76,7 +76,7 @@ function gestionAnnulation() {
     xhr.send();
   }
 
-  window.back();
+  history.back();
 }
 
 // vérification et préparation avant soumission de l'archive
