@@ -1,0 +1,21 @@
+- FAIT: avoir un identifiant automatique
+- FAIT: changer le format pour inclure l'auteur de l'archive 
+- FAIT: ajouter une balise <auteur> qui va permettre de signer l'archive
+- FAIT: récupérer automatiquement les miniatures et les commentaires des vidéos YT et VIMEO
+- FAIT: édition pour tout le monde (par auteur)
+- FAIT: sécuriser les textes
+- FAIT: Vérifier la compatibilité inter-navigateurs
+  - FF OK
+  - Chrome OK
+  - Opera OK avec version récente
+  - Safari OK mais safari sous windows est gelé à une version trop ancienne qui ne fonctionnera pas
+  - IE OK
+- Cacher l'édition pour tous les usagers, ne laisser que root pour le moment.
+- adaptation des archives après le merge:
+  * entrer les archives statiques dans la BD
+  * refaire les liens avec les vidéos
+
+Modifications sur la BD:
+
+1) le champ 'id' est devenu 'int' et 'index' 'autoincrément' 'unique'
+2) rajout du champ authId (unsigned int, défaut=1)

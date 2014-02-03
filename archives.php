@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="OUTILS/slimbox/css/slimbox2.css" type="text/css" media="screen" />
   <script type="text/javascript">
     function areYouSure(id) {
-      if (confirm("Effacement de l'archive !\n\n Êtes-vous sûr(e) ?")) window.location.replace("effacerarchive.php?id="+id);
+      if (confirm("Effacement de l'archive !\n\n Êtes-vous sûr(e) ?")) window.location.replace("archives_delete.php?id="+id);
     }
   </script>
 </head>
@@ -19,30 +19,30 @@
  require("menub.php"); 
   
   // le titre en fonction de l'année demandée
- if (isset($_GET['y'])) $year = $_GET['y'];
- else $year = "@home";
- if ($year=="@home") {
-    $titre = "À LA MAISON";
-    $year= "1973"; // année de la sortie spéciale "@home"
- }
- else $titre = "ANNÉE ".$year;
+ if (!isset($_GET['y'])) header("Location: news.php");
+ $year = $_GET['y'];
+
+ $titre = "ANNÉE ".$year;
  echo "<h1>ARCHIVES DES ACTIVITÉS DU RCKL</h1>";
  echo "<h2>".$titre."</h2>";
 
  // récupère les archives de l'année sélectionnée
  require("dbconnect.php");
  mysql_query("SET NAMES UTF8");
- $sql = 'SELECT id, xml FROM archives WHERE DATE_FORMAT(date,"%Y")='.$year;
+ $sql = 'SELECT id, authId, xml FROM archives WHERE DATE_FORMAT(date,"%Y")='.$year;
  $req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
 
   // collecte les sorties au format xml
   $xmltext="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-  $root=(isset($_SESSION['login']) && $_SESSION['login']=='root'); 
-  $xmltext.="<archive edit=\"".($root ? "yes":"no")."\">";
+  $xmltext.="<archive>";
   $xmltext.="<path>IMGDB</path> <mini>-mini</mini>";
 
   while ($data = mysql_fetch_array($req)) {
-    $xmltext.="<sortie id=\"".$data['id']."\">";
+    $xmltext.="<sortie ";
+    $xmltext.='id="'.$data['id'].'"';
+    $editable=(isset($_SESSION['userid']) && $_SESSION['userid']==$data['authId']);
+    $xmltext.=' edit="'.($editable ? "yes":"no").'"';
+    $xmltext.=">";  
     $xmltext.=$data['xml'];
     $xmltext.="</sortie>";
   }
@@ -57,7 +57,7 @@
   $xml = new DOMDocument; 
   $xml->loadXML($xmltext);
   $xsl = new DOMDocument;
-  $xsl->load("ARCHIVES/archives-display.xsl");
+  $xsl->load("archives_display.xsl");
   $proc = new XSLTProcessor;
   $proc->importStyleSheet($xsl); 
   echo htmlspecialchars_decode($proc->transformToXML($xml)); 

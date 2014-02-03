@@ -31,7 +31,7 @@ function upload() {
   }
   $filename=$_REQUEST["name"];
   $inputHandler = fopen("php://input", "rb");
-  $fout = fopen($filename, "w+");
+  $fout = fopen($filename, "w");
 
   while (!feof($inputHandler)) {
     $buffer=fread($inputHandler, 4*1024);
