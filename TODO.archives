@@ -4,12 +4,13 @@
 - FAIT: récupérer automatiquement les miniatures et les commentaires des vidéos YT et VIMEO
 - FAIT: édition pour tout le monde (par auteur)
 - FAIT: sécuriser les textes
-- Vérifier la compatibilité inter-navigateurs
+- FAIT: Vérifier la compatibilité inter-navigateurs
   - FF OK
   - Chrome OK
-  - Opera Pb durant l'upload
-  - Safari pb de CSS + upload ne démarre pas?
-  - IE ?
+  - Opera OK avec version récente
+  - Safari OK mais safari sous windows est gelé à une version trop ancienne qui ne fonctionnera pas
+  - IE OK
+- Cacher l'édition pour tous les usagers, ne laisser que root pour le moment.
 - adaptation des archives après le merge:
   * entrer les archives statiques dans la BD
   * refaire les liens avec les vidéos
