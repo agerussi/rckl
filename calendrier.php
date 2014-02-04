@@ -33,7 +33,7 @@ function analysedate($date,$a,$m,$j,$jds) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php require("menuh.php"); ?>
+<?php require("menu_header.php"); ?>
   <script type="text/javascript">
     function deleteSortie(ids) {
       if (confirm("Êtes-vous sûr(e) ?")) window.location.replace("effacesortie.php?ids="+ids);
@@ -44,7 +44,7 @@ function analysedate($date,$a,$m,$j,$jds) {
 <body>
 <?php
 require("background.html");
-require("menub.php"); 
+require("menu_body.php"); 
 ?>
 
 <h1>LES ACTIVITÉS À VENIR</h1>

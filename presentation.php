@@ -2,10 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<?php require("menuh.php"); ?>
+<?php require("menu_header.php"); ?>
 </head>
 <body>
-<?php require("menub.php"); ?>
+<?php require("menu_body.php"); ?>
 <h1>PRÉSENTATION</h1>
 Le <b>groupe loisirs</b> est une structure intégrée au club de canoë-kayak de Saint Laurent Blangy et regroupe des personnes, pour la plupart majeures, qui souhaitent pratiquer le kayak (sous toutes ses formes) dans un but de détente et de découverte.
 Le <b>groupe loisirs</b> ne dispose pas d'un cadre diplômé spécialement rattaché: c'est un groupe qui s'auto-gère, mutualise les ressources, et chaque membre du groupe progresse au contact des autres membres plus expérimentés.

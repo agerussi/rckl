@@ -15,6 +15,7 @@ if(isset($_SESSION['login'])){ // on est loggé
 <li><a href="logout.php">se déconnecter</a></li>
 EOS;
   if ($_SESSION['login'] == 'root') { // additions spéciales pour root
+    echo '<li><a href="archives_new.php">créer une archive</a></li>';
   }
   echo "</ul>";
 }

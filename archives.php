@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 <?php
-  require("menuh.php"); 
+  require("menu_header.php"); 
 ?>
   <script type="text/javascript" src="OUTILS/jQuery.js"></script>
   <script type="text/javascript" src="OUTILS/slimbox/js/slimbox2.js"></script>
@@ -16,7 +16,7 @@
 </head>
 <body>
 <?php
- require("menub.php"); 
+ require("menu_body.php"); 
   
   // le titre en fonction de l'année demandée
  if (!isset($_GET['y'])) header("Location: news.php");
