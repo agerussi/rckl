@@ -10,14 +10,14 @@
     <participants>
       <nom>Alexandre</nom> <nom>Mathieu</nom> <nom>Jean-Luc</nom>
     </participants>
-    <commentaire>Ambiance pluvieuse et petit niveau d'eau, mais sympa quand même de pratiquer quelques portes de slalom.</commentaire>
+    <commentaire>Ambiance pluvieuse et petit niveau d\'eau, mais sympa quand même de pratiquer quelques portes de slalom.</commentaire>
     <photo fichier="picquigny05110501.jpg"/>
     <photo fichier="picquigny05110502.jpg"/>
     <photo fichier="picquigny05110503.jpg"/>
   </sortie>
 
   <sortie id="cure240905">
-    <date jour="24/25" mois="9" annee="2005"/>
+    <date jour="24" mois="9" annee="2005" texte="24 et 25 septembre"/>
     <titre>Rallye de la Cure</titre>
     <participants>
       <nom>Alexandre</nom> <nom>Jérôme</nom> <nom>Gilles</nom> <nom>Thierry</nom><nom>Arjan</nom>

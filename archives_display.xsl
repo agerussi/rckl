@@ -176,7 +176,7 @@
 	  <xsl:value-of select="@fichier"/>
 	</xsl:attribute>
       </xsl:element> <!-- img -->
-      <img src="ICONS/playable.png" class="playableIcon"/>
+      <img src="ICONS/playable2.png" class="playableIcon"/>
     </xsl:element>
   </div>
 </xsl:template>

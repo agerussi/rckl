@@ -14,13 +14,13 @@
       <li><a href="archives.php?y=2014">année 2014</a></li>
       <li><a href="archives.php?y=2013">année 2013</a></li>
       <li><a href="archives.php?y=2012">année 2012</a></li>
-      <li><a href="archives-static.php?y=2011">année 2011</a></li>
-      <li><a href="archives-static.php?y=2010">année 2010</a></li>
-      <li><a href="archives-static.php?y=2009">année 2009</a></li>
-      <li><a href="archives-static.php?y=2008">année 2008</a></li>
-      <li><a href="archives-static.php?y=2007">année 2007</a></li>
-      <li><a href="archives-static.php?y=2006">année 2006</a></li>
-      <li><a href="archives-static.php?y=2005">année 2005</a></li>
+      <li><a href="archives.php?y=2011">année 2011</a></li>
+      <li><a href="archives.php?y=2010">année 2010</a></li>
+      <li><a href="archives.php?y=2009">année 2009</a></li>
+      <li><a href="archives.php?y=2008">année 2008</a></li>
+      <li><a href="archives.php?y=2007">année 2007</a></li>
+      <li><a href="archives.php?y=2006">année 2006</a></li>
+      <li><a href="archives.php?y=2005">année 2005</a></li>
     </ul>
   </li>
 

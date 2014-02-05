@@ -25,7 +25,7 @@
 <date jour="26" mois="10" annee="2008"/>
 <titre>Rafting Cup @home</titre>
 <participants><nom>Daniel et Sylvain, épaulés par quelques membres du club de CEL</nom></participants>
-<commentaire>Premier au classement général, nous écrasons les belges qui, il faut le dire, s'entraînent surtout sur le plat !</commentaire>
+<commentaire>Premier au classement général, nous écrasons les belges qui, il faut le dire, s\'entraînent surtout sur le plat !</commentaire>
 <photo fichier="raftingcup26100801.jpg" />
 <photo fichier="raftingcup26100802.jpg" />
 <photo fichier="raftingcup26100803.jpg" />
@@ -37,7 +37,7 @@
 <date jour="18" mois="10" annee="2008"/>
 <titre>destination Picquigny</titre>
 <participants><nom>Alexandre, Bertrand, Daniel, Hughes, Mickaël, Sylvain</nom></participants>
-<commentaire>Beau temps et douceur relative pour cette classique. Et Bertrand, qui a abandonné son autovideur pour l'occasion, n'a même pas dessalé... il y a des jours où tout va de travers !</commentaire>
+<commentaire>Beau temps et douceur relative pour cette classique. Et Bertrand, qui a abandonné son autovideur pour l\'occasion, n\'a même pas dessalé... il y a des jours où tout va de travers !</commentaire>
 <photo fichier="picquigny18100801.jpg" />
 <photo fichier="picquigny18100802.jpg" />
 <photo fichier="picquigny18100803.jpg" />
@@ -63,7 +63,7 @@ Nous avons retrouvé sur place une bande de kayakistes de Lille et de Reims (Pie
 <date jour="22" mois="5" annee="2008"/>
 <titre>sortie dans la baie de Somme</titre>
 <participants><nom>Alexandre, Mathieu, Pierre</nom></participants>
-<commentaire>Randonnée mer bien sympa au milieu des bancs d'oiseaux, phoques et veaux de mer (dont les têtes dépassent sur la photo du milieu).</commentaire>
+<commentaire>Randonnée mer bien sympa au milieu des bancs d\'oiseaux, phoques et veaux de mer (dont les têtes dépassent sur la photo du milieu).</commentaire>
 <photo fichier="stvalery22060801.jpg" />
 <photo fichier="stvalery22060802.jpg" />
 <photo fichier="stvalery22060803.jpg" />
@@ -75,7 +75,7 @@ Nous avons retrouvé sur place une bande de kayakistes de Lille et de Reims (Pie
 <date jour="18" mois="5" annee="2008"/>
 <titre>sortie sur la canche</titre>
 <participants><nom>Alexandre, Jean-Luc, Mathieu, Pierre, Teddy</nom></participants>
-<commentaire>Une descente bien sympa avec un gros débit et plusieurs veines d'eau intéressantes, le tout sous un ciel clément.</commentaire>
+<commentaire>Une descente bien sympa avec un gros débit et plusieurs veines d\'eau intéressantes, le tout sous un ciel clément.</commentaire>
 <photo fichier="canche18050801.jpg" />
 <photo fichier="canche18050802.jpg" />
 <photo fichier="canche18050803.jpg" />
@@ -95,7 +95,7 @@ Nous avons retrouvé sur place une bande de kayakistes de Lille et de Reims (Pie
 <date jour="09/10/11" mois="5" annee="2008"/>
 <titre>sortie sur la Cure</titre>
 <participants><nom>Alexandre, Daniel, Delphine, Jérome</nom></participants>
-<commentaire>Magnifique week-end d'eau vive sous un soleil radieux et des températures très agréables. Un must dans le genre. </commentaire>
+<commentaire>Magnifique week-end d\'eau vive sous un soleil radieux et des températures très agréables. Un must dans le genre. </commentaire>
 <photo fichier="cure09050801.jpg" />
 <photo fichier="cure09050802.jpg" />
 <photo fichier="cure09050803.jpg" />
@@ -112,7 +112,7 @@ Nous avons retrouvé sur place une bande de kayakistes de Lille et de Reims (Pie
 <date jour="19" mois="1" annee="2008"/>
 <titre>sortie sur la Hulle</titre>
 <participants><nom>Alexandre, Daniel</nom></participants>
-<commentaire>Des arbres partout, au-dessus, en dessous et sur l'eau !  La prochaine fois nous emènerons une hache, et aussi une machette pour les portages.</commentaire>
+<commentaire>Des arbres partout, au-dessus, en dessous et sur l\'eau !  La prochaine fois nous emènerons une hache, et aussi une machette pour les portages.</commentaire>
 <photo fichier="hulle19010801.jpg" />
 <photo fichier="hulle19010802.jpg" />
 <photo fichier="hulle19010803.jpg" />
@@ -126,8 +126,8 @@ Nous avons retrouvé sur place une bande de kayakistes de Lille et de Reims (Pie
 <sortie id="120108">
 <date jour="12" mois="1" annee="2008"/>
 <titre>sortie sur la Haute Lesse</titre>
-<participants><nom>Alexandre, accompagnant Vivian, Gérard, Alma, Claude, Pierre ainsi qu'une petite dizaine de kayakistes belges</nom></participants>
-<commentaire>Niveau idéal pour cette nouvelle sortie sur la Lesse -- Paté et pinard à l'arrivée, aah les retraités savent vivre !</commentaire>
+<participants><nom>Alexandre, accompagnant Vivian, Gérard, Alma, Claude, Pierre ainsi qu\'une petite dizaine de kayakistes belges</nom></participants>
+<commentaire>Niveau idéal pour cette nouvelle sortie sur la Lesse -- Paté et pinard à l\'arrivée, aah les retraités savent vivre !</commentaire>
 <photo fichier="lesse12010801.jpg" />
 <photo fichier="lesse12010802.jpg" />
 <photo fichier="lesse12010803.jpg" />

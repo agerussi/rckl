@@ -26,7 +26,7 @@
   <nom>Florent</nom><nom> Bertrand</nom><nom> Jean-Luc</nom><nom> Alexandre</nom><nom> Elodie</nom><nom> Olivier</nom><nom> Daniel+Tony</nom><nom> Teddy</nom><nom> Dorian</nom><nom> Julien</nom>
 </participants>
 <commentaire>Ambiance beaujolais nouveau et saucisson pour cette sortie ensoleillée.
-Découverte d'une "vraie" rivière et de ses dangers pour les nouveaux.
+Découverte d\'une &quot;vraie&quot; rivière et de ses dangers pour les nouveaux.
 </commentaire>
   
 <photo fichier="picquigny18110601.jpg" />
@@ -44,8 +44,8 @@ Découverte d'une "vraie" rivière et de ses dangers pour les nouveaux.
 
   <sortie id="gladiator051106">
 <date jour="5" mois="11" annee="2006"/>
-<titre>Gladiator's Cup 1/2</titre>
-<commentaire>Le match "à domicile" de la gladiator's cup, avec une équipe "loisirs" souriante: Jean-Luc, Olivier, Teddy, Nicolas, Bertrand.
+<titre>Gladiator\'s Cup 1/2</titre>
+<commentaire>Le match &quot;à domicile&quot; de la gladiator\'s cup, avec une équipe &quot;loisirs&quot; souriante: Jean-Luc, Olivier, Teddy, Nicolas, Bertrand.
 </commentaire>
   
 <photo fichier="gladiator05110601.jpg"  />
@@ -85,7 +85,7 @@ Mais que demande le peuple ?
 <participants>
   <nom>Alexandre</nom><nom> Arjan</nom>
 </participants>
-<commentaire>L'intégrale de la Cure, comme une lettre à la poste.
+<commentaire>L\'intégrale de la Cure, comme une lettre à la poste.
 </commentaire>
   
 <photo fichier="cure23090601.jpg"  />
@@ -100,7 +100,7 @@ Mais que demande le peuple ?
 <participants>
   <nom>Alexandre</nom><nom> Daniel+femme+fille</nom><nom> Jean-Luc</nom><nom> Mathias</nom><nom> Mathieu+femme+enfants</nom><nom> Nicolas</nom>
 </participants>
-<commentaire>Belle journée sur la superbe plage d'Hardelot, pas beaucoup de vagues, mais un foot pour compenser !
+<commentaire>Belle journée sur la superbe plage d\'Hardelot, pas beaucoup de vagues, mais un foot pour compenser !
 </commentaire>
   </sortie> 
 
@@ -121,7 +121,7 @@ Mais que demande le peuple ?
   <nom>Alexandre</nom><nom> Mathieu</nom><nom> Pierre</nom><nom> Hugues</nom>
 </participants>
 <commentaire>
-Super week-end malgré un temps de chien. Bon niveau d'eau sur la Cure et même pas de blessé !<br/>
+Super week-end malgré un temps de chien. Bon niveau d\'eau sur la Cure et même pas de blessé !<br/>
 <ul>
   <li>15) Montal->Vieux-Dun [II(3)] sur la Cure;</li>
   <li>16) Montsauche->Gouloux [III(4)(5)] et Truite->Ménéfriers [II/III] sur la Cure;</li>
@@ -141,11 +141,11 @@ Super week-end malgré un temps de chien. Bon niveau d'eau sur la Cure et même 
 
   <sortie id="authie110206">
 <date jour="11" mois="2" annee="2006"/>
-<titre>Descente de l'Authie, de Hem-Ardinval à Auxi-le-Chateau</titre>
+<titre>Descente de l\'Authie, de Hem-Ardinval à Auxi-le-Chateau</titre>
 <participants>
   <nom>Alexandre</nom><nom> Mathieu</nom><nom> Maxime</nom>
 </participants>
-<commentaire>15 bons km de parcours I/II avec moults passages d'écluses. Quelques jolies portions, d'autres moins belles.
+<commentaire>15 bons km de parcours I/II avec moults passages d\'écluses. Quelques jolies portions, d\'autres moins belles.
 </commentaire>
   
 <photo fichier="authie11020601.jpg"  />
