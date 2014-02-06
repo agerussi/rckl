@@ -3,9 +3,12 @@ session_start();
 
 // tests de sécurité
 if ( !isset($_SESSION['userid']) 
+  || !isset($_SESSION['authId'])
   || !isset($_GET['id'])  // recoit l'id de la sortie en paramètre
 ) header("Location: news.php");
 $idSortie=$_GET["id"]; // identifiant de sortie
+
+require("dbconnect.php");
 
 /*
 // examen des variables retournées
@@ -13,6 +16,7 @@ foreach ($_POST as $key => $value) {
     echo $key."=".$value."<br/>";
 }
 */
+
 // traitement anti-magic_quotes_gpc
 if (get_magic_quotes_gpc()) {
     function stripslashes_gpc(&$value)
@@ -45,8 +49,13 @@ if (strlen($titre)!=0) $xml.="<titre><![CDATA[".$titre."]]></titre>";
 $xml.="\n";
 
 // l'auteur
-$xml.="<auteur>".$_SESSION['realname']."</auteur>";
+mysql_query("SET NAMES UTF8");
+$sql = "SELECT nom FROM membres WHERE id='".$_SESSION['authId']."'";
+$req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
+$data = mysql_fetch_array($req);
+$xml.="<auteur>".$data['nom']."</auteur>";
 $xml.="\n";
+mysql_free_result($req);
 
 // le commentaire
 $commentaire=addslashes(trim($_POST['valeurcommentaire']));
@@ -62,7 +71,6 @@ $xml.="\n";
 $xml.=$_POST['xmlmedias'];
 
 // sauvegarde de l'xml dans la base de données
-require("dbconnect.php");
 mysql_query("SET NAMES UTF8");
 $query="UPDATE archives SET ";
 $query.="date='".$edate."'";

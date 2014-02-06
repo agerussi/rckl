@@ -40,13 +40,16 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
 </head>
 <body>
 <?php
- echo "<h1>Édition d'une archive RCKL</h1>";
- // récupère l'archive sélectionnée
- require("dbconnect.php");
- mysql_query("SET NAMES UTF8");
- $sql = 'SELECT authId, xml FROM archives WHERE id="'.$_GET['id'].'"';
- $req = mysql_query($sql) or die("erreur lors de la lecture de l'archive id=".$_GET['id'].": ".mysql_error());
- $data = mysql_fetch_array($req);
+  echo "<h1>Édition d'une archive RCKL</h1>";
+  // récupère l'archive sélectionnée
+  require("dbconnect.php");
+  mysql_query("SET NAMES UTF8");
+  $sql = 'SELECT authId, xml FROM archives WHERE id="'.$_GET['id'].'"';
+  $req = mysql_query($sql) or die("erreur lors de la lecture de l'archive id=".$_GET['id'].": ".mysql_error());
+  $data = mysql_fetch_array($req);
+
+  // récupère authId pour la sauvegarde future
+  $_SESSION['authId']=$data['authId']; 
 
   // crée le xml de la sortie
   $xmltext="<?xml version=\"1.0\" encoding=\"utf-8\"?>";

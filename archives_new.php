@@ -8,7 +8,7 @@ $userId=$_SESSION['userid'];
 
 require("dbconnect.php");
 // crée une archive "vierge" 
-// avec l'auteur initialisé 
+// avec authId initialisé
 // et la date courante mise par défaut 
 
 $date=getdate();

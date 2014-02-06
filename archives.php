@@ -16,21 +16,21 @@
 </head>
 <body>
 <?php
- require("menu_body.php"); 
-  
+  require("menu_body.php"); 
+
   // le titre en fonction de l'année demandée
- if (!isset($_GET['y'])) header("Location: news.php");
- $year = $_GET['y'];
+  if (!isset($_GET['y'])) header("Location: news.php");
+  $year = $_GET['y'];
 
- $titre = "ANNÉE ".$year;
- echo "<h1>ARCHIVES DES ACTIVITÉS DU RCKL</h1>";
- echo "<h2>".$titre."</h2>";
+  $titre = "ANNÉE ".$year;
+  echo "<h1>ARCHIVES DES ACTIVITÉS DU RCKL</h1>";
+  echo "<h2>".$titre."</h2>";
 
- // récupère les archives de l'année sélectionnée
- require("dbconnect.php");
- mysql_query("SET NAMES UTF8");
- $sql = 'SELECT id, authId, xml FROM archives WHERE DATE_FORMAT(date,"%Y")='.$year;
- $req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
+  // récupère les archives de l'année sélectionnée
+  require("dbconnect.php");
+  mysql_query("SET NAMES UTF8");
+  $sql = 'SELECT id, authId, xml FROM archives WHERE DATE_FORMAT(date,"%Y")='.$year;
+  $req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
 
   // collecte les sorties au format xml
   $xmltext="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
@@ -40,7 +40,7 @@
   while ($data = mysql_fetch_array($req)) {
     $xmltext.="<sortie ";
     $xmltext.='id="'.$data['id'].'"';
-    $editable=(isset($_SESSION['userid']) && $_SESSION['userid']==$data['authId']);
+    $editable=(isset($_SESSION['userid']) && ($_SESSION['userid']==$data['authId'] || $_SESSION['userid']==1));
     $xmltext.=' edit="'.($editable ? "yes":"no").'"';
     $xmltext.=">";  
     $xmltext.=$data['xml'];
