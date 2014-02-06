@@ -138,6 +138,10 @@ function gestionAjoutFichiers(evt) {
 
   for (var i=0; fichier=listeFichiers[i]; i++) { // traitement individuel de chaque fichier
     if (fichier.type.match('image.*')) {
+      if (fichier.size>400*1024) {
+	alert("Le fichier "+fichier.name+" est trop gros: la taille maximale autorisée est de 400 KB.\nLa procédure préconisée est de réduire vos photos à une largeur d'environ 1280 pixels, pour une taille de l'ordre de 250 KB.");
+	continue;
+      }
       var photo=new Photo();
       try { 
 	photo.upLoad(fichier); 
