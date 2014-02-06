@@ -9,7 +9,7 @@ var IMGDB="IMGDB"; // chemin du répertoire d'images et vidéos
 // gestion de l'ajout d'une vidéo de youtube
 function gestionAjoutYouTube() {
   // récupération du n° de la vidéo
-  youTubeId=parseInt(document.getElementById("YouTubeId").value);
+  youTubeId=document.getElementById("YouTubeId").value;
   if (youTubeId.length==0) {
     alert("Entrez le numéro de la vidéo !");
     return;
@@ -505,13 +505,13 @@ function YouTube(commentaire,url, miniUrl) { // attributs @url et @miniurl de l'
       }
      xhr.open("GET", "https://www.googleapis.com/youtube/v3/videos?id="+youTubeId+"&key=AIzaSyDyvgizLu1uatxqXBPomR4EHsMDipLin4s&part=snippet", false); 
      xhr.send();
-     if (typeof(json)=="undefined" || json[0].id!=youTubeId) return false;
+     if (typeof(json)=="undefined" || json.items[0].id!=youTubeId) return false;
      // json[0] contient les infos sur la vidéo
      
      // règle le commentaire
-     this.setCommentaire(json[0].snippet.title); // l'auteur semble inaccessible
+     this.setCommentaire(json.items[0].snippet.title); // l'auteur semble inaccessible
      _url="http://youtu.be/"+youTubeId; // url officiel ??
-     _miniUrl=json[0].snippet.thumbnails.default.url;
+     _miniUrl=json.items[0].snippet.thumbnails.default.url;
      this.setMiniatureURL(_miniUrl);
      return true;
   } 

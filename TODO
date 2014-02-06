@@ -1,7 +1,5 @@
 
+FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
+FEATURE: archives: faire fonctionner les liens YOUTUBE
 
-*BUG: les guillemets " ne subsistent pas dans les commentaires des archives...
 
-*BUG: archives: les balises auto-fermantes de type <br/> réapparaissent en <br> en cas de réédition, d'où problème lors de la sauvegarde (balisage non équilibré).
-
-*Rajouter nouvelles archives au flux RSS
