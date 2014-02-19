@@ -39,6 +39,7 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
 </script>
 </head>
 <body>
+<a target="_blank" href="help_archives_edition.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a>
 <?php
   echo "<h1>Édition d'une archive RCKL</h1>";
   // récupère l'archive sélectionnée

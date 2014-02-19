@@ -346,3 +346,13 @@ body {
   background-repeat:no-repeat;
   background-color:#8ca6c3;
 }   
+
+/* =========== l'aide en ligne */
+.helpIcon {
+  position:fixed;
+  right:10pt;
+}
+
+#helpPage h2,h3,h4,h5,h6 {
+  text-align:left;
+}
