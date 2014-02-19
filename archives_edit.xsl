@@ -56,7 +56,7 @@
 </xsl:template>
 
 <xsl:template match="date">
-  <label class="archiveedit">Date de la sortie: </label>
+  <label class="archiveedit">Date de l'activité: </label>
   <input class="archiveedit" type="text" size="10" id="valeurdate" name="valeurdate" readonly="readonly" value="{concat(@jour,'-',@mois,'-',@annee)}"/>
   <div class="bigskip"/>
   <label class="archiveedit">Date spéciale: </label>
@@ -65,13 +65,13 @@
 </xsl:template>
 
 <xsl:template match="titre">
-  <label class="archiveedit">Titre de la sortie: </label>
+  <label class="archiveedit">Titre de l'activité: </label>
   <input class="archiveedit" type="text" size="20" id="valeurtitre" name="valeurtitre" value="{normalize-space(.)}" />
   <div class="bigskip"/>
 </xsl:template>
 
 <xsl:template name="titreDefault">
-  <label class="archiveedit">Titre de la sortie: </label>
+  <label class="archiveedit">Titre de l'activité: </label>
   <input class="archiveedit" type="text" size="20" id="valeurtitre" name="valeurtitre" value="" />
   <div class="bigskip"/>
 </xsl:template>
