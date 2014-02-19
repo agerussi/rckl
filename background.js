@@ -17,7 +17,7 @@ et l'élément SlideBox-<name>-div
 */ 
 function SlideBox(name, imgPath) {
   ////////// ATTRIBUTS PUBLICS
-  this.slideSpeed=10*1000;
+  this.slideSpeed=7*1000;
   this.fadeSpeed=35;
 
   ////////// MÉTHODES PUBLIQUES
@@ -159,11 +159,23 @@ function SlideBox(name, imgPath) {
     body.appendChild(divFront);
   }
 
+  // mélange les éléments de tableau
+  function shuffle(tableau) {
+    var n=tableau.length;
+    for (var i=0; i<n; i++) {
+      var randomIndex=i+Math.floor(Math.random()*(n-i));
+      var save=tableau[i];
+      tableau[i]=tableau[randomIndex];
+      tableau[randomIndex]=save;
+    }
+  }
+  
   /////////////////////////
   // CORPS DU CONSTRUCTEUR 
   /////////////////////////
   // récupère la liste des fichiers images
   pathList=getPaths();
+  shuffle(pathList);
 
   // construit les éléments HTML nécessaires à une SlideBox
   buildHTML();
