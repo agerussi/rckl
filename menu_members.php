@@ -11,7 +11,7 @@ if(isset($_SESSION['login'])){ // on est loggé
 <li><a href="gestiondesfrais.php">gérer ses frais</a></li>
 <li><a href="archives_new.php">créer une archive</a></li>
 <li><a href="chatroom.php">accéder au salon de discussion</a></li>
-<li><a href="chpasswd-page.php">changer le mot de passe</a></li>
+<li><a href="profile_edition.php">modifier son profil</a></li>
 <li><a href="logout.php">se déconnecter</a></li>
 EOS;
   if ($_SESSION['login'] == 'root') { // additions spéciales pour root
