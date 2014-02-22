@@ -4,6 +4,7 @@ session_start();
 // test de sécurité 
 if (!isset($_SESSION['userid'])) header("Location: news.php");
 $id=$_SESSION['userid'];
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -17,6 +18,8 @@ $id=$_SESSION['userid'];
 <!-- <a target="_blank" href="help_profile_edition.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a> -->
   <h1>Édition de votre profil personnel</h1>
 
+  <form accept-charset="utf-8" method="post" action="profile_save.php" onsubmit="return checkProfile()">
+
 <?php
   // récupère l'ensemble des infos du profil
   require("dbconnect.php");
@@ -27,26 +30,37 @@ $id=$_SESSION['userid'];
   if ($data['id']!=$id) die("erreur: le profil récupéré ne correspond pas.");
 
   // création du formulaire pré-rempli
-  profileEntry("Login", champTexte("login",10,$data['login']));
-  profileEntry("Mot de passe", password()); 
+  profileEntry("Login", champTexte("login",10,$data['login']),message("login"));
+  profileEntry("Mot de passe", password(), message("passwd")); 
   //profileEntry("Nom", valeur($data['nom']));
   //profileEntry("Prénom", valeur($data['prenom']));
   //profileEntry("Date de Naissance", valeur($data['datenaissance']));
   //profileEntry("Nom de profil", valeur($data['nomprofil']));
   //profileEntry("Solde", valeur($data['solde']),"€");
-  profileEntry("Photo", photo($data['photo'])); 
+  profileEntry("Photo", photo($data['photo']), fileChooser(), message("photo")); 
   profileEntry("E-mail", champTexte("email",25,$data['email']));
-  profileEntry("Ville", champTexte("ville",15,$data['ville']));
   profileEntry("Adresse", champTexte("adresse",30,$data['adresse']));
   profileEntry("Téléphone", champTexte("telephone",10,$data['telephone']));
   profileEntry("Renseignements divers", zoneTexte("divers",40,5,$data['divers'])); 
 ?>
+    <input type="submit" value="Modifier" title="sauvegarder les changements" />
+  </form>
+  <form method="post" action="news.php">
+    <input type="submit" name="cancel" value="Annuler" title="Annuler tous les changements" />
+  </form>
 
  </body>
 </html>
 
-<?php
-// helper functions
+<?php // helper functions
+
+function fileChooser() {
+  return '<input type="file" id="fileChooser" name="photo" style="display:none"/>'; 
+}
+
+function message($name) {
+  return '<span id="'.$name.'-message" class="profilemessage"></span>';
+}
 
 function zoneTexte($name,$cols,$rows,$value) {
   return implode([
@@ -58,12 +72,12 @@ function zoneTexte($name,$cols,$rows,$value) {
   ]);
 }
 
-function photo($path) { // TODO
-  return '<img src="TROMBI/'.$path.'"/>';
+function photo($path) { 
+  return '<img id="photo" src="TROMBI/'.$path.'" title="cliquer pour modifier votre photo"/>';
 }
 
 function password() {
-  return '<input name="motdepasse" type="password" size="20" value="'.$passwd.'"/>';
+  return '<input id="motdepasse" name="motdepasse" type="password" size="20" value=""/>';
 }
 
 function profileEntry($label) {
@@ -74,10 +88,10 @@ function profileEntry($label) {
 }
 
 function valeur($text) {
-  return '<span class="valeur">'.$text.'</span>';
+  return '<span class="valeur">'.stripslashes($text).'</span>';
 }
 
 function champTexte($name,$len,$value) {
-  return '<input type="text" size="'.$len.'" name="'.$name.'" value="'.$value.'"/>';
+  return '<input type="text" size="'.$len.'" name="'.$name.'" id="'.$name.'" value="'.stripslashes($value).'"/>';
 }
 ?>

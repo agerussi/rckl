@@ -374,3 +374,9 @@ div.profileentry {
   vertical-align: top;
 }
 
+span.profilemessage {
+  color:red;
+  position:absolute;
+  margin-left:20pt;
+}
+
