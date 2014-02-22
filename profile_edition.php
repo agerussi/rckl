@@ -18,7 +18,7 @@ $id=$_SESSION['userid'];
 <!-- <a target="_blank" href="help_profile_edition.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a> -->
   <h1>Édition de votre profil personnel</h1>
 
-  <form accept-charset="utf-8" method="post" action="profile_save.php" onsubmit="return checkProfile()">
+  <form accept-charset="utf-8" encType="multipart/form-data" method="post" action="profile_save.php" id="profileForm">
 
 <?php
   // récupère l'ensemble des infos du profil
@@ -55,7 +55,10 @@ $id=$_SESSION['userid'];
 <?php // helper functions
 
 function fileChooser() {
-  return '<input type="file" id="fileChooser" name="photo" style="display:none"/>'; 
+  return implode([
+    '<input type="hidden" name="MAX_FILE_SIZE" value="20480" />',
+    '<input type="file" id="fileChooser" name="photo" style="display:none"/>'
+  ]);
 }
 
 function message($name) {

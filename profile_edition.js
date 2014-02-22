@@ -5,6 +5,8 @@ window.addEventListener("load",main);
 var UNCHANGED=0,OK=1,BROKEN=2;
 
 function main() {
+  document.getElementById("profileForm").addEventListener("submit",checkProfile);
+  
   loginField=document.getElementById("login");
   loginField.addEventListener("change",checkLogin);
   loginMsg=document.getElementById("login-message");
@@ -28,7 +30,7 @@ function checkProfile() {
   // met à zéro les champs qui ne doivent pas être modifiés
   if (loginOK!=OK) loginField.value="";
   if (passwdOK!=OK) passwdField.value="";
-  if (photoOK!=OK) photo.value="";
+  photo.value=photoOK;
    
   return true;
 }
