@@ -22,7 +22,7 @@ $numMembres=$_SESSION['paiement-numMembres'];
 $somme=$_SESSION['paiement-somme'];
 
 $chacun=round(100*$somme/$numTotal)/100;
-$listevariations=$_SESSION['realname'].'(+'.$somme.'), ';
+$listevariations=$_SESSION['profilename'].'(+'.$somme.'), ';
 $cancel=$_SESSION['userid'].',-'.$somme;
 
 for ($i=0; $i<$numMembres; $i++) {
@@ -45,7 +45,7 @@ if ($numExt>0) {
 //echo "debug: cancel=".$cancel.'<br/>';
 
 // rajout dans l'historique
-$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['realname']."',".$somme.",'".$listevariations."','".$_SESSION['paiement-description']."','".$cancel."')";
+$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".$somme.",'".$listevariations."','".$_SESSION['paiement-description']."','".$cancel."')";
 //echo "debug: query=".$query.'<br/>';
 mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
 
@@ -53,7 +53,7 @@ mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mys
 require("rss.php");
 
 $item='<item>';
-$item.='<title>Déclaration de frais de '.$_SESSION['realname'].'</title>';
+$item.='<title>Déclaration de frais de '.$_SESSION['profilename'].'</title>';
 $item.='<link>http://rckl.free.fr</link>';
 $item.='<description><![CDATA[';
 $item.='Somme déclarée: '.$somme.'€<br />';

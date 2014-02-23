@@ -6,6 +6,7 @@ var UNCHANGED=0,OK=1,BROKEN=2;
 
 function main() {
   document.getElementById("profileForm").addEventListener("submit",checkProfile);
+  document.getElementById("submitbutton").addEventListener("click",submit);
   
   loginField=document.getElementById("login");
   loginField.addEventListener("change",checkLogin);
@@ -23,6 +24,10 @@ function main() {
   photoMsg=document.getElementById("photo-message");
   photoOK=UNCHANGED;
 
+}
+
+function submit() {
+  document.forms["profileForm"].submit();
 }
 
 // vérifie si tout est OK avant l'enregistrement

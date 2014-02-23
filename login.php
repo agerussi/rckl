@@ -28,9 +28,9 @@ if($rowCheck == 1){ // exactly one result must have been returned
   $row = mysql_fetch_array($result);
   //start the session and register a variable
   session_start();
-  $_SESSION['login']=$user; 
+  $_SESSION['login']=$row['login']; 
   $_SESSION['userid']=$row['id'];
-  $_SESSION['realname']=$row['nom'];
+  $_SESSION['profilename']=$row['nomprofil'];
 
   // go to the target page if defined, or news.php by default
   $location="Location: ";

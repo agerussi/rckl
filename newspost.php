@@ -13,7 +13,7 @@ require("dbconnect.php");
 
 
 //echo 'debug: poste la news suivante:<br/>'.$_POST['newsbody'];
-$query = "INSERT INTO news (date, auteur, texte) VALUES(CURDATE(),'".$_SESSION['realname']."','".htmlspecialchars(trim($_POST['newsbody']))."')";
+$query = "INSERT INTO news (date, auteur, texte) VALUES(CURDATE(),'".$_SESSION['profilename']."','".htmlspecialchars(trim($_POST['newsbody']))."')";
 //echo $query;
 mysql_query($query, $db) or die("Erreur lors de l'insertion de la news: ".mysql_error());
 
@@ -25,7 +25,7 @@ mysql_query($query,$db) or die("Erreur lors de l'effacement des anciennes news: 
 require("rss.php");
 
 $item='<item>';
-$item.='<title>News de '.$_SESSION['realname'].'</title>';
+$item.='<title>News de '.$_SESSION['profilename'].'</title>';
 $item.='<link>http://rckl.free.fr/news.php</link>';
 $item.='<description><![CDATA['.trim($_POST['newsbody']).']]></description>';
 $item.='<pubDate>'.date($rssdateformat).'</pubDate>';

@@ -21,7 +21,7 @@ if ($_GET['ids']==-1) { // nouvelle sortie
   require("rss.php");
 
   $item='<item>';
-  $item.='<title>Nouvelle sortie de '.$_SESSION['realname'].'</title>';
+  $item.='<title>Nouvelle sortie de '.$_SESSION['profilename'].'</title>';
   $item.='<link>http://rckl.free.fr/calendrier.php</link>';
   $item.='<description><![CDATA[';
   $item.='Date départ: '.$_POST['datedebut'].'<br />';

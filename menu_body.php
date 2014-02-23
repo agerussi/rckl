@@ -31,6 +31,7 @@
       <!-- <li><a href="integration.php" title="pour bien débuter au RCKL">INTÉGRATION</a></li> -->
       <li>INTÉGRATION (WIP)</li>
       <li><a href="liste-diffusion.php" title="gestion de votre inscription à la liste">LISTE DE DIFFUSION</a></li>
+      <li><a href="profile_new.php">CRÉER UN COMPTE</a></li>
       <li><a href="mailto:rckl@free.fr" title="demande d'informations par mail">CONTACT</a></li>
     </ul>
   </li>

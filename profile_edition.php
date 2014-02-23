@@ -39,11 +39,11 @@ $id=$_SESSION['userid'];
   //profileEntry("Solde", valeur($data['solde']),"€");
   profileEntry("Photo", photo($data['photo']), fileChooser(), message("photo")); 
   profileEntry("E-mail", champTexte("email",25,$data['email']));
-  profileEntry("Adresse", champTexte("adresse",30,$data['adresse']));
-  profileEntry("Téléphone", champTexte("telephone",10,$data['telephone']));
-  profileEntry("Renseignements divers", zoneTexte("divers",40,5,$data['divers'])); 
+  profileEntry("Ville ou adresse", champTexte("adresse",30,$data['adresse']));
+  profileEntry("Téléphone", champTexte("telephone",16,$data['telephone']));
+  profileEntry("Renseignements divers", zoneTexte("divers",80,6,$data['divers'])); 
 ?>
-    <input type="submit" value="Modifier" title="sauvegarder les changements" />
+    <input type="button" id="submitbutton" value="Modifier" title="sauvegarder les changements" />
   </form>
   <form method="post" action="news.php">
     <input type="submit" name="cancel" value="Annuler" title="Annuler tous les changements" />

@@ -62,10 +62,11 @@ mysql_close($db);
 if ($_FILES['photo']['error']==UPLOAD_ERR_OK
  && $_FILES['photo']['type']=="image/jpeg"
  && $_FILES['photo']['size']<20*1024  
- && is_uploaded_file($_FILES['photo']['tmp_name'])) 
- if (!move_uploaded_file($_FILES['photo']['tmp_name'],"TROMBI/photo-id".$_SESSION['userid'].".jpg")) 
-   die("Erreur lors du chargement de la nouvelle photo.");
- 
+ && is_uploaded_file($_FILES['photo']['tmp_name'])) {
+   $filename="TROMBI/photo-".$_SESSION['userid']."-".$_SESSION['profilename'].".jpg";
+   if (!move_uploaded_file($_FILES['photo']['tmp_name'],$filename)) die("Erreur lors du chargement de la nouvelle photo.");
+}
+
 // retourne sur la page de l'archive modifiée
 //header("Location: news.php");
 

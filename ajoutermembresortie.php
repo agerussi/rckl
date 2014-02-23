@@ -12,7 +12,7 @@ $sortie=mysql_fetch_array($listesorties);
 $liste=$sortie['participants']; 
 if (!empty($liste)) $newliste=$liste.",";
 else $newliste="";
-$newliste.=$_SESSION['realname'].",".$_SESSION['userid'];
+$newliste.=$_SESSION['profilename'].",".$_SESSION['userid'];
 
 // met à jour la base
 $query="UPDATE sorties SET participants=\"$newliste\" WHERE id=$idsortie";

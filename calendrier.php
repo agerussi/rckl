@@ -132,10 +132,10 @@ else {
     echo "<td>".$sortie['modalites']."</td>";
 
     // le responsable
-    $query="SELECT nom FROM membres WHERE id=".$sortie['idresponsable'];
+    $query="SELECT nomprofil FROM membres WHERE id=".$sortie['idresponsable'];
     $noms=mysql_query($query, $db) or die("Erreur pendant la récupération du nom de l'organisateur.".mysql_error());
     $nom=mysql_fetch_array($noms);
-    echo "<td>".$nom['nom'];
+    echo "<td>".$nom['nomprofil'];
     if ($own) {
       echo "<br />";
       echo '<img onclick="deleteSortie('.$sortie['id'].')" class="icon" title="supprimer la sortie" src="ICONS/b_drop.png" />';
