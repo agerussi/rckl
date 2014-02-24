@@ -368,6 +368,11 @@ div.profileentry {
   font-weight:bold;
 }
 
+.profileentry span.commentaire {
+  display:block;
+  font-size:80%;
+}
+
 .profileentry table {
   display:inline-table;
   vertical-align: top;

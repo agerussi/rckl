@@ -11,6 +11,9 @@ $id=$_SESSION['userid'];
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
  <head>
   <?php require("menu_header.php"); ?>
+  <script type="text/javascript">
+    var newProfile=false;
+  </script>
   <script type="text/javascript" src="profile_edition.js"></script>
  </head>
 <body>
@@ -30,7 +33,7 @@ $id=$_SESSION['userid'];
   if ($data['id']!=$id) die("erreur: le profil récupéré ne correspond pas.");
 
   // création du formulaire pré-rempli
-  profileEntry("Login", champTexte("login",10,$data['login']),message("login"));
+  //profileEntry("Login", champTexte("login",10,$data['login']),message("login"));
   profileEntry("Mot de passe", password(), message("passwd")); 
   //profileEntry("Nom", valeur($data['nom']));
   //profileEntry("Prénom", valeur($data['prenom']));
