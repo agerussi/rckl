@@ -26,6 +26,22 @@ function main() {
     profileField.addEventListener("change",checkIdentifier);
     profileMessage=document.getElementById("nomprofil-message");
     profileST=ST_UNCHANGED;
+
+    dateField=document.getElementById("datenaissance");
+    dateMessage=document.getElementById("datenaissance-message");
+    var date=new Date();
+    var year=date.getFullYear();
+    new JsDatePick( 
+	{ useMode:2, 
+	  target:"datenaissance", 
+	  dateFormat:"%d-%m-%Y",
+          selectedDate:{ // se place il y a 40 ans par défaut
+	    year:year-40,
+            month:date.getMonth()+1,
+            day:date.getDate()
+	  },
+          yearsRange: new Array(year-100,year-10),
+	});
   }
 
   // champs communs aux deux modes
@@ -145,6 +161,11 @@ function checkForm() {
       profileMessage.innerHTML="L'identifiant n'est pas valide";
       OK=false;
     }
+    if (dateField.value.length==0) {
+      dateMessage.innerHTML="La date n'est pas valide";
+      OK=false;
+    }
+    else dateMessage.innerHTML="";
     return OK;
   } 
   else { // en mode edition, seul le mot de passe est contrôlé

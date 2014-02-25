@@ -1,7 +1,5 @@
 * le trombinoscope est cassé
-* tester l'unicité du login
-* conserver la possibilité de modifier le login ?
-* traiter la création d'un nouveau profil
-  - créer les choses obligatoires et immuables (login, nom, prénom, date de naissance, nom de profil)
-  - renvoyer à la page d'édition de profil
 * faire une appli de mise à jour des anciens profils lorsqu'ils se connecteront
+* ajouter point GPS dans profile_new et profile_edition
+* faire l'appli profile_view
+* faire l'appli profile_create (qui propose en sortie d'aller sur profile_edition)
