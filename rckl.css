@@ -384,3 +384,9 @@ span.profilemessage {
   margin-left:20pt;
 }
 
+#map-canvas { 
+  margin-left:auto;
+  margin-right:auto;
+  height: 400px;
+  width: 50%;
+}

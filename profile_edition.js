@@ -3,6 +3,31 @@ window.addEventListener("load",main);
 
 // constantes de status
 var ST_UNCHANGED=0,ST_OK=1,BROKEN=2;
+var latitude=46.890232;
+var longitude=2.874755;
+
+function initializeMap() {
+  // la carte
+  var mapOptions = {
+    center: new google.maps.LatLng(latitude,longitude),
+    zoom: 5,
+    streetViewControl: false
+  };
+  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  // le marqueur
+  var markerOptions = {
+    map: map,
+    position: new google.maps.LatLng(latitude,longitude)
+  }
+  var marker=new google.maps.Marker(markerOptions);
+  // abonnement pour le marqueur
+  function moveMarker(event) {
+    latitude=event.latLng.lat();
+    longitude=event.latLng.lng();
+    marker.setPosition(event.latLng);
+  }
+  google.maps.event.addListener(map,"rightclick",moveMarker);
+}
 
 function main() {
   document.getElementById("submitbutton").addEventListener("click",submit);
@@ -44,12 +69,15 @@ function main() {
 	});
   }
 
+
   // champs communs aux deux modes
   passwdField=document.getElementById("motdepasse");
   passwdField.addEventListener("change",checkPasswd);
   passwdMessage=document.getElementById("passwd-message");
   passwdST=ST_UNCHANGED;
   passwdTry=0;
+
+  initializeMap();
 
   // champs spécifiques au mode "edition" 
   if (!newProfile) {

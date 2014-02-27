@@ -34,17 +34,33 @@ $id=$_SESSION['userid'];
 
   // création du formulaire pré-rempli
   //profileEntry("Login", champTexte("login",10,$data['login']),message("login"));
-  profileEntry("Mot de passe", password(), message("passwd")); 
+  profileEntry("Mot de passe", 
+    '<input id="motdepasse" name="motdepasse" type="password" size="20" value=""/>',
+    message("passwd")
+  ); 
   //profileEntry("Nom", valeur($data['nom']));
   //profileEntry("Prénom", valeur($data['prenom']));
   //profileEntry("Date de Naissance", valeur($data['datenaissance']));
   //profileEntry("Nom de profil", valeur($data['nomprofil']));
   //profileEntry("Solde", valeur($data['solde']),"€");
-  profileEntry("Photo", photo($data['photo']), fileChooser(), message("photo")); 
-  profileEntry("E-mail", champTexte("email",25,$data['email']));
-  profileEntry("Ville ou adresse", champTexte("adresse",30,$data['adresse']));
-  profileEntry("Téléphone", champTexte("telephone",16,$data['telephone']));
-  profileEntry("Renseignements divers", zoneTexte("divers",80,6,$data['divers'])); 
+  profileEntry("Photo", 
+    photo($data['photo']), 
+    '<input type="hidden" name="MAX_FILE_SIZE" value="20480" />',
+    '<input type="file" id="fileChooser" name="photo" style="display:none"/>',
+    message("photo")
+  ); 
+  profileEntry("E-mail", 
+    champTexte("email",25,$data['email'])
+  );
+  profileEntry("Ville ou adresse", 
+    champTexte("adresse",30,$data['adresse'])
+  );
+  profileEntry("Téléphone", 
+    champTexte("telephone",16,$data['telephone'])
+  );
+  profileEntry("Renseignements divers", 
+    zoneTexte("divers",80,6,$data['divers'])
+  ); 
 ?>
     <input type="button" id="submitbutton" value="Modifier" title="sauvegarder les changements" />
   </form>
@@ -56,13 +72,6 @@ $id=$_SESSION['userid'];
 </html>
 
 <?php // helper functions
-
-function fileChooser() {
-  return implode([
-    '<input type="hidden" name="MAX_FILE_SIZE" value="20480" />',
-    '<input type="file" id="fileChooser" name="photo" style="display:none"/>'
-  ]);
-}
 
 function message($name) {
   return '<span id="'.$name.'-message" class="profilemessage"></span>';
@@ -80,10 +89,6 @@ function zoneTexte($name,$cols,$rows,$value) {
 
 function photo($path) { 
   return '<img id="photo" src="TROMBI/'.$path.'" title="cliquer pour modifier votre photo"/>';
-}
-
-function password() {
-  return '<input id="motdepasse" name="motdepasse" type="password" size="20" value=""/>';
 }
 
 function profileEntry($label) {

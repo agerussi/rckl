@@ -1,14 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
  <head>
   <?php require("menu_header.php"); ?>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyvgizLu1uatxqXBPomR4EHsMDipLin4s&sensor=false&langage=fr&region=FR"></script>
+  <script type="text/javascript" src="OUTILS/JSDATEPICK/jsDatePick.min.1.3.js"></script>
+  <link rel="stylesheet" type="text/css" media="all" href="OUTILS/JSDATEPICK/jsDatePick_ltr.min.css" />
+
   <script type="text/javascript">
     var newProfile=true;
   </script>
   <script type="text/javascript" src="profile_edition.js"></script>
-  <link rel="stylesheet" type="text/css" media="all" href="OUTILS/JSDATEPICK/jsDatePick_ltr.min.css" />
-  <script type="text/javascript" src="OUTILS/JSDATEPICK/jsDatePick.min.1.3.js"></script>
-
  </head>
 <body>
  <?php require("menu_body.php"); ?>
@@ -28,7 +30,7 @@
 
 <?php
   // création du formulaire 
-  profileEntry("Login*", 
+  profileEntry("Login*",
     commentaire("Votre login ne sert qu'à vous connecter, personne d'autre que vous n'en aura connaissance"),
     champTexte("login",10,""),
     message("login")
@@ -37,28 +39,31 @@
     '<input id="motdepasse" name="motdepasse" type="password" size="20" value=""/>',
     message("passwd")
   ); 
-  profileEntry("Nom*", 
+  profileEntry("Nom*",
     champTexte("nom",16,""),
     message("nom")
   );
-  profileEntry("Prénom*", 
+  profileEntry("Prénom*",
     champTexte("prenom",16,""),
     message("prenom")
   );
-  profileEntry("Identifiant*", 
+  profileEntry("Identifiant*",
     commentaire("Ceci est le nom sous lequel vous apparaissez aux autres membres. Vous pouvez modifier la proposition automatique ci-dessous, mais choisissez quelque chose ressemblant à vos véritables nom et prénom."),
     champTexte("nomprofil",16,""),
     message("nomprofil")
   );
-  profileEntry("Date de Naissance*", 
-    commentaire("Seul votre âge apparaît aux autres membres."), 
+  profileEntry("Date de Naissance*",
+    commentaire("Seul votre âge apparaît aux autres membres."),
     '<input type="text" size="10" id="datenaissance" name="datenaissance" readonly="readonly" value=""/>',
     message("datenaissance")
   );
   profileEntry("Coordonnées GPS",
+    commentaire("Placez le pointeur <em>grosso modo</em> sur votre domicile avec un clic-droit. Une précision «au kilomètre» est suffisante."),
+    '<div id="map-canvas"></div>',
     message("gps")
   );
 ?>
+
     <input type="button" id="submitbutton" value="Créer le compte" title="Relisez bien les informations avant de créer!" />
   </form>
 
