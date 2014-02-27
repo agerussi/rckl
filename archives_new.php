@@ -19,7 +19,7 @@ $sql = "INSERT INTO archives (authId, date, xml) VALUES('".$userId."','".$dbDate
 mysql_query($sql, $db) or die("Erreur lors de la création d'une archive vierge:".mysql_error());
 
 // récupère l'id de l'archive qui vient d'être créée
- $id=mysql_insert_id(); // ATTENTION: pour BD mySQL seulement
+$id=mysql_insert_id(); // ATTENTION: pour BD mySQL seulement
 
 // lance l'édition de l'archive avec le drapeau "new"
 header("Location: archives_edition.php?id=".$id."&new");

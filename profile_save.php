@@ -1,5 +1,6 @@
 <?php 
 session_start();
+require("profile_common.php");
 
 // tests de sécurité
 if (!isset($_SESSION['userid'])) header("Location: news.php");
@@ -25,9 +26,6 @@ if (get_magic_quotes_gpc()) {
 // traitement des données reçues et création de la requête de sauvegarde
 // =====================================================================
 $changes=array();
-// login
-$login=request("login");
-if (!empty($login)) array_push($changes,"login='".$login."'");
 // motdepasse
 $motdepasse=request("motdepasse");
 if (!empty($motdepasse)) {
@@ -47,6 +45,12 @@ array_push($changes,"telephone='".addslashes($telephone)."'");
 // divers
 $divers=request("divers");
 array_push($changes,"divers='".addslashes($divers)."'");
+// latitude
+$latitude=request("latitude");
+if (!empty($latitude)) array_push($changes,"latitude='".$latitude."'");
+// longitude
+$longitude=request("longitude");
+if (!empty($longitude)) array_push($changes,"longitude='".$longitude."'");
 
 // sauvegarde dans la base de données
 require("dbconnect.php");
@@ -54,7 +58,7 @@ mysql_query("SET NAMES UTF8");
 $query="UPDATE membres SET ";
 $query.=implode(", ",$changes);
 $query.=" WHERE id='".$_SESSION['userid']."'";
-//mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".mysql_error());
+mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".mysql_error());
 echo $query;
 mysql_close($db);
 
@@ -63,7 +67,7 @@ if ($_FILES['photo']['error']==UPLOAD_ERR_OK
  && $_FILES['photo']['type']=="image/jpeg"
  && $_FILES['photo']['size']<20*1024  
  && is_uploaded_file($_FILES['photo']['tmp_name'])) {
-   $filename="TROMBI/photo-".$_SESSION['userid']."-".$_SESSION['profilename'].".jpg";
+   $filename=photoPath($_SESSION['userid']);
    if (!move_uploaded_file($_FILES['photo']['tmp_name'],$filename)) die("Erreur lors du chargement de la nouvelle photo.");
 }
 

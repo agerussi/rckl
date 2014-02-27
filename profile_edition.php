@@ -1,5 +1,6 @@
 <?php
 session_start();
+require("profile_common.php");
 
 // test de sécurité 
 if (!isset($_SESSION['userid'])) header("Location: news.php");
@@ -11,6 +12,8 @@ $id=$_SESSION['userid'];
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
  <head>
   <?php require("menu_header.php"); ?>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyvgizLu1uatxqXBPomR4EHsMDipLin4s&sensor=false&langage=fr&region=FR"></script>
   <script type="text/javascript">
     var newProfile=false;
   </script>
@@ -20,6 +23,10 @@ $id=$_SESSION['userid'];
  <?php require("menu_body.php"); ?>
 <!-- <a target="_blank" href="help_profile_edition.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a> -->
   <h1>Édition de votre profil personnel</h1>
+
+<p>
+Les données ci-dessous, à l'exception de celles marquées par une étoile *, sont facultatives et peuvent être modifiées à tout moment.
+</p>
 
   <form accept-charset="utf-8" encType="multipart/form-data" method="post" action="profile_save.php" id="profileForm">
 
@@ -33,18 +40,13 @@ $id=$_SESSION['userid'];
   if ($data['id']!=$id) die("erreur: le profil récupéré ne correspond pas.");
 
   // création du formulaire pré-rempli
-  //profileEntry("Login", champTexte("login",10,$data['login']),message("login"));
-  profileEntry("Mot de passe", 
+  profileEntry("Mot de passe*", 
+    commentaire("Ne remplissez ce champ que si vous désirez <em>modifier</em> votre mot de passe, sinon laissez-le vierge."),
     '<input id="motdepasse" name="motdepasse" type="password" size="20" value=""/>',
     message("passwd")
   ); 
-  //profileEntry("Nom", valeur($data['nom']));
-  //profileEntry("Prénom", valeur($data['prenom']));
-  //profileEntry("Date de Naissance", valeur($data['datenaissance']));
-  //profileEntry("Nom de profil", valeur($data['nomprofil']));
-  //profileEntry("Solde", valeur($data['solde']),"€");
-  profileEntry("Photo", 
-    photo($data['photo']), 
+  profileEntry("Photo",
+    photo(photoPath($data['id'])),
     '<input type="hidden" name="MAX_FILE_SIZE" value="20480" />',
     '<input type="file" id="fileChooser" name="photo" style="display:none"/>',
     message("photo")
@@ -61,20 +63,34 @@ $id=$_SESSION['userid'];
   profileEntry("Renseignements divers", 
     zoneTexte("divers",80,6,$data['divers'])
   ); 
+  profileEntry("Coordonnées GPS*",
+    commentaire("Placez le pointeur <em>grosso modo</em> sur votre domicile avec un clic-droit. Une précision «au kilomètre» est suffisante."),
+    '<div id="map-canvas"></div>',
+    message("gps"),
+    '<input id="latitude" name="latitude" type="text" size="10" style="display:none">',
+    '<input id="longitude" name="longitude" type="text" size="10" style="display:none">'
+  ); 
+
+  // communique la latitude et longitude actuelle
+  echo implode([
+    '<script type="text/javascript">',
+    'latitude=',$data['latitude'],';',
+    'longitude=',$data['longitude'],';',
+    '</script>'
+    ]);
 ?>
     <input type="button" id="submitbutton" value="Modifier" title="sauvegarder les changements" />
   </form>
   <form method="post" action="news.php">
     <input type="submit" name="cancel" value="Annuler" title="Annuler tous les changements" />
   </form>
-
+  
  </body>
 </html>
 
 <?php // helper functions
-
-function message($name) {
-  return '<span id="'.$name.'-message" class="profilemessage"></span>';
+function photo($path) { 
+  return '<img id="photo" src="'.$path.'" title="cliquer pour modifier votre photo"/>';
 }
 
 function zoneTexte($name,$cols,$rows,$value) {
@@ -87,22 +103,4 @@ function zoneTexte($name,$cols,$rows,$value) {
   ]);
 }
 
-function photo($path) { 
-  return '<img id="photo" src="TROMBI/'.$path.'" title="cliquer pour modifier votre photo"/>';
-}
-
-function profileEntry($label) {
-  echo '<div class="profileentry">';
-  echo '<label>'.$label.'</label>';
-  for ($i=1; $i<func_num_args(); $i++) echo func_get_arg($i);
-  echo '</div>';
-}
-
-function valeur($text) {
-  return '<span class="valeur">'.stripslashes($text).'</span>';
-}
-
-function champTexte($name,$len,$value) {
-  return '<input type="text" size="'.$len.'" name="'.$name.'" id="'.$name.'" value="'.stripslashes($value).'"/>';
-}
 ?>

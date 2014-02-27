@@ -29,6 +29,7 @@
   <form accept-charset="utf-8" method="post" action="profile_create.php" id="profileForm">
 
 <?php
+  require("profile_common.php");
   // création du formulaire 
   profileEntry("Login*",
     commentaire("Votre login ne sert qu'à vous connecter, personne d'autre que vous n'en aura connaissance"),
@@ -77,26 +78,4 @@
 
 <?php // helper functions
 
-function message($name) {
-  return '<span id="'.$name.'-message" class="profilemessage"></span>';
-}
-
-function profileEntry($label) {
-  echo '<div class="profileentry">';
-  echo '<label>'.$label.'</label>';
-  for ($i=1; $i<func_num_args(); $i++) echo func_get_arg($i).PHP_EOL;
-  echo '</div>'.PHP_EOL;
-}
-
-function valeur($text) {
-  return '<span class="valeur">'.stripslashes($text).'</span>';
-}
-
-function commentaire($text) {
-  return '<span class="commentaire">'.$text.'</span>';
-}
-
-function champTexte($name,$len,$value) {
-  return '<input type="text" size="'.$len.'" name="'.$name.'" id="'.$name.'" value="'.stripslashes($value).'"/>';
-}
 ?>

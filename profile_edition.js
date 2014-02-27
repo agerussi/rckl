@@ -12,7 +12,7 @@ function initializeMap() {
   // la carte
   var mapOptions = {
     center: new google.maps.LatLng(latitude,longitude),
-    zoom: 5,
+    zoom: (newProfile) ? 5:11,
     streetViewControl: false
   };
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -230,8 +230,12 @@ function checkForm() {
     else dateMessage.innerHTML="";
     return OK;
   } 
-  else { // en mode edition, seul le mot de passe est contrôlé
-    if (passwdST!=ST_OK) passwdField.value="";
+  else { // mode edition
+    if (passwdST!=ST_OK) passwdField.value=""; // ne sera pas modifié
+    if (latLngST!=ST_OK) {
+      latitudeField.value=""; // ne sera pas modifié
+      longitudeField.value=""; // ne sera pas modifié
+    }
     return true;
   }
 }

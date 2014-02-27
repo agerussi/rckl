@@ -1,6 +1,6 @@
 <?php 
 session_start();
-
+require("profile_common.php");
 require("dbconnect.php");
 
 // examen des variables retournées
@@ -56,6 +56,10 @@ $query.=implode(", ",$changes);
 $query.=")";
 mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".mysql_error());
 echo $query;
+
+// crée le fichier photo par défaut
+$id=mysql_insert_id(); // ATTENTION: pour BD mySQL seulement
+copy("TROMBI/missingM.jpg",photoPath($id));
 mysql_close($db);
 
 // retourne sur la page de l'archive modifiée
