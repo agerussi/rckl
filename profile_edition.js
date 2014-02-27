@@ -2,10 +2,12 @@ window.addEventListener("load",main);
 //////////////////////////////////////////////////////
 
 // constantes de status
-var ST_UNCHANGED=0,ST_OK=1,BROKEN=2;
-var latitude=46.890232;
+var ST_UNCHANGED=0,ST_OK=1,ST_BROKEN=2;
+// coordonnées du centre de la France (approx.)
+var latitude=46.890232; 
 var longitude=2.874755;
 
+// crée la carte et le marqueur déplaçable
 function initializeMap() {
   // la carte
   var mapOptions = {
@@ -24,7 +26,11 @@ function initializeMap() {
   function moveMarker(event) {
     latitude=event.latLng.lat();
     longitude=event.latLng.lng();
+    latitudeField.value=latitude;
+    longitudeField.value=longitude;
     marker.setPosition(event.latLng);
+    latLngST=ST_OK;
+    gpsMessage.innerHTML="";
   }
   google.maps.event.addListener(map,"rightclick",moveMarker);
 }
@@ -35,24 +41,29 @@ function main() {
   // champs spécifiques au mode "new" 
   if (newProfile) {
     loginField=document.getElementById("login");
+    loginField.value="";
     loginField.addEventListener("change",checkLogin);
     loginMessage=document.getElementById("login-message");
     loginST=ST_UNCHANGED;
 
     nameField=document.getElementById("nom");
+    nameField.value="";
     nameField.addEventListener("change",checkName);
     nameMessage=document.getElementById("nom-message");
 
     surnameField=document.getElementById("prenom");
-    surnameField.addEventListener("change",checkName);
+    surnameField.value="";
+    surnameField.addEventListener("change",checkSurname);
     surnameMessage=document.getElementById("prenom-message");
 
     profileField=document.getElementById("nomprofil");
+    profileField.value="";
     profileField.addEventListener("change",checkIdentifier);
     profileMessage=document.getElementById("nomprofil-message");
     profileST=ST_UNCHANGED;
 
     dateField=document.getElementById("datenaissance");
+    dateField.value="";
     dateMessage=document.getElementById("datenaissance-message");
     var date=new Date();
     var year=date.getFullYear();
@@ -72,13 +83,18 @@ function main() {
 
   // champs communs aux deux modes
   passwdField=document.getElementById("motdepasse");
+  passwdField.value="";
   passwdField.addEventListener("change",checkPasswd);
   passwdMessage=document.getElementById("passwd-message");
   passwdST=ST_UNCHANGED;
   passwdTry=0;
 
   initializeMap();
-
+  latitudeField=document.getElementById("latitude");
+  longitudeField=document.getElementById("longitude");
+  latLngST=ST_UNCHANGED;
+  gpsMessage=document.getElementById("gps-message");
+  
   // champs spécifiques au mode "edition" 
   if (!newProfile) {
     photo=document.getElementById("photo");
@@ -114,7 +130,7 @@ function nameToProfile() {
   }
   // sinon on abdique !
   profileField.value="";
-  profileST=BROKEN;
+  profileST=ST_BROKEN;
 }
 
 // teste si le profil existe déjà dans la BD
@@ -125,7 +141,7 @@ function profileExists(profile) {
 // vérifie la validité du nom de profil
 // et effectue un léger nettoyage
 function checkIdentifier() {
-  profileST=BROKEN;
+  profileST=ST_BROKEN;
   var profile=this.value.trim();
   // supprime les espaces inutiles
   profile=profile.replace(/\s(?=(\s|-))/g,"");
@@ -147,18 +163,32 @@ function checkIdentifier() {
 }
 
 // impose les minuscules sauf après des espaces ou des tirets
-function checkName() {
-  var name=this.value.trim().toLocaleLowerCase();
+function standardName(name) {
   // supprime les espaces inutiles
   name=name.replace(/\s(?=(\s|-))/g,"");
   name=name.replace(/-\s/g,"-");
   // met les majuscules
   function makeUpper(car) { return car.toLocaleUpperCase(); }
   name=name.replace(/^.|-.| ./g, makeUpper);
+  return name;
+}
+
+function checkName() {
+  var name=this.value.trim().toLocaleLowerCase();
+  nameMessage.innerHTML=""; 
   // sauvegarde le résultat
-  this.value=name;
+  this.value=standardName(name);
   // calcul une proposition d'identifiant
-  if (name.length!=0) nameToProfile();
+  if (this.value.length!=0) nameToProfile();
+}
+
+function checkSurname() {
+  var surname=this.value.trim().toLocaleLowerCase();
+  surnameMessage.innerHTML=""; 
+  // sauvegarde le résultat
+  this.value=standardName(surname);
+  // calcul une proposition d'identifiant
+  if (this.value.length!=0) nameToProfile();
 }
 
 function submit() {
@@ -191,6 +221,10 @@ function checkForm() {
     }
     if (dateField.value.length==0) {
       dateMessage.innerHTML="La date n'est pas valide";
+      OK=false;
+    }
+    if (latLngST!=ST_OK) {
+      gpsMessage.innerHTML="Le point GPS n'a pas été modifié!";
       OK=false;
     }
     else dateMessage.innerHTML="";
@@ -234,7 +268,7 @@ function gestionPhoto(evt) {
 // teste si le login est constitué uniquement de lettres ou de chiffres
 function checkLogin() {
   var login=loginField.value;
-  loginST=BROKEN;
+  loginST=ST_BROKEN;
 
   // teste si le login est non vide
   if (login.length==0) {
@@ -275,7 +309,7 @@ function ajax(query) {
 // demande une double saisie du mdp avant de valider
 // ainsi qu'une longueur minimale de 5 caractères
 function checkPasswd() {
-  passwdST=BROKEN;
+  passwdST=ST_BROKEN;
   passwdTry+=1;
   if (passwdTry%2==1) {
     passwd=passwdField.value;

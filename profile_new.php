@@ -60,7 +60,9 @@
   profileEntry("Coordonnées GPS",
     commentaire("Placez le pointeur <em>grosso modo</em> sur votre domicile avec un clic-droit. Une précision «au kilomètre» est suffisante."),
     '<div id="map-canvas"></div>',
-    message("gps")
+    message("gps"),
+    '<input id="latitude" name="latitude" type="text" size="10" style="display:none">',
+    '<input id="longitude" name="longitude" type="text" size="10" style="display:none">'
   );
 ?>
 
