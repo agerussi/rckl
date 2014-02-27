@@ -20,13 +20,6 @@ if (get_magic_quotes_gpc()) {
 // traitement des données reçues et création de la requête de sauvegarde
 // =====================================================================
 $changes=array();
-// login
-$login=request("login");
-array_push($changes,$login);
-// motdepasse
-$motdepasse=request("motdepasse");
-$md5pass=md5($motdepasse);
-array_push($changes,$md5pass);
 // nom
 $nom=request("nom");
 array_push($changes,addslashes($nom));
@@ -55,10 +48,6 @@ $query.=implode(", ",$changes);
 $query.=")";
 mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".mysql_error());
 echo $query;
-
-// crée le fichier photo par défaut
-$id=mysql_insert_id(); // ATTENTION: pour BD mySQL seulement
-copy("TROMBI/missingM.jpg",photoPath($id));
 mysql_close($db);
 
 // auto-login 

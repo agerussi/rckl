@@ -24,4 +24,10 @@ function commentaire($text) {
 function champTexte($name,$len,$value) {
   return '<input type="text" size="'.$len.'" name="'.$name.'" id="'.$name.'" value="'.stripslashes($value).'"/>';
 }
+
+function request($field) {
+  if (!isset($_POST[$field])) die("Erreur: le champ ".$field." n'est pas défini.");
+  return $_POST[$field];
+}
+
 ?>

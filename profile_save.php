@@ -74,10 +74,4 @@ if ($_FILES['photo']['error']==UPLOAD_ERR_OK
 // retourne sur la page de l'archive modifiée
 //header("Location: news.php");
 
-// helper functions
-function request($field) {
-  if (!isset($_POST[$field])) die("Erreur lors de la sauvegarde du profil: le champ ".$field." n'est pas défini.");
-  return $_POST[$field];
-}
-
 ?>

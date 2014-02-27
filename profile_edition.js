@@ -40,12 +40,13 @@ function main() {
  
   // champs spécifiques au mode "new" 
   if (newProfile) {
-    loginField=document.getElementById("login");
-    loginField.value="";
-    loginField.addEventListener("change",checkLogin);
-    loginMessage=document.getElementById("login-message");
-    loginST=ST_UNCHANGED;
-
+    if (!upgradeProfile) {
+      loginField=document.getElementById("login");
+      loginField.value="";
+      loginField.addEventListener("change",checkLogin);
+      loginMessage=document.getElementById("login-message");
+      loginST=ST_UNCHANGED;
+    }
     nameField=document.getElementById("nom");
     nameField.value="";
     nameField.addEventListener("change",checkName);
@@ -82,12 +83,14 @@ function main() {
 
 
   // champs communs aux deux modes
-  passwdField=document.getElementById("motdepasse");
-  passwdField.value="";
-  passwdField.addEventListener("change",checkPasswd);
-  passwdMessage=document.getElementById("passwd-message");
-  passwdST=ST_UNCHANGED;
-  passwdTry=0;
+  if (!upgradeProfile) {
+    passwdField=document.getElementById("motdepasse");
+    passwdField.value="";
+    passwdField.addEventListener("change",checkPasswd);
+    passwdMessage=document.getElementById("passwd-message");
+    passwdST=ST_UNCHANGED;
+    passwdTry=0;
+  }
 
   initializeMap();
   latitudeField=document.getElementById("latitude");
@@ -199,11 +202,11 @@ function submit() {
 function checkForm() {
   if (newProfile) { // mode nouveau compte
     var OK=true;
-    if (loginST!=ST_OK) {
+    if (!upgradeProfile && loginST!=ST_OK) {
       loginMessage.innerHTML="Le login n'est pas rempli correctement";
       OK=false;
     }
-    if (passwdST!=ST_OK) {
+    if (!upgradeProfile && passwdST!=ST_OK) {
       passwdMessage.innerHTML="Le mot de passe n'est pas valide";
       OK=false;
     }

@@ -9,7 +9,7 @@
 
   <script type="text/javascript">
     var newProfile=true;
-    var upgradeProfile=false;
+    var upgradeProfile=true;
   </script>
   <script type="text/javascript" src="profile_edition.js"></script>
  </head>
@@ -17,30 +17,20 @@
  <?php require("menu_body.php"); ?>
 <!-- <a target="_blank" href="help_profile_new.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a> -->
 
-  <h1>Création d'un compte RCKL</h1>
+  <h1>Mise à jour d'un compte RCKL</h1>
 
-  <p>Pour créer votre nouveau compte au RCKL, il vous faut fournir certains renseignements <em>obligatoires</em> qui sont demandés ci-dessous. 
+  <h2><blink>Votre compte n'est plus à jour !</blink></h2>
+
+ <p>La mise à jour de votre compte est indispensable; sans elle vous ne pourrez plus vous connecter. Le formulaire ci-dessous va vous permettre de renseigner les informations manquantes.
   Les renseignements marqués d'une étoile * sont <em>définitifs</em>: ils ne pourront pas être modifiés par la suite.
-  D'autres informations complémentaires et facultatives vous seront demandées une fois cette étape passée.
-  </p>
-  <p>Veuillez fournir des informations <em>sérieuses et réelles</em>: le RCKL est un réseau de proximité, dans lequel les gens se rencontrent vraiment et batissent des relations basées sur la confiance.
-  Aussi tout compte dont les informations sont douteuses sera supprimé. 
+  D'autres informations complémentaires et facultatives pourront être renseignées dans un second temps, en choisissant «modifier votre profil» dans le menu des membres.
   </p>
 
-  <form accept-charset="utf-8" method="post" action="profile_create.php" id="profileForm">
+  <form accept-charset="utf-8" method="post" action="profile_saveupgrade.php" id="profileForm">
 
 <?php
   require("profile_common.php");
   // création du formulaire 
-  profileEntry("Nom de connexion*",
-    commentaire("Votre nom de connexion ne sert qu'à vous connecter, personne d'autre que vous n'en aura connaissance"),
-    champTexte("login",10,""),
-    message("login")
-  );
-  profileEntry("Mot de passe",
-    '<input id="motdepasse" name="motdepasse" type="password" size="20" value=""/>',
-    message("passwd")
-  ); 
   profileEntry("Nom*",
     champTexte("nom",16,""),
     message("nom")
@@ -50,7 +40,7 @@
     message("prenom")
   );
   profileEntry("Identifiant*",
-    commentaire("Ceci est le nom sous lequel vous apparaissez aux autres membres. Vous pouvez modifier la proposition automatique ci-dessous, mais choisissez quelque chose ressemblant à vos véritables nom et prénom."),
+    commentaire("Ceci est le nom sous lequel vous apparaissez aux autres membres quand vous agissez sur le site. Ce n'est pas votre nom de connexion, ce dernier est resté inchangé. Vous pouvez modifier la proposition automatique ci-dessous, mais choisissez quelque chose ressemblant à vos véritables nom et prénom."),
     champTexte("nomprofil",16,""),
     message("nomprofil")
   );
@@ -68,15 +58,7 @@
   );
 ?>
 
-    <input type="button" id="submitbutton" value="Créer le compte" title="Relisez bien les informations avant de créer!" />
-  </form>
-
-  <form method="post" action="news.php">
-    <input type="submit" name="cancel" value="Annuler" title="Annuler la création du compte" />
+    <input type="button" id="submitbutton" value="Mettre le profil à jour" title="Relisez bien les informations avant de cliquer!" />
   </form>
  </body>
 </html>
-
-<?php // helper functions
-
-?>
