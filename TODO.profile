@@ -1,3 +1,4 @@
 * le trombinoscope est cassé
-* faire une appli de mise à jour des anciens profils lorsqu'ils se connecteront
 * faire l'appli profile_view
+* mettre à jour les noms de fichiers trombi
+* faire attention au répertoire TROMBI: il ne doit plus être "mirroir" du répertoire local...

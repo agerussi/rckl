@@ -30,4 +30,9 @@ function request($field) {
   return $_POST[$field];
 }
 
+function FtE($Fdate) {
+  sscanf($Fdate,"%u-%u-%u",$jour,$mois,$annee);
+  $Edate="$annee-$mois-$jour";
+  return $Edate;
+}
 ?>

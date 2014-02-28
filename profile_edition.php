@@ -16,6 +16,7 @@ $id=$_SESSION['userid'];
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyvgizLu1uatxqXBPomR4EHsMDipLin4s&sensor=false&langage=fr&region=FR"></script>
   <script type="text/javascript">
     var newProfile=false;
+    var upgradeProfile=false;
   </script>
   <script type="text/javascript" src="profile_edition.js"></script>
  </head>

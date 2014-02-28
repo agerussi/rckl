@@ -29,7 +29,9 @@ if($rowCheck == 1){ // exactly one result must have been returned
 
   // test if the account needs upgrade
   if ($row['needupgrade']=="yes") {
-    session_destroy();
+    // only register the id and login for upgrade
+    $_SESSION['userid']=$row['id'];
+    $_SESSION['login']=$row['login']; 
     header("Location: profile_upgrade.php");
   }
   else {

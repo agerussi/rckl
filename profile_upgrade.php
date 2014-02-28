@@ -14,14 +14,15 @@
   <script type="text/javascript" src="profile_edition.js"></script>
  </head>
 <body>
- <?php require("menu_body.php"); ?>
+ <?php //require("menu_body.php"); 
+  ?>
 <!-- <a target="_blank" href="help_profile_new.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a> -->
 
   <h1>Mise à jour d'un compte RCKL</h1>
 
   <h2><blink>Votre compte n'est plus à jour !</blink></h2>
 
- <p>La mise à jour de votre compte est indispensable; sans elle vous ne pourrez plus vous connecter. Le formulaire ci-dessous va vous permettre de renseigner les informations manquantes.
+ <p>La mise à jour de votre compte est indispensable; sans elle vous ne pourrez plus vous connecter. Le formulaire ci-dessous va vous permettre de fournir les informations manquantes.
   Les renseignements marqués d'une étoile * sont <em>définitifs</em>: ils ne pourront pas être modifiés par la suite.
   D'autres informations complémentaires et facultatives pourront être renseignées dans un second temps, en choisissant «modifier votre profil» dans le menu des membres.
   </p>
