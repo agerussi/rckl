@@ -5,7 +5,7 @@
 <xsl:template match="/">
   <h2>Les membres actifs</h2>
   <xsl:apply-templates select="trombinoscopes/trombinoscope[@id='actifs']"/>
-  <h2>Anciens membres</h2>
+  <h2>Les autres membres</h2>
   <xsl:apply-templates select="trombinoscopes/trombinoscope[@id='anciens']"/>
 </xsl:template>
 
@@ -21,17 +21,17 @@
   <table class="trombi">
     <tr>
       <td>
-	<img src="{concat(../path,'/',photo)}" alt="photo" />
+	<img src="{concat(../path,'/photo-',id,'.jpg')}" alt="photo" />
       </td>
     </tr>
     <tr>
       <td>
-	<xsl:if test="email">
-	  <a href="{concat('mailto:',email)}" title="contacter par mail">
+	<xsl:if test="id">
+	  <a href="{concat('profile_view.php?id=',id)}" title="visualiser le profil">
 	    <xsl:value-of select="nom"/>
 	  </a>
 	</xsl:if>
-	<xsl:if test="not(email)">
+	<xsl:if test="not(id)">
 	  <xsl:value-of select="nom"/>
 	</xsl:if>
       </td>

@@ -14,9 +14,9 @@
 
   $connected=isset($_SESSION['login']);
   if ($connected) 
-    echo '<p>Cliquez sur un nom de membre pour lui envoyer un email.</p>';
+    echo '<p>Cliquez sur un nom pour visualiser son profil.</p>';
   else 
-    echo '<p><a href="loginpage.php?target=trombinoscope.php">Connectez-vous</a> pour contacter un membre par email.</p>';
+    echo '<p><a href="loginpage.php?target=trombinoscope.php">Connectez-vous</a> pour accéder aux informations sur un membre.</p>';
 
   // requiert une connection à la BD
   require("dbconnect.php");
@@ -26,22 +26,20 @@
   $xml.='<trombinoscopes>';
 
   // le trombi des actifs
-  $sql = "SELECT nom, photo, email FROM membres WHERE trombi='actif';";
+  $sql = "SELECT id, nomprofil FROM membres WHERE idlesince>DATE_SUB(CURDATE(),INTERVAL 1 YEAR)";
   $req = mysql_query($sql) or die("erreur lors de la lecture des membres: ".mysql_error());
   $xml.='<trombinoscope id="actifs">'; 
   $xml.='<path>TROMBI</path>';
-  $xml.=buildTrombi($req,true);
+  $xml.=buildTrombi($req);
   $xml.='</trombinoscope>';
   mysql_free_result($req);
 
   // le trombi des anciens
-  $sql = "SELECT nom, photo, email FROM membres WHERE trombi='ancien';";
+  $sql = "SELECT id, nomprofil FROM membres WHERE idlesince<=DATE_SUB(CURDATE(),INTERVAL 1 YEAR)";
   $req = mysql_query($sql) or die("erreur lors de la lecture des membres: ".mysql_error());
   $xml.='<trombinoscope id="anciens">'; 
   $xml.='<path>TROMBI</path>';
-  $xml.=buildTrombi($req,false);
-  // rajoute les anciens codés 'statiquement'
-  $xml.=file_get_contents("trombinoscope-anciens.xml");
+  $xml.=buildTrombi($req);
   $xml.='</trombinoscope>';
   mysql_free_result($req);
 
@@ -60,13 +58,13 @@
 
 // lit la requête et construit l'xml
 // effet de bord: $req
-function buildTrombi($req, $mail) {
-  $connected=isset($_SESSION['login']);
+function buildTrombi($req) {
+  //$connected=isset($_SESSION['login']);
+  global $connected;
   while ($data = mysql_fetch_array($req)) {
     $xml.='<membre>';
-    $xml.='<nom>'.$data['nom'].'</nom>';
-    $xml.='<photo>'.$data['photo'].'</photo>';
-    if ($mail && $connected && $data['email']!=NULL) $xml.='<email>'.$data['email'].'</email>';
+    $xml.='<nom>'.htmlspecialchars(stripslashes($data['nomprofil'])).'</nom>';
+    if ($connected) $xml.='<id>'.$data['id'].'</id>';
     $xml.='</membre>';
   }
   return $xml;
