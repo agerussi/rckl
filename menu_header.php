@@ -1,5 +1,6 @@
 <?php
-  require("head.html")
+  require("head.html");
+  if (file_exists("under_maintenance_flag")) die("Le site est en maintenance... revenez plus tard!");
 ?> 
 <link rel="stylesheet" href="menuderoulant.css" type="text/css" />
 <script type="text/javascript">

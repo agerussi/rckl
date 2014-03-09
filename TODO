@@ -1,5 +1,6 @@
 
-FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
+* FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
-CHANTIER: pages d'aide pour archives.
+* CHANTIER: pages d'aide pour archives.
 
+* BUG: problèmes UTF-8 dans les gestions de frais
