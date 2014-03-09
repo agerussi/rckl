@@ -1,6 +1,6 @@
 
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
-* CHANTIER: pages d'aide pour archives.
+* CHANTIER: mise à la norme UTF-8 partout
 
-* BUG: problèmes UTF-8 dans les gestions de frais
+* CHANTIER: gestion du idlesince
