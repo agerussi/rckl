@@ -9,5 +9,5 @@ $dbDatabase = "rckl";
 $db = mysql_connect("$dbHost", "$dbUser", "$dbPass") or die("Erreur lors de la connexion à la base: ".mysql_error());
 
 mysql_select_db("$dbDatabase", $db) or die("Erreur lors de la sélection de la base: ".mysql_error());
-//mysql_query("SET NAMES UTF8");
+mysql_query("SET NAMES UTF8");
 ?>
