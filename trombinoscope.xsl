@@ -26,12 +26,12 @@
     </tr>
     <tr>
       <td>
-	<xsl:if test="id">
+	<xsl:if test="profil">
 	  <a href="{concat('profile_view.php?id=',id)}" title="visualiser le profil">
 	    <xsl:value-of select="nom"/>
 	  </a>
 	</xsl:if>
-	<xsl:if test="not(id)">
+	<xsl:if test="not(profil)">
 	  <xsl:value-of select="nom"/>
 	</xsl:if>
       </td>

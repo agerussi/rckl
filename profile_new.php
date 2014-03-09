@@ -77,6 +77,3 @@
  </body>
 </html>
 
-<?php // helper functions
-
-?>

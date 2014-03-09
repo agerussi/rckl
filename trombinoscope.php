@@ -7,8 +7,7 @@
 
 <body>
 <?php 
-  require("menu_body.php"); 
-
+  require("menu_body.php");
 
   echo "<h1>TROMBINOSCOPE</h1>";
 
@@ -64,7 +63,8 @@ function buildTrombi($req) {
   while ($data = mysql_fetch_array($req)) {
     $xml.='<membre>';
     $xml.='<nom>'.htmlspecialchars(stripslashes($data['nomprofil'])).'</nom>';
-    if ($connected) $xml.='<id>'.$data['id'].'</id>';
+    $xml.='<id>'.$data['id'].'</id>';
+    if ($connected) $xml.='<profil/>';
     $xml.='</membre>';
   }
   return $xml;

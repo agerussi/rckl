@@ -11,7 +11,7 @@ require("menu_body.php"); ?>
 
 <h1>LISTE DE DIFFUSION</h1>
 <p>La liste de diffusion <b>rckl@freelists.org</b> est, en parallèle avec ce site, le moyen privilégié de communication au sein du RCKL.
-Par ailleurs vous pouvez communiquer avec un membre particulier par l'intermédiaire du trombinoscope.
+Par ailleurs vous pouvez communiquer avec un membre particulier par l'intermédiaire de son profil, accessible à la page du trombinoscope.
 <br/>
 L'inscription à cette liste est réservée aux membres inscrits, ou à titre exceptionnel à des personnes extérieures connues.
 Cependant, des personnes non inscrites peuvent poster sur la liste mais leur message sera d'abord modéré.

@@ -14,7 +14,7 @@ function initializeMap() {
     center: new google.maps.LatLng(latitude,longitude),
     zoom: (newProfile) ? 5:11,
     streetViewControl: false
-  };
+  }
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
   // le marqueur
   var markerOptions = {
