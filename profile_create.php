@@ -38,7 +38,7 @@ $nomprofil=request("nomprofil");
 array_push($changes,addslashes($nomprofil));
 // datenaissance
 $datenaissance=request("datenaissance");
-array_push($changes,FtE($datenaissance));
+array_push($changes,dateF2E($datenaissance));
 // latitude
 $latitude=request("latitude");
 array_push($changes,$latitude);
@@ -49,12 +49,13 @@ array_push($changes,$longitude);
 // sauvegarde dans la base de données
 require("dbconnect.php");
 mysql_query("SET NAMES UTF8");
-$query="INSERT INTO membres (login,motdepasse,nom,prenom,nomprofil,datenaissance,latitude,longitude) VALUES (";
+$query="INSERT INTO membres (login,motdepasse,nom,prenom,nomprofil,datenaissance,latitude,longitude,idlesince) VALUES (";
 array_walk($changes,addQuotes);
+array_push($changes,"CURDATE()");
 $query.=implode(", ",$changes);
 $query.=")";
 mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".mysql_error());
-echo $query;
+//echo $query;
 
 // crée le fichier photo par défaut
 $id=mysql_insert_id(); // ATTENTION: pour BD mySQL seulement

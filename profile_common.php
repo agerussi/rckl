@@ -16,7 +16,6 @@ function profileEntry($label) {
   echo '</div>'.PHP_EOL;
 }
 
-
 function commentaire($text) {
   return '<span class="commentaire">'.$text.'</span>';
 }
@@ -30,7 +29,7 @@ function request($field) {
   return $_POST[$field];
 }
 
-function FtE($Fdate) {
+function dateF2E($Fdate) {
   sscanf($Fdate,"%u-%u-%u",$jour,$mois,$annee);
   $Edate="$annee-$mois-$jour";
   return $Edate;

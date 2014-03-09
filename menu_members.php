@@ -27,7 +27,8 @@ s'inscrire à une activité,
 écrire une news,
 créer ou modifier une archive,
 gérer ses frais,
-contacter un membre par mail,
+modifier son profil,
+visionner le profil d'un autre membre,
 s'abonner au flux RSS,
 accéder au salon de discussion"
 >MEMBRES</a>

@@ -59,7 +59,7 @@ $query="UPDATE membres SET ";
 $query.=implode(", ",$changes);
 $query.=" WHERE id='".$_SESSION['userid']."'";
 mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".mysql_error());
-echo $query;
+//echo $query;
 mysql_close($db);
 
 // traitement de la photo
@@ -72,6 +72,6 @@ if ($_FILES['photo']['error']==UPLOAD_ERR_OK
 }
 
 // retourne sur la page de l'archive modifiée
-//header("Location: news.php");
+header("Location: news.php");
 
 ?>
