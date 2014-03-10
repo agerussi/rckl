@@ -18,7 +18,6 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
 
 // crée la liste des suggestions de membres 
  require("dbconnect.php");
- mysql_query("SET NAMES UTF8");
  $sql = 'SELECT nom FROM membres WHERE id>1';
  $req = mysql_query($sql) or die("erreur lors de la lecture des noms de membres".mysql_error());
  $data = mysql_fetch_array($req);
@@ -44,7 +43,6 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
   echo "<h1>Édition d'une archive RCKL</h1>";
   // récupère l'archive sélectionnée
   require("dbconnect.php");
-  mysql_query("SET NAMES UTF8");
   $sql = 'SELECT authId, xml FROM archives WHERE id="'.$_GET['id'].'"';
   $req = mysql_query($sql) or die("erreur lors de la lecture de l'archive id=".$_GET['id'].": ".mysql_error());
   $data = mysql_fetch_array($req);

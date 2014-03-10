@@ -49,7 +49,6 @@ if (strlen($titre)!=0) $xml.="<titre><![CDATA[".$titre."]]></titre>";
 $xml.="\n";
 
 // l'auteur
-mysql_query("SET NAMES UTF8");
 $sql = "SELECT nom FROM membres WHERE id='".$_SESSION['authId']."'";
 $req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
 $data = mysql_fetch_array($req);
@@ -71,7 +70,6 @@ $xml.="\n";
 $xml.=$_POST['xmlmedias'];
 
 // sauvegarde de l'xml dans la base de données
-mysql_query("SET NAMES UTF8");
 $query="UPDATE archives SET ";
 $query.="date='".$edate."'";
 $query.=",xml='".$xml."'";

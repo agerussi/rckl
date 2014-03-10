@@ -38,7 +38,6 @@ $id=$_GET['id'];
 <?php
   // récupère l'ensemble des infos du profil
   require("dbconnect.php");
-  mysql_query("SET NAMES UTF8");
   $sql = 'SELECT * FROM membres WHERE id="'.$id.'"';
   $req = mysql_query($sql) or die("erreur lors de la lecture du profil: ".mysql_error());
   $data = mysql_fetch_array($req);

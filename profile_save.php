@@ -54,7 +54,6 @@ if (!empty($longitude)) array_push($changes,"longitude='".$longitude."'");
 
 // sauvegarde dans la base de données
 require("dbconnect.php");
-mysql_query("SET NAMES UTF8");
 $query="UPDATE membres SET ";
 $query.=implode(", ",$changes);
 $query.=" WHERE id='".$_SESSION['userid']."'";

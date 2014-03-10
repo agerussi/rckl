@@ -48,7 +48,6 @@ array_push($changes,$longitude);
 
 // sauvegarde dans la base de données
 require("dbconnect.php");
-mysql_query("SET NAMES UTF8");
 $query="INSERT INTO membres (login,motdepasse,nom,prenom,nomprofil,datenaissance,latitude,longitude,idlesince) VALUES (";
 array_walk($changes,addQuotes);
 array_push($changes,"CURDATE()");

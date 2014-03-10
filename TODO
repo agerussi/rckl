@@ -1,8 +1,6 @@
 
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
-* CHANTIER: mise à la norme UTF-8 partout
-
 * CHANTIER: gestion du idlesince
  - FAIT: lors de la mise à jour forcée
  - lors d'une news
@@ -12,6 +10,6 @@
  - lors d'une participation à une sortie
  - lors d'une connexion sur le chat
 
-* CHANTIER: mise à jour de la vraie BD
-
 * CHANTIER: news automatique et flux RSS
+
+* BUGFIX: utiliser dorénavant 'nomprofil' et non plus 'nom'

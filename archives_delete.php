@@ -10,7 +10,6 @@ require("helper.php");
 
 // récupère l'année de la sortie pour pouvoir retourner à la bonne page d'archives !
 // récupère authId pour sécuriser le principe
-  mysql_query("SET NAMES UTF8");
   $query='SELECT authId, DATE_FORMAT(date,"%Y") AS annee, xml FROM archives WHERE id="'.$id.'"';
   $result=mysql_query($query,$db) or die("Erreur lors de la lecture d'une archive: ".mysql_error());
   $row=mysql_fetch_array($result);
