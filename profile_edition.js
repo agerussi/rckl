@@ -37,7 +37,8 @@ function initializeMap() {
 
 function main() {
   document.getElementById("submitbutton").addEventListener("click",submit);
- 
+  if (upgradeProfile) userId=ajax("dbtools.php?cmd=getuserid");
+
   // champs spécifiques au mode "new" 
   if (newProfile) {
     if (!upgradeProfile) {
@@ -138,7 +139,8 @@ function nameToProfile() {
 
 // teste si le profil existe déjà dans la BD
 function profileExists(profile) {
-  return ajax("dbtools.php?cmd=profileexists&profile="+profile);
+  var id=ajax("dbtools.php?cmd=profileexists&profile="+profile);
+  return id!=0 && (!upgradeProfile || id!=userId);
 }
 
 // vérifie la validité du nom de profil

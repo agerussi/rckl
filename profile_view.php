@@ -60,17 +60,14 @@ $id=$_GET['id'];
     stripslashes($data['nom'])
   ); 
   // âge
-  $dateTime=new DateTime();
-  $dateNaissance=new DateTime($data['datenaissance']);
-  $age=$dateTime->diff($dateNaissance);
   profileEntry("Âge",
-    $age->format("%y"),
+    calcAge($data['datenaissance']),
     ' ans'
   ); 
   // dernière activité
-  $idlesince=new DateTime($data['idlesince']);
+  sscanf($data['idlesince'],"%u-%u-%u",$annee,$mois,$jour);
   profileEntry("Dernière activité",
-    $idlesince->format("d M Y")
+    $jour.'/'.$mois.'/'.$annee
   ); 
   // solde
   profileEntry("Solde",
@@ -102,15 +99,26 @@ $id=$_GET['id'];
     );
   }
   // localisation
-  echo implode([
+  echo implode(array(
     '<script type="text/javascript">',
     'displayMap.latitude=',$data['latitude'],';',
     'displayMap.longitude=',$data['longitude'],';',
     '</script>'
-    ]);
+    ));
   profileEntry("Localisation",
     '<div id="map-canvas"></div>'
   ); 
 ?>
  </body>
 </html>
+
+<?php // helper functions
+function calcAge($dateString) {
+  sscanf($dateString,"%u-%u-%u",$annee,$mois,$jour);
+  sscanf(date('Y-n-d'),"%u-%u-%u",$anneeC,$moisC,$jourC);
+  $age=$anneeC-$annee;
+  if ($moisC<$mois) $age--;
+  if ($moisC==$mois && $jourC<$jour) $age--;
+  return $age;
+}
+?>

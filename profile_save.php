@@ -10,7 +10,7 @@ require("dbconnect.php");
 
 // examen des variables retournées
 foreach ($_POST as $key => $value) {
-    echo $key."=".$value."<br/>";
+    //echo $key."=".$value."<br/>";
 }
 
 // traitement anti-magic_quotes_gpc

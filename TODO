@@ -4,3 +4,14 @@
 * CHANTIER: mise à la norme UTF-8 partout
 
 * CHANTIER: gestion du idlesince
+ - FAIT: lors de la mise à jour forcée
+ - lors d'une news
+ - lors d'une modification de profil
+ - lors d'une déclaration de frais
+ - lors d'une proposition de sortie
+ - lors d'une participation à une sortie
+ - lors d'une connexion sur le chat
+
+* CHANTIER: mise à jour de la vraie BD
+
+* CHANTIER: news automatique et flux RSS

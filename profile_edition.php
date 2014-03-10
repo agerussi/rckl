@@ -73,12 +73,12 @@ Les données ci-dessous, à l'exception de celles marquées par une étoile *, s
   ); 
 
   // communique la latitude et longitude actuelle
-  echo implode([
+  echo implode(array(
     '<script type="text/javascript">',
     'latitude=',$data['latitude'],';',
     'longitude=',$data['longitude'],';',
     '</script>'
-    ]);
+  ));
 ?>
     <input type="button" id="submitbutton" value="Modifier" title="sauvegarder les changements" />
   </form>
@@ -95,13 +95,13 @@ function photo($path) {
 }
 
 function zoneTexte($name,$cols,$rows,$value) {
-  return implode([
+  return implode(array(
     '<textarea name="'.$name.'"', 
     ' cols="'.$cols.'"',
     ' rows="'.$rows.'">',
     $value,
     '</textarea>'
-  ]);
+  ));
 }
 
 ?>

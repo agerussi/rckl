@@ -4,7 +4,7 @@ require("profile_common.php");
 
 // examen des variables retournées
 foreach ($_POST as $key => $value) {
-    echo $key."=".$value."<br/>";
+    //echo $key."=".$value."<br/>";
 }
 
 // traitement anti-magic_quotes_gpc
@@ -30,7 +30,7 @@ $nomprofil=request("nomprofil");
 array_push($changes,"nomprofil='".addslashes($nomprofil)."'");
 // datenaissance
 $datenaissance=request("datenaissance");
-array_push($changes,"datenaissance='".FtE($datenaissance)."'");
+array_push($changes,"datenaissance='".dateF2E($datenaissance)."'");
 // latitude
 $latitude=request("latitude");
 array_push($changes,"latitude='".$latitude."'");
@@ -39,6 +39,8 @@ $longitude=request("longitude");
 array_push($changes,"longitude='".$longitude."'");
 // indique que la mise à jour a été faite
 array_push($changes,"needupgrade='no'");
+// met à jour idlesince
+array_push($changes,"idlesince=CURDATE()");
 
 // sauvegarde dans la base de données
 require("dbconnect.php");
@@ -47,7 +49,7 @@ $query="UPDATE membres SET ";
 $query.=implode(", ",$changes);
 $query.=" WHERE id='".$_SESSION['userid']."'";
 mysql_query($query,$db) or die("Erreur lors de la mise à jour d'un profil: ".mysql_error());
-echo $query;
+//echo $query;
 mysql_close($db);
 
 // auto-login 

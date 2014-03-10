@@ -6,7 +6,11 @@
 // renvoie true ou false suivant que le login existe déjà ou non
 //
 // cmd=profileexists&profile=<login>
-// renvoie true ou false suivant que le nomprofil existe déjà ou non
+// renvoie l'id correspondant, ou 0 suivant que le nomprofil existe déjà ou non
+//
+// cmd=getuserid
+// renvoie l'id de l'utilisateur connecté, ou 0 si personne n'est connecté
+
 
 if (!isset($_GET['cmd'])) die("dbtools: commande non spécifiée.");
 
@@ -20,6 +24,11 @@ case "loginexists":
 case "profileexists":
   if (!isset($_GET['profile'])) die("dbtools/profileexists: profile non spécifié.");
   echo profileexists($_GET['profile']);
+  break;
+case "getuserid":
+  session_start();
+  if (isset($_SESSION['userid'])) echo $_SESSION['userid'];
+  else echo "0";
   break;
 default:
   die("dbtools: commande inconnue.");
@@ -36,10 +45,11 @@ function loginexists($login) {
 }
 
 function profileexists($profile) {
-  $sql = "SELECT EXISTS(SELECT 1 FROM membres WHERE nomprofil='".addslashes($profile)."')";
+  $sql = "SELECT id FROM membres WHERE nomprofil='".addslashes($profile)."'";
   $req = mysql_query($sql) or die("dbtools: erreur lors de la recherche d'un nomprofil dans la table des membres.");
+  if (mysql_num_rows($req)==0) return 0;
   $data = mysql_fetch_array($req);
-  return ($data[0]==0) ? "false":"true";
+  return $data['id'];
 }
 
 ?>
