@@ -50,7 +50,7 @@ while($ligne = mysql_fetch_array($result)) {
     default:
       echo '<td>';
     }
-    echo $ligne['nom'].": ".$solde."</td>";
+    echo $ligne['nomprofil'].": ".$solde."</td>";
     if ($n%$maxperline==$maxperline-1) echo "</tr>";
     $n++;
 }

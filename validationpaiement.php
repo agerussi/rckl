@@ -13,11 +13,11 @@ if (!isset($_POST['validerpaiement'])) {
 require("dbconnect.php");
 
 // établit la liste et le nombre des membres sélectionnés
-$query = 'SELECT id,nom,solde FROM membres WHERE login<>"root"';
+$query = 'SELECT id,nomprofil,solde FROM membres WHERE login<>"root"';
 $result=mysql_query($query,$db);
 $numMembres=0;
 while($ligne = mysql_fetch_array($result)) {
-  $nom=$ligne['nom'];
+  $nom=$ligne['nomprofil'];
   $id=$ligne['id'];
   $solde=$ligne['solde'];
   if ($_POST['id'.$id]) {

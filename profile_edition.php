@@ -46,6 +46,7 @@ Les données ci-dessous, à l'exception de celles marquées par une étoile *, s
     message("passwd")
   ); 
   profileEntry("Photo",
+    commentaire("Dans l'idéal la photo devrait être au format 3:4 (par exemple: 150x200). Taille maximale: 20KB"),
     photo(photoPath($data['id'])),
     '<input type="hidden" name="MAX_FILE_SIZE" value="20480" />',
     '<input type="file" id="fileChooser" name="photo" style="display:none"/>',

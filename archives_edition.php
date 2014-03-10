@@ -18,11 +18,11 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
 
 // crée la liste des suggestions de membres 
  require("dbconnect.php");
- $sql = 'SELECT nom FROM membres WHERE id>1';
- $req = mysql_query($sql) or die("erreur lors de la lecture des noms de membres".mysql_error());
+ $sql = 'SELECT nomprofil FROM membres WHERE id>1';
+ $req = mysql_query($sql) or die("erreur lors de la lecture des identifiants de membres".mysql_error());
  $data = mysql_fetch_array($req);
- echo 'var suggestions=["'.$data['nom'].'"';
- while ($data = mysql_fetch_array($req)) echo ',"'.$data['nom'].'"'; 
+ echo 'var suggestions=["'.$data['nomprofil'].'"';
+ while ($data = mysql_fetch_array($req)) echo ',"'.$data['nomprofil'].'"'; 
  echo '];';
  mysql_free_result($req);
 

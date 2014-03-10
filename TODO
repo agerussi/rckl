@@ -11,5 +11,3 @@
  - lors d'une connexion sur le chat
 
 * CHANTIER: news automatique et flux RSS
-
-* BUGFIX: utiliser dorénavant 'nomprofil' et non plus 'nom'

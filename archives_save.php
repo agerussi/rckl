@@ -49,10 +49,10 @@ if (strlen($titre)!=0) $xml.="<titre><![CDATA[".$titre."]]></titre>";
 $xml.="\n";
 
 // l'auteur
-$sql = "SELECT nom FROM membres WHERE id='".$_SESSION['authId']."'";
+$sql = "SELECT nomprofil FROM membres WHERE id='".$_SESSION['authId']."'";
 $req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
 $data = mysql_fetch_array($req);
-$xml.="<auteur>".$data['nom']."</auteur>";
+$xml.="<auteur>".$data['nomprofil']."</auteur>";
 $xml.="\n";
 mysql_free_result($req);
 

@@ -11,13 +11,13 @@
   require("dbconnect.php");
 
   // récupère la liste des membres considérés présents  
-  $query="SELECT id,nom FROM membres WHERE TIMESTAMPDIFF(SECOND,chattimestamp,NOW())<15";
+  $query="SELECT id,nomprofil FROM membres WHERE TIMESTAMPDIFF(SECOND,chattimestamp,NOW())<15";
   $result=mysql_query($query, $db) or die("Erreur lors de la collecte des membres présents: ".mysql_error());
 
   // formate les membres sous format JSON
   unset($json);
   while ($row=mysql_fetch_array($result)) {
-    $json[]='{"id":'.$row['id'].',"nom":"'.stripslashes($row['nom']).'"}';
+    $json[]='{"id":'.$row['id'].',"nom":"'.stripslashes($row['nomprofil']).'"}';
   }
 
   // renvoie le JSON
