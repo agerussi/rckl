@@ -11,3 +11,5 @@
  - lors d'une connexion sur le chat
 
 * CHANTIER: news automatique et flux RSS
+
+* BUGFIX: traiter la question délicate de IMGDB qui n'a pas été pris correctement dans le sitecopyrc (en essayant de ne rien effacer!!!)
