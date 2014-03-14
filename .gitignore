@@ -6,6 +6,6 @@ TROMBI/
 IMGDB/
 OUTILS/JSDATEPICK/
 OUTILS/slimbox*
-dbconnect_free.php
+dbsecret_free.php
 *.swp
 *.bak
