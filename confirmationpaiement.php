@@ -48,6 +48,7 @@ if ($numExt>0) {
 $query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".$somme.",'".$listevariations."','".$_SESSION['paiement-description']."','".$cancel."')";
 //echo "debug: query=".$query.'<br/>';
 mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
+idleUpdate($_SESSION['userid']);
 
 // ajout de la transaction au flux rss
 require("rss.php");

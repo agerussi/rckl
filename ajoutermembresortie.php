@@ -16,7 +16,8 @@ $newliste.=$_SESSION['profilename'].",".$_SESSION['userid'];
 
 // met à jour la base
 $query="UPDATE sorties SET participants=\"$newliste\" WHERE id=$idsortie";
-if (!mysql_query($query,$db)) die("Erreur lors de la mise à jour des participants à une sortie: ".mysql_error());
+mysql_query($query,$db) or die("Erreur lors de la mise à jour des participants à une sortie: ".mysql_error());
+idleUpdate($_SESSION['userid']);
 
 header("Location: calendrier.php");
 ?>

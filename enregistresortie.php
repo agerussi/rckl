@@ -59,6 +59,8 @@ else { // modification d'une sortie existante
 
 mysql_query($query,$db) or die("Erreur lors de la création/modification d'une sortie: ".mysql_error());
 //die ($query);
+idleUpdate($_SESSION['userid']);
+
 header("Location: calendrier.php");
 ?>
 

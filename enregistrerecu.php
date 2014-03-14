@@ -37,6 +37,7 @@ $cancel=$_SESSION['userid'].','.$somme;
 $query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".(-$somme).",'".$listevariations."','".$_POST['commentaire']."','".$cancel."')";
 //echo "debug: query=".$query.'<br/>';
 mysql_query($query, $db) or die("Erreur lors de l'ajout dans l'historique: ".mysql_error());
+idleUpdate($_SESSION['userid']);
 
 header("Location: gestiondesfrais.php");
 ?>

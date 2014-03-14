@@ -1,15 +1,6 @@
 
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
-* CHANTIER: gestion du idlesince
- - FAIT: lors de la mise à jour forcée
- - lors d'une news
- - lors d'une modification de profil
- - lors d'une déclaration de frais
- - lors d'une proposition de sortie
- - lors d'une participation à une sortie
- - lors d'une connexion sur le chat
-
 * CHANTIER: news automatique et flux RSS
 
 * BUGFIX: traiter la question délicate de IMGDB qui n'a pas été pris correctement dans le sitecopyrc (en essayant de ne rien effacer!!!)

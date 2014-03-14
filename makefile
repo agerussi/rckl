@@ -1,5 +1,5 @@
 
 Upload:
-	ln -sf dbconnect_realdeal.php dbconnect.php
+	ln -sf dbsecret_free.php dbsecret.php
 	sitecopy --update rckl
-	ln -sf dbconnect_local.php dbconnect.php
+	ln -sf dbsecret_local.php dbsecret.php

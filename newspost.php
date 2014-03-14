@@ -2,7 +2,7 @@
 session_start();
 // =========== tests préalables
 //teste si l'utilisateur est connecté
-if (!isset($_SESSION['login'])) {
+if (!isset($_SESSION['userid'])) {
   header("Location: news.php");
 }
 if (!isset($_POST['newsbody'])) {
@@ -20,6 +20,9 @@ mysql_query($query, $db) or die("Erreur lors de l'insertion de la news: ".mysql_
 // fait le ménage dans la table des news (efface les messages datant de plus de 2 mois)
 $query="DELETE FROM news WHERE date<DATE_SUB(CURDATE(),INTERVAL 2 MONTH)";
 mysql_query($query,$db) or die("Erreur lors de l'effacement des anciennes news: ".mysql_error());
+
+// met à jour idlesince
+idleUpdate($_SESSION['userid']);
 
 // rajoute la news au flux rss
 require("rss.php");

@@ -59,6 +59,7 @@ $query.=implode(", ",$changes);
 $query.=" WHERE id='".$_SESSION['userid']."'";
 mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".mysql_error());
 //echo $query;
+idleUpdate($_SESSION['userid']);
 mysql_close($db);
 
 // traitement de la photo
