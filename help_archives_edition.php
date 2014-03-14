@@ -7,7 +7,7 @@
 <h1>Aide de la page d'édition des archives</h1>
 La page d'édition permet de modifier une archive existante ou de créer une nouvelle archive.
 Dans tous les cas, les modifications apportées ne seront effectives qu'après avoir cliqué sur le bouton «Modifier l'archive» au bas de la page.
-Le bouton «Annuler» annule toutes les modifications, et même l'archive en entier si celle-ci vient d'être crée.
+Le bouton «Annuler» annule toutes les modifications, et même l'archive en entier si celle-ci vient d'être créée.
 
 <h2>Le champ «Date de l'activité»</h2>
 Ce champ est <em>obligatoire</em>. 
