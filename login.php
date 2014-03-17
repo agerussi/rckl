@@ -19,7 +19,7 @@ session_start();
 
 //set the database connection variables
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 $result=mysql_query("SELECT id, login, nomprofil, needupgrade FROM membres WHERE login='$user' AND motdepasse='$pass' AND site<>0", $db);
 

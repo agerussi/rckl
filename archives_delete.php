@@ -5,7 +5,7 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
 $userId=$_SESSION['userid'];
 $id=$_GET['id'];
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 require("helper.php");
 
 // récupère l'année de la sortie pour pouvoir retourner à la bonne page d'archives !

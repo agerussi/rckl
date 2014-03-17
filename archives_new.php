@@ -6,7 +6,7 @@ session_start();
 if (!isset($_SESSION['userid'])) header("Location: news.php");
 $userId=$_SESSION['userid'];
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 // crée une archive "vierge" 
 // avec authId initialisé
 // et la date courante mise par défaut 

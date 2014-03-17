@@ -16,7 +16,7 @@
 <?php
   require("menu_body.php"); 
   // début du programme spécifique 'chatroom'
-  require("dbconnect.php");
+  require_once("dbconnect.php");
   
   // teste s'il s'agit d'une nouvelle conversation
   $query="SELECT id FROM membres WHERE TIMESTAMPDIFF(SECOND,chattimestamp,NOW())<60";

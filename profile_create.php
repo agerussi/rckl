@@ -1,6 +1,6 @@
 <?php 
 require("profile_common.php");
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 // examen des variables retournées
 foreach ($_POST as $key => $value) {
@@ -47,7 +47,6 @@ $longitude=request("longitude");
 array_push($changes,$longitude);
 
 // sauvegarde dans la base de données
-require("dbconnect.php");
 $query="INSERT INTO membres (login,motdepasse,nom,prenom,nomprofil,datenaissance,latitude,longitude,idlesince) VALUES (";
 array_walk($changes,addQuotes);
 array_push($changes,"CURDATE()");

@@ -4,7 +4,7 @@
 $source='participants';
 $cible='u8participants';
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 $query = 'SELECT id, '.$source.' FROM sorties';
 $result=mysql_query($query, $db);
 

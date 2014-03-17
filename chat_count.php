@@ -6,7 +6,7 @@
   // teste si l'utilisateur est connecté
   if (!isset($_SESSION['userid']) || empty($_SESSION['userid'])) exit(0);
 
-  require("dbconnect.php");
+  require_once("dbconnect.php");
 
   // compte le nombre de connectés restants
   $query="SELECT COUNT(*) FROM chat_members";

@@ -18,7 +18,7 @@ if (isset($_SESSION['login'])) {
 
 <?php
 // on se connecte à la base
-require("dbconnect.php");
+require_once("dbconnect.php");
 //
 $sql = 'SELECT date, auteur, texte FROM news ORDER BY date DESC;';
 $req = mysql_query($sql) or die("erreur lors de la lecture des news: ".mysql_error());

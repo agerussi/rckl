@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['userid'])|| !isset($_GET['ids'])) header("Location: calendrier.php");
 $idsortie=$_GET['ids']; // sortie
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 $query="SELECT participants FROM sorties WHERE id=$idsortie";
 $listesorties=mysql_query($query, $db) or die("Erreur lors de la recherche de la sortie: ".mysql_error());
 $sortie=mysql_fetch_array($listesorties);

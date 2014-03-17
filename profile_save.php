@@ -5,7 +5,7 @@ require("profile_common.php");
 // tests de sécurité
 if (!isset($_SESSION['userid'])) header("Location: news.php");
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 
 // examen des variables retournées
@@ -53,7 +53,6 @@ $longitude=request("longitude");
 if (!empty($longitude)) array_push($changes,"longitude='".$longitude."'");
 
 // sauvegarde dans la base de données
-require("dbconnect.php");
 $query="UPDATE membres SET ";
 $query.=implode(", ",$changes);
 $query.=" WHERE id='".$_SESSION['userid']."'";

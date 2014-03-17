@@ -37,7 +37,7 @@ $id=$_GET['id'];
 
 <?php
   // récupère l'ensemble des infos du profil
-  require("dbconnect.php");
+  require_once("dbconnect.php");
   $sql = 'SELECT * FROM membres WHERE id="'.$id.'"';
   $req = mysql_query($sql) or die("erreur lors de la lecture du profil: ".mysql_error());
   $data = mysql_fetch_array($req);

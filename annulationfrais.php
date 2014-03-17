@@ -7,7 +7,7 @@ if ($_SESSION['userid']!=1) header("Location: news.php");
 $id=$_GET['id'];
 
 // connexion à la base de données
-require("dbconnect.php");
+require_once("dbconnect.php");
 $query="SELECT cancel FROM paiements WHERE id=" . $id;
 $listepaiement=mysql_query($query,$db) or die("Erreur lors d'une annulation de frais: ".mysql_error());
 if (count($listepaiement)!=1) die("La note de frais id=".$id." n'a pas été retrouvée");

@@ -27,7 +27,7 @@
   echo "<h2>".$titre."</h2>";
 
   // récupère les archives de l'année sélectionnée
-  require("dbconnect.php");
+  require_once("dbconnect.php");
   $sql = 'SELECT id, authId, xml FROM archives WHERE DATE_FORMAT(date,"%Y")='.$year;
   $req = mysql_query($sql) or die("erreur lors de la lecture des archives: ".mysql_error());
 

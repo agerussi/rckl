@@ -52,7 +52,7 @@ require("menu_body.php");
 <?php // affichage de la liste des sorties existantes
 $logged=isset($_SESSION['login']);
 // récupère la liste des sorties
-require("dbconnect.php");
+require_once("dbconnect.php");
 $query="SELECT * FROM sorties ORDER BY datedebut";
 $listesorties=mysql_query($query, $db) or die("Erreur pendant la récupération de la liste des sorties: ".mysql_error());
 

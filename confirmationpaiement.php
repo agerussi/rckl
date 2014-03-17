@@ -10,7 +10,7 @@ if (!isset($_SESSION['paiement-numTotal'])) {
   header("Location: nouvelledepense.php");
 }
 // connexion à la base de données
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 // calcule les nouveaux soldes, la liste des variations et la liste d'annulation
 // données pré-calculées dans validationpaiement.php

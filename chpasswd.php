@@ -21,7 +21,7 @@ if (empty($pass1) || $pass1 != $pass2) {
 $newpass = md5($pass1); // code le mot de passe
 $id=$_SESSION['userid'];
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 //echo 'debug: Changement du mot de passe id n° '.$_SESSION['userid'];
 

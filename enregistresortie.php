@@ -14,7 +14,7 @@ if (!isset($_SESSION['userid'])
   || !isset($_POST['deadline'])
 ) header("Location: calendrier.php");
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 if ($_GET['ids']==-1) { // nouvelle sortie
   // ajout de la sortie au flux RSS

@@ -8,7 +8,7 @@ if ( !isset($_SESSION['userid'])
 ) header("Location: news.php");
 $idSortie=$_GET["id"]; // identifiant de sortie
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 /*
 // examen des variables retournées

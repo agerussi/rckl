@@ -43,7 +43,7 @@ array_push($changes,"needupgrade='no'");
 array_push($changes,"idlesince=CURDATE()");
 
 // sauvegarde dans la base de données
-require("dbconnect.php");
+require_once("dbconnect.php");
 $query="UPDATE membres SET ";
 $query.=implode(", ",$changes);
 $query.=" WHERE id='".$_SESSION['userid']."'";

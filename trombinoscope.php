@@ -18,7 +18,7 @@
     echo '<p><a href="loginpage.php?target=trombinoscope.php">Connectez-vous</a> pour accéder aux informations sur un membre.</p>';
 
   // requiert une connection à la BD
-  require("dbconnect.php");
+  require_once("dbconnect.php");
 
   // construit le xml du trombinoscope
   $xml='<?xml version="1.0" encoding="utf-8"?>';

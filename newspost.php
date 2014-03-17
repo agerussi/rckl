@@ -9,7 +9,7 @@ if (!isset($_POST['newsbody'])) {
   header( "Location: newspost-page.php" );
 }
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 
 //echo 'debug: poste la news suivante:<br/>'.$_POST['newsbody'];

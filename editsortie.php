@@ -6,7 +6,7 @@ if (!isset($_SESSION['userid']) || !isset($_GET['ids'])) header("Location: calen
 $ids=$_GET['ids']; // id de la sortie
 $new=($ids==-1); // nouvelle sortie ?
 if (!$new) {
-  require("dbconnect.php"); // connexion à la base
+  require_once("dbconnect.php"); // connexion à la base
   $query="SELECT deadline,datedebut,datefin,destination,objet,modalites FROM sorties WHERE id=$ids";
   $listesortie=mysql_query($query,$db) or die("Erreur lors de la récupération des données d'une sortie: ".mysql_error());
   $sortie=mysql_fetch_array($listesortie);

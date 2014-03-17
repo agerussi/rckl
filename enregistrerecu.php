@@ -14,7 +14,7 @@ if (!isset($_POST['somme']) || !isset($_POST['commentaire'])) {
 $somme=round(100*$_POST['somme'])/100;
 
 // connexion à la base de données
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 // calcul du nouveau solde
 $query="SELECT solde FROM membres WHERE id=".$_SESSION['userid'];

@@ -10,7 +10,7 @@ if (!isset($_POST['validerpaiement'])) {
   header("Location: nouveaupaiement.php");
 }
 // connexion à la base de données
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 // établit la liste et le nombre des membres sélectionnés
 $query = 'SELECT id,nomprofil,solde FROM membres WHERE login<>"root"';

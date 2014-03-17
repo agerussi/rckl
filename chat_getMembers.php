@@ -8,7 +8,7 @@
   // teste si l'utilisateur est connecté
   if (!isset($_SESSION['userid']) || empty($_SESSION['userid'])) exit(0);
 
-  require("dbconnect.php");
+  require_once("dbconnect.php");
 
   // récupère la liste des membres considérés présents  
   $query="SELECT id,nomprofil FROM membres WHERE TIMESTAMPDIFF(SECOND,chattimestamp,NOW())<15";

@@ -14,7 +14,7 @@
 
 if (!isset($_GET['cmd'])) die("dbtools: commande non spécifiée.");
 
-require("dbconnect.php");
+require_once("dbconnect.php");
 
 switch ($_GET['cmd']) {
 case "loginexists":

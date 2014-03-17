@@ -7,7 +7,7 @@
   // teste si l'utilisateur est connecté
   if (!isset($_SESSION['userid']) || empty($_SESSION['userid'])) exit(0);
 
-  require("dbconnect.php");
+  require_once("dbconnect.php");
 
   // récupère les messages numérotés > $_SESSION['numsent']
   $query="SELECT auteur,message FROM chat_messages WHERE num > ".$_SESSION['numsent']." ORDER BY num";
