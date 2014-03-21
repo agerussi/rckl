@@ -2,6 +2,11 @@
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
 * CHANTIER: news automatique et flux RSS
+FAIT: news
+- nouvelle sortie
+- nouvelle archive
+- nouveau membre
+- nouvelle déclaration de frais
 
 * CHANTIER: nouveau calendrier avec possibilités d'activités «régulières»
 
@@ -11,3 +16,4 @@
 
 * CHANTIER: modes locaux avec éditions de différentes profils et options
 
+* SUPPRIMER le champ 'id' dans la table des news

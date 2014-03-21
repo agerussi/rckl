@@ -10,7 +10,7 @@ require("background.html");
 require("menu_body.php"); 
 // si quelqu'un est loggé, proposer le rajout d'une news
 if (isset($_SESSION['login'])) {
-  echo '<p><a href="glrss.xml"><img border=0 src="ICONS/RSS-icon.png" class="icon" /></a></p>';
+  echo '<p><a href="rcklrss.xml"><img border=0 src="ICONS/RSS-icon.png" class="icon" /></a></p>';
 }
 ?>
 
