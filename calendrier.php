@@ -95,9 +95,9 @@ else {
       echo "<br />au&nbsp;".$jds."&nbsp;".$jour."</td>";
     }
     // la destination
-    echo "<td>".$sortie['destination']."</td>";
+    echo "<td>".htmlspecialchars($sortie['destination'])."</td>";
     // l'objet de la sortie
-    echo "<td>".$sortie['objet']."</td>";
+    echo "<td>".htmlspecialchars($sortie['objet'])."</td>";
 
     // la liste des participants
     $inscrit=false; 
@@ -129,7 +129,7 @@ else {
     echo "</td>";
 
       // les modalités   
-    echo "<td>".$sortie['modalites']."</td>";
+    echo "<td>".htmlspecialchars($sortie['modalites'])."</td>";
 
     // le responsable
     $query="SELECT nomprofil FROM membres WHERE id=".$sortie['idresponsable'];

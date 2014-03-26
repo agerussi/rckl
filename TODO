@@ -16,4 +16,8 @@ FAIT: news
 
 * CHANTIER: modes locaux avec éditions de différentes profils et options
 
+* CHANTIER: mise à jour du idlesince lors de la déclaration de participation dans une archive
+
 * SUPPRIMER le champ 'id' dans la table des news
+
+* DEBUG: faire passer l'ensemble du site à magic_quotes_gpc_off (notamment les activités, qui buguent)

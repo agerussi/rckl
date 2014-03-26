@@ -4,7 +4,7 @@
 require_once("dbconnect.php");
 
 function insertNews($auteur,$body) {
-  $query = "INSERT INTO news (date, auteur, texte) VALUES(CURDATE(),'".addslashes($auteur)."','".htmlspecialchars(trim($body),ENT_QUOTES|ENT_XML1)."')";
+  $query = "INSERT INTO news (date, auteur, texte) VALUES(CURDATE(),'".addslashes($auteur)."','".addslashes(trim($body))."')";
   //echo $query;
   global $db;
   mysql_query($query, $db) or die("insertNews: erreur lors de l'insertion de la news: ".mysql_error());
