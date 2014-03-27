@@ -38,9 +38,9 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
 </script>
 </head>
 <body>
-<a target="_blank" href="help_archives_edition.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a>
+  <a target="_blank" href="help_archives_edition.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a>
+  <h1>Édition d'une archive RCKL</h1>
 <?php
-  echo "<h1>Édition d'une archive RCKL</h1>";
   // récupère l'archive sélectionnée
   $sql = 'SELECT authId, xml FROM archives WHERE id="'.$_GET['id'].'"';
   $req = mysql_query($sql) or die("erreur lors de la lecture de l'archive id=".$_GET['id'].": ".mysql_error());
@@ -67,7 +67,10 @@ if (!isset($_SESSION['userid']) || !isset($_GET['id'])) header("Location: news.p
   $xsl->load("archives_edit.xsl");
   $proc = new XSLTProcessor;
   $proc->importStyleSheet($xsl); 
+
+  echo '<form onsubmit="return validationArchive()" enctype="multipart/form-data" accept-charset="utf-8" method="post" action="archives_save.php?id='.$_GET['id'].(isset($_GET['new']) ? '&new">':'">');
   echo htmlspecialchars_decode($proc->transformToXML($xml)); 
+  echo "</form>";
 ?>
 </body>
 </html>

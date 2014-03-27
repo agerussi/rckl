@@ -4,49 +4,47 @@
 <xsl:output method="html" indent="no" omit-xml-declaration="yes" encoding="utf-8"/>
 
 <xsl:template match="/editsortie">
-  <form enctype="multipart/form-data" accept-charset="utf-8" method="post" action="{concat('archives_save.php?id=',@id)}" onsubmit="return validationArchive()"> 
-    <xsl:apply-templates select="date"/>
-    <xsl:if test="not(titre)">
-      <xsl:call-template name="titreDefault"/>
-    </xsl:if>
-    <xsl:apply-templates select="titre"/>
-    <xsl:call-template name="participants"/>
-    <xsl:if test="not(commentaire)">
-      <xsl:call-template name="commentaireDefault"/>
-    </xsl:if>
-    <xsl:apply-templates select="commentaire"/>
-    <div id="listeMedias">
-    </div>
-    <input type="hidden" id="xmlmedias" name="xmlmedias"/>
-    <script type="text/javascript">
-      function createObjects() { 
-        <xsl:apply-templates select="photo|video|vimeo|youtube"/>
-	<xsl:apply-templates select="participants/nom"/>
-      }
-    </script>
-    <div id="validannulation">
-      <p>
-	Ajouter une photo: 
-	<input type="file" id="ajoutFichiers" multiple="multiple" />
-      </p>
-      <p>
-	Ajouter une vidéo Vimeo: 
-	<input type="text" id="VimeoId"/>
-        <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" class="icon" src="ICONS/b_add.png"/> 
-      </p>
-      <p>
-	Ajouter une vidéo YouTube:
-	<input type="text" id="YouTubeId"/>
-	<img title="ajouter une vidéo YouTube" id="ajouterYouTube" class="icon" src="ICONS/b_add.png"/> 
-      </p>
-      <p>
-	<input type="submit" name="archivesubmit" value="Modifier l'archive" />
-      </p>
-      <p>
-	<input type="button" id="cancel" value="Annuler" />
-      </p>
-    </div>
-  </form>
+  <xsl:apply-templates select="date"/>
+  <xsl:if test="not(titre)">
+    <xsl:call-template name="titreDefault"/>
+  </xsl:if>
+  <xsl:apply-templates select="titre"/>
+  <xsl:call-template name="participants"/>
+  <xsl:if test="not(commentaire)">
+    <xsl:call-template name="commentaireDefault"/>
+  </xsl:if>
+  <xsl:apply-templates select="commentaire"/>
+  <div id="listeMedias">
+  </div>
+  <input type="hidden" id="xmlmedias" name="xmlmedias"/>
+  <script type="text/javascript">
+    function createObjects() { 
+      <xsl:apply-templates select="photo|video|vimeo|youtube"/>
+      <xsl:apply-templates select="participants/nom"/>
+    }
+  </script>
+  <div id="validannulation">
+    <p>
+      Ajouter une photo: 
+      <input type="file" id="ajoutFichiers" multiple="multiple" />
+    </p>
+    <p>
+      Ajouter une vidéo Vimeo: 
+      <input type="text" id="VimeoId"/>
+      <img title="ajouter une vidéo Vimeo" id="ajouterVimeo" class="icon" src="ICONS/b_add.png"/> 
+    </p>
+    <p>
+      Ajouter une vidéo YouTube:
+      <input type="text" id="YouTubeId"/>
+      <img title="ajouter une vidéo YouTube" id="ajouterYouTube" class="icon" src="ICONS/b_add.png"/> 
+    </p>
+    <p>
+      <input type="submit" name="archivesubmit" value="Modifier l'archive" />
+    </p>
+    <p>
+      <input type="button" id="cancel" value="Annuler" />
+    </p>
+  </div>
   <input type="file" id="ajoutMiniature" style="display:none"/>
   <div id="zoneSaisie">
     <textarea cols="50" rows="5" id="inputCommentaire"/>
