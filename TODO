@@ -1,13 +1,6 @@
 
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
-* CHANTIER: news automatique et flux RSS: vérification de la gestion des caractères spéciaux
-FAIT: news
-FAIT: nouvelle sortie
-FAIT: nouvelle archive
-FAIT: nouveau membre
-- gestion des frais
-
 * CHANTIER: nouveau calendrier avec possibilités d'activités «régulières»
 
 * CHANTIER: chat avec conversations multiples
@@ -19,5 +12,3 @@ FAIT: nouveau membre
 * CHANTIER: mise à jour du idlesince lors de la déclaration de participation dans une archive
 
 * SUPPRIMER le champ 'id' dans la table des news
-
-* DEBUG: faire passer l'ensemble du site à magic_quotes_gpc_off (notamment les activités, qui buguent)

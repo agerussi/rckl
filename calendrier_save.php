@@ -19,8 +19,8 @@ if ($_GET['ids']==-1) { // nouvelle sortie
   $item.='<description><![CDATA[';
   $item.='Date départ: '.$_POST['datedebut'].'<br />';
   $item.='Deadline: '.$_POST['deadline'].'<br />';
-  $item.='Destination: '.htmlspecialchars(trim($_POST['destination']),ENT_XML1).'<br />';
-  $item.='Description: '.htmlspecialchars(trim($_POST['description']),ENT_XML1);
+  $item.='Destination: '.htmlspecialchars(trim($_POST['destination']),ENT_QUOTES|ENT_XML1).'<br />';
+  $item.='Description: '.htmlspecialchars(trim($_POST['description']),ENT_QUOTES|ENT_XML1);
   $item.= ']]></description>';
   $item.='<pubDate>'.date($rssdateformat).'</pubDate>';
   $item.='</item>';

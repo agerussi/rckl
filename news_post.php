@@ -26,7 +26,7 @@ idleUpdate($_SESSION['userid']);
 $item='<item>';
 $item.='<title>News de '.$_SESSION['profilename'].'</title>';
 $item.='<link>http://rckl.free.fr/news.php</link>';
-$item.='<description><![CDATA['.htmlspecialchars(trim($_POST['newsbody']),ENT_XML1).']]></description>';
+$item.='<description><![CDATA['.htmlspecialchars(trim($_POST['newsbody']),ENT_QUOTES|ENT_XML1).']]></description>';
 $item.='<pubDate>'.date($rssdateformat).'</pubDate>';
 $item.='</item>';
 
