@@ -49,6 +49,26 @@ mysql_query($query,$db) or die("Erreur lors de la modification d'un profil: ".my
 // crée le fichier photo par défaut
 $id=mysql_insert_id(); // ATTENTION: pour BD mySQL seulement
 copy("TROMBI/missingM.jpg",photoPath($id));
+
+// ajout de l'archive au flux RSS
+require_once("rss.php");
+$item="<item>";
+$item.="<title>Nouveau membre!</title>";
+$item.="<link>http://rckl.free.fr/trombinoscope.php</link>";
+$item.="<description><![CDATA[";
+$item.=$prenom." ".$nom." (".$nomprofil.") vient de s'inscrire au RCKL.";
+$item.="]]></description>";
+$item.="<pubDate>".date($rssdateformat)."</pubDate>";
+$item.="</item>";
+rssAdditem($item);
+rssUpdate();
+
+// annonce de la sortie dans les news
+require_once("news_utils.php");
+$newsbody="Souhaitons la bienvenue à un nouveau membre: ".$prenom." ".$nom." (".$nomprofil.") vient de s'inscrire au RCKL.";
+insertNews("RCKL",$newsbody);
+cleanNews();
+
 mysql_close($db);
 
 // auto-login 

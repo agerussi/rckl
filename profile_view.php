@@ -93,9 +93,7 @@ $id=$_GET['id'];
   // divers
   $divers=$data['divers'];
   if (!empty($divers)) {
-    profileEntry("Divers", 
-      $divers
-    );
+    profileEntry("Divers", $divers);
   }
   // localisation
   echo implode(array(
