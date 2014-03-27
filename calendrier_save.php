@@ -19,8 +19,8 @@ if ($_GET['ids']==-1) { // nouvelle sortie
   $item.='<description><![CDATA[';
   $item.='Date départ: '.$_POST['datedebut'].'<br />';
   $item.='Deadline: '.$_POST['deadline'].'<br />';
-  $item.='Destination: '.$_POST['destination'].'<br />';
-  $item.='Description: '.$_POST['description'];
+  $item.='Destination: '.htmlspecialchars(trim($_POST['destination']),ENT_XML1).'<br />';
+  $item.='Description: '.htmlspecialchars(trim($_POST['description']),ENT_XML1);
   $item.= ']]></description>';
   $item.='<pubDate>'.date($rssdateformat).'</pubDate>';
   $item.='</item>';
@@ -31,7 +31,7 @@ if ($_GET['ids']==-1) { // nouvelle sortie
   require_once("news_utils.php");
   $newsbody=$_SESSION['profilename']." propose une nouvelle sortie, ";
   $newsbody.="départ le ".$_POST['datedebut'].", ";
-  $newsbody.="destination: ".$_POST['destination'].".";
+  $newsbody.="destination: ".trim($_POST['destination']).".";
   insertNews("RCKL",$newsbody);
   cleanNews();
 

@@ -36,7 +36,7 @@ function analysedate($date,$a,$m,$j,$jds) {
 <?php require("menu_header.php"); ?>
   <script type="text/javascript">
     function deleteSortie(ids) {
-      if (confirm("Êtes-vous sûr(e) ?")) window.location.replace("effacesortie.php?ids="+ids);
+      if (confirm("Êtes-vous sûr(e) ?")) window.location.replace("calendrier_delete.php?ids="+ids);
     }
   </script>
 </head>
@@ -114,7 +114,7 @@ else {
 	  if ($id==$_SESSION['userid'] && !$deadline ) {
 	    // rajouter la possibilité de supprimer son nom
             $inscrit=true;
-	    echo '<a href="supprimermembresortie.php?ids='.$sortie['id'].'">';
+	    echo '<a href="calendrier_delete-member.php?ids='.$sortie['id'].'">';
 	    echo '<img class="icon" title="supprimer son nom" src="ICONS/b_drop.png" /></a>';
 	  }
 	}
@@ -122,7 +122,7 @@ else {
       }
     }
     if (!$inscrit && !$deadline && $logged) { // proposer de s'inscrire
-      echo '<br /><a href="ajoutermembresortie.php?ids='.$sortie['id'].'">';
+      echo '<br /><a href="calendrier_add-member.php?ids='.$sortie['id'].'">';
       echo '<img class="icon" title="rajouter son nom" src="ICONS/b_add.png" /></a>';
     }
     if ($deadline) echo '<br /><img class="icon" title="la deadline est passée" src="ICONS/file-locked-icon.png" />';
@@ -139,7 +139,7 @@ else {
     if ($own) {
       echo "<br />";
       echo '<img onclick="deleteSortie('.$sortie['id'].')" class="icon" title="supprimer la sortie" src="ICONS/b_drop.png" />';
-      echo '<a href="editsortie.php?ids='.$sortie['id'].'">';
+      echo '<a href="calendrier_edit.php?ids='.$sortie['id'].'">';
       echo '<img class="icon" title="éditer la sortie" src="ICONS/b_edit.png" /></a>';
     } 
     echo "</td>";

@@ -7,7 +7,7 @@ if(isset($_SESSION['login'])){ // on est loggé
   echo <<<EOS
 <ul>
 <li><a href="newspost-page.php">poster une news</a></li>
-<li><a href="editsortie.php?ids=-1">proposer une activité</a></li>
+<li><a href="calendrier_edit.php?ids=-1">proposer une activité</a></li>
 <li><a href="gestiondesfrais.php">gérer ses frais</a></li>
 <li><a href="archives_new.php">créer une archive</a></li>
 <li><a href="chatroom.php">accéder au salon de discussion</a></li>

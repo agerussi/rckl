@@ -86,7 +86,7 @@ function verificationDate() {
 
 <div align="center">
 <?php
-echo '<form accept-charset="utf-8" action="enregistresortie.php?ids='.$ids.'" method="post" onsubmit="return verificationDate()">';
+echo '<form accept-charset="utf-8" action="calendrier_save.php?ids='.$ids.'" method="post" onsubmit="return verificationDate()">';
 ?>
 <p><label for="datedebut"><b>Date de départ</b></label> 
 <br/><input type="text" size="10" name="datedebut" id="datedebut" readonly="readonly" /><small id="MsgDateDebut" style="color:Red"></small>
