@@ -20,8 +20,8 @@ require_once("dbconnect.php");
 Mode d'emploi:
 <ol> 
 <li><u>Attention</u>: cette procédure doit être utilisée exclusivement si vous avez reçu de l'argent de personne(s) extérieure(s) au groupe loisirs: si un membre du groupe vous donne de l'argent, c'est à <em>lui</em> de le déclarer comme une dépense, et non à vous de le déclarer comme un reçu.</li>
-<li>Saisissez la somme totale que vous avez dépensée;</li>
-<li>Saisissez une description du reçu  (par exemple l'objet, la date, la sortie...);</li>
+<li>Saisissez la somme totale que vous avez reçue;</li>
+<li>Saisissez une description du reçu (par exemple l'objet, la date, la sortie...);</li>
 <li>Validez.</li>
 </ol>
 </div>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("magic_quotes_gpc_off.php");
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['login'])) {
@@ -34,7 +35,7 @@ $cancel=$_SESSION['userid'].','.$somme;
 //echo "debug: listevariations=".$listevariations.'<br/>';
 //echo "debug: cancel=".$cancel.'<br/>';
 
-$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".(-$somme).",'".$listevariations."','".$_POST['commentaire']."','".$cancel."')";
+$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".(-$somme).",'".$listevariations."','".addslashes($_POST['commentaire'])."','".$cancel."')";
 //echo "debug: query=".$query.'<br/>';
 mysql_query($query, $db) or die("Erreur lors de l'ajout dans l'historique: ".mysql_error());
 idleUpdate($_SESSION['userid']);

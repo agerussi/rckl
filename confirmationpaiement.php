@@ -45,7 +45,7 @@ if ($numExt>0) {
 //echo "debug: cancel=".$cancel.'<br/>';
 
 // rajout dans l'historique
-$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".$somme.",'".$listevariations."','".$_SESSION['paiement-description']."','".$cancel."')";
+$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".$somme.",'".$listevariations."','".addslashes($_SESSION['paiement-description'])."','".$cancel."')";
 //echo "debug: query=".$query.'<br/>';
 mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
 idleUpdate($_SESSION['userid']);
@@ -59,11 +59,12 @@ $item.='<link>http://rckl.free.fr</link>';
 $item.='<description><![CDATA[';
 $item.='Somme déclarée: '.$somme.'€<br />';
 $item.='Membres concernés et variations: '.$listevariations.'<br />';
-$item.='Description: '.$_SESSION['paiement-description'];
+$item.='Description: '.htmlspecialchars($_SESSION['paiement-description'],ENT_XML1);
 $item.= ']]></description>';
 $item.='<pubDate>'.date($rssdateformat).'</pubDate>';
 $item.='</item>';
 
+// remarque: obsolète, dans le nouveau système avec confirmation, les déclarations ne sont plus annoncées publiquement
 rssAdditem($item);
 rssUpdate();
 

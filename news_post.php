@@ -6,7 +6,7 @@ if (!isset($_SESSION['userid'])) {
   header("Location: news.php");
 }
 if (!isset($_POST['newsbody'])) {
-  header( "Location: newspost-page.php" );
+  header( "Location: news_input.php" );
 }
 
 require_once("magic_quotes_gpc_off.php");

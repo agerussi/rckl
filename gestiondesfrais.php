@@ -99,7 +99,7 @@ else {
     }
     echo "</td>";
     echo "<td>" . $ligne['variations'] . "</td>";
-    echo "<td>" . $ligne['commentaire'] . "</td>";
+    echo "<td>" . htmlspecialchars($ligne['commentaire']) . "</td>";
     echo "</tr>";
   }
   echo "</tbody></table>";

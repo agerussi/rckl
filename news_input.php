@@ -7,7 +7,7 @@
   <h1>Poster une news</h1>
   <div align="center">
   <p>Entrez le texte de votre news:</p>
-  <form accept-charset="utf-8" method="post" action="newspost.php">
+  <form accept-charset="utf-8" method="post" action="news_post.php">
     <p><textarea name="newsbody" cols="50" rows="10"></textarea></p>
     <p><input type="submit" value="Poster"/></p>
   </form>

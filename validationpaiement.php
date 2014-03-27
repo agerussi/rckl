@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("magic_quotes_gpc_off.php");
 // =========== tests préalables
 //teste si l'utilisateur est connecté
 if (!isset($_SESSION['login'])) {
@@ -72,7 +73,7 @@ else { // la demande semble correcte
   $_SESSION['paiement-numMembres']=$numMembres;
   $_SESSION['paiement-numExt']=$numExt;
   $_SESSION['paiement-numTotal']=$numTotal;
-  $_SESSION['paiement-description']=$_POST['commentaire'];
+  $_SESSION['paiement-description']=trim($_POST['commentaire']);
   $_SESSION['paiement-somme']=$somme;
 
   echo '<p>Vous avez déclaré une somme de '.$somme.' €.</p>';
