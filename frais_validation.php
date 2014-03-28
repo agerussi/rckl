@@ -28,13 +28,6 @@ while($ligne = mysql_fetch_array($result)) {
     $numMembres++;
   }
 }
-
-$numExt=$_POST['NB_BENEF_EXT'];
-for ($i=1; $i<=$numExt; $i++) { // liste des extérieurs
-  $exterieurs[$i]=$_POST['exterieur'.$i];
-}
-
-$numTotal=$numMembres+$numExt;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -48,7 +41,7 @@ $numTotal=$numMembres+$numExt;
 <div align="center">
 <?php
 $wrong=false;
-if ($numTotal==0 || !isset($_POST['somme']) || !isset($_POST['commentaire'])) {
+if ($numMembres==0 || !isset($_POST['somme']) || !isset($_POST['commentaire'])) {
   echo 'Un des champs de la déclaration n\'a pas été rempli.';
   $wrong=true;
 }
@@ -71,29 +64,21 @@ else { // la demande semble correcte
   $_SESSION['paiement-selectionnes']=$selectionnes;
   $_SESSION['paiement-exterieurs']=$exterieurs;
   $_SESSION['paiement-numMembres']=$numMembres;
-  $_SESSION['paiement-numExt']=$numExt;
-  $_SESSION['paiement-numTotal']=$numTotal;
   $_SESSION['paiement-description']=trim($_POST['commentaire']);
   $_SESSION['paiement-somme']=$somme;
 
   echo '<p>Vous avez déclaré une somme de '.$somme.' €.</p>';
   echo '<p>Vous serez donc crédité de cette somme.</p>';
-  if ($numTotal==1) echo '<p>La personne bénéficiaire est';
+  if ($numMembres==1) echo '<p>La personne bénéficiaire est';
   else echo '<p>Les personnes bénéficiaires sont:';
   for ($i=0; $i<$numMembres; $i++) {
     echo ' '.$selectionnes[$i]['nom'];
-    if ($i==$numTotal-2) echo ' et';
-    else if ($i==$numTotal-1) echo '.';
+    if ($i==$numMembres-2) echo ' et';
+    else if ($i==$numMembres-1) echo '.';
     else echo ',';
   }
-  for ($i=1; $i<=$numExt; $i++) {
-    echo ' '.$exterieurs[$i].' (extérieur)';
-    if ($numMembres+$i==$numTotal-1) echo ' et';
-    else if ($numMembres+$i==$numTotal) echo '.';
-    else echo ',';
-  }
-  $somme=round(100*$somme/$numTotal)/100;
-  if ($numTotal==1) 
+  $somme=round(100*$somme/$numMembres)/100;
+  if ($numMembres==1) 
     echo '</p><p>Elle sera donc débitée de '.$somme.' €.</p>';
   else 
     echo '</p><p>Elles seront chacunes débitées de '.$somme.' €.</p>';

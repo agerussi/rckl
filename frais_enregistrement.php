@@ -6,7 +6,7 @@ if (!isset($_SESSION['login'])) {
   header("Location: news.php");
 }
 // teste si les données sont en place
-if (!isset($_SESSION['paiement-numTotal'])) {
+if (!isset($_SESSION['paiement-numMembres'])) {
   header("Location: frais_nouveau.php");
 }
 // connexion à la base de données
@@ -16,12 +16,10 @@ require_once("dbconnect.php");
 // données pré-calculées dans frais_validation.php
 $selectionnes=$_SESSION['paiement-selectionnes'];
 $exterieurs=$_SESSION['paiement-exterieurs'];
-$numTotal=$_SESSION['paiement-numTotal'];
-$numExt=$_SESSION['paiement-numExt'];
 $numMembres=$_SESSION['paiement-numMembres'];
 $somme=$_SESSION['paiement-somme'];
 
-$chacun=round(100*$somme/$numTotal)/100;
+$chacun=round(100*$somme/$numMembres)/100;
 $listevariations=$_SESSION['profilename'].'(+'.$somme.'), ';
 $cancel=$_SESSION['userid'].',-'.$somme;
 
@@ -31,15 +29,7 @@ for ($i=0; $i<$numMembres; $i++) {
   $selectionnes[$i]['solde']+=$variation; // nouveau solde
   $listevariations.=$selectionnes[$i]['nom'].'('.$variation.')';
   $cancel.=",".$id.",".$chacun;
-  if ($i!=$numTotal-1) $listevariations.=", ";
-}
-if ($numExt>0) {
-  $listevariations.=$numExt.' extérieur'.(($numExt==1) ? "":"s").' (';
-  for ($i=1; $i<=$numExt; $i++) {
-    $listevariations.=$exterieurs[$i];
-    if ($i<$numExt) $listevariations.=", ";
-  }
-  $listevariations.=") doi".(($numExt==1) ? "t":"vent")." ".$chacun.(($numExt==1) ? "€.":"€ chacun.");
+  if ($i!=$numMembres-1) $listevariations.=", ";
 }
 //echo "debug: listevariations=".$listevariations.'<br/>';
 //echo "debug: cancel=".$cancel.'<br/>';
@@ -86,8 +76,6 @@ mysql_query($query,$db) or die("erreur lors de la mise à jour du solde de l'aut
 
 // annule tout pour éviter des problèmes éventuels
 unset($_SESSION['paiement-selectionnes']);
-unset($_SESSION['paiement-numTotal']);
-unset($_SESSION['paiement-numExt']);
 unset($_SESSION['paiement-numMembres']);
 unset($_SESSION['paiement-description']);
 unset($_SESSION['paiement-somme']);
