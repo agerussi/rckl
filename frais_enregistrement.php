@@ -7,13 +7,13 @@ if (!isset($_SESSION['login'])) {
 }
 // teste si les données sont en place
 if (!isset($_SESSION['paiement-numTotal'])) {
-  header("Location: nouvelledepense.php");
+  header("Location: frais_nouveau.php");
 }
 // connexion à la base de données
 require_once("dbconnect.php");
 
 // calcule les nouveaux soldes, la liste des variations et la liste d'annulation
-// données pré-calculées dans validationpaiement.php
+// données pré-calculées dans frais_validation.php
 $selectionnes=$_SESSION['paiement-selectionnes'];
 $exterieurs=$_SESSION['paiement-exterieurs'];
 $numTotal=$_SESSION['paiement-numTotal'];
@@ -91,5 +91,5 @@ unset($_SESSION['paiement-numExt']);
 unset($_SESSION['paiement-numMembres']);
 unset($_SESSION['paiement-description']);
 unset($_SESSION['paiement-somme']);
-header("Location: gestiondesfrais.php");
+header("Location: frais_affichage.php");
 ?>

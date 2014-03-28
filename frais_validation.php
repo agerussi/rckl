@@ -62,7 +62,7 @@ else {
 }
 if ($wrong) {
   echo '
-    <p><form method="POST" action="nouvelledepense.php">
+    <p><form method="POST" action="frais_nouveau.php">
      <input type="submit" value="Recommencer une déclaration" />
     </form>
   ';
@@ -99,11 +99,11 @@ else { // la demande semble correcte
     echo '</p><p>Elles seront chacunes débitées de '.$somme.' €.</p>';
 
   echo '<p>
-    <form method="post" action="confirmationpaiement.php"><input type="submit" value="Confirmer le paiement" /></form>
+    <form method="post" action="frais_enregistrement.php"><input type="submit" value="Confirmer le paiement" /></form>
     ou
-    <form action="nouvelledepense.php"><input type="submit" value="Recommencer la déclaration" /></form>
+    <form action="frais_nouveau.php"><input type="submit" value="Recommencer la déclaration" /></form>
     ou
-    <form action="gestiondesfrais.php"><input type="submit" value="Abandonner" /></form></p>
+    <form action="frais_affichage.php"><input type="submit" value="Abandonner" /></form></p>
     ';
 } 
 ?>

@@ -14,7 +14,7 @@ require_once("dbconnect.php");
   <?php require("menu_header.php"); ?>
   <script type="text/javascript">
     function doCancel(id) {
-      if (confirm("Êtes-vous sûr(e) ?")) window.location.replace("annulationfrais.php?id="+id);
+      if (confirm("Êtes-vous sûr(e) ?")) window.location.replace("frais_annulation.php?id="+id);
     }
   </script>
 </head>
@@ -60,10 +60,10 @@ echo "</tr>";
   </tbody>
 </table>
 
-<form action="nouvelledepense.php">
+<form action="frais_nouveau.php">
 <input type="submit" value="Déclarer une nouvelle dépense" title="pour déclarer de l'argent que vous avez dépensé pour (ou donné à) des membres du RCKL ou des personnes extérieures"/>
 </form>
-<form action="recuexterieur.php">
+<form action="frais_recuexterieur.php">
 <input type="submit" value="Déclarer un reçu extérieur" title="si vous avez reçu directement de l'argent d'une personne *extérieure* au RCKL"/>
 </form>
 

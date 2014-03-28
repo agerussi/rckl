@@ -33,6 +33,6 @@ for ($i=0; $i<count($liste); $i+=2) {
 $query="DELETE FROM paiements WHERE id=".$id;
 mysql_query($query,$db) or die("Erreur lors de l'effacement final d'une note de frais: ".mysql_error());
 
-header("Location: gestiondesfrais.php");
+header("Location: frais_affichage.php");
 ?>
 

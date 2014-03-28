@@ -6,7 +6,7 @@ require_once("magic_quotes_gpc_off.php");
 if (!isset($_SESSION['login'])) {
   header("Location: news.php");
 }
-// teste si l'utilisateur provient de la page "recuexterieur.php"
+// teste si l'utilisateur provient de la page "frais_recuexterieur.php"
 if (!isset($_POST['somme']) || !isset($_POST['commentaire'])) {
   header("Location: nouveaupaiement.php");
 }
@@ -40,7 +40,7 @@ $query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, can
 mysql_query($query, $db) or die("Erreur lors de l'ajout dans l'historique: ".mysql_error());
 idleUpdate($_SESSION['userid']);
 
-header("Location: gestiondesfrais.php");
+header("Location: frais_affichage.php");
 ?>
 </div>
 </body>

@@ -12,7 +12,7 @@ require_once("dbconnect.php");
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 <?php require("head.html"); ?>
-<script type="text/javascript" src="nouvelledepense.js"></script>
+<script type="text/javascript" src="frais_nouveau.js"></script>
 </head>
 <body>
 <h2>Saisir un nouveau paiement</h2>
@@ -28,7 +28,7 @@ Mode d'emploi:
 </div>
 
 <div align="center">
-<form accept-charset="UTF-8" method="post" onsubmit="return validation()" action="validationpaiement.php">
+<form accept-charset="UTF-8" method="post" onsubmit="return validation()" action="frais_validation.php">
  <p><label><b>Somme dépensée:</b></label>
  <input name="somme" type="text" size="4" /><b>€</b></p>
  <p><label><b>Membre(s) bénéficiaire(s)</b></label></p>
@@ -63,7 +63,7 @@ echo "</tr></table>"
  <textarea name="commentaire" cols="50" rows="10"></textarea></p>
  <p><input type="submit" name="validerpaiement" value="Valider le paiement"/></p>
 </form>
-<form method="post" action="gestiondesfrais.php">
+<form method="post" action="frais_affichage.php">
  <p><input type="submit" name="cancel" value="Annuler" /></p>
 </form>
 </div>
