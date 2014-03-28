@@ -53,6 +53,7 @@ Les données ci-dessous, à l'exception de celles marquées par une étoile *, s
     message("photo")
   ); 
   profileEntry("E-mail", 
+    commentaire("Donner une adresse email est fortement conseillé afin de profiter du système de messagerie"),
     champTexte("email",25,$data['email'])
   );
   profileEntry("Ville ou adresse", 
