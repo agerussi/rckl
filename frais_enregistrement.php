@@ -21,26 +21,34 @@ $somme=$_SESSION['paiement-somme'];
 
 $chacun=round(100*$somme/$numMembres)/100;
 $listevariations=$_SESSION['profilename'].'(+'.$somme.'), ';
-$cancel=$_SESSION['userid'].',-'.$somme;
+$cancelTab=array();
+array_push($cancelTab,$_SESSION['userid']));
+array_push($cancelTab,-$somme);
 
 for ($i=0; $i<$numMembres; $i++) {
   $id=$selectionnes[$i]['id'];
   $variation=-$chacun;
   $selectionnes[$i]['solde']+=$variation; // nouveau solde
   $listevariations.=$selectionnes[$i]['nom'].'('.$variation.')';
-  $cancel.=",".$id.",".$chacun;
+  array_push($cancelTab,$id);
+  array_push($cancelTab,$chacun);
   if ($i!=$numMembres-1) $listevariations.=", ";
 }
 //echo "debug: listevariations=".$listevariations.'<br/>';
-//echo "debug: cancel=".$cancel.'<br/>';
 
 // rajout dans l'historique
-$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE(),'".$_SESSION['profilename']."',".$somme.",'".$listevariations."','".addslashes($_SESSION['paiement-description'])."','".$cancel."')";
+$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE()";
+$query.=",'".$_SESSION['profilename']."'";
+$query.=",".$somme;
+$query.=",'".$listevariations."'";
+$query.=",'".addslashes($_SESSION['paiement-description'])."'";
+$query.=",'".serialize($cancelTab)."')";
 //echo "debug: query=".$query.'<br/>';
 mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
 idleUpdate($_SESSION['userid']);
 
 // ajout de la transaction au flux rss
+// remarque: obsolète, dans le nouveau système avec confirmation, les déclarations ne sont plus annoncées publiquement
 require("rss.php");
 
 $item='<item>';
@@ -54,7 +62,6 @@ $item.= ']]></description>';
 $item.='<pubDate>'.date($rssdateformat).'</pubDate>';
 $item.='</item>';
 
-// remarque: obsolète, dans le nouveau système avec confirmation, les déclarations ne sont plus annoncées publiquement
 rssAdditem($item);
 rssUpdate();
 

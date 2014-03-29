@@ -12,20 +12,19 @@ $query="SELECT cancel FROM paiements WHERE id=" . $id;
 $listepaiement=mysql_query($query,$db) or die("Erreur lors d'une annulation de frais: ".mysql_error());
 if (count($listepaiement)!=1) die("La note de frais id=".$id." n'a pas été retrouvée");
 $paiement=mysql_fetch_array($listepaiement);
-$cancel=$paiement['cancel'];
+$cancelTab=unserialize($paiement['cancel']);
 
-$liste=explode(',',$cancel);
-for ($i=0; $i<count($liste); $i+=2) {
-  $query="SELECT solde FROM membres WHERE id=" . $liste[$i];
+for ($i=0; $i<count($cancelTab); $i+=2) {
+  $query="SELECT solde FROM membres WHERE id=" . $cancelTab[$i];
   $listemembres=mysql_query($query,$db) or die("Erreur lors de la récupération du solde d'un membre: ".mysql_error());
   if (count($listemembres)!=1) 
-    echo("warning: le membre id=".$liste[$i]." n'a pu être retrouvé");
+    echo("warning: le membre id=".$cancelTab[$i]." n'a pu être retrouvé");
   else {
     $membre=mysql_fetch_array($listemembres);
-    $membre['solde']+=$liste[$i+1]; // mise à jour du solde
+    $membre['solde']+=$cancelTab[$i+1]; // mise à jour du solde
 
-    $query="UPDATE membres SET solde=".$membre['solde']." WHERE id=".$liste[$i];
-    mysql_query($query,$db) or die("Erreur lors de la mise à jour du solde du membre id=".$liste[$i].": ".mysql_error());
+    $query="UPDATE membres SET solde=".$membre['solde']." WHERE id=".$cancelTab[$i];
+    mysql_query($query,$db) or die("Erreur lors de la mise à jour du solde du membre id=".$cancelTab[$i].": ".mysql_error());
   }
 }
 

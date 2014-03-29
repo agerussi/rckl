@@ -53,8 +53,8 @@ $resultPaiements=mysql_query($query, $db) or die("Erreur lors de la récupérati
 // détermine les membres avec lesquels on a eu des frais
 $relations=array();
 while ($ligne=mysql_fetch_array($resultPaiements)) {
-  $cancelTab=explode(',',$ligne['cancel']);
-  if (isConcerned($ligne['cancel'],$userId)) {
+  $cancelTab=unserialize($ligne['cancel']);
+  if (isConcerned($cancelTab,$userId)) {
     for ($i=0; $i<count($cancelTab); $i+=2) 
       $relations[$cancelTab[$i]]=true;
   }
@@ -102,7 +102,8 @@ else {
     <th>Commentaire</th>
     </tr></thead><tbody>';
   while($ligne = mysql_fetch_array($resultPaiements)) {
-    if ($isRoot || isConcerned($ligne['cancel'],$userId)) {
+    $cancelTab=unserialize($ligne['cancel']);
+    if ($isRoot || isConcerned($cancelTab,$userId)) {
       echo "<tr>";
       sscanf($ligne['date'],"%u-%u-%u",$annee,$mois,$jour);
       $date=$jour.'/'.$mois.'/'.$annee%100;
@@ -123,10 +124,9 @@ else {
 }
 
 // helper functions
-function isConcerned($cancel,$id) {
-  $liste=explode(',',$cancel);
-  for ($i=0; $i<count($liste); $i+=2) 
-    if ($liste[$i]==$id) return true;
+function isConcerned($cancelTab,$id) {
+  for ($i=0; $i<count($cancelTab); $i+=2) 
+    if ($cancelTab[$i]==$id) return true;
   return false;
 }
 
