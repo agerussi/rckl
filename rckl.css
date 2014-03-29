@@ -215,6 +215,14 @@ hr { clear:both; }
 
 /* =================== style des tables de frais */
 
+span.solde {
+  margin-right:1em;
+  margin-bottom:0.5em;
+  border: 2px solid black;
+  padding: 2px;
+  display: inline-block;
+}
+
 #historique, #bilanglobal {
   text-align:left;
   border-collapse:collapse;

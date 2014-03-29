@@ -1,9 +1,9 @@
 * CHANTIER: gestion des frais V2
-- supprimer la possibilité de membre extérieur (trop risqué)
-- décider du design de la page de paiement
-- choisir les structures de données
-- modifier la BD
-- implémenter
+FAIT: supprimer la possibilité de membre extérieur (trop risqué)
+FAIT: décider du design de la page de paiement
+FAIT: affichage uniquement des gens avec lesquels on a fait une transaction
+- changer la structure du champ 'cancel'
+- mise en place du mécanisme de validation/réfutation/annulation
 
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
