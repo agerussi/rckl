@@ -53,14 +53,12 @@ $resultPaiements=mysql_query($query, $db) or die("Erreur lors de la récupérati
 // détermine les membres avec lesquels on a eu des frais
 $relations=array();
 while ($ligne=mysql_fetch_array($resultPaiements)) {
-  $cancelTab=unserialize($ligne['cancel']);
-  if (isConcerned($cancelTab,$userId)) {
-    for ($i=0; $i<count($cancelTab); $i+=2) 
-      $relations[$cancelTab[$i]]=true;
+  $selectedList=unserialize($ligne['selected']);
+  if (in_array($userId,$selectedList)) {
+    foreach ($selectedList as $id) $relations[$id]=true;
   }
 }
 mysql_data_seek($resultPaiements,0); // remet l'index au départ pour un nouveau parcours
-//var_dump($relations);
 
 while($ligne = mysql_fetch_array($resultSoldes)) {
   if (($relations[$ligne['id']] && abs($ligne['solde'])>=1) || $isRoot) {
@@ -79,8 +77,6 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
     echo $ligne['nomprofil'].": ".$solde."</span>";
   }
 }
-for (;$n%$maxperline!=0; $n++) echo "<td></td>";
-echo "</tr>";
 ?>
   </tbody>
 </table>
@@ -102,8 +98,8 @@ else {
     <th>Commentaire</th>
     </tr></thead><tbody>';
   while($ligne = mysql_fetch_array($resultPaiements)) {
-    $cancelTab=unserialize($ligne['cancel']);
-    if ($isRoot || isConcerned($cancelTab,$userId)) {
+    $selectedList=unserialize($ligne['selected']);
+    if ($isRoot || in_array($userId,$selectedList)) {
       echo "<tr>";
       sscanf($ligne['date'],"%u-%u-%u",$annee,$mois,$jour);
       $date=$jour.'/'.$mois.'/'.$annee%100;
@@ -122,14 +118,6 @@ else {
   }
   echo "</tbody></table>";
 }
-
-// helper functions
-function isConcerned($cancelTab,$id) {
-  for ($i=0; $i<count($cancelTab); $i+=2) 
-    if ($cancelTab[$i]==$id) return true;
-  return false;
-}
-
 ?> 
 
 </body>

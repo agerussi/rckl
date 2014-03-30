@@ -6,43 +6,39 @@ if (!isset($_SESSION['login'])) {
   header("Location: news.php");
 }
 // teste si les données sont en place
-if (!isset($_SESSION['paiement-numMembres'])) {
+if (!isset($_SESSION['paiement-informations'])
+    || !isset($_SESSION['paiement-selectedList'])
+    || !isset($_SESSION['paiement-somme'])) {
   header("Location: frais_nouveau.php");
 }
-// connexion à la base de données
-require_once("dbconnect.php");
 
-// calcule les nouveaux soldes, la liste des variations et la liste d'annulation
+// calcule les nouveaux soldes, la liste des variations 
 // données pré-calculées dans frais_validation.php
-$selectionnes=$_SESSION['paiement-selectionnes'];
-$exterieurs=$_SESSION['paiement-exterieurs'];
-$numMembres=$_SESSION['paiement-numMembres'];
+$informations=$_SESSION['paiement-informations'];
+$selectedList=$_SESSION['paiement-selectedList'];
 $somme=$_SESSION['paiement-somme'];
+$numMembres=count($selectedList);
 
 $chacun=round(100*$somme/$numMembres)/100;
 $listevariations=$_SESSION['profilename'].'(+'.$somme.'), ';
-$cancelTab=array();
-array_push($cancelTab,$_SESSION['userid']));
-array_push($cancelTab,-$somme);
-
 for ($i=0; $i<$numMembres; $i++) {
-  $id=$selectionnes[$i]['id'];
+  $id=$informations[$i]['id'];
   $variation=-$chacun;
-  $selectionnes[$i]['solde']+=$variation; // nouveau solde
-  $listevariations.=$selectionnes[$i]['nom'].'('.$variation.')';
-  array_push($cancelTab,$id);
-  array_push($cancelTab,$chacun);
+  $informations[$i]['solde']+=$variation; // nouveau solde
+  $listevariations.=$informations[$i]['nom'].'('.$variation.')';
   if ($i!=$numMembres-1) $listevariations.=", ";
 }
 //echo "debug: listevariations=".$listevariations.'<br/>';
 
 // rajout dans l'historique
-$query="INSERT INTO paiements (date, auteur, somme, variations, commentaire, cancel) VALUES(CURDATE()";
+require_once("dbconnect.php");
+$query="INSERT INTO paiements (date, idAuteur, auteur, somme, variations, commentaire, selected) VALUES(CURDATE()";
+$query.=",'".$_SESSION['userid']."'";
 $query.=",'".$_SESSION['profilename']."'";
 $query.=",".$somme;
 $query.=",'".$listevariations."'";
 $query.=",'".addslashes($_SESSION['paiement-description'])."'";
-$query.=",'".serialize($cancelTab)."')";
+$query.=",'".serialize($selectedList)."')";
 //echo "debug: query=".$query.'<br/>';
 mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
 idleUpdate($_SESSION['userid']);
@@ -68,7 +64,7 @@ rssUpdate();
 // mise à jour des soldes
 // les bénéficiaires
 for ($i=0; $i<$numMembres; $i++) {
-  $query="UPDATE membres SET solde=".$selectionnes[$i]['solde']." WHERE id=".$selectionnes[$i]['id'];
+  $query="UPDATE membres SET solde=".$informations[$i]['solde']." WHERE id=".$informations[$i]['id'];
   //echo "debug:".$query.'<br/>';
   mysql_query($query,$db) or die("erreur lors de la mise à jour d'un bénéficiaire: ".mysql_error());
 }
@@ -82,9 +78,8 @@ $query="UPDATE membres SET solde=".$newsolde." WHERE id=".$_SESSION['userid'];
 mysql_query($query,$db) or die("erreur lors de la mise à jour du solde de l'auteur: ".mysql_error());
 
 // annule tout pour éviter des problèmes éventuels
-unset($_SESSION['paiement-selectionnes']);
-unset($_SESSION['paiement-numMembres']);
-unset($_SESSION['paiement-description']);
+unset($_SESSION['paiement-informations']);
+unset($_SESSION['paiement-selectedList']);
 unset($_SESSION['paiement-somme']);
 header("Location: frais_affichage.php");
 ?>

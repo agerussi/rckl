@@ -6,27 +6,9 @@ require_once("magic_quotes_gpc_off.php");
 if (!isset($_SESSION['login'])) {
   header("Location: news.php");
 }
-// teste si l'utilisateur provient de la page "nouveaupaiement.php"
+// teste si l'utilisateur provient de la page "frais_nouveau.php"
 if (!isset($_POST['validerpaiement'])) {
-  header("Location: nouveaupaiement.php");
-}
-// connexion à la base de données
-require_once("dbconnect.php");
-
-// établit la liste et le nombre des membres sélectionnés
-$query = 'SELECT id,nomprofil,solde FROM membres WHERE login<>"root"';
-$result=mysql_query($query,$db);
-$numMembres=0;
-while($ligne = mysql_fetch_array($result)) {
-  $nom=$ligne['nomprofil'];
-  $id=$ligne['id'];
-  $solde=$ligne['solde'];
-  if ($_POST['id'.$id]) {
-    $selectionnes[$numMembres]['nom']=$nom;
-    $selectionnes[$numMembres]['id']=$id;
-    $selectionnes[$numMembres]['solde']=$solde;
-    $numMembres++;
-  }
+  header("Location: frais_nouveau.php");
 }
 ?>
 
@@ -36,43 +18,67 @@ while($ligne = mysql_fetch_array($result)) {
 <?php require("menu_header.php"); ?>
 </head>
 <body>
-<?php require("menu_body.php"); ?>
 <h2>Récapitulatif du paiement</h2>
 <div align="center">
 <?php
+// établit la liste des membres sélectionnés
+$selectedList=array();
+foreach ($_POST as $key => $value) {
+  $n=sscanf($key,"id%d",$id);
+  if ($n>0 && $_POST[$key]) array_push($selectedList, $id);
+}
+//var_dump($selectedList);
+
+// vérifie si les données sont correctes
 $wrong=false;
-if ($numMembres==0 || !isset($_POST['somme']) || !isset($_POST['commentaire'])) {
+if (count($selectedList)==0 || !isset($_POST['somme']) || !isset($_POST['commentaire'])) {
   echo 'Un des champs de la déclaration n\'a pas été rempli.';
   $wrong=true;
 }
 else {
-  // remplace une éventuelle virgule par un point
+  // récupère et vérifie la somme déclarée 
   $somme=str_replace(',','.',$_POST['somme']);
   if (!is_numeric($somme) || $somme<=0) {
-  echo 'Vous avez déclaré une somme invalide.';
-  $wrong=true;
+    echo 'Vous avez déclaré une somme invalide.';
+    $wrong=true;
   }
 }
 if ($wrong) {
-  echo '
-    <p><form method="POST" action="frais_nouveau.php">
-     <input type="submit" value="Recommencer une déclaration" />
-    </form>
-  ';
+  echo '<p><form method="POST" action="frais_nouveau.php">
+    <input type="submit" value="Recommencer une déclaration" />
+    </form></p>';
 }  
-else { // la demande semble correcte
-  $_SESSION['paiement-selectionnes']=$selectionnes;
-  $_SESSION['paiement-exterieurs']=$exterieurs;
-  $_SESSION['paiement-numMembres']=$numMembres;
+else {
+  
+  // récupère les données des membres sélectionnés 
+  require_once("dbconnect.php");
+  $informations=array();
+  foreach ($selectedList as $id) {
+    $query ="SELECT id,nomprofil,solde FROM membres WHERE id='".$id."'";
+    $result=mysql_query($query,$db);
+    if (mysql_num_rows($result)!=1) die("Erreur lors de la récupération des informations d'un membre: ".mysql_error());
+    $ligne = mysql_fetch_array($result);
+    array_push($informations, 
+      array('nom'=>$ligne['nomprofil'],
+      'id'=>$ligne['id'],
+      'solde'=>$ligne['solde']));
+  }
+  mysql_close($db);
+  //var_dump($selectionnes);
+
+  // sauvegarde les données pour frais_enregistrement.php
+  $_SESSION['paiement-informations']=$informations;
+  $_SESSION['paiement-selectedList']=$selectedList;
   $_SESSION['paiement-description']=trim($_POST['commentaire']);
   $_SESSION['paiement-somme']=$somme;
 
+  $numMembres=count($selectedList);
   echo '<p>Vous avez déclaré une somme de '.$somme.' €.</p>';
   echo '<p>Vous serez donc crédité de cette somme.</p>';
   if ($numMembres==1) echo '<p>La personne bénéficiaire est';
   else echo '<p>Les personnes bénéficiaires sont:';
   for ($i=0; $i<$numMembres; $i++) {
-    echo ' '.$selectionnes[$i]['nom'];
+    echo ' '.$informations[$i]['nom'];
     if ($i==$numMembres-2) echo ' et';
     else if ($i==$numMembres-1) echo '.';
     else echo ',';
