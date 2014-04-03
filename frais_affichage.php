@@ -8,6 +8,9 @@ if (!isset($_SESSION['userid'])) {
 $userId=$_SESSION['userid'];
 $isRoot=($userId==1); 
 
+// gestion des notes de frais arrivées à échéance
+require_once("frais_application.php");
+
 // requêtes de la BD
 require_once("dbconnect.php");
 // le solde min et max
@@ -19,23 +22,22 @@ $soldeMin=mysql_result($maxresult,0,'soldeMin');
 $query = 'SELECT id, nomprofil, solde FROM membres WHERE login<>"root" AND site<>0';
 $resultSoldes=mysql_query($query,$db) or die("Erreur lors de la récupération des soldes: ".mysql_error());
 // les paiements
-$query = 'SELECT * FROM paiements ORDER BY date DESC';
+$query = "SELECT * FROM paiements WHERE status='DONE' ORDER BY date DESC";
 $resultPaiements=mysql_query($query, $db) or die("Erreur lors de la récupération des paiements: ".mysql_error());
-
+// les déclarations en cours
+$query = "SELECT * FROM paiements WHERE status='AUTH' ORDER BY date DESC";
+$resultPending=mysql_query($query, $db) or die("Erreur lors de la récupération des paiements: ".mysql_error());
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
   <?php require("menu_header.php"); ?>
-  <script type="text/javascript">
-    function doCancel(id) {
-      if (confirm("Êtes-vous sûr(e) ?")) window.location.replace("frais_annulation.php?id="+id);
-    }
-  </script>
+  <script type="text/javascript" src="frais_affichage.js"></script>
 </head>
 <body>
-<?php require("menu_body.php"); ?>
+<?php require("menu_body.php"); 
+?>
 
 <h1>GESTION DE VOS FRAIS</h1>
 
@@ -46,8 +48,6 @@ $resultPaiements=mysql_query($query, $db) or die("Erreur lors de la récupérati
 <h2>Bilan global personnel</h2>
 
 <h4>(sommes en euros, les sommes négatives sont dues)</h4>
-<table id="bilanglobal">
-  <tbody>
 <?php
 // affichage du bilan personnel global
 // détermine les membres avec lesquels on a eu des frais
@@ -78,10 +78,70 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
   }
 }
 ?>
-  </tbody>
-</table>
 
-<h2>Détail des paiements vous concernant</h2>
+<?php
+  // crée le tableau des dépenses en cours 
+  $isPending=false;
+  $pendingTable="";
+  while($ligne = mysql_fetch_array($resultPending)) {
+    $selectedList=unserialize($ligne['selected']);
+    $self=($ligne['idAuteur']==$userId);
+    if ($isRoot || in_array($userId,$selectedList) || $self) {
+      $isPending=true;
+      $pendingTable.="<tr>";
+      $pendingTable.="<td>".formatDate($ligne['date'])."</td>";
+      $pendingTable.="<td>".$ligne['auteur']."</td>";
+      $pendingTable.="<td>".$ligne['somme'];
+      if ($isRoot || $self) {
+	$pendingTable.='<img class="icon" title="annuler la dépense" src="ICONS/b_drop.png"';
+	$pendingTable.=' name="cancelIcon" id="'.$ligne['id'].'" />';
+      }
+      $echeance=calcEcheance($ligne['date']);
+      $pendingTable.="<td>".$echeance." jour".(($echeance==1) ? "":"s")."</td>";
+      $pendingTable.="<td>";
+      // affiche les auth
+      $auth=unserialize($ligne['auth']);
+      for ($i=0; $i<count($selectedList); $i++) {
+	//if ($selectedList[$i]==$ligne['idAuteur']) continue;
+	$query ="SELECT nomprofil FROM membres WHERE id='".$selectedList[$i]."'";
+	$result=mysql_query($query,$db);
+	if (mysql_num_rows($result)!=1) die("Erreur lors de la récupération des informations d'un membre: ".mysql_error());
+        if ($selectedList[$i]==$userId && !$self) {
+	  if ($auth[$i]) // proposer l'interdiction
+	    $pendingTable.='<img class="icon" src="ICONS/b_drop.png" title="réfuter la dépense" name="authIcon" id="'.$userId.','.$ligne['id'].'"/>';
+	  else  // proposer l'acceptation
+	    $pendingTable.='<img class="icon" src="ICONS/b_add.png" title="accepter la dépense" name="authIcon" id="'.$userId.','.$ligne['id'].'"/>';
+	  }
+	$member = mysql_fetch_array($result);
+        $pendingTable.='<span class="memberAuth" style="background-color:';
+	$pendingTable.=($auth[$i]) ? "green;\"":"red;\"";
+	$pendingTable.='">'.$member['nomprofil'].'</span>';
+      }
+      $pendingTable.="</td>";
+      $pendingTable.="</td><td>".$ligne['commentaire']."</td>";
+      $pendingTable.="</tr>";
+      
+    }
+  }
+
+  // affichage du tableau
+  if ($isPending) {
+    echo "<h2>Dépenses en cours de validation</h2>";
+    echo '<table id="pending">
+      <thead><tr>
+      <th>Date</th>
+      <th>Auteur</th>
+      <th>Somme</th>
+      <th>Échéance</th>
+      <th>Accord des membres concernés</th>
+      <th>Commentaire</th>
+      </tr></thead><tbody>';
+    echo $pendingTable;  
+    echo '</tbody></table>';
+  }
+?>
+
+<h2>Détail des dépenses passées vous concernant</h2>
 
 <?php
 // affichage de l'historique personnel des paiements
@@ -99,16 +159,16 @@ else {
     </tr></thead><tbody>';
   while($ligne = mysql_fetch_array($resultPaiements)) {
     $selectedList=unserialize($ligne['selected']);
-    if ($isRoot || in_array($userId,$selectedList)) {
+    $self=($ligne['idAuteur']==$userId);
+    if ($isRoot || in_array($userId,$selectedList) || $self) {
       echo "<tr>";
-      sscanf($ligne['date'],"%u-%u-%u",$annee,$mois,$jour);
-      $date=$jour.'/'.$mois.'/'.$annee%100;
+      $date=formatDate($ligne['date']);
       echo "<td>" . $date. "</td>";
       echo "<td>" . $ligne['auteur'] . "</td>";
       echo "<td>" . $ligne['somme'];
-      if ($isRoot) {
+      if ($isRoot || $self) {
 	echo '<img class="icon" title="annuler les frais" src="ICONS/b_drop.png"';
-	echo ' onclick="doCancel(' . $ligne['id'] . ')" />';
+	echo ' name="cancelIcon" id="'.$ligne['id'].'"/>';
       }
       echo "</td>";
       echo "<td>" . $ligne['variations'] . "</td>";
@@ -118,6 +178,20 @@ else {
   }
   echo "</tbody></table>";
 }
+
+function formatDate($str) {
+  sscanf($str,"%u-%u-%u",$annee,$mois,$jour);
+  return $jour.'/'.$mois.'/'.$annee%100;
+}
+
+// retourne le nombre de jours restants avant échéance
+// version grossière!
+function calcEcheance($dateString) { 
+  sscanf($dateString,"%u-%u-%u",$annee,$mois,$jour);
+  sscanf(date('Y-n-d'),"%u-%u-%u",$anneeC,$moisC,$jourC);
+  return 20+floor($jour-$jourC+30.5*($mois-$moisC)+365*($annee-$anneeC));
+}
+
 ?> 
 
 </body>

@@ -17,6 +17,8 @@ Votre nouveau compte a bien été créé, et vous êtes actuellement connecté(e
 </p>
 <p>
 Vous pouvez immédiatement continuer à renseigner votre profil en sélectionnant «modifier votre profil» dans le menu des membres.
+Pensez également à vous inscrire sur la liste de diffusion: menu RCKL/LISTE DE DIFFUSION.
+C'est (pour le moment) là où la plupart des discussions ont lieu.
 </p>
 <p>
 Si ce n'est pas déjà fait, nous vous invitons à lire les différents documents décrivant le fonctionnement et la philosophie du RCKL.

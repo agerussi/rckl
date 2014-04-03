@@ -223,23 +223,36 @@ span.solde {
   display: inline-block;
 }
 
-#historique, #bilanglobal {
+#historique, #pending {
   text-align:left;
   border-collapse:collapse;
 }
 
-#historique td, #historique th, #bilanglobal td { 
+#historique td, #historique th, #bilanglobal td,  #pending td, #pending th, #pending td { 
   border:1px solid black;
   padding:3px;
 }
 
-#historique thead { 
+#historique thead, #pending thead { 
   background-color:#dddddd;
   text-align:center;
 }
 
 #historique td:nth-child(4), #historique td:nth-child(5) { 
   min-width:35%; 
+}
+
+#pending {
+  width:100%;
+}
+
+#pending td:nth-child(5), #pending td:nth-child(6) { 
+  min-width:35%; 
+}
+
+span.memberAuth {
+  padding:0px 2px;
+  margin-right:5px;
 }
 
 img.icon {
