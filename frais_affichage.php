@@ -16,7 +16,7 @@ $maxresult=mysql_query($query,$db) or die("Erreur lors de la récupération du s
 $soldeMax=mysql_result($maxresult,0,'soldeMax');
 $soldeMin=mysql_result($maxresult,0,'soldeMin');
 // les soldes des membres
-$query = 'SELECT id, nomprofil, solde FROM membres WHERE login<>"root" AND site<>0';
+$query = 'SELECT id, nomprofil, solde, DATEDIFF(CURDATE(), idlesince) AS inactif FROM membres WHERE login<>"root" AND site<>0';
 $resultSoldes=mysql_query($query,$db) or die("Erreur lors de la récupération des soldes: ".mysql_error());
 // les paiements
 $query = "SELECT * FROM paiements WHERE status='DONE' ORDER BY date DESC";
@@ -63,6 +63,7 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
     echo '<span class="solde" style="';
     if ($ligne['id']==$userId) echo 'background-color: lightgray;';
     $solde=$ligne['solde'];
+    if ($isRoot && ($solde<-200 || ($solde<0 && $ligne['inactif']>1.5*365))) echo 'background-color: orange;';
     switch ($solde) {
     case $soldeMax:
       echo 'color:Green;';
@@ -76,6 +77,8 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
   }
 }
 ?>
+
+<h2>Dépenses en cours de validation</h2>
 
 <?php
   // crée le tableau des dépenses en cours 
@@ -124,7 +127,6 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
 
   // affichage du tableau
   if ($isPending) {
-    echo "<h2>Dépenses en cours de validation</h2>";
     echo '<table id="pending">
       <thead><tr>
       <th>Date</th>
@@ -137,6 +139,7 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
     echo $pendingTable;  
     echo '</tbody></table>';
   }
+  else echo 'Pas de dépenses en cours de validation actuellement.';
 ?>
 
 <h2>Détail des dépenses passées vous concernant</h2>
