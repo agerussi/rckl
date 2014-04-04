@@ -7,7 +7,7 @@ require_once("dbconnect.php");
 // $id: id du membre
 function getEmailAddress($id) {
   global $db;
-  $query="SELECT email FROM membres WHERE id='".$id."'";
+  $query="SELECT email FROM membres WHERE id='{$id}'";
   $result=mysql_query($query,$db) or die("Erreur lors de la récupération de l'email: ".mysql_error());
   $row=mysql_fetch_array($result);
   return $row['email'];
@@ -16,16 +16,18 @@ function getEmailAddress($id) {
 // envoi d'un mail "automatique" RCKL
 function sendAutoMail($email, $subject, $body) {
   if (empty($email)) return;
-  echo $email." ".$subject." ".$body;
  
-  $msg="** Ceci est un message envoyé automatiquement par le RCKL. Inutile d'essayer d'y répondre directement **\r\n\r\n";
+  $msg="** Ceci est un message envoyé automatiquement par le RCKL. Vous ne devriez pas y répondre directement **\r\n\r\n";
 
-  $headers = ""; // TODO
+  $headers   = array();
+  $headers[] = "MIME-Version: 1.0";
+  $headers[] = "Content-type: text/plain; charset=utf-8";
+  $headers[] = "From: RCKL <rckl@free.fr>";
+  $headers[] = "Reply-To: Ne pas répondre! <noreply@free.fr>";
+  $headers[] = "Subject: {$subject}";
+  $headers[] = "X-Mailer: PHP/".phpversion();
 
-  if (mail($email,$subject,$msg.$body,$headers)) 
-    echo "Success!";
-  else 
-    echo "Failure!";
+  mail($email,$subject,$msg.$body,implode("\r\n",$headers));
 }
 
 ?>

@@ -36,7 +36,7 @@ $resultPending=mysql_query($query, $db) or die("Erreur lors de la récupération
   <script type="text/javascript" src="frais_affichage.js"></script>
 </head>
 <body>
-<?php //require("menu_body.php"); 
+<?php require("menu_body.php"); 
 ?>
 
 <h1>GESTION DE VOS FRAIS</h1>
