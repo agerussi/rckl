@@ -54,17 +54,14 @@ else {
   require_once("dbconnect.php");
   $informations=array();
   foreach ($selectedList as $id) {
-    $query ="SELECT id,nomprofil,solde FROM membres WHERE id='".$id."'";
+    $query ="SELECT id,nomprofil,solde,email FROM membres WHERE id='{$id}'";
     $result=mysql_query($query,$db);
     if (mysql_num_rows($result)!=1) die("Erreur lors de la récupération des informations d'un membre: ".mysql_error());
     $ligne = mysql_fetch_array($result);
-    array_push($informations, 
-      array('nom'=>$ligne['nomprofil'],
-      'id'=>$ligne['id'],
-      'solde'=>$ligne['solde']));
+    $informations[$ligne['id']]= array('nom'=>$ligne['nomprofil'], 'solde'=>$ligne['solde'], 'email'=>$ligne['email']);
   }
   mysql_close($db);
-  //var_dump($selectionnes);
+  //var_dump($informations);
 
   // sauvegarde les données pour frais_enregistrement.php
   $_SESSION['paiement-informations']=$informations;
@@ -75,14 +72,12 @@ else {
   $numMembres=count($selectedList);
   echo '<p>Vous avez déclaré une somme de '.$somme.' €.</p>';
   echo '<p>Vous serez donc crédité de cette somme.</p>';
-  if ($numMembres==1) echo '<p>La personne bénéficiaire est';
-  else echo '<p>Les personnes bénéficiaires sont:';
-  for ($i=0; $i<$numMembres; $i++) {
-    echo ' '.$informations[$i]['nom'];
-    if ($i==$numMembres-2) echo ' et';
-    else if ($i==$numMembres-1) echo '.';
-    else echo ',';
-  }
+  if ($numMembres==1) echo '<p>La personne bénéficiaire est ';
+  else echo '<p>Les personnes bénéficiaires sont: ';
+  $membres=array();
+  foreach ($informations as $infos) array_push($membres,$infos['nom']);
+  echo implode(', ', $membres).".";
+  
   $somme=round(100*$somme/$numMembres)/100;
   if ($numMembres==1) 
     echo '</p><p>Elle sera donc débitée de '.$somme.' €.</p>';

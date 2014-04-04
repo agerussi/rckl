@@ -32,6 +32,21 @@ $query.=",'AUTH')";
 mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
 idleUpdate($_SESSION['userid']);
 
+// envoi de mails d'informations à tous les membres concernés (sauf l'auteur)
+require_once("mail.php");
+$subject="nouvelle note de frais";
+$body="{$_SESSION['profilename']} vient de déclarer une dépense vous concernant.\n";
+$body.="Somme: {$somme} €.\n";
+$body.="Membres concernés: ";
+$membres=array();
+foreach ($informations as $infos) array_push($membres, $infos['nom']);
+$body.=implode(', ',$membres).".\n\n";
+$body.="Cette note de frais prendra effet d'ici 20 jours en l'absence de contestation. Si vous estimez qu'elle est contestable, vous pouvez le faire sur le site dans le menu de gestion des frais, ce qui empêchera sa prise d'effet à échéance.";
+
+foreach ($informations as $id=>$infos) 
+  if ($id!=$_SESSION['userid']) sendAutoMail($infos['email'], $subject, $body);
+
+
 // annule tout pour éviter des problèmes éventuels
 unset($_SESSION['paiement-informations']);
 unset($_SESSION['paiement-selectedList']);

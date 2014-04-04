@@ -8,9 +8,6 @@ if (!isset($_SESSION['userid'])) {
 $userId=$_SESSION['userid'];
 $isRoot=($userId==1); 
 
-// gestion des notes de frais arrivées à échéance
-require_once("frais_application.php");
-
 // requêtes de la BD
 require_once("dbconnect.php");
 // le solde min et max
@@ -38,6 +35,7 @@ $resultPending=mysql_query($query, $db) or die("Erreur lors de la récupération
 <body>
 <?php require("menu_body.php"); 
 ?>
+<a target="_blank" href="help_gestion_frais.php"><img class="helpIcon" src="ICONS/help.png" alt="Icône d'aide" title="Aide pour cette page"/></a>
 
 <h1>GESTION DE VOS FRAIS</h1>
 
