@@ -25,7 +25,7 @@ $resultSoldes=mysql_query($query,$db) or die("Erreur lors de la récupération d
 $query = "SELECT * FROM paiements WHERE status='DONE' ORDER BY date DESC";
 $resultPaiements=mysql_query($query, $db) or die("Erreur lors de la récupération des paiements: ".mysql_error());
 // les déclarations en cours
-$query = "SELECT * FROM paiements WHERE status='AUTH' ORDER BY date DESC";
+$query = "SELECT *, DATEDIFF(DATE_ADD(date, INTERVAL 20 DAY),CURDATE()) AS echeance FROM paiements WHERE status='AUTH' ORDER BY date DESC";
 $resultPending=mysql_query($query, $db) or die("Erreur lors de la récupération des paiements: ".mysql_error());
 ?>
 
@@ -36,7 +36,7 @@ $resultPending=mysql_query($query, $db) or die("Erreur lors de la récupération
   <script type="text/javascript" src="frais_affichage.js"></script>
 </head>
 <body>
-<?php require("menu_body.php"); 
+<?php //require("menu_body.php"); 
 ?>
 
 <h1>GESTION DE VOS FRAIS</h1>
@@ -96,7 +96,7 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
 	$pendingTable.='<img class="icon" title="annuler la dépense" src="ICONS/b_drop.png"';
 	$pendingTable.=' name="cancelIcon" id="'.$ligne['id'].'" />';
       }
-      $echeance=calcEcheance($ligne['date']);
+      $echeance=$ligne['echeance'];
       $pendingTable.="<td>".$echeance." jour".(($echeance==1) ? "":"s")."</td>";
       $pendingTable.="<td>";
       // affiche les auth
@@ -183,15 +183,6 @@ function formatDate($str) {
   sscanf($str,"%u-%u-%u",$annee,$mois,$jour);
   return $jour.'/'.$mois.'/'.$annee%100;
 }
-
-// retourne le nombre de jours restants avant échéance
-// version grossière!
-function calcEcheance($dateString) { 
-  sscanf($dateString,"%u-%u-%u",$annee,$mois,$jour);
-  sscanf(date('Y-n-d'),"%u-%u-%u",$anneeC,$moisC,$jourC);
-  return 20+floor($jour-$jourC+30.5*($mois-$moisC)+365*($annee-$anneeC));
-}
-
 ?> 
 
 </body>

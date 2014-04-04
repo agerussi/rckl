@@ -5,6 +5,8 @@ FAIT: affichage uniquement des gens avec lesquels on a fait une transaction
 FAIT mais à refaire dans la vraie BD!: changer la structure du champ 'cancel'
 - mise en place du mécanisme de validation/réfutation/annulation
 
+* CHANTIER: annonces automatiques par mail (+configuration niveau utilisateur)
+
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
 * CHANTIER: nouveau calendrier avec possibilités d'activités «régulières»

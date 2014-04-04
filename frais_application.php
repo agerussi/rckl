@@ -13,39 +13,34 @@ while ($paiement=mysql_fetch_array($resultPending)) {
       $authorized=false;
       break;
     }
-  if ($authorized) {
-    // récupère les données des membres sélectionnés 
-    $selectedList=unserialize($paiement['selected']);
-    $informations=array();
-    foreach ($selectedList as $id) {
-      $query ="SELECT id,nomprofil,solde FROM membres WHERE id='".$id."'";
-      $result=mysql_query($query,$db);
-      if (mysql_num_rows($result)!=1) die("Erreur lors de la récupération des informations d'un membre: ".mysql_error());
-      $ligne = mysql_fetch_array($result);
-      array_push($informations, 
-	array('nom'=>$ligne['nomprofil'],
-	'id'=>$ligne['id'],
-	'solde'=>$ligne['solde']));
-    }
-    $somme=$paiement['somme'];
-    $numMembres=count($selectedList);
+  // récupère les données des membres sélectionnés 
+  $selectedList=unserialize($paiement['selected']);
+  $informations=array();
+  foreach ($selectedList as $id) {
+    $query ="SELECT id,nomprofil,solde FROM membres WHERE id='".$id."'";
+    $result=mysql_query($query,$db);
+    if (mysql_num_rows($result)!=1) die("Erreur lors de la récupération des informations d'un membre: ".mysql_error());
+    $ligne = mysql_fetch_array($result);
+    $informations[$ligne['id']]= array('nom'=>$ligne['nomprofil'], 'solde'=>$ligne['solde']);
+  }
+  $somme=$paiement['somme'];
+  $numMembres=count($selectedList);
 
+  if ($authorized) {
     // calcule les nouveaux soldes, la liste des variations 
     $chacun=round(100*$somme/$numMembres)/100;
-    $listevariations=""; 
-    for ($i=0; $i<$numMembres; $i++) {
-      $id=$informations[$i]['id'];
+    $listevariations=array();
+    foreach ($informations as $id=>$infos) {
       $variation=-$chacun;
       if ($id==$paiement['idAuteur']) $variation+=$somme;
-      $informations[$i]['solde']+=$variation; // nouveau solde
-      $listevariations.=$informations[$i]['nom'].'('.(($variation>0) ? "+":"").$variation.')';
-      if ($i!=$numMembres-1) $listevariations.=", ";
+      $informations[$id]['solde']+=$variation; // nouveau solde
+      array_push($listevariations, $infos['nom'].'('.(($variation>0) ? "+":"").$variation.')');
     }
     //echo "debug: listevariations=".$listevariations.'<br/>';
 
     // modifie la facture
     $query="UPDATE paiements SET ";
-    $query.="variations='".addslashes($listevariations)."'";
+    $query.="variations='".addslashes(implode(', ',$listevariations))."'";
     $query.=",status='DONE'";
     $query.=" WHERE id=".$paiement['id'];
     //echo "debug: query=".$query.'<br/>';
@@ -53,11 +48,12 @@ while ($paiement=mysql_fetch_array($resultPending)) {
 
     // mise à jour des soldes
     // les bénéficiaires
-    for ($i=0; $i<$numMembres; $i++) {
-      $query="UPDATE membres SET solde=".$informations[$i]['solde']." WHERE id=".$informations[$i]['id'];
+    foreach ($informations as $id=>$infos) {
+      $query="UPDATE membres SET solde=".$infos['solde']." WHERE id=".$id;
       //echo "debug:".$query.'<br/>';
       mysql_query($query,$db) or die("erreur lors de la mise à jour d'un bénéficiaire: ".mysql_error());
     }
+
     // l'auteur
     $query="SELECT solde FROM membres WHERE id=".$paiement['idAuteur'];
     //echo "debug:".$query.'<br/>';
@@ -71,9 +67,22 @@ while ($paiement=mysql_fetch_array($resultPending)) {
   else { // la note n'a pas été acceptée
     // supprime la note
     $query="DELETE FROM paiements WHERE id=".$paiement['id'];
-    mysql_query($query,$db) or die("Erreur lors de la suppression d'une note de frais: ".mysql_error()); 
+    //mysql_query($query,$db) or die("Erreur lors de la suppression d'une note de frais: ".mysql_error()); 
     // envoie un mail à l'auteur
-    // TODO
+    require_once("mail.php");
+    $email=getEmailAddress($paiement['idAuteur']);
+    $subject="information note de frais";
+    $body="Votre déclaration de frais de ".$somme." € du ".formatDate($paiement['date'])." est arrivée à échéance mais n'a pas été prise en compte, et supprimée.\n";
+    $body.="En effet celle-ci a été réfutée par le(s) membre(s) suivant(s): ";
+    $members=array();
+    for ($i=0; $i<count($selectedList); $i++) 
+      if (!$auth[$i]) {
+	$id=$selectedList[$i];
+	array_push($members,$informations[$id]['nom']);
+      }
+    $body.=implode(', ',$members).".\n";
+    $body.="Il vous appartient à présent de régler cet éventuel conflit avec les intéressés puis de refaire une déclaration de frais.\n En dernier recours, contactez un administrateur pour envisager une remédiation.";
+    sendAutoMail($email, $subject, $body);
   }
 }
 ?>

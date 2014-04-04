@@ -11,7 +11,8 @@ mysql_query("SET NAMES UTF8");
 //
 // met à jour le champ idlesince de l'utilisateur $id
 function idleUpdate($id) {
+  global $db;
   $query="UPDATE membres SET idlesince=CURDATE() WHERE id='".$id."'";
-  mysql_query($query);
+  mysql_query($query,$db);
 }
 ?>
