@@ -16,7 +16,7 @@ $maxresult=mysql_query($query,$db) or die("Erreur lors de la récupération du s
 $soldeMax=mysql_result($maxresult,0,'soldeMax');
 $soldeMin=mysql_result($maxresult,0,'soldeMin');
 // les soldes des membres
-$query = 'SELECT id, nomprofil, solde, DATEDIFF(CURDATE(), idlesince) AS inactif FROM membres WHERE login<>"root" AND site<>0';
+$query = 'SELECT id, nomprofil, solde, DATEDIFF(CURDATE(), idlesince) AS inactif FROM membres WHERE login<>"root" AND site<>0 ORDER BY nomprofil';
 $resultSoldes=mysql_query($query,$db) or die("Erreur lors de la récupération des soldes: ".mysql_error());
 // les paiements
 $query = "SELECT * FROM paiements WHERE status='DONE' ORDER BY date DESC";

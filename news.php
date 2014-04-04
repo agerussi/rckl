@@ -17,6 +17,19 @@ if (isset($_SESSION['login'])) {
 <h1>NEWS</h1>
 
 <?php
+if (isset($_SESSION['login'])) {
+  echo <<<EOL
+<p>
+<form action="news_input.php">
+<input type="submit" value="Poster une news" title=""/>
+</form>
+</p>
+EOL;
+}
+else echo '<p><a href="loginpage.php?target=news_input.php">Connectez-vous</a> pour poster une news.</p>';
+?>
+
+<?php
 // on se connecte à la base
 require_once("dbconnect.php");
 //

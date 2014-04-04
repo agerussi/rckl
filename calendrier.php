@@ -49,6 +49,20 @@ require("menu_body.php");
 
 <h1>LES ACTIVITÉS À VENIR</h1>
 
+<?php
+if (isset($_SESSION['login'])) {
+  echo <<<EOL
+<p>
+<form action="calendrier_edit.php" method="get">
+<input type="submit" value="Proposer une nouvelle activité" title=""/>
+<input type="hidden" name="ids" value="-1"/>
+</form>
+</p>
+EOL;
+}
+else echo '<p><a href="loginpage.php?target=calendrier_edit.php?ids=-1">Connectez-vous</a> pour proposer une activité.</p>';
+?>
+
 <?php // affichage de la liste des sorties existantes
 $logged=isset($_SESSION['login']);
 // récupère la liste des sorties

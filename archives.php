@@ -24,6 +24,18 @@
 
   $titre = "ANNÉE ".$year;
   echo "<h1>ARCHIVES DES ACTIVITÉS DU RCKL</h1>";
+  
+  if (isset($_SESSION['login'])) {
+    echo <<<EOL
+<p>
+<form action="archives_new.php">
+<input type="submit" value="Créer une nouvelle archive" title=""/>
+</form>
+</p>
+EOL;
+  }
+  else echo '<p><a href="loginpage.php?target=archives_new.php">Connectez-vous</a> pour créer une nouvelle archive.</p>';
+
   echo "<h2>".$titre."</h2>";
 
   // récupère les archives de l'année sélectionnée
