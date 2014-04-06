@@ -13,6 +13,13 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* ============== menu RCKL */
+#rssicon {
+  position:fixed;
+  top:10pt;
+  right:10pt;
+  z-index:11;
+}
+
 #header {
   background-color:#dddddd;
   position:fixed;

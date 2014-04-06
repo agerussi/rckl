@@ -27,7 +27,7 @@ function sendAutoMail($email, $subject, $body) {
   $headers[] = "Subject: {$subject}";
   $headers[] = "X-Mailer: PHP/".phpversion();
 
-  //mail($email,$subject,$msg.$body,implode("\r\n",$headers));
+  mail($email,$subject,$msg.$body,implode("\r\n",$headers));
 }
 
 ?>

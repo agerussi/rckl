@@ -1,7 +1,8 @@
 <div id="topPagePadding"></div>
 <div id="header"><img id="logo" src="LOGO/rckl-logo.svg"/><div id="headerBody"><img id="rckl-short" src="LOGO/rckl-short.png" /><img id="rckl-long" src="LOGO/rckl-long.png" />
 <ul id="mainmenu" class="menuinline">
-<li><a href="news.php">NEWS</a></li>
+
+  <li><a href="news.php">NEWS</a></li>
 
   <li><a href="calendrier.php" title="les sorties ou autres activités en préparation" >CALENDRIER</a></li>
 
@@ -44,6 +45,12 @@
 </ul>
 </div>
 </div>
+<?php 
+// affichage de l'icône RSS si on est loggé
+if (isset($_SESSION['login'])) {
+  echo '<a href="rcklrss.xml" type="application/rss+xml"><img id="rssicon" border="0" src="ICONS/RSS-icon.png" class="icon" /></a>';
+}
+?>
 <script type="text/javascript">
   div=document.getElementById("topPagePadding");
   div.style.height=document.getElementById("header").clientHeight+"px";

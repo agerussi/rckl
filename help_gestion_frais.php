@@ -49,10 +49,10 @@ Les membres qui apparaissent ici sont uniquement ceux avec qui vous avez déjà 
 Les sommes indiquées représentent le crédit/débit total et global depuis l'inscription au RCKL.
 Les sommes négatives sont des dettes.
 La personne ayant le plus grand crédit est indiquée en vert, celle ayant le plus de débit est en rouge. 
-En cas de remboursement, la personne rouge devrait donner de l'argent à la personne verte pour minimiser les somme extrêmes.
+En cas de remboursement, la personne rouge devrait donner de l'argent à la personne verte pour minimiser les sommes extrêmes.
 <br/>
-Il est normal que l'addition de toutes les sommes ne soit pas égal à 0. 
-En effet les membres indiqués ont pu avoir des dépenses avec d'autres membres que ceux visualisés ici et ceci a modifié leur compte.
+Il est normal que l'addition de toutes les sommes ne soit pas égale à 0. 
+En effet les membres indiqués ont pu avoir des dépenses avec d'autres membres que ceux visualisés ici et ceci a modifié leur solde.
 </p>
 
 <h3>Dépenses en cours de validation</h3>
