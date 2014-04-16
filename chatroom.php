@@ -1,7 +1,7 @@
 <?php 
   session_start(); 
-  //teste si l'utilisateur est connecté
-  if (!isset($_SESSION['userid']) || empty($_SESSION['userid'])) {
+  // tests préalables
+  if (!isset($_SESSION['userid']) || empty($_SESSION['userid']) || !isset($_GET['id'])) {
     header("Location: news.php");
   }
 ?>
@@ -9,26 +9,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 <?php require("menu_header.php"); ?>
-  <script type="text/javascript" src="chat.js"></script>
+  <script type="text/javascript" src="chatroom.js"></script>
 </head>
 <body>
 
 <?php
   require("menu_body.php"); 
-  // début du programme spécifique 'chatroom'
   require_once("dbconnect.php");
-  
-  // teste s'il s'agit d'une nouvelle conversation
-  $query="SELECT id FROM membres WHERE TIMESTAMPDIFF(SECOND,chattimestamp,NOW())<60";
-  $result=mysql_query($query, $db) or die("Erreur lors de la collecte des membres présents: ".mysql_error());
-  // si la liste est vide, une nouvelle conversation commence
-  if (mysql_num_rows($result)==0) { // on efface les anciens messages
-    $query="TRUNCATE TABLE chat_messages";
-    mysql_query($query, $db) or die("Erreur lors de la suppression des messages de chat_messages: ".mysql_error());
+  // détermine le numéro du salon 
+  $id=$_GET['id'];
+  if ($id<0) {
+    // nouveau salon, il faut chercher un numéro libre
+    $query="SELECT MAX(id) as idMax FROM chat_rooms";
+    $result=mysql_query($query, $db) or die("Erreur lors de la collecte des id salons: ".mysql_error());
+    $row=mysql_fetch_array($result);
+    $id=$row['idMax']+1;
   }
-  
-  // initialise le nombre de messages déjà envoyés
-  $_SESSION['numsent']=0;
+  // communique le n° à chatroom.js
+  echo '<input type="hidden" name="roomNum" value="'.$id.'"/>';
+  // TODO: utile ?
+
+  // déclare le membre dans le salon
+  // test pour voir s'il y est déjà
+  $query="SELECT COUNT(*) as nb FROM chat_rooms WHERE id={$id} AND idmembre={$_SESSION['userid']}";
+  $result=mysql_query($query, $db) or die("Erreur lors du test de présence: ".mysql_error());
+  $row=mysql_fetch_array($result);
+  if ($row['nb']==0) {
+    // on crée une entrée
+    $query="INSERT INTO  chat_rooms (id,idmembre,nomprofil) VALUES({$id},{$_SESSION['userid']},'{$_SESSION['profilename']}')";
+    //echo $query;
+    $result=mysql_query($query, $db) or die("Erreur lors de l'insertion du membre dans le salon: ".mysql_error());
+  }
+
+  // initialise l'id du dernier message lu
+  $_SESSION["lastread"][$id]=0;
 ?>
 
 <!-- #####################################

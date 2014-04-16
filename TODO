@@ -1,8 +1,12 @@
+CHANTIER: chat avec conversations multiples
+DONE: revoir et étendre la BD afin d'avoir plusieurs chat simultanés possibles
+DONE: écrire la nouvelle page de chat avec visualisation des salons existants ou création d'un nouveau salon
+DONE: adapter le salon
+TODO: modifier la vraie BD après merge 
+
 * FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
 * CHANTIER: nouveau calendrier avec possibilités d'activités «régulières»
-
-* CHANTIER: chat avec conversations multiples
 
 * CHANTIER: cartographie des membres
 

@@ -7,7 +7,7 @@ if(isset($_SESSION['login'])){ // on est loggé
   echo <<<EOS
 <ul>
 <li><a href="frais_affichage.php">gérer ses frais</a></li>
-<li><a href="chatroom.php">accéder au salon de discussion</a></li>
+<li><a href="chat.php">accéder aux salons de discussion</a></li>
 <li><a href="profile_edition.php">modifier son profil</a></li>
 <li><a href="logout.php">se déconnecter</a></li>
 EOS;
