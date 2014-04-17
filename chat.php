@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
   <?php require("menu_header.php"); ?>
-  <!-- <meta http-equiv="refresh" content="30;url=chat.php" /> -->
+  <meta http-equiv="refresh" content="30;url=chat.php" />
 </head>
 <body>
 
@@ -30,11 +30,11 @@
   require_once("dbconnect.php");
   // efface les anciens log de salons abandonnés
   ///////////////////////////////////////////////
-  $query="DELETE FROM chat_rooms WHERE TIMESTAMPDIFF(SECOND,timestamp,NOW())>=60";
+  $query="DELETE FROM chat_rooms WHERE TIMESTAMPDIFF(SECOND,timestamp,NOW())>=20";
   $result=mysql_query($query, $db) or die("Erreur lors de l'effacement d'anciens salons: ".mysql_error());
 
   // récupère la liste des salons ouverts et leurs membres
-  $query="SELECT id, nomprofil FROM chat_rooms WHERE TIMESTAMPDIFF(SECOND,timestamp,NOW())<60";
+  $query="SELECT id, nomprofil FROM chat_rooms WHERE TIMESTAMPDIFF(SECOND,timestamp,NOW())<20";
   $result=mysql_query($query, $db) or die("Erreur lors de la collecte des salons: ".mysql_error());
   while ($row=mysql_fetch_array($result)) {
     if (!isset($chatrooms[$row['id']])) $chatrooms[$row['id']]=array();
@@ -70,7 +70,7 @@
 </form>
 EOS;
       echo "avec: ";
-      echo implode(", ",
+      echo implode("",
 	array_map(
 	  create_function('$m','return "<span class=\"chatmember\">{$m}</span>";'),
 	  $members));

@@ -41,6 +41,7 @@ function main() {
   document.getElementById("sendButton").addEventListener("click", saisieMessage);
 
   // abonnement de la collecte des membres
+  getMembers();
   window.setInterval(getMembers,10*1000);
 
   // abonnement de la collecte de messages

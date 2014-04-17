@@ -29,7 +29,6 @@ switch($_GET['cmd']) {
 // envoie un message sur le salon spécifié
 function sendMessage($id,$nomprofil) {
   global $db;
-  global $_POST;
   $query="INSERT INTO chat_messages (idsalon,auteur,message) VALUES({$id}, '".addslashes($nomprofil)."','".addslashes($_POST['msgBody'])."')";
   mysql_query($query, $db) or die("Erreur lors de l'insertion d'un message dans chat_messages: ".mysql_error());
 } 
