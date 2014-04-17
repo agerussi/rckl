@@ -76,7 +76,7 @@ h1,h2,h3,h4,h5,h6 {
   padding: 0 2px;
 }
 
-.chatmember:hover {
+#chatmembers .chatmember:hover {
   background-color:#ffffff;
 }
 
@@ -90,6 +90,13 @@ h1,h2,h3,h4,h5,h6 {
   margin-bottom: 5px;
 } 
 
+form.inline {
+  display:inline;
+}
+
+#roomList {
+  margin-bottom:10pt;
+}
 
 /* =============== style pour le trombi */
 table.trombi {

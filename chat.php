@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
   <?php require("menu_header.php"); ?>
-  <!-- <meta http-equiv="refresh" content="20;url=chat.php" /> -->
+  <!-- <meta http-equiv="refresh" content="30;url=chat.php" /> -->
 </head>
 <body>
 
@@ -19,9 +19,8 @@
 
 <h1>SALONS DE DISCUSSION</h1>
 
-<form action="chatroom.php" method="get">
+<form action="chat_new.php" method="get">
 <input type="submit" value="Entrer dans un nouveau salon" title="Cliquez pour créer et pénétrer un nouveau salon de discussion"/>
-<input type="hidden" name="id" value="-1"/>
 </form>
 
 <h2>Les salons existants</h2>
@@ -30,6 +29,7 @@
 <?php
   require_once("dbconnect.php");
   // efface les anciens log de salons abandonnés
+  ///////////////////////////////////////////////
   $query="DELETE FROM chat_rooms WHERE TIMESTAMPDIFF(SECOND,timestamp,NOW())>=60";
   $result=mysql_query($query, $db) or die("Erreur lors de l'effacement d'anciens salons: ".mysql_error());
 
@@ -42,6 +42,7 @@
   }
 
   // effacement anciens messages
+  ///////////////////////////////
   if (count($chatrooms)==0) {
     // efface tous les messages
     $query="TRUNCATE TABLE chat_messages";
@@ -55,19 +56,25 @@
   $result=mysql_query($query, $db) or die("Erreur lors de l'effacement d'anciens messages: ".mysql_error());
   
   // affiche les salons existants et leurs membres
+  //////////////////////////////////////////////////
   //var_dump($chatrooms);
   if (count($chatrooms)==0)
     echo "Aucun salon n'est ouvert pour le moment, veuillez cliquer sur le bouton ci-dessus pour en créer un nouveau.";
   else {
     foreach ($chatrooms as $id=>$members) {
+      echo '<div id="roomList">';
       echo <<<EOS
-<form action="chatroom.php" method="get">
+<form class="inline" action="chat_room.php" method="get">
 <input type="submit" value="Entrer dans le salon n°{$id}" title="Cliquez rejoindre les membres"/>
 <input type="hidden" name="id" value="{$id}"/>
 </form>
 EOS;
-      echo implode(", ",$members);
-      echo "<br/>";
+      echo "avec: ";
+      echo implode(", ",
+	array_map(
+	  create_function('$m','return "<span class=\"chatmember\">{$m}</span>";'),
+	  $members));
+      echo "</div>";
     }
   }
 ?> 
