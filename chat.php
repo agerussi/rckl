@@ -14,6 +14,7 @@
 <body>
 
 <?php
+  require("background.html");
   require("menu_body.php"); 
 ?>
 

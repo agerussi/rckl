@@ -40,7 +40,16 @@
       <li><a href="http://www.kayaksportif.be" target="_blank" title="un site belge similaire au RCKL">KayakSportif.be</a></li>
     </ul>
    </li>
-
+  
+<?php 
+// parties du menu réservées aux membres connectés
+if(isset($_SESSION['login'])){ // on est loggé
+  echo <<<EOS
+<li><a href="frais_affichage.php" title="gérer ses frais">FRAIS</a></li>
+<li><a href="chat.php" title="accéder aux salons de discussion">CHAT</a></li>
+EOS;
+}
+?>
   <li><?php include("menu_members.php");?></li>
 </ul>
 </div>
