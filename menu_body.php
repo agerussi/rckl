@@ -43,15 +43,38 @@
   
 <?php 
 // parties du menu réservées aux membres connectés
+/////////////////////////////////////////////////////
 if(isset($_SESSION['login'])){ // on est loggé
   echo <<<EOS
+<li>
+ <span class="iphonefix" style="color:red">{$_SESSION['profilename']}</span>
+ <ul>
+  <li><a href="profile_edition.php">modifier son profil</a></li>
+  <li><a href="logout.php">se déconnecter</a></li>
+ </ul>
+</li>
 <li><a href="frais_affichage.php" title="gérer ses frais">FRAIS</a></li>
 <li><a href="chat.php" title="accéder aux salons de discussion">CHAT</a></li>
 EOS;
 }
+else{
+  echo <<<EOS
+<a href="loginpage.php"
+title="permet de
+proposer une activité,
+s'inscrire à une activité,
+écrire une news,
+créer ou modifier une archive,
+gérer ses frais,
+modifier son profil,
+visionner le profil d'un autre membre,
+s'abonner au flux RSS,
+accéder au salon de discussion"
+>CONNEXION</a>
+EOS;
+}
 ?>
-  <li><?php include("menu_members.php");?></li>
-</ul>
+  </ul>
 </div>
 </div>
 <?php 
@@ -60,6 +83,7 @@ if (isset($_SESSION['login'])) {
   echo '<a href="rcklrss.xml" type="application/rss+xml"><img id="rssicon" border="0" src="ICONS/RSS-icon.png" class="icon" /></a>';
 }
 ?>
+
 <script type="text/javascript">
   div=document.getElementById("topPagePadding");
   div.style.height=document.getElementById("header").clientHeight+"px";

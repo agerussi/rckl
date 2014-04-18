@@ -1,14 +1,7 @@
-CHANTIER: chat avec conversations multiples
-TODO: SESSION[lastread][nomprofil][id]  : ajouter le nomprofil afin de pouvoir se connecter avec plusieurs profils différents
-TODO: problème: comment différentier les navigateurs (ou les tabs) ouverts en même temps... ?
-TODO: modifier la vraie BD après merge 
-
-* FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
 
 * CHANTIER: nouveau calendrier avec possibilités d'activités «régulières»
-
 * CHANTIER: cartographie des membres
-
 * CHANTIER: modes locaux avec éditions de différents profils et options
-
 * FEATURE: mise à jour du idlesince lors de la déclaration de participation dans une archive
+* FEATURE: mise à jour du idlesince lors de la connexion dans un chat
+* FEATURE: mettre un time load dans l'upload de chunk, suivi d'un premier, deuxième et troisième essai avant échec.
