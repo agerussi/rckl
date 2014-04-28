@@ -60,7 +60,7 @@ if (isset($_SESSION['login'])) {
 </p>
 EOL;
 }
-else echo '<p><a href="loginpage.php?target=calendrier_edit.php?ids=-1">Connectez-vous</a> pour proposer une activité.</p>';
+else echo '<p><a href="loginpage.php?target=calendrier.php">Connectez-vous</a> pour proposer une activité ou vous inscrire à une sortie.</p>';
 ?>
 
 <?php // affichage de la liste des sorties existantes
