@@ -125,18 +125,18 @@ function addMembreAt() {
 /////////////////////////////////////////////////////////////
 function getMessages() {
   var xhr=new XMLHttpRequest();
-  xhr.onreadystatechange=function() {
-    if (this.readyState==this.DONE && this.status==200) {
-      // récupération sous format JSON
-      //if (JSON.parse) var json=JSON.parse(this.response);
-      //else var json=eval("("+this.response+")");
-      var json=JSON.parse(this.response);
-      // traitement
-      for (var i=0; i<json.messagelist.length; i++) 
-	displayMessage(json.messagelist[i].auteur,unescape(json.messagelist[i].corps));
-      // maintenant on peut relancer la récupération de messages
-      window.setTimeout(getMessages,4*1000);
-    }
+  xhr.onload=function() {
+    var json=JSON.parse(this.response);
+    // traitement
+    for (var i=0; i<json.messagelist.length; i++) 
+      displayMessage(json.messagelist[i].auteur,unescape(json.messagelist[i].corps));
+    // relance de la récupération de messages
+    window.setTimeout(getMessages,4*1000);
+  }
+  xhr.onerror=function() {
+     displayMessage("getMessages():", "Erreur lors de la réception des messages!");
+    // relance de la récupération de messages
+    window.setTimeout(getMessages,4*1000);
   }
   xhr.open("POST", "chat_tools.php?cmd=getmsg&id="+roomNum, true); // asynchrone pour ne pas avoir d'interruptions
   xhr.send();
@@ -151,20 +151,21 @@ function saisieMessage() {
 
   // envoi du message sous la forme d'un POST de variable 'msgBody'
   var xhr = new XMLHttpRequest();
-  xhr.open("POST","chat_tools.php?cmd=sendmsg&id="+roomNum,true); 
-  xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
   var body='--BoUnDaRy\n';
   body+='Content-Disposition: form-data; name="msgBody"\n';
   body+='Content-Type: text/plain; charset=utf-8\n\n';
   body+=escape(chatBox.value)+'\n';
   body+='--BoUnDaRy\n';
+  xhr.onerror=function() {
+     displayMessage("saisieMessage():", "Erreur lors de l\'envoi d\'un message!");
+
+  }
+  xhr.open("POST","chat_tools.php?cmd=sendmsg&id="+roomNum,true); 
+  xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
   xhr.send(body);
 
   // efface le texte précédent
   chatBox.value="";
-
-  // appelle le serveur afin que le message soit affiché immédiatement
-  //getMessages();
 }
 
 ////////////////////////////////////////////////////////
