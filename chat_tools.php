@@ -50,7 +50,10 @@ function getMessages($id,$lastread) {
   }
 
   // renvoie le JSON
-  echo '{"messagelist":['.implode(',',$json).']}';
+  if (isset($json)) 
+    echo '{"messagelist":['.implode(',',$json).']}';
+  else
+    echo '{"messagelist":[]}';
 
   return (isset($lastId) ? $lastId:$lastread);
 }

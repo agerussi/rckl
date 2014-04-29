@@ -46,7 +46,7 @@ function main() {
 
   // abonnement de la collecte de messages
   getMessages();
-  window.setTimer(getMessages,4*1000);
+  //window.setTimeout(getMessages,4*1000);
 
 }
 
@@ -135,7 +135,7 @@ function getMessages() {
       for (var i=0; i<json.messagelist.length; i++) 
 	displayMessage(json.messagelist[i].auteur,unescape(json.messagelist[i].corps));
       // maintenant on peut relancer la récupération de messages
-      window.setTimer(getMessages,4*1000);
+      window.setTimeout(getMessages,4*1000);
     }
   }
   xhr.open("POST", "chat_tools.php?cmd=getmsg&id="+roomNum, true); // asynchrone pour ne pas avoir d'interruptions
