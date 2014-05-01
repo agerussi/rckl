@@ -11,6 +11,7 @@ var bodyTag; // l'élément <body>
 var htmlTag; // l'élément <html>
 var mainMenu; // le menu en haut de page
 var roomNum; // n° de salon
+var msgSender; // objet d'envoi de message
 
 //////////////////////////////////////////////////////////
 // fonction principale, essentiellement des abonnements //
@@ -25,6 +26,7 @@ function main() {
 
   // récupération du n° de salon
   roomNum=(document.getElementsByName("roomNum"))[0].value;
+  msgSender=new Sender(roomNum);
 
   // abonnements de la gestion de la zone chatpage
   setHeight();
@@ -146,26 +148,59 @@ function getMessages() {
 // envoie le message au serveur pour diffusion //
 /////////////////////////////////////////////////
 function saisieMessage() {
-  // on n'envoie pas un message vide
-  if (chatBox.value.length==0) return;
-
-  // envoi du message sous la forme d'un POST de variable 'msgBody'
-  var xhr = new XMLHttpRequest();
-  var body='--BoUnDaRy\n';
-  body+='Content-Disposition: form-data; name="msgBody"\n';
-  body+='Content-Type: text/plain; charset=utf-8\n\n';
-  body+=escape(chatBox.value)+'\n';
-  body+='--BoUnDaRy\n';
-  xhr.onerror=function() {
-     displayMessage("saisieMessage():", "Erreur lors de l\'envoi d\'un message!");
-
-  }
-  xhr.open("POST","chat_tools.php?cmd=sendmsg&id="+roomNum,true); 
-  xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
-  xhr.send(body);
-
+  if (chatBox.value.length==0) return; // on n'envoie pas un message vide
+  // envoi du message
+  msgSender.send(escape(chatBox.value));
   // efface le texte précédent
   chatBox.value="";
+}
+
+/////////////////////////////////////////////////////////////////////
+// classe Sender - file d'attente et envoi asynchrone des messages //
+/////////////////////////////////////////////////////////////////////
+function Sender(roomNum) {
+  // méthodes publiques
+  //// réception de messages à envoyer
+  this.send=function(message) {
+    msgQueue.push(message);
+    if (!sending) purge();
+  }
+
+  // méthodes et attributs privés
+  //// fonction envoyant dans l'ordre tous les messages dans la queue
+  function purge() {
+    if (msgQueue.length==0) {
+      sending=false;
+      return;
+    } 
+    sending=true;
+    // envoi du message sous la forme d'un POST de variable 'msgBody'
+    var xhr = new XMLHttpRequest();
+    var body='--BoUnDaRy\n';
+    body+='Content-Disposition: form-data; name="msgBody"\n';
+    body+='Content-Type: text/plain; charset=utf-8\n\n';
+    body+=msgQueue[0]+'\n';
+    body+='--BoUnDaRy\n';
+    xhr.onerror=function() {
+       displayMessage("saisieMessage():", "Erreur lors de l\'envoi d\'un message!");
+       window.setTimeout(purge,1*1000);
+    }
+    xhr.onload=function() {
+      msgQueue.shift(); // supprime le message de la queue
+      window.setTimeout(purge,1*1000); // relance le processus pour les messages suivants
+    }
+    xhr.open("POST","chat_tools.php?cmd=sendmsg&id="+numSalon,true); 
+    xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
+    xhr.send(body);
+  }
+
+  // constructeur
+  //// la file d'attente de messages
+  var msgQueue=new Array();
+  // indique si purge est en cours 
+  var sending=false;
+  // n° de salon de ce Sender
+  var numSalon=roomNum;
 }
 
 ////////////////////////////////////////////////////////
