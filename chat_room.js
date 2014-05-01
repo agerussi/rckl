@@ -26,6 +26,8 @@ function main() {
 
   // récupération du n° de salon
   roomNum=(document.getElementsByName("roomNum"))[0].value;
+
+  // création de l'objet Sender associé 
   msgSender=new Sender(roomNum);
 
   // abonnements de la gestion de la zone chatpage
@@ -44,7 +46,7 @@ function main() {
 
   // abonnement de la collecte des membres
   getMembers();
-  window.setInterval(getMembers,10*1000);
+  window.setInterval(getMembers,15*1000);
 
   // abonnement de la collecte de messages
   getMessages();
@@ -136,7 +138,7 @@ function getMessages() {
     window.setTimeout(getMessages,4*1000);
   }
   xhr.onerror=function() {
-     displayMessage("getMessages():", "Erreur lors de la réception des messages!");
+      displayMessage("*info*", "réseau défaillant ? erreur lors de la réception des messages: nouvel essai...");
     // relance de la récupération de messages
     window.setTimeout(getMessages,4*1000);
   }
@@ -182,12 +184,12 @@ function Sender(roomNum) {
     body+=msgQueue[0]+'\n';
     body+='--BoUnDaRy\n';
     xhr.onerror=function() {
-       displayMessage("saisieMessage():", "Erreur lors de l\'envoi d\'un message!");
-       window.setTimeout(purge,1*1000);
+       displayMessage("*info*", "réseau défaillant ? erreur lors de l\'envoi d'un message: nouvel essai...");
+       window.setTimeout(purge,500);
     }
     xhr.onload=function() {
       msgQueue.shift(); // supprime le message de la queue
-      window.setTimeout(purge,1*1000); // relance le processus pour les messages suivants
+      window.setTimeout(purge,500); // relance le processus pour les messages suivants
     }
     xhr.open("POST","chat_tools.php?cmd=sendmsg&id="+numSalon,true); 
     xhr.setRequestHeader("Content-Type","multipart/form-data; boundary=BoUnDaRy");
