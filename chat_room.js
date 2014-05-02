@@ -12,6 +12,7 @@ var htmlTag; // l'élément <html>
 var mainMenu; // le menu en haut de page
 var roomNum; // n° de salon
 var msgSender; // objet d'envoi de message
+var msgReceiver; // objet de réception des messages
 
 //////////////////////////////////////////////////////////
 // fonction principale, essentiellement des abonnements //
@@ -27,8 +28,9 @@ function main() {
   // récupération du n° de salon
   roomNum=(document.getElementsByName("roomNum"))[0].value;
 
-  // création de l'objet Sender associé 
+  // création de l'objet Sender et Receiver associé 
   msgSender=new Sender(roomNum);
+  msgReceiver=new Receiver(roomNum);
 
   // abonnements de la gestion de la zone chatpage
   setHeight();
@@ -49,8 +51,7 @@ function main() {
   window.setInterval(getMembers,15*1000);
 
   // abonnement de la collecte de messages
-  getMessages();
-  //window.setTimeout(getMessages,4*1000);
+  window.setInterval(msgReceiver.displayNewMessages,5*1000);
 
 }
 
@@ -125,25 +126,35 @@ function addMembreAt() {
 }
 
 /////////////////////////////////////////////////////////////
+// classe msgReceiver                                      //
 // demande au serveur les nouveaux messages et les affiche //
 /////////////////////////////////////////////////////////////
-function getMessages() {
-  var xhr=new XMLHttpRequest();
-  xhr.onload=function() {
-    var json=JSON.parse(this.response);
-    // traitement
-    for (var i=0; i<json.messagelist.length; i++) 
-      displayMessage(json.messagelist[i].auteur,unescape(json.messagelist[i].corps));
-    // relance de la récupération de messages
-    window.setTimeout(getMessages,4*1000);
+function Receiver(roomNum) {
+  // méthodes publiques
+  //// réception de messages à envoyer
+  this.displayNewMessages=function() {
+    var xhr=new XMLHttpRequest();
+    xhr.onload=function() {
+      var json=JSON.parse(this.response);
+      // traitement
+      for (var i=0; i<json.messagelist.length; i++) 
+	if (json.messagelist[i].id>lastId) { // garantit l'unicité d'affichage pour un msg donné
+	  displayMessage(json.messagelist[i].auteur,unescape(json.messagelist[i].corps));
+	  lastId=json.messagelist[i].id;
+	}
+    }
+    xhr.onerror=function() {
+	displayMessage("*info*", "réseau défaillant ? erreur lors de la réception des messages: nouvel essai...");
+    }
+    xhr.open("POST", "chat_tools.php?cmd=getmsg&id="+numSalon, true); // asynchrone pour ne pas avoir d'interruptions
+    xhr.send();
   }
-  xhr.onerror=function() {
-      displayMessage("*info*", "réseau défaillant ? erreur lors de la réception des messages: nouvel essai...");
-    // relance de la récupération de messages
-    window.setTimeout(getMessages,4*1000);
-  }
-  xhr.open("POST", "chat_tools.php?cmd=getmsg&id="+roomNum, true); // asynchrone pour ne pas avoir d'interruptions
-  xhr.send();
+
+  // constructeur
+  //// id du dernier message affiché
+  var lastId=0;
+  //// n° de salon de ce Receiver
+  var numSalon=roomNum;
 }
 
 /////////////////////////////////////////////////

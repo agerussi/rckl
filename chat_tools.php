@@ -44,7 +44,8 @@ function getMessages($id,$lastread) {
   unset($json);
   while ($row=mysql_fetch_array($result)) {
     $message='{"auteur":"'.stripslashes($row['auteur']).'",';
-    $message.='"corps":"'.stripslashes($row['message']).'"}';
+    $message.='"corps":"'.stripslashes($row['message']).'",';
+    $message.='"id":'.$row['id'].'}';
     $json[]=$message;
     $lastId=$row['id'];
   }
