@@ -147,7 +147,7 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
 <?php
 // affichage de l'historique personnel des paiements
 //if (mysql_num_rows($resultPaiements)==0) {
-if (count($relations)==0) {
+if (count($relations)==0 && !$isRoot) {
   echo 'L\'historique est vide';
 }
 else {
