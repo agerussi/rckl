@@ -59,7 +59,7 @@ while ($ligne=mysql_fetch_array($resultPaiements)) {
 mysql_data_seek($resultPaiements,0); // remet l'index au départ pour un nouveau parcours
 
 while($ligne = mysql_fetch_array($resultSoldes)) {
-  if (($relations[$ligne['id']] && abs($ligne['solde'])>=1) || $isRoot) {
+  if (($relations[$ligne['id']] && abs($ligne['solde'])>=1) || $ligne['id']==$userId || $isRoot) {
     echo '<span class="solde" style="';
     if ($ligne['id']==$userId) echo 'background-color: lightgray;';
     $solde=$ligne['solde'];
@@ -146,7 +146,8 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
 
 <?php
 // affichage de l'historique personnel des paiements
-if (mysql_num_rows($resultPaiements)==0) {
+//if (mysql_num_rows($resultPaiements)==0) {
+if (count($relations)==0) {
   echo 'L\'historique est vide';
 }
 else {
