@@ -1,7 +1,7 @@
 <?php
 // récupère les notes arrivées à échéance
 require_once("dbconnect.php");
-$query = "SELECT * FROM paiements WHERE status='AUTH' AND date<DATE_SUB(CURDATE(),INTERVAL 20 DAY)";
+$query = "SELECT * FROM paiements WHERE status='AUTH' AND date<=DATE_SUB(CURDATE(),INTERVAL 20 DAY)";
 $resultPending=mysql_query($query, $db) or die("Erreur lors de la récupération des paiements: ".mysql_error());
 
 while ($paiement=mysql_fetch_array($resultPending)) {
@@ -91,5 +91,10 @@ while ($paiement=mysql_fetch_array($resultPending)) {
     $body.="En dernier recours, contactez un administrateur pour envisager une remédiation.";
     sendAutoMail($email, $subject, $body);
   }
+}
+
+function formatDate($str) {
+  sscanf($str,"%u-%u-%u",$annee,$mois,$jour);
+  return $jour.'/'.$mois.'/'.$annee%100;
 }
 ?>
