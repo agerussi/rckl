@@ -13,9 +13,17 @@ while ($paiement=mysql_fetch_array($resultPending)) {
       $authorized=false;
       break;
     }
-  // récupère les données des membres sélectionnés 
+
+  // calcule combien chacun des bénéficiaires devra
   $selectedList=unserialize($paiement['selected']);
+  $isAuthorIncluded=in_array($paiement['idAuteur'],$selectedList); // regarde si l'auteur est un bénéficiaire
+  $somme=$paiement['somme'];
+  $numMembres=count($selectedList);
+  $chacun=round(100*$somme/$numMembres)/100;
+
+  // informations sur les bénéficiaires (et l'auteur)
   $informations=array();
+  if (!$isAuthorIncluded) array_push($selectedList,$paiement['idAuteur']); // rajout artificiel de l'auteur
   foreach ($selectedList as $id) {
     $query ="SELECT id,nomprofil,solde FROM membres WHERE id='{$id}'";
     $result=mysql_query($query,$db);
@@ -23,16 +31,17 @@ while ($paiement=mysql_fetch_array($resultPending)) {
     $ligne = mysql_fetch_array($result);
     $informations[$ligne['id']]= array('nom'=>$ligne['nomprofil'], 'solde'=>$ligne['solde']);
   }
-  $somme=$paiement['somme'];
-  $numMembres=count($selectedList);
 
+  // application des variations si l'ensemble est autorisé
   if ($authorized) {
     // calcule les nouveaux soldes, la liste des variations 
-    $chacun=round(100*$somme/$numMembres)/100;
     $listevariations=array();
     foreach ($informations as $id=>$infos) {
-      $variation=-$chacun;
-      if ($id==$paiement['idAuteur']) $variation+=$somme;
+      if ($id==$paiement['idAuteur']) {
+	$variation=$somme; 
+	if ($isAuthorIncluded) $variation-=$chacun;
+      }
+      else $variation=-$chacun;
       $informations[$id]['solde']+=$variation; // nouveau solde
       array_push($listevariations, $infos['nom'].'('.(($variation>0) ? "+":"").$variation.')');
     }
@@ -47,21 +56,11 @@ while ($paiement=mysql_fetch_array($resultPending)) {
     mysql_query($query, $db) or die("erreur lors de l'ajout dans l'historique: ".mysql_error());
 
     // mise à jour des soldes
-    // les bénéficiaires
     foreach ($informations as $id=>$infos) {
       $query="UPDATE membres SET solde={$infos['solde']} WHERE id={$id}";
       //echo "debug:".$query.'<br/>';
-      mysql_query($query,$db) or die("erreur lors de la mise à jour d'un bénéficiaire: ".mysql_error());
+      mysql_query($query,$db) or die("erreur lors de la mise à jour d'un solde: ".mysql_error());
     }
-    // l'auteur
-    $query="SELECT solde FROM membres WHERE id={$paiement['idAuteur']}";
-    //echo "debug:".$query.'<br/>';
-    $result=mysql_query($query,$db) or die("erreur lors de la récupération du solde de l'auteur: ".mysql_error());
-    $ligne=mysql_fetch_array($result) or die("erreur lors de la récupéraion du solde de l'auteur (2): ".mysql_error());
-    $newsolde=$ligne['solde']+$somme;
-    $query="UPDATE membres SET solde={$newsolde} WHERE id={$paiement['idAuteur']}";
-    //echo "debug:".$query.'<br/>';
-    mysql_query($query,$db) or die("erreur lors de la mise à jour du solde de l'auteur: ".mysql_error());
 
     // envoie un mail à l'auteur pour confirmer
     require_once("mail.php");
