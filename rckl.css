@@ -227,6 +227,15 @@ hr { clear:both; }
   padding:0;
 }
 
+.suggestionParticipant {
+  border: 1px solid black;
+  margin-right: 10pt;
+  padding: 0px 2px;
+}
+
+#nouveauparticipant {
+  margin-bottom: 5pt;
+}
 /* =================== style des tables de frais */
 
 span.solde {
