@@ -7,6 +7,11 @@ $db = mysql_connect("$dbHost", "$dbUser", "$dbPass") or die("Erreur lors de la c
 mysql_select_db("$dbDatabase", $db) or die("Erreur lors de la sélection de la base: ".mysql_error());
 mysql_query("SET NAMES UTF8");
 
+// constantes composant le champ 'status' d'un membre
+$MEMBER_STATUS_CANLOGIN=1;
+$MEMBER_STATUS_NEEDUPGRADE=2;
+$MEMBER_STATUS_PENDING=4;
+
 // fonctions courantes en relation avec la base de données
 //
 // met à jour le champ idlesince de l'utilisateur $id

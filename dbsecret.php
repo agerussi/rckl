@@ -1,1 +1,6 @@
-dbsecret_local.php
+<?php
+$dbHost = "localhost";
+$dbUser = "alexandre";
+$dbPass = "alexsql";
+$dbDatabase = "rckl";
+?>

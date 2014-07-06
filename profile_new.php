@@ -26,6 +26,9 @@
   <p>Veuillez fournir des informations <em>sérieuses et réelles</em>: le RCKL est un réseau de proximité, dans lequel les gens se rencontrent vraiment et batissent des relations basées sur la confiance.
   Aussi tout compte dont les informations sont douteuses sera supprimé. 
   </p>
+  <p>L'adresse e-mail qui est demandée en dernier sert uniquement à valider votre inscription et ne sera diffusée à personne.
+  Vous pourrez configurer une autre adresse (ou pas d'adresse du tout) plus tard si vous le souhaitez.
+  </p>
 
   <form accept-charset="utf-8" method="post" action="profile_create.php" id="profileForm">
 
@@ -66,9 +69,13 @@
     '<input id="latitude" name="latitude" type="text" size="10" style="display:none">',
     '<input id="longitude" name="longitude" type="text" size="10" style="display:none">'
   );
+  profileEntry("Adresse email (validation)",
+    champTexte("email",32,""),
+    message("email")
+  );
 ?>
 
-    <input type="button" id="submitbutton" value="Créer le compte" title="Relisez bien les informations avant de créer!" />
+    <input type="button" id="profilesubmitbutton" value="Créer le compte" title="Relisez bien les informations avant de créer!" />
   </form>
 
   <form method="post" action="news.php">

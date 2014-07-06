@@ -36,7 +36,7 @@ function initializeMap() {
 }
 
 function main() {
-  document.getElementById("submitbutton").addEventListener("click",submit);
+  document.getElementById("profilesubmitbutton").addEventListener("click",submit);
   if (upgradeProfile) userId=ajax("dbtools.php?cmd=getuserid");
 
   // champs spécifiques au mode "new" 
@@ -48,6 +48,12 @@ function main() {
       loginMessage=document.getElementById("login-message");
       loginST=ST_UNCHANGED;
     }
+
+    emailField=document.getElementById("email");
+    emailField.value="";
+    emailField.addEventListener("change",checkEmail);
+    emailMessage=document.getElementById("email-message");
+
     nameField=document.getElementById("nom");
     nameField.value="";
     nameField.addEventListener("change",checkName);
@@ -143,6 +149,21 @@ function profileExists(profile) {
   return id!=0 && (!upgradeProfile || id!=userId);
 }
 
+// vérifie la présence de l'adresse email de validation
+function checkEmail() {
+  emailST=ST_BROKEN;
+  var email=this.value.trim();
+  // vérifie qu'il semble valide
+  if (email.search(/.+@.+\..+/)==-1) {
+    emailMessage.innerHTML="Il faut entrer une adresse valide !";
+    return;
+  }
+  // sauvegarde le résultat
+  this.value=email;
+  emailMessage.innerHTML="OK";
+  emailST=ST_OK;
+}
+
 // vérifie la validité du nom de profil
 // et effectue un léger nettoyage
 function checkIdentifier() {
@@ -206,6 +227,10 @@ function checkForm() {
     var OK=true;
     if (!upgradeProfile && loginST!=ST_OK) {
       loginMessage.innerHTML="Le login n'est pas rempli correctement";
+      OK=false;
+    }
+    if (!upgradeProfile && emailST!=ST_OK) {
+      emailMessage.innerHTML="L'email n'est pas valide";
       OK=false;
     }
     if (!upgradeProfile && passwdST!=ST_OK) {

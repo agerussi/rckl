@@ -43,7 +43,7 @@ $id=$_GET['id'];
   $data = mysql_fetch_array($req);
   if ($data['id']!=$id) die("erreur: le profil récupéré ne correspond pas.");
 
-  if ($data['needupgrade']=='yes') die("<h2>".$data['nomprofil']." n'a pas encore mis à jour son profil.</h2>");
+  if ($data['status']&$MEMBER_STATUS_NEEDUPGRADE) die("<h2>".$data['nomprofil']." n'a pas encore mis à jour son profil.</h2>");
 
   // titre de la page
   echo '<h1>Profil de '.$data['nomprofil'].'</h1>';

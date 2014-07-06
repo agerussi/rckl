@@ -21,14 +21,15 @@ session_start();
 
 require_once("dbconnect.php");
 
-$result=mysql_query("SELECT id, login, nomprofil, needupgrade FROM membres WHERE login='$user' AND motdepasse='$pass' AND site<>0", $db);
+$query="SELECT id, login, nomprofil, status FROM membres WHERE login='$user' AND motdepasse='$pass' AND status&".$MEMBER_STATUS_CANLOGIN."<>0";
+$result=mysql_query($query,$db);
 
 $rowCheck = mysql_num_rows($result);
 if($rowCheck == 1){ // exactly one result must have been returned
   $row = mysql_fetch_array($result);
 
   // test if the account needs upgrade
-  if ($row['needupgrade']=="yes") {
+  if ($row['status']&$MEMBER_STATUS_NEEDUPGRADE) {
     // only register the id and login for upgrade
     $_SESSION['userid']=$row['id'];
     $_SESSION['login']=$row['login']; 
