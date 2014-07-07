@@ -59,7 +59,7 @@
   );
 ?>
 
-    <input type="button" id="submitbutton" value="Mettre le profil à jour" title="Relisez bien les informations avant de cliquer!" />
+    <input type="button" id="profilesubmitbutton" value="Mettre le profil à jour" title="Relisez bien les informations avant de cliquer!" />
   </form>
  </body>
 </html>

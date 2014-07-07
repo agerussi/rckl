@@ -14,13 +14,13 @@ function initializeMap() {
     center: new google.maps.LatLng(latitude,longitude),
     zoom: (newProfile) ? 5:11,
     streetViewControl: false
-  }
+  };
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
   // le marqueur
   var markerOptions = {
     map: map,
     position: new google.maps.LatLng(latitude,longitude)
-  }
+  };
   var marker=new google.maps.Marker(markerOptions);
   // abonnement pour le marqueur
   function moveMarker(event) {
@@ -47,12 +47,13 @@ function main() {
       loginField.addEventListener("change",checkLogin);
       loginMessage=document.getElementById("login-message");
       loginST=ST_UNCHANGED;
-    }
 
-    emailField=document.getElementById("email");
-    emailField.value="";
-    emailField.addEventListener("change",checkEmail);
-    emailMessage=document.getElementById("email-message");
+      emailField=document.getElementById("email");
+      emailField.value="";
+      emailField.addEventListener("change",checkEmail);
+      emailMessage=document.getElementById("email-message");
+      emailST=ST_UNCHANGED;
+    }
 
     nameField=document.getElementById("nom");
     nameField.value="";

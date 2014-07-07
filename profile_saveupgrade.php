@@ -30,7 +30,7 @@ array_push($changes,"latitude='".$latitude."'");
 $longitude=request("longitude");
 array_push($changes,"longitude='".$longitude."'");
 // indique que la mise à jour a été faite
-array_push($changes,"status=status&".~$MEMBER_STATUS_NEEDUPGRADE); // TODO: vérifier si ca fonctionne !!
+array_push($changes,"status=status&~@STATUS_NEEDUPGRADE"); // TODO: vérifier si ca fonctionne !!
 // met à jour idlesince
 array_push($changes,"idlesince=CURDATE()");
 

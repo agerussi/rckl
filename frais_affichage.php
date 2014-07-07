@@ -11,12 +11,12 @@ $isRoot=($userId==1);
 // requêtes de la BD
 require_once("dbconnect.php");
 // le solde min et max
-$query='SELECT MIN(solde) AS soldeMin, MAX(solde) AS soldeMax FROM membres WHERE login<>"root" AND NOT status&'.$MEMBER_STATUS_PENDING;
+$query='SELECT MIN(solde) AS soldeMin, MAX(solde) AS soldeMax FROM membres WHERE login<>"root" AND NOT status&@STATUS_PENDING';
 $maxresult=mysql_query($query,$db) or die("Erreur lors de la récupération du solde max: ".mysql_error());
 $soldeMax=mysql_result($maxresult,0,'soldeMax');
 $soldeMin=mysql_result($maxresult,0,'soldeMin');
 // les soldes des membres
-$query = 'SELECT id, nomprofil, solde, DATEDIFF(CURDATE(), idlesince) AS inactif FROM membres WHERE login<>"root" AND NOT status&'.$MEMBER_STATUS_PENDING.' ORDER BY nomprofil';
+$query = 'SELECT id, nomprofil, solde, DATEDIFF(CURDATE(), idlesince) AS inactif FROM membres WHERE login<>"root" AND NOT status&@STATUS_PENDING ORDER BY nomprofil';
 $resultSoldes=mysql_query($query,$db) or die("Erreur lors de la récupération des soldes: ".mysql_error());
 // les paiements
 $query = "SELECT * FROM paiements WHERE status='DONE' ORDER BY date DESC";
@@ -139,7 +139,7 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
     echo $pendingTable;  
     echo '</tbody></table>';
   }
-  else echo 'Pas de dépenses en cours de validation actuellement.';
+  else echo "Pas de dépenses en cours de validation actuellement.";
 ?>
 
 <h2>Détail des dépenses passées vous concernant</h2>
@@ -148,7 +148,7 @@ while($ligne = mysql_fetch_array($resultSoldes)) {
 // affichage de l'historique personnel des paiements
 //if (mysql_num_rows($resultPaiements)==0) {
 if (count($relations)==0 && !$isRoot) {
-  echo 'L\'historique est vide';
+  echo "L'historique est vide.";
 }
 else {
   echo '<table id="historique">

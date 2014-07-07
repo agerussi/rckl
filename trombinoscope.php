@@ -25,7 +25,7 @@
   $xml.='<trombinoscopes>';
 
   // le trombi des actifs
-  $sql = "SELECT id, nomprofil FROM membres WHERE id<>1 AND idlesince>DATE_SUB(CURDATE(),INTERVAL 1 YEAR) AND NOT status&".$MEMBER_STATUS_PENDING;
+  $sql = "SELECT id, nomprofil FROM membres WHERE id<>1 AND idlesince>DATE_SUB(CURDATE(),INTERVAL 1 YEAR) AND NOT status&@STATUS_PENDING";
   $req = mysql_query($sql) or die("erreur lors de la lecture des membres: ".mysql_error());
   $xml.='<trombinoscope id="actifs">'; 
   $xml.='<path>TROMBI</path>';
@@ -34,7 +34,7 @@
   mysql_free_result($req);
 
   // le trombi des anciens
-  $sql = "SELECT id, nomprofil FROM membres WHERE id<>1 AND idlesince<=DATE_SUB(CURDATE(),INTERVAL 1 YEAR) AND NOT status&".$MEMBER_STATUS_PENDING;
+  $sql = "SELECT id, nomprofil FROM membres WHERE id<>1 AND idlesince<=DATE_SUB(CURDATE(),INTERVAL 1 YEAR) AND NOT status&@STATUS_PENDING";
   $req = mysql_query($sql) or die("erreur lors de la lecture des membres: ".mysql_error());
   $xml.='<trombinoscope id="anciens">'; 
   $xml.='<path>TROMBI</path>';

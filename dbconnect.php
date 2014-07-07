@@ -8,9 +8,11 @@ mysql_select_db("$dbDatabase", $db) or die("Erreur lors de la sélection de la b
 mysql_query("SET NAMES UTF8");
 
 // constantes composant le champ 'status' d'un membre
-$MEMBER_STATUS_CANLOGIN=1;
-$MEMBER_STATUS_NEEDUPGRADE=2;
-$MEMBER_STATUS_PENDING=4;
+$STATUS_CANLOGIN=1; 
+$STATUS_NEEDUPGRADE=2;
+$STATUS_PENDING=4;
+$query="SET @STATUS_CANLOGIN={$STATUS_CANLOGIN}, @STATUS_NEEDUPGRADE={$STATUS_NEEDUPGRADE}, @STATUS_PENDING={$STATUS_PENDING}";
+mysql_query($query,$db);
 
 // fonctions courantes en relation avec la base de données
 //
